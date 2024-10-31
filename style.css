@@ -11,3 +11,7 @@ a:hover {
     cursor: pointer;
     color: #2A3647;
 }
+
+.content {
+    margin-left: 328px;
+}
