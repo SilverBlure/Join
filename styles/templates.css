@@ -2,52 +2,28 @@ body{
     background-color: (246, 247, 248);
     margin:0px;
 }
-.headerMobile{
-    
-    margin: 0px;
-    height: 80px;
-    width: 100vw;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background-color: white;
-    box-shadow: 0px 2px 8px rgb(223, 224, 225);
+
+.sidebar {
+    background-color: #2A3647;
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
-.imgMobile{
-    height: 32px;
-    width: 39px;
-    margin-left: 30px;
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
 }
 
-.userImgMobile{
-    display: flex;
-    height: 40px;
-    width: 40px;
-    border: solid black;
-    border-radius: 40px;
-    align-items: center;
-    justify-content: center;
-    margin: 0px;
-    margin-right: 30px;
-    color: rgb(41, 171, 226);
+.sidebar li {
+    padding: 10px;
 }
 
-.footerMobile{
-    display: flex;
-    height: 80px;
-    width: 100vw;
-    justify-content: space-around;
-    align-items: center;
-    position: absolute;
-    bottom: 0;
-    background-color: rgb(42, 54, 71);
+.sidebar a {
+    text-decoration: none;
+    color: #ffffff;
 }
-a{
 
-}
-a:hover{
-    background-color: rgba(255, 255, 255, 0.048);
-    cursor: pointer;
-}
