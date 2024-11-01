@@ -3,9 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Join - Add Task</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/styles/assets.css">
+    <link rel="stylesheet" href="/styles/templates.css">
+    <link rel="stylesheet" href="/styles/fonts.css">
+    <link rel="stylesheet" href="/styles/addTask.css">
+    <script src="https://www.w3schools.com/lib/w3.js"></script>
+    <script src="script.js"></script>
+    <script src="scripts/templates.js"></script>
 </head>
-<body>
-    <h1>Add Task</h1>
+<body onload="w3.includeHTML()">
+    <sidebar w3-include-html="/templates/sidebar.html"></sidebar>
+    <header w3-include-html="/templates/header.html"></header>
+    
+    <div class="add-task-container">
+        <h1 class="add-task-title">Add Task</h1>
+        <form class="task-form">
+            <div class="form-group">
+                <label for="title-input">Title*</label>
+                <input type="text" id="title-input" class="title-input" placeholder="Enter a title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="due-date-input">Due date*</label>
+                <input type="date" id="due-date-input" class="due-date-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description-input">Description</label>
+                <textarea id="description-input" class="description-input" placeholder="Enter a Description"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>Prio</label>
+                <div class="prio-buttons">
+                    <button type="button" class="prio-button urgent">Urgent</button>
+                    <button type="button" class="prio-button medium">Medium</button>
+                    <button type="button" class="prio-button low">Low</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="assigned-select">Assigned to</label>
+                <select id="assigned-select" class="assigned-select">
+                    <option value="">Select contacts to assign</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="category-select">Category*</label>
+                <select id="category-select" class="category-select" required>
+                    <option value="">Select task category</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="subtasks-input">Subtasks</label>
+                <div class="subtask-input">
+                    <input type="text" id="subtasks-input" class="subtasks-input" placeholder="Add new subtask">
+                    <button type="button" class="add-subtask">+</button>
+                </div>
+            </div>
+            
+            <div class="form-buttons">
+                <button type="reset" class="clear-button">Clear</button>
+                <button type="submit" class="create-task-button">Create Task</button>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

@@ -1,0 +1,147 @@
+body {
+    background-color: #F6F7F8;
+}
+
+.add-task-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.add-task-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.task-form {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr; 
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.task-form::before {
+    content: "";
+    grid-column: 2 / 3;
+    grid-row: 1 / span 6;
+    width: 1px;
+    background-color: #ddd;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 0.8rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.prio-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.prio-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prio-button.urgent {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.prio-button.medium {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.prio-button.low {
+    background-color: #ffffff; 
+    color: #000000;
+}
+
+.prio-button.active {
+    border: 2px solid #333;
+}
+
+.subtask-input {
+    display: flex;
+}
+
+.subtasks-input {
+    flex: 1;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.add-subtask {
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-left: none;
+    border-radius: 0 5px 5px 0;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
+
+.form-buttons {
+    grid-column: span 3;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.clear-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    color: #333;
+}
+
+.create-task-button {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+}
