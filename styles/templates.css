@@ -25,19 +25,33 @@ body{
     justify-content: center;
     align-items: start;
     flex-direction: column;
+    width: 100%;
 }
 
 .sidebar li {
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 48px;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     column-gap: 16px;
+    width: 100%;
 }
 
 .sidebarNavBtn {
     text-decoration: none;
     color: #ffffff;
+}
+
+.sidebarNavBtn:hover {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.sidebar li:hover {
+background-color: #091931;
+width: 183px;
 }
 
 .header {
