@@ -10,6 +10,10 @@ body{
     position: fixed;
     top: 0;
     left: 0;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
 }
 
 .sidebar ul {
@@ -28,7 +32,10 @@ body{
 }
 
 .header {
-    margin-left: 328px;
+    margin-top: 0px;
+    padding-left: 328px;
+    padding-top: 48px;
+    padding-bottom: 48px;
     background-color: white;
     box-shadow: 0px 2px 8px rgb(223, 224, 225);
     width: 100%;
