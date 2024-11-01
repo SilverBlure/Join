@@ -1,0 +1,30 @@
+th {
+    text-align: left;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+td {
+    padding-bottom: 24px;
+    padding-left: 24px;
+}
+
+.number {
+    font-size: 26px;
+}
+
+.tableHeader {
+    margin: 0px;
+}
+
+h1 {
+    font-size: 61px;
+}
+
+h2 {
+    font-size: 27px;
+}
+
+p {
+    font-size: 16px;
+}
