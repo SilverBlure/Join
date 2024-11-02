@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,13 @@
     <link rel="stylesheet" href="../style.css">
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css">
+
+<!-- Optional: Bootstrap JS Bundle with Popper -->
+<script src="js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body onload="includeHTML()">
@@ -21,8 +29,16 @@
         <div class="boardHead">
             <h1 style="margin: 0px;">Board</h1>
             <div style="display: flex;">
-                <input type="text" placeholder="Find Task ...">
+                <div>
+                    <input class="input-field" type="text" placeholder="Find Task ..." name="findTask">
+                    <button>
+                        <img src="../../assets/icons/png/searchIcon.png">
+                    </button>
+                </div>
                 <button class="addTaskBtn">Add Task <img src="../assets/icons/png/add.png"></button>
+
+
+
             </div>
         </div>
 
@@ -37,4 +53,5 @@
 
     </div>
 </body>
+
 </html>
