@@ -1,0 +1,15 @@
+.addTaskBtn {
+    background-color: #2A3647;
+    color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boardHead {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 50px;
+}
