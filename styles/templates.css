@@ -57,12 +57,12 @@ width: 183px;
 .header {
     margin-top: 0px;
     padding-left: 328px;
-    padding-top: 48px;
-    padding-bottom: 48px;
+    padding-top: 24px;
+    padding-bottom: 24px;
     background-color: white;
     box-shadow: 0px 2px 8px rgb(223, 224, 225);
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: center;
 }
 
@@ -95,5 +95,16 @@ padding-top: 200px;
 }
 
 .helpBtn {
-    padding-right: 150px;
+    padding-left: 750px;
+    padding-right: 50px;
+}
+
+.user {
+    color: #29ABE2;
+    border: solid black  ;
+    border-radius: 100%;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0px;
 }
