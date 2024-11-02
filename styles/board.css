@@ -1,15 +1,64 @@
 .addTaskBtn {
     background-color: #2A3647;
     color: white;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 211px;
+    height: 48px;
+    font-size: 21px;
+    font-weight: 700;
 }
 
 .boardHead {
-    display: flex; 
-    justify-content: space-between; 
+    display: flex;
+    justify-content: start;
     align-items: center;
     margin-top: 50px;
+}
+
+.custom-search-bar {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 276px;
+    overflow: hidden;
+}
+
+.custom-search-bar input {
+    border: none;
+}
+
+.custom-search-bar input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.divider {
+    width: 1px;
+    height: 60%;
+    background-color: #ccc;
+    margin: 0px;
+}
+
+.custom-search-bar .btn {
+    border: none;
+    background: none;
+    color: #333;
+    padding: 0 15px;
+}
+
+.form-control {
+    width: 210px;
+    padding-left: 16px;
+    font-size: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
