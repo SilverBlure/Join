@@ -1,0 +1,62 @@
+.blueLine {
+    border-left: 3px solid #29ABE2;
+    height: 59px;
+    margin-left: 30px;
+    margin-right: 30px;
+
+}
+
+h3 {
+    font-size: 27px;
+    font-weight: 400;
+
+}
+
+h1 {
+    font-size: 61px;
+}
+
+h2 {
+    font-size: 27px;
+}
+
+.join360 {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 63px;
+    height: 101px;
+}
+
+.displayCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0px;
+}
+
+.do {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 20px;
+    box-shadow: 0px 2px 8px rgb(223, 224, 225);
+    width: 264px;
+    height: 168px;
+}
+
+p {
+    font-size: 16px;
+}
+
+.doIcon {
+   width: 69px;
+}
+
