@@ -127,14 +127,13 @@
 
 
 .taskCategory {
-    border: solid blue 1px;
+    border: solid 1px;
     width: fit-content;
-    background-color: blue;
     color: white;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 400;
-    padding: 4px 20px 4px 20px;
+    padding: 1px 25px 1px 25px;
 }
 
 
