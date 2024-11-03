@@ -1,44 +1,45 @@
-p{
+p {
     margin: 0;
 }
 
-h1{
+h1 {
     font-size: 61px;
     font-weight: 700;
     border-right: solid 3px rgb(41, 171, 226);
     padding-right: 20px;
 }
 
-h2{
+h2 {
     font-size: 47px;
     font-weight: 500;
     margin: 10px;
 }
 
-h3{
+h3 {
     font-size: 27px;
     font-weight: 400;
     padding-left: 20px;
 }
 
-h4{
-font-size: 20px;
-font-weight: 400;
-margin-top: 40px;
-margin-bottom: 40px;
+h4 {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
-.contactContainer{
+.contactContainer {
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
 }
-.contacts{
+
+.contacts {
     display: flex;
     flex-direction: column;
     width: 100vw;
 }
 
-.contactsBar{
+.contactsBar {
     display: flex;
     flex-direction: column;
     width: 453px;
@@ -51,30 +52,37 @@ margin-bottom: 40px;
 }
 
 .contactsBar::-webkit-scrollbar {
-    width: 8px; /* Breite der Scrollbar */
+    width: 8px;
+    /* Breite der Scrollbar */
 }
 
 .contactsBar::-webkit-scrollbar-track {
-    background: white; /* Hintergrund der Scrollbar-Leiste */
+    background: white;
+    /* Hintergrund der Scrollbar-Leiste */
 }
 
 .contactsBar::-webkit-scrollbar-thumb {
-    background-color: #aaa; /* Farbe des Sliders */
-    border-radius: 10px; /* Abgerundete Ecken */
-    border: 2px solid white; /* Optional: Rand für zusätzlichen Effekt */
+    background-color: #aaa;
+    /* Farbe des Sliders */
+    border-radius: 10px;
+    /* Abgerundete Ecken */
+    border: 2px solid white;
+    /* Optional: Rand für zusätzlichen Effekt */
     max-height: 20px;
 }
 
 .contactsBar::-webkit-scrollbar-thumb:hover {
-    background-color: #888; /* Farbe beim Hover */
+    background-color: #888;
+    /* Farbe beim Hover */
 }
 
-.btnContainer{
+.btnContainer {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.addContactBtn{
+
+.addContactBtn {
     height: 56px;
     width: 352px;
     font-size: 21px;
@@ -82,10 +90,10 @@ margin-bottom: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;  
+    gap: 16px;
 }
 
-.contact{
+.contact {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,7 +104,7 @@ margin-bottom: 40px;
 
 }
 
-.shortInfo{
+.shortInfo {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -106,7 +114,7 @@ margin-bottom: 40px;
     padding-bottom: 15px;
 }
 
-.shortInfo:hover{
+.shortInfo:hover {
     cursor: pointer;
     background-color: rgb(42, 54, 71);
     color: white;
@@ -114,51 +122,52 @@ margin-bottom: 40px;
 
 }
 
-.separator{
-display: flex;
-align-items: center;
-justify-content: center;
-width: 100%;
-margin-top: 17px;
-padding-bottom: 17px;
-border-bottom: solid 1px lightgray;
+.separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 17px;
+    padding-bottom: 17px;
+    border-bottom: solid 1px lightgray;
 }
 
-.placeholder{
-    width: 50%;
+.placeholder {
+    width: 55%;
 }
 
-.tag{
+.tag {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.contactDetails{
+.contactDetails {
     background-color: rgb(246, 247, 248);
-    width: 100%; 
-}
-.contactHeadline{
-display: flex;
-flex-direction: row;
-align-items: center;
-margin-left: 65px;
-margin-top: 50px ;
+    width: 100%;
 }
 
-.contactInfoBox{
+.contactHeadline {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 65px;
+    margin-top: 50px;
+}
+
+.contactInfoBox {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: 65px;
 }
 
-.InfoBoxHead{
+.InfoBoxHead {
     display: flex;
     align-items: center;
 }
 
-.userTagBig{
+.userTagBig {
     border: 3px solid white;
     border-radius: 120px;
     width: 120px;
@@ -172,4 +181,3 @@ margin-top: 50px ;
     font-size: 47px;
     font-weight: 500;
 }
-
