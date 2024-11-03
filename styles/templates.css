@@ -45,8 +45,8 @@
 }
 
 .sidebar li:hover {
-background-color: #091931;
-width: 183px;
+background-color: #091931 !important;
+width: 100% !important;
 }
 
 .header {
