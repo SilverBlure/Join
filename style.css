@@ -1,5 +1,5 @@
 body {
-    font-family: "Raleway";
+    font-family: "Raleway" !important;
 }
 
 a {
@@ -20,5 +20,5 @@ a:hover {
     left: 328px;
     gap: 24px;
     opacity: 0px;
-
 }
+
