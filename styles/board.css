@@ -105,7 +105,8 @@
 .boardCard {
     box-shadow: 0px 2px 8px rgb(223, 224, 225);
     border-radius: 30px;
-    padding: 32px;
+    padding: 16px;
+    width: 252px;
 }
 
 .worker {
