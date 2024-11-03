@@ -1,6 +1,5 @@
 body {
-    font-family: "Raleway";
-    
+    font-family: "Raleway"; 
 }
 
 a {
@@ -17,7 +16,5 @@ a:hover {
     display: flex;
     flex-direction: column;
     width: 100vw;
-
-
 }
 
