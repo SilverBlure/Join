@@ -75,10 +75,33 @@
     margin-top: 61px;
 }
 
-.d_flex {
+.userGreeting {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     margin-left: 32px;
+}
+
+.name {
+    color: #29ABE2; 
+    margin-top: 10px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+}
+
+.d_flex {
+    display: flex;
+}
+
+.taskNumber {
+    font-size: 64px; 
+    font-weight: 600; 
+    margin: 0px;
+}
+
+.margin_0 {
+    margin: 0px;
 }

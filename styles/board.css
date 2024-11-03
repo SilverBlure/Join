@@ -114,8 +114,7 @@
 }
 
 .workerEmblem {
-    border: blue 1px solid;
-    background-color: blue;
+    border: white 1px solid;
     color: white;
     padding: 16px;
     border-radius: 100%;
@@ -136,4 +135,19 @@
     font-size: 16px;
     font-weight: 400;
     padding: 4px 20px 4px 20px;
+}
+
+
+.d_flex {
+    display: flex;
+}
+
+.margin_0 {
+    margin: 0px;
+}
+
+.d_spaceBetween {
+display: flex;
+justify-content: space-between;
+align-items: center;
 }
