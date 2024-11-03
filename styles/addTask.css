@@ -78,23 +78,19 @@ textarea {
     justify-content: center;
 }
 
-.prio-button.urgent {
-    background-color: #ffffff;
-    color: #000000;
+.prio-button.urgent.active {
+    background-color: red;
+    color: white;
 }
 
-.prio-button.medium {
-    background-color: #ffffff;
-    color: #000000;
+.prio-button.medium.active {
+    background-color: orange;
+    color: white;
 }
 
-.prio-button.low {
-    background-color: #ffffff; 
-    color: #000000;
-}
-
-.prio-button.active {
-    border: 2px solid #333;
+.prio-button.low.active {
+    background-color: rgb(101, 242, 101);
+    color: white;
 }
 
 .subtask-input {
