@@ -13,12 +13,10 @@ a:hover {
 }
 
 .content {
-    margin-left: 328px;
-    width: 1014px;
-    height: 1024px;
-    top: 311px;
-    left: 328px;
-    gap: 24px;
-    opacity: 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+
+
 }
 
