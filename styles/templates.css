@@ -59,6 +59,7 @@ cursor: pointer;
     width: 100%;
     background-color: white;
     box-shadow: 0px 2px 8px -2px rgb(223, 224, 225);
+    position: sticky;
 }
 
 .headline{

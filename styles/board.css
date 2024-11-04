@@ -12,6 +12,10 @@
     box-shadow: none;
 }
 
+.board {
+    margin-left: 32px;
+}
+
 .boardHead {
     display: flex;
     justify-content: start;
@@ -66,10 +70,10 @@
 
 .taskList {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: start;
-    column-gap: 26px;
     margin-top: 60px;
+    column-gap: 26px;
 }
 
 .toDoList {
