@@ -1,6 +1,7 @@
 body{
     margin: 0;
     max-width: 1440px;
+    background-color: #F6F7F8;
 }
 
 .logo{
@@ -8,4 +9,11 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+.loginField{
+    height: 493px;
+    width: 652;
+    border-radius: 30px;
+    background-color: white;
 }

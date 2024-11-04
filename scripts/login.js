@@ -6,6 +6,7 @@ function startTransformation(){  //the join icon removes actualy after 3seconds
 
 function trasformLoginScreen(){
     let page = document.getElementById('loginPage');
-    page.innerHTML= '';
+    //page.innerHTML= '';
+    //page.classList.remove('logo');
 
 }
