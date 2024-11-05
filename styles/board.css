@@ -78,18 +78,30 @@
 
 .toDoList {
     width: 246px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .inProgressList {
     width: 246px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .awaitFeedbackList {
     width: 246px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .doneList {
     width: 246px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .nothingToDo {
@@ -150,7 +162,31 @@
 }
 
 .d_spaceBetween {
-display: flex;
-justify-content: space-between;
-align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.worker-stanislav {
+    background-color: green;
+}
+
+.worker-ozan {
+    background-color: blue;
+}
+
+.worker-kevin {
+    background-color: red;
+}
+
+.worker-nicolai {
+    background-color: black;
+}
+
+.category-technical {
+    background-color: #0038FF;
+}
+
+.category-user-story {
+    background-color: #1FD7C1;
 }
