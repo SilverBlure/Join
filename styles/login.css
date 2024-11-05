@@ -1,21 +1,24 @@
 body{
     margin: 0;
     max-width: 1440px;
+    max-height: 100vh;
     background-color: #F6F7F8 !important;
 }
 
-.logo{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
 
 .loginField{
     height: 493px;
-    width: 652;
+    
     border-radius: 30px;
-    background-color: white;
+    
+
+}
+
+.loginBackground{
+background-color: white;
+height: 493px;
+width: 652px;
+border-radius: 30px;
 }
 
 .center{
@@ -87,4 +90,26 @@ body{
 
 p{
     margin-bottom: 0 !important;
+}
+
+.privacyAndLegal{
+    height: 35px;
+    width: 246;
+}
+.headPart{
+    height: 190px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+}
+.logo{
+    position: absolute;
+    left: 77px;
+    top: 80px;
+}
+.signIn{
+    position: absolute;
+    left: 1039px;
+    top: 67px;
 }
