@@ -14,10 +14,12 @@
     <link rel="stylesheet" href="/style.css">
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
+    <script src="../../scripts/summary.js"></script>
+    <script src="../../scripts/board.js"></script>
     <link rel="stylesheet" href="/styles/templates.css">
 </head>
 
-<body onload="includeHTML()">
+<body onload="includeHTML(); renderDashboard()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
     
     <div class="content">
@@ -35,7 +37,7 @@
                     <div class="do">
                         <img class="doIcon" src="../assets/icons/png/todo.png">
                         <div class="column">
-                            <h1 class="margin_0 taskNumber" >1</h1>
+                            <h1  class="margin_0 taskNumber" >1</h1>
                             <p class="margin_0" >To-do</p>
                         </div>
                     </div>

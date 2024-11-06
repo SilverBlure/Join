@@ -132,7 +132,7 @@ let tasks = [
 
 let currentDraggedElement;
 
-function renderSummary() {
+function renderBoard() {
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
         content.innerHTML = ""; 
