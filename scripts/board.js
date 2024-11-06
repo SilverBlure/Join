@@ -14,7 +14,7 @@ let tasks = [
                 due_Date: '31.11.2024',
                 priority: '../assets/icons/png/prioritySymbolsMiddle.png',
                 category: { name: 'Technical Task', class: 'category-technical' },
-                subtasks: ['kleiner schritt 1', 'kleiner schritt 2', 'kleiner schritt 3', 'kleiner schritt 4']
+                subtasks: ['Wasser abstehen lassen', 'Dünger hinzugeben', 'PH Wert anpassen', 'im Ring gießen']
             },
             {
                 id: 2,
@@ -27,7 +27,7 @@ let tasks = [
                 due_Date: '31.11.2024',
                 priority: '../assets/icons/png/prioritySymbolsLow.png',
                 category: { name: 'Technical Task', class: 'category-technical' },
-                subtasks: ['kleiner schritt 5', 'kleiner schritt 6', 'kleiner schritt 7', 'kleiner schritt 8']
+                subtasks: ['JS Datei einbinden', 'Summary Styling bearbeiten', 'auf github pushen', 'mit Team besprechen']
             }
         ]
     },
@@ -130,10 +130,14 @@ let tasks = [
 ];
 
 
+let currentDraggedElement;
+
 function renderSummary() {
     tasks.forEach(list => {
-        const content = document.getElementById(`${list.id}List`);
-        if (!content) {
+        const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
+        content.innerHTML = ""; // Nur den Task-Container leeren, nicht die Überschrift
+
+        if (list.task.length === 0) {
             content.innerHTML += /*html*/`
                 <div class="nothingToDo">
                     <p class="margin_0">No Tasks To-do</p>
@@ -142,7 +146,7 @@ function renderSummary() {
         } else {
             list.task.forEach(task => {
                 content.innerHTML += /*html*/`
-                <div class="boardCard">
+                <div draggable="true" ondragstart="startDragging(${task.id})" class="boardCard">
                     <p class="${task.category.class} taskCategory">${task.category.name}</p>
                     <p style="font-weight: 700;">${task.title}</p>
                     <p style="color: #A8A8A8;">${task.description}</p>
@@ -165,4 +169,37 @@ function renderSummary() {
             });
         }
     });
+}
+
+
+
+function startDragging(taskId) {
+    currentDraggedElement = taskId;
+}
+
+function allowDrop(event) {
+    event.preventDefault();
+}
+
+function handleDrop(event, targetListId) {
+    event.preventDefault();
+    
+    // Finde die Quelle und das Ziel-Array basierend auf `currentDraggedElement` und `targetListId`
+    let sourceList, task;
+    tasks.forEach(list => {
+        const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
+        if (taskIndex !== -1) {
+            sourceList = list;
+            [task] = sourceList.task.splice(taskIndex, 1); // Entferne die Aufgabe aus der Quellliste
+        }
+    });
+
+    // Finde das Ziel-Array und füge die Aufgabe hinzu
+    const targetList = tasks.find(list => list.id === targetListId);
+    if (targetList && task) {
+        targetList.task.push(task); // Füge die Aufgabe in die Zielliste ein
+    }
+
+    // Aktualisiere das Board, um die Änderungen darzustellen
+    renderSummary();
 }
