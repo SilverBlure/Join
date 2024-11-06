@@ -81,11 +81,13 @@
     gap: 20px;
     display: flex;
     flex-direction: column;
+    height: 100vh;
 }
 
 .inProgressList {
     width: 246px;
     gap: 20px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -93,6 +95,7 @@
 .awaitFeedbackList {
     width: 246px;
     gap: 20px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -100,6 +103,7 @@
 .doneList {
     width: 246px;
     gap: 20px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -188,5 +192,5 @@
 }
 
 .category-user-story {
-    background-color: #0038FF;  
+    background-color: #0038FF;
 }

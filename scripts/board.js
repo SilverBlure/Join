@@ -135,7 +135,7 @@ let currentDraggedElement;
 function renderSummary() {
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
-        content.innerHTML = ""; // Nur den Task-Container leeren, nicht die Überschrift
+        content.innerHTML = ""; 
 
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
@@ -184,22 +184,21 @@ function allowDrop(event) {
 function handleDrop(event, targetListId) {
     event.preventDefault();
     
-    // Finde die Quelle und das Ziel-Array basierend auf `currentDraggedElement` und `targetListId`
     let sourceList, task;
     tasks.forEach(list => {
         const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
         if (taskIndex !== -1) {
             sourceList = list;
-            [task] = sourceList.task.splice(taskIndex, 1); // Entferne die Aufgabe aus der Quellliste
+            [task] = sourceList.task.splice(taskIndex, 1); 
         }
     });
 
-    // Finde das Ziel-Array und füge die Aufgabe hinzu
+    
     const targetList = tasks.find(list => list.id === targetListId);
     if (targetList && task) {
-        targetList.task.push(task); // Füge die Aufgabe in die Zielliste ein
+        targetList.task.push(task); 
     }
 
-    // Aktualisiere das Board, um die Änderungen darzustellen
+    
     renderSummary();
 }
