@@ -3,7 +3,10 @@
     height: 59px;
     margin-left: 30px;
     margin-right: 30px;
+}
 
+.summary {
+    padding-left: 100px;
 }
 
 .greyLine {
@@ -14,11 +17,11 @@
 }
 
 .join360 {
-    margin-top: 50px;
+    padding-top: 50px;
     display: flex;
     justify-content: start;
     align-items: center;
-    margin-bottom: 50px;
+    padding-bottom: 50px;
 }
 
 .column {
@@ -54,7 +57,7 @@
     border-radius: 30px;
     width: 560px;
     height: 168px;
-    margin-top: 61px;
+    margin-top: 31px;
 }
 
 .tasksBox {
@@ -73,7 +76,7 @@
     justify-content: start;
     align-items: center;
     column-gap: 28px;
-    margin-top: 61px;
+    margin-top: 31px;
 }
 
 .userGreeting {
@@ -81,7 +84,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-left: 32px;
+    padding-left: 100px;
 }
 
 .name {

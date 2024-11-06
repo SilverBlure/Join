@@ -1,28 +1,25 @@
-body{
+body {
     display: flex;
-    flex-direction: row;
-    background-color: (246, 247, 248);
-    margin:0px;
-    font-family: "Raleway";
-    overflow: hidden;
 }
 
 .sidebar {
     background-color: #2A3647;
-    width: 232px;
-    height: 100vh;
+    width: 232px ;
+    height: 100vh ;
     top: 0;
     left: 0;
     display: flex;
     justify-content: start;
     align-items: center;
     flex-direction: column;
+    position: sticky;
 }
 
 .sidebar ul {
     list-style: none;
     padding: 0;
-    margin-top: 120px;
+    padding-top: 100px;
+    margin-bottom: 0px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -32,7 +29,6 @@ body{
     gap: 16px;
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
     padding-left: 40px;
     padding-top: 10px;
     padding-bottom: 10px; 
@@ -41,6 +37,7 @@ body{
 .sidebarNavBtn {
     text-decoration: none;
     color: #ffffff;
+    font-size: 16px;
 }
 
 .sidebarNavBtn:hover {
@@ -53,20 +50,21 @@ background-color: #091931;
 cursor: pointer;
 }
 
-header {
+.header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     height: 96px;
     width: 100%;
-    margin-top: 0px;
     background-color: white;
     box-shadow: 0px 2px 8px -2px rgb(223, 224, 225);
+    position: sticky;
 }
 
 .headline{
     margin-left: 100px;
+    margin-bottom: 0px;
 }
 
 .userTag{
@@ -78,22 +76,25 @@ header {
     justify-content: center;
     display: flex;
     color: rgb(41, 171, 226);
-    margin-right: 30px;
+    margin-top: unset;
+    margin-bottom: unset;
 }
 
 .help{
     display: flex;
+    justify-content: center;
     align-items: center;
+    padding-right: 50px;
+    column-gap: 20px;
 }
 
 .helpImg{
     height: 20px;
     width: 20px;
-    margin-right: 10px;
 }
 
 .sidebarLogo {
-    margin-top: 64px;
+    padding-top: 64px;
 }
 
 .navBar {
@@ -105,12 +106,12 @@ padding-top: 200px;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding-top: 240px;
+    padding-top: 350px;
 }
 
 .legalNoticeBtn {
     color: #A8A8A8;
-    padding: 12px;
+    padding: 6px;
 }
 
 .legalNoticeBtn:hover {

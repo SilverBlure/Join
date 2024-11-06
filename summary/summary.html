@@ -5,23 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
-    <link rel="stylesheet" href="/styles/fonts.css">
-    <link rel="stylesheet" href="/styles/templates.css">
-    <link rel="stylesheet" href="/styles/summary.css">
-    <link rel="stylesheet" href="/styles/assets.css">
-    <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/styles/fonts.css">
+    <link rel="stylesheet" href="/styles/summary.css">
+    <link rel="stylesheet" href="/styles/assets.css">
+    <link rel="stylesheet" href="/style.css">
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
+    <script src="../../scripts/summary.js"></script>
+    <script src="../../scripts/board.js"></script>
+    <link rel="stylesheet" href="/styles/templates.css">
 </head>
 
-<body onload="includeHTML()">
-    <sidebar w3-include-html="../../templates/sidebar.html"></sidebar>
-    <header w3-include-html="../../templates/header.html"></header>
+<body onload="includeHTML(); renderDashboard()">
+    <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
+    
     <div class="content">
-
+        <div class="header" w3-include-html="../../templates/header.html"></div>
+        <div class="summary">
         <div class="join360">
             <h1 style="font-size: 61px; font-weight: 700;">Join 360</h1><span class="blueLine"></span>
             <h3 style="font-size: 27px; color: #2A3647;">Key Metrics at a Glance</h3>
@@ -34,7 +37,7 @@
                     <div class="do">
                         <img class="doIcon" src="../assets/icons/png/todo.png">
                         <div class="column">
-                            <h1 class="margin_0 taskNumber" >1</h1>
+                            <h1  class="margin_0 taskNumber" >1</h1>
                             <p class="margin_0" >To-do</p>
                         </div>
                     </div>
@@ -81,7 +84,7 @@
                 <h1 class="name">Stanislav Levin</h1>
             </div>
         </div>
-
+    </div>
     </div>
 </body>
 

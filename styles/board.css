@@ -12,6 +12,10 @@
     box-shadow: none;
 }
 
+.board {
+    margin-left: 32px;
+}
+
 .boardHead {
     display: flex;
     justify-content: start;
@@ -66,26 +70,42 @@
 
 .taskList {
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     align-items: start;
-    column-gap: 26px;
     margin-top: 60px;
+    column-gap: 26px;
 }
 
 .toDoList {
     width: 246px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .inProgressList {
     width: 246px;
+    gap: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .awaitFeedbackList {
     width: 246px;
+    gap: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .doneList {
     width: 246px;
+    gap: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .nothingToDo {
@@ -146,7 +166,31 @@
 }
 
 .d_spaceBetween {
-display: flex;
-justify-content: space-between;
-align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.worker-stanislav {
+    background-color: green;
+}
+
+.worker-ozan {
+    background-color: blue;
+}
+
+.worker-kevin {
+    background-color: red;
+}
+
+.worker-nicolai {
+    background-color: black;
+}
+
+.category-technical {
+    background-color: #1FD7C1;
+}
+
+.category-user-story {
+    background-color: #0038FF;
 }

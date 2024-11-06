@@ -16,3 +16,7 @@ td {
 .tableHeader {
     margin: 0px;
 }
+
+.helpContent {
+    padding-left: 100px;
+}
