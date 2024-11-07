@@ -28,12 +28,11 @@
         <div class="board">
 
             <div class="boardHead">
-                <h1 class="margin_0">Board</h1>
-                <div
-                    style="display: flex; justify-content: center; align-items: center; column-gap: 28px; margin-left: 320px;">
+                <h1 class="margin_0" style="font-size: 61px; font-weight: 700;">Board</h1>
+                <div style="display: flex; justify-content: center; align-items: center; column-gap: 28px; margin-left: 320px;">
                     <div class="container">
                         <div class="custom-search-bar">
-                            <input type="text" class="form-control" placeholder="Find Task" aria-label="Find Task">
+                            <input id="findTask" type="text" class="form-control" placeholder="Find Task" aria-label="Find Task" oninput="findTask()">
                             <div class="divider"></div>
                             <button class="btn">
                                 <i class="bi bi-search"></i>
@@ -76,9 +75,6 @@
                     </div>
                     <div class="taskContainer"></div> 
                 </div>
-                
-                
-
 
             </div>
         </div>
