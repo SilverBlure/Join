@@ -28,6 +28,32 @@ let tasks = [
                 priority: 'Low',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: ['JS Datei einbinden', 'Summary Styling bearbeiten', 'auf github pushen', 'mit Team besprechen']
+            },
+            {
+                id: 7,
+                title: 'schlafen',
+                description: 'ausreichend schlafen',
+                workers: [
+                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
+                    { name: 'Ozan Orhan', class: 'worker-ozan' }
+                ],
+                due_Date: '31.11.2024',
+                priority: 'Urgent',
+                category: { name: 'Technical Task', class: 'category-technical' },
+                subtasks: ['kleiner schritt 25', 'kleiner schritt 26', 'kleiner schritt 27', 'kleiner schritt 28']
+            },
+            {
+                id: 8,
+                title: 'backen',
+                description: 'Infused Brownies backen',
+                workers: [
+                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
+                    { name: 'Kevin Fischer', class: 'worker-kevin' }
+                ],
+                due_Date: '31.11.2024',
+                priority: 'Middle',
+                category: { name: 'User Story', class: 'category-user-story' },
+                subtasks: ['kleiner schritt 29', 'kleiner schritt 30', 'kleiner schritt 31', 'kleiner schritt 32']
             }
         ]
     },
@@ -99,32 +125,6 @@ let tasks = [
         id: 'done',
         name: 'Done',
         task: [
-            {
-                id: 7,
-                title: 'schlafen',
-                description: 'ausreichend schlafen',
-                workers: [
-                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
-                    { name: 'Ozan Orhan', class: 'worker-ozan' }
-                ],
-                due_Date: '31.11.2024',
-                priority: 'Urgent',
-                category: { name: 'Technical Task', class: 'category-technical' },
-                subtasks: ['kleiner schritt 25', 'kleiner schritt 26', 'kleiner schritt 27', 'kleiner schritt 28']
-            },
-            {
-                id: 8,
-                title: 'backen',
-                description: 'Infused Brownies backen',
-                workers: [
-                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
-                    { name: 'Kevin Fischer', class: 'worker-kevin' }
-                ],
-                due_Date: '31.11.2024',
-                priority: 'Middle',
-                category: { name: 'User Story', class: 'category-user-story' },
-                subtasks: ['kleiner schritt 29', 'kleiner schritt 30', 'kleiner schritt 31', 'kleiner schritt 32']
-            }
         ]
     }
 ];
@@ -136,7 +136,7 @@ let currentDraggedElement;
 function renderBoard() {
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
-        content.innerHTML = ""; 
+        content.innerHTML = "";
 
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
@@ -160,8 +160,8 @@ function renderBoard() {
                     <div class="d_spaceBetween">
                         <div class="worker">
                             ${task.workers.map((worker, index) =>
-                                `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`
-                            ).join('')}
+                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`
+                ).join('')}
                         </div>
                         <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png"> 
                     </div>
@@ -184,18 +184,18 @@ function allowDrop(event) {
 
 
 function handleDrop(event, targetListId) {
-    event.preventDefault();  
+    event.preventDefault();
     let sourceList, task;
     tasks.forEach(list => {
         const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
         if (taskIndex !== -1) {
             sourceList = list;
-            [task] = sourceList.task.splice(taskIndex, 1); 
+            [task] = sourceList.task.splice(taskIndex, 1);
         }
-    }); 
+    });
     const targetList = tasks.find(list => list.id === targetListId);
     if (targetList && task) {
-        targetList.task.push(task); 
+        targetList.task.push(task);
     }
     renderBoard();
 }
@@ -206,7 +206,7 @@ function findTask() {
 
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
-        content.innerHTML = ""; 
+        content.innerHTML = "";
         const filteredTasks = list.task.filter(task =>
             task.title.toLowerCase().includes(searchTerm) ||
             task.description.toLowerCase().includes(searchTerm)
@@ -234,8 +234,8 @@ function findTask() {
                         <div class="d_spaceBetween">
                             <div class="worker">
                                 ${task.workers.map((worker, index) =>
-                                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`
-                                ).join('')}
+                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`
+                ).join('')}
                             </div>
                             <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png"> 
                         </div>
