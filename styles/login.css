@@ -1,11 +1,129 @@
 body{
     margin: 0;
     max-width: 1440px;
+    max-height: 100vh;
+    background-color: #F6F7F8 !important;
 }
 
-.logo{
+
+.loginField{
+    height: 493px;
+    
+    border-radius: 30px;
+    
+
+}
+
+.loginBackground{
+background-color: white;
+height: 493px;
+width: 652px;
+border-radius: 30px;
+}
+
+.center{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+}
+
+.column{
+    flex-direction: column;
+}
+
+.borderInputFields{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.seperator{
+    height: 3px;
+    width: 150px;
+    background-color: #29ABE2;
+}
+
+.border{
+    border: 2px solid grey ;
+    height: 48px;
+    width: 422px;
+}
+
+.noBorder{
+    border: none;
+}
+
+.logInBtn{
+    color: white;
+    border-radius: 8px;
+    background-color: #2A3647;
+    height: 48px; 
+    width: 110px;
+    font-size: 21px;
+}
+
+.guestBtn{
+    color: #2A3647;
+    border-radius: 8px;
+    background-color:  white;
+    height: 48px;
+    width: 177px;
+    font-size: 21px;
+}
+
+.buttons{
+    height: 48px;
+    width: 322px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.remMe{
+    width: 422px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+p{
+    margin-bottom: 0 !important;
+}
+
+.privacyAndLegal{
+    height: 35px;
+    width: 246;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.headPart{
+    height: 190px;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+}
+.logo{
+    position: absolute;
+    left: 77px;
+    top: 80px;
+}
+.signIn{
+    position: absolute;
+    left: 1039px;
+    top: 67px;
+}
+.logInBox{
+    position:absolute;
+    left: 394px;
+    top: 265px;
+}
+
+.privacyLink{
+    position: absolute;
+    bottom: 40px;
+    left: 394px;
 }
