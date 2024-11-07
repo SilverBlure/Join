@@ -1,0 +1,199 @@
+.addTaskBtn {
+    background-color: #2A3647;
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 211px;
+    height: 48px;
+    font-size: 21px;
+    font-weight: 700;
+    box-shadow: none;
+}
+
+.board {
+    margin-left: 32px;
+}
+
+.boardHead {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 64px;
+}
+
+.custom-search-bar {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 276px;
+    overflow: hidden;
+}
+
+.custom-search-bar input {
+    border: none;
+}
+
+.custom-search-bar input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.divider {
+    width: 1px;
+    height: 60%;
+    background-color: #ccc;
+    margin: 0px;
+}
+
+.custom-search-bar .btn {
+    border: none;
+    background: none;
+    color: #333;
+    padding: 0 15px;
+}
+
+.form-control {
+    width: 210px;
+    padding-left: 16px;
+    font-size: 20px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.taskList {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    margin-top: 60px;
+    column-gap: 26px;
+    margin-left: 64px;
+}
+
+.toDoList {
+    width: 246px;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.inProgressList {
+    width: 246px;
+    gap: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.awaitFeedbackList {
+    width: 246px;
+    gap: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.doneList {
+    width: 246px;
+    gap: 20px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.nothingToDo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dotted #A8A8A8;
+    border-radius: 10px;
+    background-color: #E7E7E7;
+    color: #A8A8A8;
+}
+
+.progress {
+    width: 123px;
+}
+
+.boardCard {
+    box-shadow: 0px 2px 8px rgb(223, 224, 225);
+    border-radius: 30px;
+    padding: 16px;
+    width: 252px;
+    margin-top: 26px;
+}
+
+.worker {
+    display: flex;
+}
+
+.workerEmblem {
+    border: white 1px solid;
+    color: white;
+    padding: 16px;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.taskCategory {
+    border: solid 1px;
+    width: fit-content;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 1px 25px 1px 25px;
+}
+
+
+.d_flex {
+    display: flex;
+}
+
+.margin_0 {
+    margin: 0px;
+}
+
+.d_spaceBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.worker-stanislav {
+    background-color: green;
+}
+
+.worker-ozan {
+    background-color: blue;
+}
+
+.worker-kevin {
+    background-color: red;
+}
+
+.worker-nicolai {
+    background-color: black;
+}
+
+.category-technical {
+    background-color: #1FD7C1;
+}
+
+.category-user-story {
+    background-color: #0038FF;
+}
