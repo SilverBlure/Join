@@ -15,42 +15,43 @@
     <link rel="stylesheet" href="../../style.css">
 </head>
 
-<body onload="">
-
-    <div class="logo">
-        <img class="" src="../../assets/icons/svg/joinLogo.svg">
+<body>
+    <div class="justifyHeadElements">
+        <div>
+            <img class="logo" src="../../assets/icons/svg/joinLogo.svg">
+        </div>
+        <div class="justifyHeadElements align signUpElement">
+            <p class="marRi16">Not a Join user?</p><button class="logInBtn">Sing up</button>
+        </div>
     </div>
-    <div class="signIn">
-        <signIn>
-            <div style="display: flex; align-items: center; " class="">
-                <p>Not a Join user?</p><button class="logInBtn">Sing up</button>
-            </div>
-        </signIn>
-    </div>
-
-    <div id="loginPage" class=" logInBox loginField ">
-        <div class="center logoS">
+    <div class="loginField ">
+        <div class="center ">
             <loginField class="loginBackground center column">
                 <h1>Log in</h1>
                 <div class="seperator"></div>
 
-                <div class="border borderInputFields">
-                    <input id="username" class="noBorder" placeholder="Username">
-                    <img src="../../assets/icons/svg/mail.svg">
+                <div class="border borderInputFields center">
+                    <innerInputfield class="innerInputfield">
+                        <input id="email" class="noBorder" placeholder="Email">
+                        <img src="../../assets/icons/svg/mail.svg">
+                    </innerInputfield>
                 </div>
 
                 <div class="border borderInputFields">
+                    <innerInputfield class="innerInputfield">
                     <input id="password" class="noBorder" placeholder="Passwort">
                     <img src="../../assets/icons/svg/lock.svg">
+                    </innerInputfield>
                 </div>
-                <div class="center remMe">
-                    <div class="center">
-                        <input id="checkbox" type="checkbox">
-                        <p>Remember me</p>
-                    </div>
-                    <div>
 
+                <div class="center remMe flexSpaceBetw">
+                    <div class="center  rememberDiv">
+                        <input  id="checkbox" type="checkbox" >
+                        <text class="maLe8">Remember me</text>
                     </div>
+                    <placeholder class="rememberDiv">
+                        
+                    </placeholder>
                 </div>
                 <div class="buttons">
                     <button class="logInBtn">Log in</button> <button class="guestBtn">Guest Log in</button>
@@ -58,12 +59,10 @@
             </loginField>
         </div>
     </div>
-    <div class="privacyLink privacyAndLegal center">
-        <div>
-            <a>Privacy Policy</a>
-        </div>
-        <div>
-            <a>Legal notice</a>
+    <div class="footer">
+        <div class="legal">
+            <a href="../../privacy policy + legal notice/privacy policy/privacyPolicy.html">Privacy Policy</a>
+            <a href="../../privacy policy + legal notice/legal notice/legalNotice.html">Legal notice</a>
         </div>
     </div>
 
