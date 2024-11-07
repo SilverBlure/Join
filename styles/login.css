@@ -95,6 +95,9 @@ p{
 .privacyAndLegal{
     height: 35px;
     width: 246;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .headPart{
     height: 190px;
@@ -112,4 +115,15 @@ p{
     position: absolute;
     left: 1039px;
     top: 67px;
+}
+.logInBox{
+    position:absolute;
+    left: 394px;
+    top: 265px;
+}
+
+.privacyLink{
+    position: absolute;
+    bottom: 40px;
+    left: 394px;
 }
