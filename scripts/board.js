@@ -11,7 +11,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Ozan Orhan', class: 'worker-ozan' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '01.01.2025',
                 priority: 'Middle',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: ['Wasser abstehen lassen', 'Dünger hinzugeben', 'PH Wert anpassen', 'im Ring gießen']
@@ -24,7 +24,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Kevin Fischer', class: 'worker-kevin' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '24.10.2025',
                 priority: 'Low',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: ['JS Datei einbinden', 'Summary Styling bearbeiten', 'auf github pushen', 'mit Team besprechen']
@@ -37,7 +37,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Ozan Orhan', class: 'worker-ozan' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '05.05.2031',
                 priority: 'Urgent',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: ['kleiner schritt 25', 'kleiner schritt 26', 'kleiner schritt 27', 'kleiner schritt 28']
@@ -50,7 +50,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Kevin Fischer', class: 'worker-kevin' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '11.04.2080',
                 priority: 'Middle',
                 category: { name: 'User Story', class: 'category-user-story' },
                 subtasks: ['kleiner schritt 29', 'kleiner schritt 30', 'kleiner schritt 31', 'kleiner schritt 32']
@@ -69,7 +69,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Nicolai Österle', class: 'worker-nicolai' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '16.09.2044',
                 priority: 'Urgent',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: ['Code Schnipsel sammeln', 'auf github mergen', 'mit dem Team besprechen', 'änderungen anpassen und clean code beachten']
@@ -82,7 +82,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Ozan Orhan', class: 'worker-ozan' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '14.06.2036',
                 priority: 'Middle',
                 category: { name: 'User Story', class: 'category-user-story' },
                 subtasks: ['datenstruktur besprechen', 'Änderungen übernehmen']
