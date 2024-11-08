@@ -1,78 +1,88 @@
-body{
+body {
     margin: 0;
     max-width: 1440px;
     max-height: 100vh;
     background-color: #F6F7F8 !important;
 }
 
-
-.loginField{
+.loginBackground {
+    margin-top: 64px;
+    background-color: white;
     height: 493px;
-    
+    width: 652px;
     border-radius: 30px;
-    
-
+    gap: 28px;
 }
 
-.loginBackground{
-background-color: white;
-height: 493px;
-width: 652px;
-border-radius: 30px;
+h1 {
+    font-size: 73px;
+    font-weight: 700;
 }
 
-.center{
+.center {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.column{
+.column {
     flex-direction: column;
 }
 
-.borderInputFields{
+.borderInputFields {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 5px;
 }
+.innerInputfield{
+    width: 380px;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-.seperator{
+}
+
+.seperator {
     height: 3px;
     width: 150px;
     background-color: #29ABE2;
 }
 
-.border{
-    border: 2px solid grey ;
+.border {
+    border: 2px;
+    border-style: solid;
+    border-color: #D1D1D1;
+    border-radius: 10px;
     height: 48px;
     width: 422px;
+    justify-content: center;
 }
 
-.noBorder{
+.noBorder {
     border: none;
 }
 
-.logInBtn{
+.logInBtn {
     color: white;
     border-radius: 8px;
     background-color: #2A3647;
-    height: 48px; 
+    height: 48px;
     width: 110px;
     font-size: 21px;
 }
 
-.guestBtn{
+.guestBtn {
     color: #2A3647;
     border-radius: 8px;
-    background-color:  white;
+    background-color: white;
     height: 48px;
     width: 177px;
     font-size: 21px;
 }
 
-.buttons{
+.buttons {
     height: 48px;
     width: 322px;
     display: flex;
@@ -80,50 +90,94 @@ border-radius: 30px;
     align-items: center;
 }
 
-.remMe{
+.remMe {
     width: 422px;
     height: 24px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: start;
+    margin-left: 20px;
 }
 
-p{
-    margin-bottom: 0 !important;
+.flexSpaceBetw {
+    display: flex;
+    justify-content: space-between;
 }
 
-.privacyAndLegal{
+.privacyAndLegal {
     height: 35px;
     width: 246;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.headPart{
+
+.headPart {
     height: 190px;
     width: 100%;
     display: flex;
     justify-content: space-around;
     align-items: start;
 }
-.logo{
-    position: absolute;
-    left: 77px;
-    top: 80px;
-}
-.signIn{
-    position: absolute;
-    left: 1039px;
-    top: 67px;
-}
-.logInBox{
-    position:absolute;
-    left: 394px;
-    top: 265px;
+
+.privacyLink {
+    display: flex;
+    text-align: center;
+    align-items: center;
 }
 
-.privacyLink{
-    position: absolute;
-    bottom: 40px;
-    left: 394px;
+.justifyHeadElements {
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    margin-top: 70px;
+    margin-left: 76px;
+}
+
+.maLe8{
+    margin-left: 8px;
+}
+
+.align {
+    align-items: center;
+}
+
+.signUpElement {
+    margin-right: 76px;
+    margin-top: 67px;
+}
+
+.marRi16 {
+    margin-right: 16px;
+}
+
+.rememberDiv {
+    height: 19px;
+    width: 160px;
+}
+
+.checkboxOne {
+    border-radius: 3px;
+    border: 2px;
+    border-style: solid;
+    border-color: #2A3647;
+}
+
+.footer {
+    width: 100%;
+    height: 224px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+}
+
+.legal {
+    height: 35px;
+    width: 246px;
+    display: flex;
+    justify-content: space-between;
+    color: #A8A8A8 !important;
+    font-size: 16px;
 }
