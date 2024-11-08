@@ -2,11 +2,13 @@ body {
     margin: 0;
     max-width: 1440px;
     max-height: 100vh;
-    background-color: #F6F7F8 !important;
+    background-color: #F6F7F8;
+    flex-direction: column;
 }
 
 .loginBackground {
     margin-top: 64px;
+    margin-bottom: 64px;
     background-color: white;
     height: 493px;
     width: 652px;
@@ -23,11 +25,9 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.column {
     flex-direction: column;
 }
+
 
 .borderInputFields {
     display: flex;
@@ -35,6 +35,7 @@ h1 {
     align-items: center;
     padding: 5px;
 }
+
 .innerInputfield{
     width: 380px;
     height: 24px;
@@ -44,11 +45,13 @@ h1 {
 
 }
 
+
 .seperator {
     height: 3px;
     width: 150px;
     background-color: #29ABE2;
 }
+
 
 .border {
     border: 2px;
@@ -60,9 +63,11 @@ h1 {
     justify-content: center;
 }
 
+
 .noBorder {
     border: none;
 }
+
 
 .logInBtn {
     color: white;
@@ -90,73 +95,22 @@ h1 {
     align-items: center;
 }
 
-.remMe {
-    width: 422px;
-    height: 24px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: start;
-    margin-left: 20px;
-}
-
-.flexSpaceBetw {
-    display: flex;
-    justify-content: space-between;
-}
-
-.privacyAndLegal {
-    height: 35px;
-    width: 246;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.headPart {
-    height: 190px;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: start;
-}
-
-.privacyLink {
-    display: flex;
-    text-align: center;
-    align-items: center;
-}
-
-.justifyHeadElements {
-    display: flex;
-    justify-content: space-between;
-}
 
 .logo {
     margin-top: 70px;
     margin-left: 76px;
+    width: 100px;
+    display: flex;
+    justify-content: start;
+    align-items: start;
 }
 
-.maLe8{
-    margin-left: 8px;
-}
-
-.align {
-    align-items: center;
-}
 
 .signUpElement {
     margin-right: 76px;
     margin-top: 67px;
 }
 
-.marRi16 {
-    margin-right: 16px;
-}
-
-.rememberDiv {
-    height: 19px;
-    width: 160px;
-}
 
 .checkboxOne {
     border-radius: 3px;
@@ -165,19 +119,34 @@ h1 {
     border-color: #2A3647;
 }
 
-.footer {
-    width: 100%;
-    height: 224px;
+
+.registrationLink {
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: center;
 }
 
-.legal {
-    height: 35px;
-    width: 246px;
+
+.loginHeader {
     display: flex;
     justify-content: space-between;
-    color: #A8A8A8 !important;
-    font-size: 16px;
+    align-items: center;
+}
+
+
+.registrationTrigger {
+    margin-bottom: 0px;
+    padding-right: 40px;
+}
+
+.saveLogin {
+    padding-right: 200px;
+    font-weight: 600;
+}
+
+.loginfooter {
+display: flex;
+justify-content: center;
+align-items: center;
+column-gap: 50px;
 }

@@ -8,25 +8,31 @@
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../../styles/login.css">
     <link rel="stylesheet" href="../../styles/fonts.css">
     <link rel="stylesheet" href="../../styles/templates.css">
     <link rel="stylesheet" href="../../styles/assets.css">
     <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../styles/login.css">
+    <script src="../../scripts/registration.js"></script>
 </head>
 
 <body>
-    <div class="justifyHeadElements">
-        <div>
-            <img class="logo" src="../../assets/icons/svg/joinLogo.svg">
+
+    <div class="loginHeader">
+
+        <img class="logo" src="../../assets/icons/svg/joinLogo.svg">
+
+        <div class="registrationLink">
+            <p class="registrationTrigger">Not a Join user?</p>
+            <a href="../registration/registration.html"><button class="logInBtn">Sing up</button></a>
         </div>
-        <div class="justifyHeadElements align signUpElement">
-            <p class="marRi16">Not a Join user?</p><button class="logInBtn">Sing up</button>
-        </div>
+
     </div>
-    <div class="loginField ">
+
+    <div class="center">
+
         <div class="center ">
-            <loginField class="loginBackground center column">
+            <div class="loginBackground center">
                 <h1>Log in</h1>
                 <div class="seperator"></div>
 
@@ -39,35 +45,30 @@
 
                 <div class="border borderInputFields">
                     <innerInputfield class="innerInputfield">
-                    <input id="password" class="noBorder" placeholder="Passwort">
-                    <img src="../../assets/icons/svg/lock.svg">
+                        <input id="password" class="noBorder" placeholder="Passwort">
+                        <img src="../../assets/icons/svg/lock.svg">
                     </innerInputfield>
                 </div>
 
-                <div class="center remMe flexSpaceBetw">
-                    <div class="center  rememberDiv">
-                        <input  id="checkbox" type="checkbox" >
-                        <text class="maLe8">Remember me</text>
-                    </div>
-                    <placeholder class="rememberDiv">
-                        
-                    </placeholder>
+                <div class="saveLogin">
+                    <input id="checkbox" type="checkbox">
+                    <text class="">Remember me</text>
                 </div>
                 <div class="buttons">
-                    <button class="logInBtn">Log in</button> <button class="guestBtn">Guest Log in</button>
+                    <button class="logInBtn">Log in</button>
+                    <a href="../../summary/summary.html"><button class="guestBtn">Guest Log in</button></a>
                 </div>
-            </loginField>
+            </div>
         </div>
-    </div>
-    <div class="footer">
-        <div class="legal">
+
+        <div class="loginfooter">
+
             <a href="../../privacy policy + legal notice/privacy policy/privacyPolicy.html">Privacy Policy</a>
             <a href="../../privacy policy + legal notice/legal notice/legalNotice.html">Legal notice</a>
+
         </div>
+
     </div>
-
-
-
 </body>
 
 </html>
