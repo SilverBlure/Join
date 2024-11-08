@@ -107,39 +107,36 @@ h4 {
 .shortInfo {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: row;
     width: 100%;
     padding-top: 15px;
     padding-bottom: 15px;
+    border-radius: 10px;
 }
 
 .shortInfo:hover {
     cursor: pointer;
     background-color: rgb(42, 54, 71);
     color: white;
-    border-radius: 10px;
+    
 
 }
 
 .separator {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin-top: 17px;
-    padding-bottom: 17px;
-    border-bottom: solid 1px lightgray;
+display: flex;
+align-items: center;   
+padding-left: 45px; 
+height: 60px;
+border-bottom: solid 1px lightgray;
 }
 
-.placeholder {
-    width: 55%;
-}
 
 .tag {
     display: flex;
     align-items: center;
     justify-content: center;
+    
 }
 
 .contactDetails {
@@ -165,6 +162,19 @@ h4 {
 .InfoBoxHead {
     display: flex;
     align-items: center;
+}
+
+.ContactUserTag{
+    border: 3px solid black;
+    border-radius: 40px;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    color: rgb(41, 171, 226);
+    margin-right: 30px;
+    margin-left: 30px;
 }
 
 .userTagBig {
