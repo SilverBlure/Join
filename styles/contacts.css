@@ -1,35 +1,7 @@
-p {
-    margin: 0;
-}
-
-h1 {
-    font-size: 61px;
-    font-weight: 700;
-    border-right: solid 3px rgb(41, 171, 226);
-    padding-right: 20px;
-}
-
-h2 {
-    font-size: 47px;
-    font-weight: 500;
-    margin: 10px;
-}
-
-h3 {
-    font-size: 27px;
-    font-weight: 400;
-    padding-left: 20px;
-}
-
-h4 {
-    font-size: 20px;
-    font-weight: 400;
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
-
 .contactContainer {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: row;
 }
 
@@ -42,38 +14,32 @@ h4 {
 .contactsBar {
     display: flex;
     flex-direction: column;
-    width: 453px;
-    max-height: 865px;
-    margin-left: 35px;
+    width: 645px;
+    height: 1024px;
+    padding-left: 35px;
     padding-right: 35px;
-    margin-top: 22.5px;
     background-color: white;
-    overflow-y: auto;
+    overflow-y: scroll;
+    max-height: fit-content;
 }
 
 .contactsBar::-webkit-scrollbar {
     width: 8px;
-    /* Breite der Scrollbar */
 }
 
 .contactsBar::-webkit-scrollbar-track {
     background: white;
-    /* Hintergrund der Scrollbar-Leiste */
 }
 
 .contactsBar::-webkit-scrollbar-thumb {
     background-color: #aaa;
-    /* Farbe des Sliders */
     border-radius: 10px;
-    /* Abgerundete Ecken */
     border: 2px solid white;
-    /* Optional: Rand für zusätzlichen Effekt */
     max-height: 20px;
 }
 
 .contactsBar::-webkit-scrollbar-thumb:hover {
     background-color: #888;
-    /* Farbe beim Hover */
 }
 
 .btnContainer {
@@ -99,8 +65,8 @@ h4 {
     align-items: center;
     justify-content: center;
     width: 100%;
-    margin-top: 30px;
-    margin-bottom: 10px;
+    padding-top: 30px;
+    padding-bottom: 10px;
 
 }
 
@@ -142,6 +108,11 @@ border-bottom: solid 1px lightgray;
 .contactDetails {
     background-color: rgb(246, 247, 248);
     width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
 }
 
 .contactHeadline {
@@ -156,7 +127,7 @@ border-bottom: solid 1px lightgray;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 65px;
+    padding-top: 200px;
 }
 
 .InfoBoxHead {
@@ -190,4 +161,23 @@ border-bottom: solid 1px lightgray;
     margin-right: 30px;
     font-size: 47px;
     font-weight: 500;
+}
+
+.blueLine {
+    border-left: 3px solid #29ABE2;
+    height: 59px;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.userTag {
+    border: white 1px solid;
+    color: white;
+    padding: 16px;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
