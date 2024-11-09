@@ -4,10 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
-    <link rel="stylesheet" href="/styles/registration.css">
-    <script src="/scripts/registration.js"></script>
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../../styles/fonts.css">
+    <link rel="stylesheet" href="../../styles/templates.css">
+    <link rel="stylesheet" href="../../styles/assets.css">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../styles/login.css">
+    <link rel="stylesheet" href="../../styles/registration.css">
 </head>
 <body>
+
+    <img class="logo" src="../../assets/icons/svg/joinLogo.svg">
+
+    <div class="center ">
+
+        <div class="registration">
+
+        <div style="display: flex; justify-content: center; align-items: center;">
+            <a href="../login/login.html"><img style="position: relative; right: 50px;" src="../../assets/icons/png/arrow-left-line.png"></a>
+            <h1>Sign up</h1>
+        </div>
+
+            <div class="seperator"></div>
+
+            <div class="border borderInputFields center">
+                <innerInputfield class="innerInputfield">
+                    <input id="name" class="noBorder" placeholder="Name">
+                    <img src="../../assets/icons/png/person.png">
+                </innerInputfield>
+            </div>
+
+            <div class="border borderInputFields center">
+                <innerInputfield class="innerInputfield">
+                    <input id="email" class="noBorder" placeholder="Email">
+                    <img src="../../assets/icons/svg/mail.svg">
+                </innerInputfield>
+            </div>
+
+
+            <div class="border borderInputFields">
+                <innerInputfield class="innerInputfield">
+                    <input id="password" class="noBorder" placeholder="Passwort">
+                    <img src="../../assets/icons/svg/lock.svg">
+                </innerInputfield>
+            </div>
+            <div class="border borderInputFields">
+                <innerInputfield class="innerInputfield">
+                    <input id="password" class="noBorder" placeholder="Passwort">
+                    <img src="../../assets/icons/svg/lock.svg">
+                </innerInputfield>
+            </div>
+
+
+
+
+
+
+
+            <div class="conditionBox">
+                <input id="checkbox" type="checkbox">
+                <text class="condition">I accept the <a href="../../privacy policy + legal notice/privacy policy/privacyPolicy.html">Privacy policy</a></text>
+            </div>
+            
+                <button class="signUpBtn">Sign up</button>
+                      
+        </div>
+    </div>
+    <div class="signUpfooter">
+
+        <a href="../../privacy policy + legal notice/privacy policy/privacyPolicy.html">Privacy Policy</a>
+        <a href="../../privacy policy + legal notice/legal notice/legalNotice.html">Legal notice</a>
+
+    </div>
     
 </body>
 </html>

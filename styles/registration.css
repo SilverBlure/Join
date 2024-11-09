@@ -1,0 +1,45 @@
+.registration {
+    margin-bottom: 64px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 30px;
+    gap: 28px;
+    padding: 20px 50px;
+}
+
+.condition {
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.condition a {
+    padding-left: 5px;
+}
+
+.conditionBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+}
+
+.signUpBtn {
+    color: white;
+    border-radius: 8px;
+    background-color: #2A3647;
+    height: 48px;
+    width: 110px;
+    font-size: 21px;
+}
+
+.signUpfooter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 50px;
+}
