@@ -1,0 +1,152 @@
+body {
+    margin: 0;
+    max-width: 1440px;
+    max-height: 100vh;
+    background-color: #F6F7F8;
+    flex-direction: column;
+}
+
+.loginBackground {
+    margin-top: 64px;
+    margin-bottom: 64px;
+    background-color: white;
+    height: 493px;
+    width: 652px;
+    border-radius: 30px;
+    gap: 28px;
+}
+
+h1 {
+    font-size: 73px;
+    font-weight: 700;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.borderInputFields {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.innerInputfield{
+    width: 380px;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+
+.seperator {
+    height: 3px;
+    width: 150px;
+    background-color: #29ABE2;
+}
+
+
+.border {
+    border: 2px;
+    border-style: solid;
+    border-color: #D1D1D1;
+    border-radius: 10px;
+    height: 48px;
+    width: 422px;
+    justify-content: center;
+}
+
+
+.noBorder {
+    border: none;
+}
+
+
+.logInBtn {
+    color: white;
+    border-radius: 8px;
+    background-color: #2A3647;
+    height: 48px;
+    width: 110px;
+    font-size: 21px;
+}
+
+.guestBtn {
+    color: #2A3647;
+    border-radius: 8px;
+    background-color: white;
+    height: 48px;
+    width: 177px;
+    font-size: 21px;
+}
+
+.buttons {
+    height: 48px;
+    width: 322px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.logo {
+    margin-top: 70px;
+    margin-left: 76px;
+    width: 100px;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+
+.signUpElement {
+    margin-right: 76px;
+    margin-top: 67px;
+}
+
+
+.checkboxOne {
+    border-radius: 3px;
+    border: 2px;
+    border-style: solid;
+    border-color: #2A3647;
+}
+
+
+.registrationLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.loginHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.registrationTrigger {
+    margin-bottom: 0px;
+    padding-right: 40px;
+}
+
+.saveLogin {
+    padding-right: 200px;
+    font-weight: 600;
+}
+
+.loginfooter {
+display: flex;
+justify-content: center;
+align-items: center;
+column-gap: 50px;
+}

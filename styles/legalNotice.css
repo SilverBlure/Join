@@ -1,11 +1,3 @@
-h1 {
-    font-size: 61px;
-}
-
-h2 {
-    font-size: 27px;
-}
-
-p {
-    font-size: 16px;
+.legalNoticeContent {
+    padding-left: 100px;
 }
