@@ -18,30 +18,39 @@
     <script src="../scripts/contacts.js"></script>
     <script src="../scripts/templates.js"></script>
 
+
 </head>
 
-<body onload="includeHTML(), loadContacts()">
-    <sidebar class="sidebar" w3-include-html="../../templates/sidebar.html"></sidebar>
+<body onload="includeHTML(), renderContacts()">
+
+    <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
+
     <div class="contacts">
-        <header w3-include-html="../../templates/header.html"></header>
+
+        <div class="header" w3-include-html="../../templates/header.html"></div>
+
         <div class="contactContainer">
-        <div class="contactsBar">
-            <div class="btnContainer"><button class="addContactBtn">Add new contact <img src="../assets/icons/png/person_add.png" alt=""></button></div>
-            <div id="contacts"></div>   
-        </div>
-        <div  class="contactDetails">
-<div class="contactHeadline">
-<div><h1>Contacts</h1></div>
-<h3>Better with a team</h3>
-</div>
-<div id="ContactDetailed" class="contactInfoBox">
-
-</div>
-
+            <div class="contactsBar">
+                <div class="btnContainer"><button class="addContactBtn">Add new contact <img
+                            src="../assets/icons/png/person_add.png" alt=""></button></div>
+                <div id="contacts"></div>
+            </div>
+            <div class="contactDetails">
+                <div class="contactHeadline">
+                    <div>
+                        <h1>Contacts</h1>
+                        <div class="seperator"></div>
+                    </div>
+                    <h3>Better with a team</h3>
+                </div>
+                <div id="ContactDetailed" class="contactInfoBox">
 
                 </div>
+
+
             </div>
         </div>
+    </div>
     </div>
 </body>
 
