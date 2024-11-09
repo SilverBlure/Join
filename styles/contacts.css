@@ -89,12 +89,10 @@
 
 }
 
-.separator {
-display: flex;
-align-items: center;   
-padding-left: 45px; 
-height: 60px;
-border-bottom: solid 1px lightgray;
+.seperator {
+    height: 3px;
+    width: 150px;
+    background-color: #29ABE2;
 }
 
 
