@@ -25,27 +25,21 @@
 
 .contactsBar::-webkit-scrollbar {
     width: 8px;
-    /* Breite der Scrollbar */
 }
 
 .contactsBar::-webkit-scrollbar-track {
     background: white;
-    /* Hintergrund der Scrollbar-Leiste */
 }
 
 .contactsBar::-webkit-scrollbar-thumb {
     background-color: #aaa;
-    /* Farbe des Sliders */
     border-radius: 10px;
-    /* Abgerundete Ecken */
     border: 2px solid white;
-    /* Optional: Rand für zusätzlichen Effekt */
     max-height: 20px;
 }
 
 .contactsBar::-webkit-scrollbar-thumb:hover {
     background-color: #888;
-    /* Farbe beim Hover */
 }
 
 .btnContainer {
