@@ -1,46 +1,15 @@
-html,
-body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    /* Verhindert Scrollen */
-}
-
-body {
-    display: flex;
-    flex-direction: column;
-}
-
 .text_contentTask {
-    flex: 1;
-    display: flex;
     flex-direction: column;
-    padding: 40px 144px 30px 314px;
-
     background-color: #F6F7F8;
-    box-sizing: border-box;
-}
-
-.h1Div {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
 }
 
 .formParts {
     display: flex;
-    flex: 1;
-    overflow: hidden;
+    justify-content: center;
+    align-items: center;
 }
 
 .formPart {
-    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -54,12 +23,11 @@ form {
     margin: 0 20px;
 }
 
-label,
-input,
-textarea,
-#prio button,
-select {
-    font-size: 20px;
+.addTaskContent {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+height: 100vh;
 }
 
 input,
@@ -99,7 +67,6 @@ select:focus {
 }
 
 #prio button {
-    flex: 1;
     padding: 16px 10px;
     border-radius: 10px;
     background: white;
@@ -123,18 +90,18 @@ select:focus {
 }
 
 .prioUrgentActive {
-    background: #FF3D00 !important;
-    color: white !important;
+    background: #FF3D00 ;
+    color: white ;
 }
 
 .prioMediumActive {
-    background: #FFA800 !important;
-    color: white !important;
+    background: #FFA800 ;
+    color: white ;
 }
 
 .prioLowActive {
-    background: #7AE229 !important;
-    color: white !important;
+    background: #7AE229 ;
+    color: white ;
 }
 
 #addSubTask {
@@ -232,14 +199,13 @@ select:focus {
     border-radius: 10px;
     padding: 12px 16px;
     cursor: pointer;
-    position: relative;
 }
 
 #contactSelection:focus {
     background-image: url("#");
     transition: background-image 0.15s linear;
-    outline: none !important;
-    border: 1px solid #29ABE2 !important;
+    outline: none ;
+    border: 1px solid #29ABE2 ;
 }
 
 #contactList {
