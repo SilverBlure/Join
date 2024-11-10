@@ -5,44 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
+    <link rel="icon" href="../assets/icons/svg/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../styles/fonts.css">
-    <link rel="stylesheet" href="../styles/templates.css">
-    <link rel="stylesheet" href="../styles/contacts.css">
     <link rel="stylesheet" href="../styles/assets.css">
+    <link rel="stylesheet" href="../styles/contacts.css">
     <link rel="stylesheet" href="../style.css">
-
+    <link rel="stylesheet" href="../styles/templates.css">
     <script src="../../script.js"></script>
     <script src="../scripts/contacts.js"></script>
     <script src="../scripts/templates.js"></script>
-    <link rel="icon" href="../assets/icons/svg/favicon.ico" type="image/x-icon">
-    <title>Contacts</title>
+
+
 </head>
 
-<body onload="includeHTML(), loadContacts()">
-    <sidebar class="sidebar" w3-include-html="../../templates/sidebar.html"></sidebar>
+<body onload="includeHTML(), renderContacts()">
+
+    <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
+
     <div class="contacts">
-        <header w3-include-html="../../templates/header.html"></header>
+
+        <div class="header" w3-include-html="../../templates/header.html"></div>
+
         <div class="contactContainer">
-        <div class="contactsBar">
-            <div class="btnContainer"><button class="addContactBtn">Add new contact <img src="../assets/icons/png/person_add.png" alt=""></button></div>
-            <div id="contacts"></div>   
-        </div>
-        <div  class="contactDetails">
-<div class="contactHeadline">
-<div><h1>Contacts</h1></div>
-<h3>Better with a team</h3>
-</div>
-<div id="ContactDetailed" class="contactInfoBox">
-
-</div>
-
+            <div class="contactsBar">
+                <div class="btnContainer"><button class="addContactBtn">Add new contact <img
+                            src="../assets/icons/png/person_add.png" alt=""></button></div>
+                <div id="contacts"></div>
+            </div>
+            <div class="contactDetails">
+                <div class="contactHeadline">
+                    <div>
+                        <h1>Contacts</h1>
+                        <div class="seperator"></div>
+                    </div>
+                    <h3>Better with a team</h3>
+                </div>
+                <div id="ContactDetailed" class="contactInfoBox">
 
                 </div>
+
+
             </div>
         </div>
+    </div>
     </div>
 </body>
 
