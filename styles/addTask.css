@@ -27,7 +27,7 @@
     display: flex;
     flex-direction: column;
     width: 100vw;
-height: 100vh;
+    height: 100vh;
 }
 
 input,
@@ -90,18 +90,18 @@ select:focus {
 }
 
 .prioUrgentActive {
-    background: #FF3D00 ;
-    color: white ;
+    background: #FF3D00;
+    color: white;
 }
 
 .prioMediumActive {
-    background: #FFA800 ;
-    color: white ;
+    background: #FFA800;
+    color: white;
 }
 
 .prioLowActive {
-    background: #7AE229 ;
-    color: white ;
+    background: #7AE229;
+    color: white;
 }
 
 #addSubTask {
@@ -204,8 +204,8 @@ select:focus {
 #contactSelection:focus {
     background-image: url("#");
     transition: background-image 0.15s linear;
-    outline: none ;
-    border: 1px solid #29ABE2 ;
+    outline: none;
+    border: 1px solid #29ABE2;
 }
 
 #contactList {
