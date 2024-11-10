@@ -4,87 +4,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join - Add Task</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/styles/assets.css">
-    <link rel="stylesheet" href="/styles/templates.css">
+    <title>Join</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/styles/fonts.css">
     <link rel="stylesheet" href="/styles/addTask.css">
-    <script src="https://www.w3schools.com/lib/w3.js"></script>
-    <script src="script.js"></script>
-    <script src="/scripts/addTask.js"></script>
+    <link rel="stylesheet" href="/styles/assets.css">
+    <link rel="stylesheet" href="/style.css">
+    <script src="../../script.js"></script>
+    <script src="../../scripts/templates.js"></script>
+    <script src="../../scripts/addTask.js"></script>
+    <link rel="stylesheet" href="/styles/templates.css">
 </head>
 
-<body onload="w3.includeHTML()">
-    <div class="sidebar" w3-include-html="/templates/sidebar.html"></div>
-    <div class="header" w3-include-html="/templates/header.html"></div>
+<body onload="includeHTML()">
+    <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
 
-    <div class="text_contentTask">
-        <div class="h1Div">
+    <div class="addTaskContent">
+        <div class="header" w3-include-html="../../templates/header.html"></div>
+
+
+
+        <div class="text_contentTask">
             <h1>Add Task</h1>
-        </div>
-        <form id="addTaskFormTask" method="post">
-            <div class="formParts">
-                <section class="formPart">
-                    <label for="title">Title<span class="requiredStar">*</span></label>
-                    <input type="text" id="title" placeholder="Enter a title" required>
-                    <label for="description">Description</label>
-                    <textarea id="description" rows="5" placeholder="Enter a Description"></textarea>
-                    <label for="contactSelection">Assigned to</label>
-                    <div id="contactSelection" onclick="" tabindex="0">
-                        Select contacts to assign
+            <form id="addTaskFormTask" method="post">
+                <div class="formParts">
+                    <div class="formPart">
+                        <label for="title">Title<span class="requiredStar">*</span></label>
+                        <input type="text" id="title" placeholder="Enter a title" required>
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="5" placeholder="Enter a Description"></textarea>
+                        <label for="contactSelection">Assigned to</label>
+                        <div id="contactSelection" onclick="" tabindex="0">
+                            Select contacts to assign
+                        </div>
                     </div>
-                </section>
 
-                <div id="seperationLine"></div>
+                    <div id="seperationLine"></div>
 
-                <section class="formPart">
-                    <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                    <input type="date" id="date">
-                    <label for="prio">Prio</label>
-                    <section id="prio">
-                        <button onclick="setPriority('urgent')" value="urgent" id="prioUrgent" type="button">Urgent<img
-                                src="#"></button>
-                        <button onclick="setPriority('medium')" value="medium" id="prioMedium" type="button"
-                            class="prioMediumActive">Medium<img src="#"></button>
-                        <button onclick="setPriority('low')" value="low" id="prioLow" type="button">Low<img
-                                src="#"></button>
+                    <div class="formPart">
+                        <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
+                        <input type="date" id="date">
+                        <label for="prio">Prio</label>
+                        <div id="prio">
+                            <button onclick="setPriority('urgent')" value="urgent" id="prioUrgent"
+                                type="button">Urgent<img src="#"></button>
+                            <button onclick="setPriority('medium')" value="medium" id="prioMedium" type="button"
+                                class="prioMediumActive">Medium<img src="#"></button>
+                            <button onclick="setPriority('low')" value="low" id="prioLow" type="button">Low<img
+                                    src="#"></button>
 
-                    </section>
-                    <label for="category">Category<span class="requiredStar">*</span></label>
-                    <select id="category" required tabindex="0">
-                        <option value="" disabled selected hidden>Select Task Category</option>
-                        <option value="Technical Task">Technical Task</option>
-                        <option value="User Story">User Story</option>
-                    </select>
-                    <label for="subtask">Subtasks</label>
-                    <div id="addSubTask">
-                        <input id="subtask" class="addSubTask" placeholder="Add new subtask" type="text">
-                        <img onclick="" style="cursor:pointer" src="#">
+                        </div>
+                        <label for="category">Category<span class="requiredStar">*</span></label>
+                        <select id="category" required tabindex="0">
+                            <option value="" disabled selected hidden>Select Task Category</option>
+                            <option value="Technical Task">Technical Task</option>
+                            <option value="User Story">User Story</option>
+                        </select>
+                        <label for="subtask">Subtasks</label>
+                        <div id="addSubTask">
+                            <input id="subtask" class="addSubTask" placeholder="Add new subtask" type="text">
+                            <img onclick="" style="cursor:pointer" src="#">
+                        </div>
+                        <ul id="subTasksList">
+                        </ul>
                     </div>
-                    <ul id="subTasksList">
-                    </ul>
-                </section>
-            </div>
-            <div class="taskFormButtons">
-                <p><span class="requiredStar">*</span>This field is required</p>
-                <div class="buttonContainer">
-                    <button onclick="" type="reset" class="button clearBtn">Clear <img src="#"
-                            alt="Icon clear task"></button>
-                    <button type="submit" class="button">Create Task<img src="#" alt="Icon create task"></button>
                 </div>
+                <div class="taskFormButtons">
+                    <p><span class="requiredStar">*</span>This field is required</p>
+                    <div class="buttonContainer">
+                        <button onclick="" type="reset" class="button clearBtn">Clear <img src="#"
+                                alt="Icon clear task"></button>
+                        <button type="submit" class="button">Create Task<img src="#" alt="Icon create task"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="popupOverlay" class="popup-overlay">
+            <div id="popupContactSuccessAddedTask">
+                <p>Task added to board
+                    <img src="#">
+                </p>
             </div>
-        </form>
-    </div>
-   
-    <div id="popupOverlay" class="popup-overlay">
-        <div id="popupContactSuccessAddedTask">
-            <p>Task added to board
-                <img src="#">
-            </p>
         </div>
     </div>
-
 </body>
 
 </html>
