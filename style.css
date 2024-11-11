@@ -16,6 +16,16 @@ a:hover {
 .content {
     display: flex;
     flex-direction: column;
+    animation: fadeInBlur 0.25s ease forwards;
+}
+
+@keyframes fadeInBlur {
+    0% {
+        filter: blur(100px); /* Anfangsunschärfe */
+    }
+    100% {
+        filter: blur(0px); /* Schärfe wiederherstellen */
+    }
 }
 
 .intro {

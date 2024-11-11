@@ -58,7 +58,7 @@ cursor: pointer;
     height: 96px;
     width: 100%;
     background-color: white;
-    box-shadow: 0px 2px 8px -2px rgb(223, 224, 225);
+    box-shadow: 0px 4px 2px -2px rgb(223, 224, 225);
     position: sticky;
     max-width: 1440px;
 }
