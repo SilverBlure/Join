@@ -1,32 +1,43 @@
 .text_contentTask {
-    flex-direction: column;
     background-color: #F6F7F8;
+    padding-left: 100px;
+    height: 100vh;
+    animation: fadeInBlur 0.25s ease forwards;
+}
+
+@keyframes fadeInBlur {
+    0% {
+        filter: blur(100px); 
+    }
+    100% {
+        filter: blur(0px); 
+    }
 }
 
 .formParts {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 }
 
 .formPart {
     display: flex;
     flex-direction: column;
+    width: 440px;
     gap: 20px;
-    overflow-y: auto;
-    padding-right: 20px;
 }
 
-#seperationLine {
-    width: 1px;
+.separetor {
+    width: 2px;
     background-color: #D1D1D1;
-    margin: 0 20px;
+    height: 424px;
+    margin: 0px 50px 0px 50px;
 }
 
 .addTaskContent {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 1340px;
     height: 100vh;
 }
 
@@ -134,18 +145,11 @@ select:focus {
 
 .taskFormButtons {
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-top: 20px;
-    padding-bottom: 50px;
+justify-content: space-between;
+align-items: center;
+padding-right: 150px;
 }
 
-.taskFormButtons p {
-    margin: 0;
-    margin-right: auto;
-    font-size: 14px;
-    color: #666;
-}
 
 .buttonContainer {
     display: flex;

@@ -27,7 +27,7 @@
 
 
         <div class="text_contentTask">
-            <h1>Add Task</h1>
+            <h1 style="margin-top: 70px; font-size: 61px; font-weight: 700;">Add Task</h1>
             <form id="addTaskFormTask" method="post">
                 <div class="formParts">
                     <div class="formPart">
@@ -41,7 +41,7 @@
                         </div>
                     </div>
 
-                    <div id="seperationLine"></div>
+                    <div class="separetor"></div>
 
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
@@ -49,11 +49,11 @@
                         <label for="prio">Prio</label>
                         <div id="prio">
                             <button onclick="setPriority('urgent')" value="urgent" id="prioUrgent"
-                                type="button">Urgent<img src="#"></button>
+                                type="button">Urgent<img src="../assets/icons/png/PrioritySymbolsUrgent.png"></button>
                             <button onclick="setPriority('medium')" value="medium" id="prioMedium" type="button"
-                                class="prioMediumActive">Medium<img src="#"></button>
+                                class="prioMediumActive">Medium<img src="../assets/icons/png/PrioritySymbolsMiddle.png"></button>
                             <button onclick="setPriority('low')" value="low" id="prioLow" type="button">Low<img
-                                    src="#"></button>
+                                    src="../assets/icons/png/PrioritySymbolsLow.png"></button>
 
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
@@ -72,11 +72,11 @@
                     </div>
                 </div>
                 <div class="taskFormButtons">
-                    <p><span class="requiredStar">*</span>This field is required</p>
+                    <p style="padding-top: 50px;"><span class="requiredStar">*</span>This field is required</p>
                     <div class="buttonContainer">
-                        <button onclick="" type="reset" class="button clearBtn">Clear <img src="#"
+                        <button onclick="" type="reset" class="button clearBtn">Clear <img src="../assets/icons/png/iconoir_cancel.png"
                                 alt="Icon clear task"></button>
-                        <button type="submit" class="button">Create Task<img src="#" alt="Icon create task"></button>
+                        <button type="submit" class="button">Create Task<img src="../assets/icons/png/check.png" alt="Icon create task"></button>
                     </div>
                 </div>
             </form>
