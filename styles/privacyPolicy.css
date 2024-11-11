@@ -1,12 +1,9 @@
-
-
 .txt-content {
     display: flex;
     flex-direction: column;
     margin-left: 65px;
     padding-right: 65px;
     overflow-y: auto;
-    max-height: 867px;
     max-width: 1440px;
 }
 

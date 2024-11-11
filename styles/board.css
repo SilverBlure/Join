@@ -77,6 +77,8 @@
     margin-top: 60px;
     column-gap: 26px;
     margin-left: 64px;
+    overflow-y: scroll;
+
 }
 
 .toDoList {

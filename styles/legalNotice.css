@@ -1,10 +1,15 @@
 .legalNoticeContent {
     padding-left: 100px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: start ;
+    flex-direction: column;
 }
 
 .legalNoticeHeadline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-right: 250px;
+    gap: 580px;
 }
