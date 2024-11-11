@@ -6,6 +6,20 @@ body {
     flex-direction: column;
 }
 
+.loginBody{
+    animation: fadeInBlur 1s ease forwards;
+
+}
+
+@keyframes fadeInBlur {
+    0% {
+        filter: blur(100px); /* Anfangsunschärfe */
+    }
+    100% {
+        filter: blur(0px); /* Schärfe wiederherstellen */
+    }
+}
+
 .loginBackground {
     margin-top: 64px;
     margin-bottom: 64px;
@@ -36,7 +50,7 @@ h1 {
     padding: 5px;
 }
 
-.innerInputfield{
+.innerInputfield {
     width: 380px;
     height: 24px;
     display: flex;
@@ -96,16 +110,6 @@ h1 {
 }
 
 
-.logo {
-    margin-top: 70px;
-    margin-left: 76px;
-    width: 100px;
-    display: flex;
-    justify-content: start;
-    align-items: start;
-}
-
-
 .signUpElement {
     margin-right: 76px;
     margin-top: 67px;
@@ -129,8 +133,9 @@ h1 {
 
 .loginHeader {
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
+    height: 50px;
 }
 
 
@@ -145,8 +150,18 @@ h1 {
 }
 
 .loginfooter {
-display: flex;
-justify-content: center;
-align-items: center;
-column-gap: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 50px;
 }
+
+.logoLogin {
+        position: absolute;
+        top: 80px;
+        left: 77px;
+        width: 100px;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+    }
