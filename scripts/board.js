@@ -37,7 +37,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Ozan Orhan', class: 'worker-ozan' }
                 ],
-                due_Date: '05.05.2031',
+                due_Date: '15.11.2024',
                 priority: 'Urgent',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: ['kleiner schritt 25', 'kleiner schritt 26', 'kleiner schritt 27', 'kleiner schritt 28']
@@ -58,7 +58,7 @@ let tasks = [
         ]
     },
     {
-        id: 'inProgress',
+        id: 'inProgress',   
         name: 'In Progress',
         task: [
             {
