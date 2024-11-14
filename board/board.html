@@ -13,16 +13,14 @@
     <link rel="stylesheet" href="../styles/board.css">
     <link rel="stylesheet" href="../styles/assets.css">
     <link rel="stylesheet" href="../style.css">
-
     <script src="../../script.js"></script>
-    <script src="../../scripts/board.js"></script>
     <script src="../../scripts/templates.js"></script>
 </head>
 
 <body onload="includeHTML(),renderBoard()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
 
-    <div class="content">
+    <div id="mainContent" class="content">
         <div class="header" w3-include-html="../../templates/header.html"></div>
 
         <div class="board">
@@ -39,7 +37,7 @@
                             </button>
                         </div>
                     </div>
-                    <button class="addTaskBtn">Add Task <img src="../assets/icons/png/add.png"></button>
+                    <button id="addTaskBtnBoard" onclick="openAddTaskPopup()" class="addTaskBtn">Add Task <img src="../assets/icons/png/add.png"></button>
                 </div>
             </div>
 
@@ -80,6 +78,63 @@
         </div>
     </div>
     </div>
+
+    <div id="viewTaskPopupOverlay" class="popup-overlay hidden" onclick="closeTaskPopup()">
+        <div id="viewTaskContainer" class="popup-container" onclick="event.stopPropagation()"></div>
+    </div>
+
+    <!-- Popup Overlay Container -->
+    <div id="addTaskPopupOverlay" class="popup-overlay hidden" onclick="closeAddTaskPopup()">
+        <div id="addTaskContainer" class="popup-container" onclick="event.stopPropagation()">
+        <div class="popupHeader">
+            <h1 style="font-size: 61px; font-weight: 700;">Add Task</h1>
+            <img class="closeIcon"  onclick="closeAddTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+        </div>
+        <form id="addTaskFormTask" method="post">
+            <div class="formParts">
+                <div class="formPart">
+                    <label for="title">Title<span class="requiredStar">*</span></label>
+                    <input type="text" id="title" placeholder="Enter a title" required>
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="5" placeholder="Enter a Description"></textarea>
+                    <label for="contactSelection">Assigned to</label>
+                    <div id="contactSelection" tabindex="0">Select contacts to assign</div>
+                </div>
+                <div class="separator"></div>
+                <div class="formPart">
+                    <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
+                    <input type="date" id="date">
+                    <label for="prio">Prio</label>
+                    <div id="prio">
+                        <button onclick="setPriority('urgent')" id="prioUrgent" type="button">Urgent<img src="../assets/icons/png/PrioritySymbolsUrgent.png"></button>
+                        <button onclick="setPriority('medium')" id="prioMedium" type="button" class="prioMediumActive">Medium<img src="../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                        <button onclick="setPriority('low')" id="prioLow" type="button">Low<img src="../assets/icons/png/PrioritySymbolsLow.png"></button>
+                    </div>
+                    <label for="category">Category<span class="requiredStar">*</span></label>
+                    <select id="category" required tabindex="0">
+                        <option value="" disabled selected hidden>Select Task Category</option>
+                        <option value="Technical Task">Technical Task</option>
+                        <option value="User Story">User Story</option>
+                    </select>
+                    <label for="subtask">Subtasks</label>
+                    <div id="addSubTask">
+                        <input id="subtask" class="addSubTask" placeholder="Add new subtask" type="text">
+                        <img style="cursor:pointer" src="../assets/icons/png/plusButton.png">
+                    </div>
+                    <ul id="subTasksList"></ul>
+                </div>
+            </div>
+            <div class="taskFormButtons">
+                <p style="padding-top: 50px;"><span class="requiredStar">*</span>This field is required</p>
+                <div class="buttonContainer">
+                    <button type="reset" class="button clearBtn">Clear <img src="../assets/icons/png/iconoir_cancel.png" alt="Icon clear task"></button>
+                    <button type="submit" class="button">Create Task<img src="../assets/icons/png/check.png" alt="Icon create task"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="../../scripts/board.js"></script>
 </body>
 
 </html>
