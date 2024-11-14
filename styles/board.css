@@ -218,10 +218,18 @@
 .subtask-item {
     display: flex;
     align-items: center;
-    gap: 8px; 
+    gap: 8px;
     width: min-content;
 }
 
+.subtasksCheckbox {
+    width: max-content;
+}
+
+.subtaskText {
+    width: 404px;
+    margin: 0px;
+}
 
 
 
@@ -256,6 +264,13 @@
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tasksPopup-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
     width: 525px;
 }
 
@@ -263,6 +278,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.popupActions{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 30px;
+    padding-top: 80px;
+}
+
+.popupIcons {
+    cursor: pointer;
 }
 
 .closeIcon {
@@ -275,6 +302,7 @@
 .hidden {
     visibility: hidden;
 }
+
 .popup-overlay.visible {
     visibility: visible;
 }
@@ -286,10 +314,11 @@
 
 @keyframes fadeInBlur {
     0% {
-        filter: blur(100px); 
+        filter: blur(100px);
     }
+
     100% {
-        filter: blur(0px); 
+        filter: blur(0px);
     }
 }
 
@@ -424,9 +453,9 @@ select:focus {
 
 .taskFormButtons {
     display: flex;
-justify-content: space-between;
-align-items: center;
-padding-right: 150px;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 150px;
 }
 
 
@@ -517,14 +546,3 @@ padding-right: 150px;
     padding: 6px 8px;
     margin: 0;
 }
-
-
-
-
-
-
-
-
-
-
-

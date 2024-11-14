@@ -135,11 +135,14 @@ let tasks = [
 let currentDraggedElement;
 
 
+
 function calculateProgress(subtasks) {
     const totalSubtasks = subtasks.length;
     const doneSubtasks = subtasks.filter(subtask => subtask.done).length;
     return totalSubtasks > 0 ? (doneSubtasks / totalSubtasks) * 100 : 0;
 }
+
+
 
 function renderBoard() {
     tasks.forEach(list => {
@@ -195,37 +198,40 @@ function openTaskPopup(taskId) {
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
 
-        // Generiere die Liste der Workers mit deren spezifischen Klassen und Initialen
         const workersHTML = task.workers.map(worker => `
-            <li class="${worker.class}">
-                ${worker.name} 
-                <p class="${worker.class} workerEmblem">${worker.name.charAt(0)}</p> <!-- Initialen des Workers -->
-            </li>
+            <div class="d_flex">
+                            <p style="margin-right: 20px;" class="${worker.class} workerEmblem">${worker.name.charAt(0)}</p>
+                <p>${worker.name}</p> 
+            </div>
         `).join('');
 
-        // Generiere die Subtasks ohne Aufzählungszeichen und nur mit Checkboxen
         const subtasksHTML = task.subtasks.map(subtask => {
             const subtaskText = subtask.done || subtask.todo; 
             return `
                 <div class="subtask-item">
-                    <input type="checkbox">
-                    <p>${subtaskText}</p>
+                    <input class="subtasksCheckbox popupIcons" type="checkbox">
+                    <p class="subtaskText">${subtaskText}</p>
                 </div>
             `;
         }).join('');
 
-        // Setze die HTML-Struktur mit dynamischen Klassen und Worker-Emblemen
         popupContainer.innerHTML = `
-            <p class="${task.category.class}">${task.category.name}</p> <!-- Dynamische Kategorie-Klasse -->
-            <h2>${task.title}</h2>
-            <p><strong>Description:</strong> ${task.description}</p>
-            <p><strong>Due Date:</strong> ${task.due_Date}</p>
-            <p><strong>Priority:</strong> ${task.priority}</p>
-            <h3>Assigned to:</h3>
-            <ul>${workersHTML}</ul>
+            <div class="popupHeader">
+            <p class="${task.category.class} taskCategory">${task.category.name}</p>
+            <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
+            </div> 
+            <h1>${task.title}</h1>
+            <p><strong> ${task.description}</strong></p>
+            <p>Due Date:<strong> ${task.due_Date}</strong></p>
+            <p>Priority: <strong>${task.priority}</strong><img src="../../assets/icons/png/PrioritySymbols${task.priority}.png"></p>
+            <p>Assigned to:</p>
+            <div><strong>${workersHTML}</strong></div>
             <h3>Subtasks</h3>
             <div class="subtasks-container">${subtasksHTML}</div>
-            <button onclick="closeTaskPopup()">Close</button>
+            <div class="popupActions">
+            <img onclick="editTask()" class="popupIcons" src="../../assets/icons/png/edit.png">
+            <img onclick="deleteTask()" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
+            </div>
         `;
     } else {
         console.error("Popup overlay or task data not found.");
@@ -234,31 +240,37 @@ function openTaskPopup(taskId) {
 
 
 
-
-
 function closeTaskPopup() {
     document.getElementById("viewTaskPopupOverlay").classList.remove("visible");
     document.getElementById("mainContent").classList.remove("blur");
 }
+
+
 
 function openAddTaskPopup() {
     document.getElementById("addTaskPopupOverlay").classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
 }
 
+
+
 function closeAddTaskPopup() {
     document.getElementById("addTaskPopupOverlay").classList.remove("visible");
     document.getElementById("mainContent").classList.remove("blur");
 }
+
+
 
 function startDragging(taskId) {
     currentDraggedElement = taskId;
 }
 
 
+
 function allowDrop(event) {
     event.preventDefault();
 }
+
 
 
 function handleDrop(event, targetListId) {
@@ -277,6 +289,7 @@ function handleDrop(event, targetListId) {
     }
     renderBoard();
 }
+
 
 
 function findTask() {
