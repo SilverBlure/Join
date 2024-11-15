@@ -47,22 +47,19 @@ function renderAwaitingFeedbackTasks() {
 
 
 function getNextDueDate() {
-    const today = new Date();
+    const today = new Date(); 
     let closestDate = null;
+
     tasks.forEach(list => {
         list.task.forEach(task => {
-            const taskDateParts = task.due_Date.split('.');
-            const taskDate = new Date(
-                taskDateParts[2],    
-                taskDateParts[1] - 1, 
-                taskDateParts[0]     
-            );
+            const taskDate = new Date(task.due_Date); 
 
             if (taskDate > today && (!closestDate || taskDate < closestDate)) {
                 closestDate = taskDate;
             }
         });
     });
+
     if (closestDate) {
         const formattedDate = closestDate.toLocaleDateString("de-DE", {
             day: "2-digit",
@@ -74,6 +71,7 @@ function getNextDueDate() {
         document.getElementById('nextDueDate').innerHTML = "Kein zukünftiges Datum gefunden";
     }
 }
+
 
 
 function setGreeting() {

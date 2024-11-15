@@ -297,7 +297,9 @@
     width: 32px;
 }
 
-
+.active {
+    background-color: #A8A8A8 !important;
+}
 
 .hidden {
     visibility: hidden;

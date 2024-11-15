@@ -11,7 +11,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Ozan Orhan', class: 'worker-ozan' }
                 ],
-                due_Date: '01.01.2025',
+                due_Date: '2025-01-01',
                 priority: 'Middle',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: [
@@ -29,7 +29,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Kevin Fischer', class: 'worker-kevin' }
                 ],
-                due_Date: '24.10.2025',
+                due_Date: '2025-10-24',
                 priority: 'Low',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: [
@@ -53,7 +53,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Nicolai Österle', class: 'worker-nicolai' }
                 ],
-                due_Date: '16.09.2044',
+                due_Date: '2044-08-15',
                 priority: 'Urgent',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: [
@@ -71,7 +71,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Ozan Orhan', class: 'worker-ozan' }
                 ],
-                due_Date: '14.06.2036',
+                due_Date: '2036-06-28',
                 priority: 'Middle',
                 category: { name: 'User Story', class: 'category-user-story' },
                 subtasks: [
@@ -93,7 +93,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Kevin Fischer', class: 'worker-kevin' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '2024-11-30',
                 priority: 'Middle',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: [
@@ -111,7 +111,7 @@ let tasks = [
                     { name: 'Stanislav Levin', class: 'worker-stanislav' },
                     { name: 'Nicolai Österle', class: 'worker-nicolai' }
                 ],
-                due_Date: '31.11.2024',
+                due_Date: '2024-11-10',
                 priority: 'Low',
                 category: { name: 'Technical Task', class: 'category-technical' },
                 subtasks: [
@@ -190,7 +190,7 @@ function renderBoard() {
 
 function openTaskPopup(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-    
+
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
 
@@ -200,16 +200,18 @@ function openTaskPopup(taskId) {
 
         const workersHTML = task.workers.map(worker => `
             <div class="d_flex">
-                            <p style="margin-right: 20px;" class="${worker.class} workerEmblem">${worker.name.charAt(0)}</p>
+                <p style="margin-right: 20px;" class="${worker.class} workerEmblem">${worker.name.charAt(0)}</p>
                 <p>${worker.name}</p> 
             </div>
         `).join('');
-
-        const subtasksHTML = task.subtasks.map(subtask => {
+        const subtasksHTML = task.subtasks.map((subtask, index) => {
             const subtaskText = subtask.done || subtask.todo; 
+            const isDone = !!subtask.done; 
             return `
                 <div class="subtask-item">
-                    <input class="subtasksCheckbox popupIcons" type="checkbox">
+                    <input class="subtasksCheckbox popupIcons" type="checkbox" 
+                        ${isDone ? 'checked' : ''} 
+                        onchange="toggleSubtaskStatus(${taskId}, ${index}, this.checked)">
                     <p class="subtaskText">${subtaskText}</p>
                 </div>
             `;
@@ -217,8 +219,8 @@ function openTaskPopup(taskId) {
 
         popupContainer.innerHTML = `
             <div class="popupHeader">
-            <p class="${task.category.class} taskCategory">${task.category.name}</p>
-            <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
+                <p class="${task.category.class} taskCategory">${task.category.name}</p>
+                <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
             </div> 
             <h1>${task.title}</h1>
             <p><strong> ${task.description}</strong></p>
@@ -229,14 +231,36 @@ function openTaskPopup(taskId) {
             <h3>Subtasks</h3>
             <div class="subtasks-container">${subtasksHTML}</div>
             <div class="popupActions">
-            <img onclick="editTask()" class="popupIcons" src="../../assets/icons/png/edit.png">
-            <img onclick="deleteTask()" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
+                <img onclick="editTask(${task.id})" class="popupIcons" src="../../assets/icons/png/edit.png">
+                <img onclick="deleteTask(${task.id})" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
             </div>
         `;
     } else {
         console.error("Popup overlay or task data not found.");
     }
 }
+
+
+
+function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
+    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+
+    if (task && task.subtasks[subtaskIndex]) {
+        const subtask = task.subtasks[subtaskIndex];
+
+        if (isChecked) {
+            subtask.done = subtask.todo;
+            delete subtask.todo;
+        } else {
+            subtask.todo = subtask.done;
+            delete subtask.done;
+        }
+    } else {
+        console.error(`Subtask with index ${subtaskIndex} not found in task ${taskId}.`);
+    };
+    renderBoard();
+}
+
 
 
 
@@ -337,3 +361,64 @@ function findTask() {
     });
 }
 
+function editTask(taskId) {
+    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+
+    const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
+    const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
+
+    if (editTaskPopupOverlay && editTaskPopupContainer && task) {
+        editTaskPopupOverlay.classList.add("visible");
+        document.getElementById("mainContent").classList.add("blur");
+
+        editTaskPopupContainer.innerHTML = `
+            <div class="popupHeader">
+            <h1 style="font-size: 61px; font-weight: 700;">Edit Task</h1>
+            <img class="closeIcon"  onclick="closeEditTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+        </div>
+            <form id="editTaskForm">
+                <div class="formParts">
+                    <div class="formPart">
+                        <label for="title">Title<span class="requiredStar">*</span></label>
+                        <input type="text" id="title" value="${task.title}" required>
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="5">${task.description}</textarea>
+                        <label for="contactSelection">Assigned to</label>
+                        <div id="contactSelection">${task.workers.map(worker => worker.name).join(', ')}</div>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="formPart">
+                        <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
+                        <input type="date" id="dueDate" value="${task.due_Date}">
+                        <label for="prio">Prio</label>
+                        <div id="prio">
+                            <button onclick="setPriority('urgent')" id="prioUrgent" type="button" class="${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
+                            <button onclick="setPriority('medium')" id="prioMedium" type="button" class="${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                            <button onclick="setPriority('low')" id="prioLow" type="button" class="${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
+                        </div>
+                        <label for="category">Category<span class="requiredStar">*</span></label>
+                        <select id="category" required>
+                            <option value="Technical Task" ${task.category.name === 'Technical Task' ? 'selected' : ''}>Technical Task</option>
+                            <option value="User Story" ${task.category.name === 'User Story' ? 'selected' : ''}>User Story</option>
+                        </select>
+                        <label for="subtask">Subtasks</label>
+                        <div id="subTasksList">
+                            ${task.subtasks.map(subtask => `
+                                    <input style="margin: 3px;" type="text" value="${subtask.done || subtask.todo}">
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                <button type="button" onclick="saveTaskChanges(${taskId})">Save Changes</button>
+            </form>
+        `;
+    } else {
+        console.error("Edit task popup overlay or container not found.");
+    }
+}
+
+
+function closeEditTaskPopup() {
+    document.getElementById("editTaskPopupOverlay").classList.remove("visible");
+    document.getElementById("mainContent").classList.remove("blur");
+}
