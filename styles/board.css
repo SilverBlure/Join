@@ -25,7 +25,15 @@
     margin-left: 64px;
 }
 
-.custom-search-bar {
+.searchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 28px;
+    margin-left: 320px;
+}
+
+.searchBar {
     border-radius: 10px;
     border: 1px solid #ccc;
     display: flex;
@@ -35,13 +43,14 @@
     overflow: hidden;
 }
 
-.custom-search-bar input {
+.searchBar input {
     border: none;
 }
 
-.custom-search-bar input:focus {
+.searchBar input:focus {
     outline: none;
     box-shadow: none;
+    border: none;
 }
 
 .divider {
@@ -51,22 +60,22 @@
     margin: 0px;
 }
 
-.custom-search-bar .btn {
+.searchBar .btn {
     border: none;
     background: none;
     color: #333;
     padding: 0 15px;
 }
 
-.form-control {
+.formControl {
     width: 210px;
     padding-left: 16px;
     font-size: 20px;
 }
 
-.container {
+.listHeadline {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -81,36 +90,12 @@
 
 }
 
-.toDoList {
+.listBody {
     width: 246px;
     gap: 20px;
     display: flex;
     flex-direction: column;
     height: 100vh;
-}
-
-.inProgressList {
-    width: 246px;
-    gap: 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.awaitFeedbackList {
-    width: 246px;
-    gap: 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.doneList {
-    width: 246px;
-    gap: 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 .nothingToDo {
@@ -121,10 +106,16 @@
     border-radius: 10px;
     background-color: #E7E7E7;
     color: #A8A8A8;
+    width: 246px;
+}
+
+.nothingToDoText {
+    margin: 10px;
 }
 
 .progress {
-    width: 123px;
+    width: 120px;
+    height: 8px;
 }
 
 .boardCard {
@@ -132,7 +123,40 @@
     border-radius: 30px;
     padding: 16px;
     width: 252px;
-    margin-top: 26px;
+}
+
+.taskCardTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2A3647;
+}
+
+.taskCardDescription {
+    font-size: 16px;
+    font-weight: 400;
+    color: #A8A8A8;
+}
+
+.taskCardSubtasks {
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0px;
+}
+
+
+.taskContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 21px;
+}
+
+.BoardCardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
 }
 
 .worker {
@@ -151,6 +175,51 @@
     align-items: center;
 }
 
+.workerName{
+    margin: 0px;
+}
+
+.priorityBtn {
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    box-sizing: border-box;
+    width: 136px;
+    height: 56px;
+}
+
+.priorityBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+}
+
+
+.createSubtaskBar {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 276px;
+    overflow: hidden;
+    width: 100%;
+}
+
+
+.createSubtaskBar input {
+    border: none;
+}
+
+.createSubtaskBar input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
 
 .taskCategory {
     border: solid 1px;
@@ -160,21 +229,6 @@
     font-size: 16px;
     font-weight: 400;
     padding: 1px 25px 1px 25px;
-}
-
-
-.d_flex {
-    display: flex;
-}
-
-.margin_0 {
-    margin: 0px;
-}
-
-.d_spaceBetween {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .worker-stanislav {
@@ -193,25 +247,23 @@
     background-color: black;
 }
 
-.category-technical {
+.categoryTechnical {
     background-color: #1FD7C1;
 }
 
-.category-user-story {
+.categoryUserStory {
     background-color: #0038FF;
 }
 
-
-
-
-.popUpDescription {
+.popupDescription {
     font-size: 20px;
     font-weight: 400;
 }
 
-.subtasks-container {
+.subtasksContainer {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 8px;
 }
 
@@ -220,6 +272,14 @@
     align-items: center;
     gap: 8px;
     width: min-content;
+}
+
+.editSubtaskItem {
+width: unset;
+display: flex;
+justify-content: start;
+align-items: start;
+
 }
 
 .subtasksCheckbox {
@@ -231,17 +291,7 @@
     margin: 0px;
 }
 
-
-
-#mainContent.blur {
-    filter: blur(5px) !important;
-}
-
-.blur {
-    filter: blur(5px);
-}
-
-.popup-overlay {
+.popupOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -255,18 +305,54 @@
     visibility: hidden;
 }
 
-.popup-overlay.visible {
+.popupOverlay.visible {
     visibility: visible;
 }
 
-.popup-container {
+.hidden {
+    visibility: hidden;
+}
+
+.popupContainer {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    height: 870px;
+    width: 1116px;
 }
 
-.tasksPopup-container {
+.popupInformation {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-right: 250px;
+}
+
+
+.workerInformation {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.workerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 1rem;
+}
+
+.workerIcon {
+margin-left: 30px;
+margin-right: 16px;
+margin-top: 0px;
+margin-bottom: 0px;
+}
+
+.tasksPopupContainer {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
@@ -280,19 +366,14 @@
     align-items: center;
 }
 
-.popupActions{
+.popupActions {
     display: flex;
     justify-content: end;
     align-items: center;
     gap: 30px;
-    padding-top: 80px;
 }
 
-.popupIcons {
-    cursor: pointer;
-}
-
-.closeIcon {
+.icons {
     cursor: pointer;
     width: 32px;
 }
@@ -301,28 +382,6 @@
     background-color: #A8A8A8 !important;
 }
 
-.hidden {
-    visibility: hidden;
-}
-
-.popup-overlay.visible {
-    visibility: visible;
-}
-
-
-
-
-
-
-@keyframes fadeInBlur {
-    0% {
-        filter: blur(100px);
-    }
-
-    100% {
-        filter: blur(0px);
-    }
-}
 
 .formParts {
     display: flex;
@@ -382,38 +441,6 @@ select:focus {
     color: #FF8190;
 }
 
-#prio {
-    display: flex;
-    gap: 18px;
-}
-
-#prio button {
-    padding: 16px 10px;
-    border-radius: 10px;
-    background: white;
-    border: none;
-    box-shadow: 0px 0px 4px 0px #0000001A;
-    font-size: 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #2A3647;
-}
-
-#prio button img {
-    width: 24px;
-    height: 24px;
-}
-
-#prio button:hover {
-    box-shadow: 0px 4px 4px 0px #00000040;
-}
-
-.prioUrgentActive {
-    background: #FF3D00;
-    color: white;
-}
 
 .prioMediumActive {
     background: #FFA800;
@@ -425,39 +452,12 @@ select:focus {
     color: white;
 }
 
-#addSubTask {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 0 10px;
-    background-color: white;
-}
-
-#addSubTask input {
-    flex: 1;
-    border: none;
-    outline: none;
-    padding: 12px;
-    font-size: 20px;
-}
-
-#addSubTask img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-}
-
-#addSubTask img:hover {
-    background-color: #eeeeee;
-    border-radius: 50%;
-}
 
 .taskFormButtons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-right: 150px;
+    padding-top: 136px;
 }
 
 
@@ -477,7 +477,7 @@ select:focus {
     cursor: pointer;
 }
 
-.button img {
+.close {
     width: 24px;
     height: 24px;
 }
@@ -486,65 +486,4 @@ select:focus {
     background-color: white;
     color: #2A3647;
     border: 1px solid #2A3647;
-}
-
-.clearBtn:hover {
-    background-color: #f0f0f0;
-}
-
-.button:not(.clearBtn) {
-    background-color: #2A3647;
-    color: white;
-}
-
-.button:not(.clearBtn):hover {
-    background-color: #29ABE2;
-}
-
-#contactSelection {
-    background-image: url("#");
-    background-size: 10px;
-    background-repeat: no-repeat;
-    background-position: calc(100% - 17px) center;
-    background-color: white;
-    font-size: 20px;
-    width: 92%;
-    border: 1px solid #D1D1D1;
-    border-radius: 10px;
-    padding: 12px 16px;
-    cursor: pointer;
-}
-
-#contactSelection:focus {
-    background-image: url("#");
-    transition: background-image 0.15s linear;
-    outline: none;
-    border: 1px solid #29ABE2;
-}
-
-#contactList {
-    position: absolute;
-    background-color: white;
-    width: 100%;
-    max-height: 150px;
-    overflow-y: auto;
-    border: 1px solid #D1D1D1;
-    border-radius: 10px;
-    margin-top: 5px;
-    z-index: 10;
-}
-
-
-#popupContactSuccessAddedTask p {
-    height: 50px;
-    width: 280px;
-    color: white;
-    background-color: #2A3647;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 24px;
-    border-radius: 20px;
-    padding: 6px 8px;
-    margin: 0;
 }

@@ -3,6 +3,11 @@ body {
     margin: 0px;
 }
 
+h1 {
+    font-size: 61px; 
+    font-weight: 700;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -18,15 +23,6 @@ a:hover {
     flex-direction: column;
     animation: fadeInBlur 0.25s ease forwards;
     max-width: 1340px;
-}
-
-@keyframes fadeInBlur {
-    0% {
-        filter: blur(100px); 
-    }
-    100% {
-        filter: blur(0px); 
-    }
 }
 
 .intro {
@@ -53,6 +49,15 @@ a:hover {
     align-items: start;
 }
 
+@keyframes fadeInBlur {
+    0% {
+        filter: blur(100px); 
+    }
+    100% {
+        filter: blur(0px); 
+    }
+}
+
 @keyframes logoToCorner {
     0% {
         width: 500px;
@@ -67,3 +72,4 @@ a:hover {
         transform: translate(0, 0); 
     }
 }
+

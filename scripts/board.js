@@ -13,7 +13,7 @@ let tasks = [
                 ],
                 due_Date: '2025-01-01',
                 priority: 'Middle',
-                category: { name: 'Technical Task', class: 'category-technical' },
+                category: { name: 'Technical Task', class: 'categoryTechnical' },
                 subtasks: [
                     { todo: 'Wasser abstehen lassen' },
                     { todo: 'Dünger hinzugeben' },
@@ -31,7 +31,7 @@ let tasks = [
                 ],
                 due_Date: '2025-10-24',
                 priority: 'Low',
-                category: { name: 'Technical Task', class: 'category-technical' },
+                category: { name: 'Technical Task', class: 'categoryTechnical' },
                 subtasks: [
                     { done: 'JS Datei einbinden' },
                     { todo: 'Summary Styling bearbeiten' },
@@ -55,7 +55,7 @@ let tasks = [
                 ],
                 due_Date: '2044-08-15',
                 priority: 'Urgent',
-                category: { name: 'Technical Task', class: 'category-technical' },
+                category: { name: 'Technical Task', class: 'categoryTechnical' },
                 subtasks: [
                     { todo: 'Code Schnipsel sammeln' },
                     { todo: 'auf github mergen' },
@@ -73,7 +73,7 @@ let tasks = [
                 ],
                 due_Date: '2036-06-28',
                 priority: 'Middle',
-                category: { name: 'User Story', class: 'category-user-story' },
+                category: { name: 'User Story', class: 'categoryUserStory' },
                 subtasks: [
                     { todo: 'datenstruktur besprechen' },
                     { todo: 'Änderungen übernehmen' }
@@ -95,7 +95,7 @@ let tasks = [
                 ],
                 due_Date: '2024-11-30',
                 priority: 'Middle',
-                category: { name: 'Technical Task', class: 'category-technical' },
+                category: { name: 'Technical Task', class: 'categoryTechnical' },
                 subtasks: [
                     { todo: 'contacts array erstellen' },
                     { todo: 'die daten im tasks aktualisieren' },
@@ -113,7 +113,7 @@ let tasks = [
                 ],
                 due_Date: '2024-11-10',
                 priority: 'Low',
-                category: { name: 'Technical Task', class: 'category-technical' },
+                category: { name: 'Technical Task', class: 'categoryTechnical' },
                 subtasks: [
                     { done: 'cloud einstellungen anpassen' },
                     { done: 'neues initialisieren' },
@@ -152,26 +152,25 @@ function renderBoard() {
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
                 <div class="nothingToDo">
-                    <p class="margin_0">No Tasks To-do</p>
+                    <p class="nothingToDoText">No Tasks To-do</p>
                 </div>
             `;
         } else {
             list.task.forEach(task => {
                 const progressPercent = calculateProgress(task.subtasks);
-
+                const doneCount = task.subtasks.filter(subtask => subtask.done).length; 
+                const totalCount = task.subtasks.length; 
                 content.innerHTML += /*html*/`
-                    <div id="boardCard-${task.id}" draggable="true" ondragstart="startDragging(${task.id})" 
-                         onclick="openTaskPopup(${task.id})" class="boardCard">
+                    <div id="boardCard-${task.id}" draggable="true" ondragstart="startDragging(${task.id})" onclick="openTaskPopup(${task.id})" class="boardCard">
                         <p class="${task.category.class} taskCategory">${task.category.name}</p>
-                        <p style="font-weight: 700;">${task.title}</p>
-                        <p style="color: #A8A8A8;">${task.description}</p>
-                        <div class="d_flex">
+                        <p class="taskCardTitle">${task.title}</p>
+                        <p class="taskCardDescription">${task.description}</p>
+                        <div class="subtasksContainer">
                             <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
                                 <div class="progress-bar" style="width: ${progressPercent}%;"></div>
                             </div>
-                            <p style="padding-left: 15px; font-size: 12px;">${task.subtasks.length} Subtasks</p>
-                        </div>
-                        <div class="d_spaceBetween">
+                            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>                        </div>
+                        <div class="BoardCardFooter">
                             <div class="worker">
                                 ${task.workers.map((worker, index) =>
                     `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`
@@ -190,44 +189,45 @@ function renderBoard() {
 
 function openTaskPopup(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
-
     if (popupOverlay && popupContainer && task) { 
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-
         const workersHTML = task.workers.map(worker => `
-            <div class="d_flex">
-                <p style="margin-right: 20px;" class="${worker.class} workerEmblem">${worker.name.charAt(0)}</p>
-                <p>${worker.name}</p> 
+            <div class="workerInformation">
+                <p class="${worker.class} workerEmblem workerIcon">${worker.name.charAt(0)}</p>
+                <p class="workerName">${worker.name}</p> 
             </div>
         `).join('');
         const subtasksHTML = task.subtasks.map((subtask, index) => {
-            const subtaskText = subtask.done || subtask.todo; 
-            const isDone = !!subtask.done; 
+            const subtaskText = subtask.done || subtask.todo;
+            const isDone = !!subtask.done;
             return `
-                <div class="subtask-item">
-                    <input class="subtasksCheckbox popupIcons" type="checkbox" 
+                <div id="subtask-${task.id}-${index}" class="subtask-item">
+                    <input 
+                        class="subtasksCheckbox popupIcons" 
+                        type="checkbox" 
                         ${isDone ? 'checked' : ''} 
-                        onchange="toggleSubtaskStatus(${taskId}, ${index}, this.checked)">
-                    <p class="subtaskText">${subtaskText}</p>
+                        onchange="toggleSubtaskStatus(${task.id}, ${index}, this.checked)"
+                    >
+                    <p class="subtaskText" style="color: ${isDone ? 'green' : ''}; text-decoration: ${isDone ? 'line-through' : 'none'};">
+                        ${subtaskText}
+                    </p>
                 </div>
             `;
         }).join('');
-
-        popupContainer.innerHTML = `
+        popupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
                 <p class="${task.category.class} taskCategory">${task.category.name}</p>
                 <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
             </div> 
             <h1>${task.title}</h1>
-            <p><strong> ${task.description}</strong></p>
-            <p>Due Date:<strong> ${task.due_Date}</strong></p>
-            <p>Priority: <strong>${task.priority}</strong><img src="../../assets/icons/png/PrioritySymbols${task.priority}.png"></p>
+            <p class="popupDescription">${task.description}</p>
+            <p class="popupInformation">Due Date:<strong>${task.due_Date}</strong></p>
+            <p class="popupInformation">Priority:<strong>${task.priority}<img src="../../assets/icons/png/PrioritySymbols${task.priority}.png"></strong></p>
             <p>Assigned to:</p>
-            <div><strong>${workersHTML}</strong></div>
+            <div class="workerContainer">${workersHTML}</div>
             <h3>Subtasks</h3>
             <div class="subtasks-container">${subtasksHTML}</div>
             <div class="popupActions">
@@ -244,22 +244,30 @@ function openTaskPopup(taskId) {
 
 function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-
     if (task && task.subtasks[subtaskIndex]) {
         const subtask = task.subtasks[subtaskIndex];
+        const subtaskElement = document.querySelector(`#subtask-${taskId}-${subtaskIndex} .subtaskText`);
 
         if (isChecked) {
             subtask.done = subtask.todo;
             delete subtask.todo;
+            if (subtaskElement) {
+                subtaskElement.style.textDecoration = "line-through";
+                subtaskElement.style.color = "green";
+            }
         } else {
             subtask.todo = subtask.done;
             delete subtask.done;
+            if (subtaskElement) {
+                subtaskElement.style.textDecoration = "none";
+            }
         }
     } else {
         console.error(`Subtask with index ${subtaskIndex} not found in task ${taskId}.`);
-    };
+    }
     renderBoard();
 }
+
 
 
 
@@ -318,7 +326,6 @@ function handleDrop(event, targetListId) {
 
 function findTask() {
     const searchTerm = document.getElementById('findTask').value.toLowerCase();
-
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
         content.innerHTML = "";
@@ -326,27 +333,25 @@ function findTask() {
             task.title.toLowerCase().includes(searchTerm) ||
             task.description.toLowerCase().includes(searchTerm)
         );
-
         if (filteredTasks.length === 0) {
             content.innerHTML = /*html*/`
                 <div class="nothingToDo">
-                    <p class="margin_0">No matching Task found</p>
+                    <p class="nothingToDoText">No matching Task found</p>
                 </div>
             `;
         } else {
             filteredTasks.forEach(task => {
                 content.innerHTML += /*html*/`
                     <div draggable="true" ondragstart="startDragging(${task.id})" class="boardCard">
-                        <p class="${task.category.class} taskCategory">${task.category.name}</p>
-                        <p style="font-weight: 700;">${task.title}</p>
-                        <p style="color: #A8A8A8;">${task.description}</p>
-                        <div class="d_flex">
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar" style="width: 50%"></div>
+                    <p class="${task.category.class} taskCategory">${task.category.name}</p>
+                        <p class="taskCardTitle">${task.title}</p>
+                        <p class="taskCardDescription">${task.description}</p>
+                        <div class="subtasksContainer">
+                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
+                                <div class="progress-bar" style="width: ${progressPercent}%;"></div>
                             </div>
-                            <p style="padding-left: 15px; font-size: 12px;">${task.subtasks.length} Subtasks</p>
-                        </div>
-                        <div class="d_spaceBetween">
+                            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>                        </div>
+                        <div class="BoardCardFooter">
                             <div class="worker">
                                 ${task.workers.map((worker, index) =>
                     `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`
@@ -361,9 +366,11 @@ function findTask() {
     });
 }
 
+
+
+
 function editTask(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
 
@@ -371,11 +378,29 @@ function editTask(taskId) {
         editTaskPopupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
 
-        editTaskPopupContainer.innerHTML = `
+        const subtasksHTML = task.subtasks.map((subtask, index) => {
+            const subtaskText = subtask.done || subtask.todo; 
+            const isDone = !!subtask.done; 
+            return /*html*/`
+                <div id="edit-subtask-${taskId}-${index}" class="editSubtaskItem">
+                    <input 
+                        type="checkbox" 
+                        ${isDone ? 'checked' : ''} 
+                        onchange="toggleEditSubtaskStatus(${taskId}, ${index}, this.checked)">
+                    <input 
+                        type="text" 
+                        class="subtaskInput" 
+                        value="${subtaskText}" 
+                        style="text-decoration: ${isDone ? 'line-through' : 'none'}; color: ${isDone ? 'green' : 'black'};">
+                </div>
+            `;
+        }).join('');
+
+        editTaskPopupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
-            <h1 style="font-size: 61px; font-weight: 700;">Edit Task</h1>
-            <img class="closeIcon"  onclick="closeEditTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
-        </div>
+                <h1>Edit Task</h1>
+                <img class="icon close" onclick="closeEditTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+            </div>
             <form id="editTaskForm">
                 <div class="formParts">
                     <div class="formPart">
@@ -390,11 +415,11 @@ function editTask(taskId) {
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
                         <input type="date" id="dueDate" value="${task.due_Date}">
-                        <label for="prio">Prio</label>
-                        <div id="prio">
-                            <button onclick="setPriority('urgent')" id="prioUrgent" type="button" class="${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
-                            <button onclick="setPriority('medium')" id="prioMedium" type="button" class="${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
-                            <button onclick="setPriority('low')" id="prioLow" type="button" class="${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
+                        <label for="priority">Prio</label>
+                        <div class="priorityBtnContainer" id="prio">
+                            <button onclick="setPriority('urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
+                            <button onclick="setPriority('medium')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                            <button onclick="setPriority('low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <select id="category" required>
@@ -402,11 +427,7 @@ function editTask(taskId) {
                             <option value="User Story" ${task.category.name === 'User Story' ? 'selected' : ''}>User Story</option>
                         </select>
                         <label for="subtask">Subtasks</label>
-                        <div id="subTasksList">
-                            ${task.subtasks.map(subtask => `
-                                    <input style="margin: 3px;" type="text" value="${subtask.done || subtask.todo}">
-                            `).join('')}
-                        </div>
+                        <div id="subTasksList">${subtasksHTML}</div>
                     </div>
                 </div>
                 <button type="button" onclick="saveTaskChanges(${taskId})">Save Changes</button>
@@ -416,6 +437,7 @@ function editTask(taskId) {
         console.error("Edit task popup overlay or container not found.");
     }
 }
+
 
 
 function closeEditTaskPopup() {
