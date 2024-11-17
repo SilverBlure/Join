@@ -4,8 +4,8 @@ body {
 
 .sidebar {
     background-color: #2A3647;
-    width: 232px ;
-    height: 100vh ;
+    width: 232px;
+    height: 100vh;
     top: 0;
     left: 0;
     display: flex;
@@ -31,7 +31,7 @@ body {
     align-items: center;
     padding-left: 40px;
     padding-top: 10px;
-    padding-bottom: 10px; 
+    padding-bottom: 10px;
 }
 
 .sidebarNavBtn {
@@ -46,8 +46,8 @@ body {
 }
 
 .sidebar li:hover {
-background-color: #091931;
-cursor: pointer;
+    background-color: #091931;
+    cursor: pointer;
 }
 
 .header {
@@ -61,14 +61,16 @@ cursor: pointer;
     box-shadow: 0px 4px 2px -2px rgb(223, 224, 225);
     position: sticky;
     max-width: 1440px;
+    margin: unset;
+    padding: auto;
 }
 
-.headline{
+.headline {
     margin-left: 100px;
     margin-bottom: 0px;
 }
 
-.userTag{
+.userTag {
     border: 3px solid black;
     border-radius: 40px;
     width: 40px;
@@ -79,17 +81,19 @@ cursor: pointer;
     color: rgb(41, 171, 226);
     margin-top: unset;
     margin-bottom: unset;
+    float: left;
 }
 
-.help{
+.help {
     display: flex;
-    justify-content: center;
+    justify-content: end;
     align-items: center;
     padding-right: 50px;
     column-gap: 20px;
+    width: 100%;
 }
 
-.helpImg{
+.helpImg {
     height: 20px;
     width: 20px;
 }
@@ -99,7 +103,7 @@ cursor: pointer;
 }
 
 .navBar {
-padding-top: 200px;
+    padding-top: 200px;
 }
 
 .legalNotice {
@@ -127,7 +131,7 @@ padding-top: 200px;
 
 .user {
     color: #29ABE2;
-    border: solid black  ;
+    border: solid black;
     border-radius: 100%;
     padding: 16px;
     font-size: 20px;
@@ -135,12 +139,50 @@ padding-top: 200px;
     margin: 0px;
 }
 
-button{
-    background-color:rgb(42, 54, 71);
+button {
+    background-color: rgb(42, 54, 71);
     color: white;
     border-radius: 10px;
 }
 
-a{
+a {
     text-decoration: none;
 }
+
+
+
+.logoutButton {
+    float: right;
+    padding-right: 45px;
+    margin: 15px;
+    color: white;
+    width: 150px;
+    transition: width .35s; 
+    -webkit-transition: width .35s;
+    overflow: hidden;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+.logoutButton:hover {
+    width: 250px; 
+}
+
+
+
+.logout {
+    font-size: .8em;
+    position: relative;
+    right: -18px;
+    overflow: hidden;
+    letter-spacing: 3px;
+    opacity: 0;
+    transition: opacity .45s;
+    -webkit-transition: opacity .35s;
+}
+
+.logoutButton:hover .logout {
+    opacity: .9; 
+}
+

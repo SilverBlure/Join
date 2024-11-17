@@ -246,27 +246,20 @@ function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
     if (task && task.subtasks[subtaskIndex]) {
         const subtask = task.subtasks[subtaskIndex];
-        const subtaskElement = document.querySelector(`#subtask-${taskId}-${subtaskIndex} .subtaskText`);
-
         if (isChecked) {
             subtask.done = subtask.todo;
             delete subtask.todo;
-            if (subtaskElement) {
-                subtaskElement.style.textDecoration = "line-through";
-                subtaskElement.style.color = "green";
-            }
         } else {
             subtask.todo = subtask.done;
             delete subtask.done;
-            if (subtaskElement) {
-                subtaskElement.style.textDecoration = "none";
-            }
         }
+        // Aktualisiere das Board und das offene Popup
+        renderBoard();
     } else {
         console.error(`Subtask with index ${subtaskIndex} not found in task ${taskId}.`);
     }
-    renderBoard();
 }
+
 
 
 
@@ -318,9 +311,10 @@ function handleDrop(event, targetListId) {
     const targetList = tasks.find(list => list.id === targetListId);
     if (targetList && task) {
         targetList.task.push(task);
+        renderBoard(); // Aktualisiere das Board
     }
-    renderBoard();
 }
+
 
 
 
@@ -378,23 +372,21 @@ function editTask(taskId) {
         editTaskPopupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
 
-        const subtasksHTML = task.subtasks.map((subtask, index) => {
-            const subtaskText = subtask.done || subtask.todo; 
-            const isDone = !!subtask.done; 
-            return /*html*/`
-                <div id="edit-subtask-${taskId}-${index}" class="editSubtaskItem">
-                    <input 
-                        type="checkbox" 
-                        ${isDone ? 'checked' : ''} 
-                        onchange="toggleEditSubtaskStatus(${taskId}, ${index}, this.checked)">
-                    <input 
-                        type="text" 
-                        class="subtaskInput" 
-                        value="${subtaskText}" 
-                        style="text-decoration: ${isDone ? 'line-through' : 'none'}; color: ${isDone ? 'green' : 'black'};">
-                </div>
-            `;
-        }).join('');
+        const addSubtaskHTML = /*html*/`
+            <div class="addSubtaskItem">
+                <input 
+                    type="text" 
+                    id="newSubtaskInput" 
+                    class="subtaskInput" 
+                    placeholder="Add new subtask">
+                <button 
+                    type="button" 
+                    onclick="addNewSubtask(${taskId})" 
+                    class="addSubtaskButton">
+                    Add
+                </button>
+            </div>
+        `;
 
         editTaskPopupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
@@ -427,7 +419,7 @@ function editTask(taskId) {
                             <option value="User Story" ${task.category.name === 'User Story' ? 'selected' : ''}>User Story</option>
                         </select>
                         <label for="subtask">Subtasks</label>
-                        <div id="subTasksList">${subtasksHTML}</div>
+                        <div id="subTasksList">${addSubtaskHTML}</div>
                     </div>
                 </div>
                 <button type="button" onclick="saveTaskChanges(${taskId})">Save Changes</button>
@@ -435,8 +427,25 @@ function editTask(taskId) {
         `;
     } else {
         console.error("Edit task popup overlay or container not found.");
+    };
+    openTaskPopup(taskId);
+}
+
+
+function addNewSubtask(taskId) {
+    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+    const newSubtaskInput = document.getElementById('newSubtaskInput');
+
+    if (task && newSubtaskInput && newSubtaskInput.value.trim() !== '') {
+        task.subtasks.push({ todo: newSubtaskInput.value.trim() }); 
+        newSubtaskInput.value = ''; 
+        editTask(taskId); 
+        renderBoard(); 
+    } else {
+        console.error("Failed to add new subtask or input is empty.");
     }
 }
+
 
 
 
