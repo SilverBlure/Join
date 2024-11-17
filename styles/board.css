@@ -260,6 +260,10 @@
     font-weight: 400;
 }
 
+.popupIcons {
+    cursor: pointer;
+}
+
 .subtasksContainer {
     display: flex;
     justify-content: center;
@@ -287,8 +291,9 @@ align-items: start;
 }
 
 .subtaskText {
-    width: 404px;
-    margin: 0px;
+    width: max-content;
+    max-width: 300px;
+    margin: 8px;
 }
 
 .popupOverlay {
@@ -486,4 +491,43 @@ select:focus {
     background-color: white;
     color: #2A3647;
     border: 1px solid #2A3647;
+}
+
+
+.editSubtaskInput {
+    width: 400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+.subtask-item:hover .hoverBtnContainer {
+    opacity: 1; 
+    pointer-events: all; 
+}
+
+
+.hoverBtnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 16px;
+    padding-left: 20px;
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity 0.3s ease; 
+}
+
+.hoverBtn {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
