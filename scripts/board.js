@@ -160,7 +160,7 @@ function renderBoard() {
                             <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                         </div>
                     `
-                    : ''; 
+                    : '';
                 content.innerHTML += /*html*/`
                     <div id="boardCard-${task.id}" draggable="true" ondragstart="startDragging(${task.id})" onclick="openTaskPopup(${task.id})" class="boardCard">
                         <p class="${task.category.class} taskCategory">${task.category.name}</p>
@@ -189,11 +189,9 @@ function openTaskPopup(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
-
-    if (popupOverlay && popupContainer && task) { 
+    if (popupOverlay && popupContainer && task) {
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-
         const workersHTML = task.workers.map(worker => /*html*/`
             <div class="workerInformation">
                 <p class="${worker.class} workerEmblem workerIcon">${worker.name.charAt(0)}</p>
@@ -204,9 +202,9 @@ function openTaskPopup(taskId) {
             ? /*html*/`
                 <h3>Subtasks</h3>
                 ${task.subtasks.map((subtask, index) => {
-                    const subtaskText = subtask.done || subtask.todo;
-                    const isDone = !!subtask.done;
-                    return /*html*/`
+                const subtaskText = subtask.done || subtask.todo;
+                const isDone = !!subtask.done;
+                return /*html*/`
                         <div id="subtask-${task.id}-${index}" class="subtask-item">
                             <input 
                                 class="subtasksCheckbox popupIcons" 
@@ -230,10 +228,9 @@ function openTaskPopup(taskId) {
                             </div>
                         </div>
                     `;
-                }).join('')}
+            }).join('')}
             `
-            : ''; 
-
+            : '';
         popupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
                 <p class="${task.category.class} taskCategory">${task.category.name}</p>
@@ -260,11 +257,10 @@ function openTaskPopup(taskId) {
 
 function deleteSubtask(taskId, subtaskIndex) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-
     if (task && task.subtasks[subtaskIndex]) {
         task.subtasks.splice(subtaskIndex, 1);
-        openTaskPopup(taskId); 
-        renderBoard(); 
+        openTaskPopup(taskId);
+        renderBoard();
     } else {
         console.error(`Subtask with index ${subtaskIndex} not found in task ${taskId}.`);
     }
@@ -284,7 +280,7 @@ function editSubtask(taskId, subtaskIndex) {
         return;
     }
     const subtask = task.subtasks[subtaskIndex];
-    const subtaskText = subtask.done || subtask.todo; 
+    const subtaskText = subtask.done || subtask.todo;
     const subtaskElement = document.getElementById(`subtask-${taskId}-${subtaskIndex}`);
     if (!subtaskElement) {
         console.error(`Subtask element not found (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
@@ -310,6 +306,21 @@ function editSubtask(taskId, subtaskIndex) {
 
 
 
+function saveSubtaskEdit(taskId, subtaskIndex, newValue) {
+    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+    if (!task || !task.subtasks[subtaskIndex]) {
+        console.error(`Task or Subtask not found (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+        return;
+    }
+    const subtask = task.subtasks[subtaskIndex];
+    if (subtask.done) {
+        subtask.done = newValue;
+    } else if (subtask.todo) {
+        subtask.todo = newValue;
+    }
+    openTaskPopup(taskId); 
+    renderBoard(); 
+}
 
 
 
@@ -337,7 +348,7 @@ function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
         console.error(`Subtask with index ${subtaskIndex} not found in task ${taskId}.`);
     }
 
-    renderBoard(); 
+    renderBoard();
 }
 
 
@@ -392,7 +403,7 @@ function handleDrop(event, targetListId) {
     const targetList = tasks.find(list => list.id === targetListId);
     if (targetList && task) {
         targetList.task.push(task);
-        renderBoard(); 
+        renderBoard();
     }
 }
 
@@ -448,27 +459,19 @@ function editTask(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
-
     if (editTaskPopupOverlay && editTaskPopupContainer && task) {
+        editTaskPopupOverlay.setAttribute("data-task-id", taskId);
         editTaskPopupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-
         const addSubtaskHTML = /*html*/`
-            <div class="addSubtaskItem">
-                <input 
-                    type="text" 
-                    id="newSubtaskInput" 
-                    class="subtaskInput" 
-                    placeholder="Add new subtask">
-                <button 
-                    type="button" 
-                    onclick="addNewSubtask(${taskId})" 
-                    class="addSubtaskButton">
-                    Add
-                </button>
-            </div>
+                    <div class="createSubtaskBar">
+                        <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
+                        <div class="divider"></div>
+                        
+                            <img onclick="addNewSubtask(${taskId})" class="addSubtaskButton" src="../assets/icons/png/addSubtasks.png">
+                        
+                    </div>
         `;
-
         editTaskPopupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
                 <h1>Edit Task</h1>
@@ -490,9 +493,9 @@ function editTask(taskId) {
                         <input type="date" id="dueDate" value="${task.due_Date}">
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer" id="prio">
-                            <button onclick="setPriority('urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
-                            <button onclick="setPriority('medium')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
-                            <button onclick="setPriority('low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
+                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
+                            <button onclick="setPriority('Medium')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <select id="category" required>
@@ -513,15 +516,66 @@ function editTask(taskId) {
 }
 
 
+
+
+let tempPriority = null; 
+
+function setPriority(priority) {
+    tempPriority = priority; 
+    document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active')); 
+    const activeButton = document.getElementById(`prio${priority}`); 
+    if (activeButton) {
+        activeButton.classList.add('active'); 
+    }
+}
+
+
+
+
+
+
+function saveTaskChanges(taskId) {
+    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+    if (!task) {
+        console.error(`Task with ID ${taskId} not found.`);
+        return;
+    }
+    const titleInput = document.getElementById("title").value.trim();
+    const descriptionInput = document.getElementById("description").value.trim();
+    const dueDateInput = document.getElementById("dueDate").value;
+    const categoryInput = document.getElementById("category").value;
+    if (tempPriority) {
+        task.priority = tempPriority;
+        tempPriority = null;
+    }
+    if (titleInput) task.title = titleInput;
+    task.description = descriptionInput; 
+    if (dueDateInput) task.due_Date = dueDateInput;
+    if (categoryInput) {
+        task.category.name = categoryInput;
+        task.category.class = categoryInput === "Technical Task" 
+            ? "categoryTechnical" 
+            : "categoryUserStory"; 
+    }
+    closeEditTaskPopup();
+    renderBoard();
+    openTaskPopup(taskId);
+
+    console.log(`Task with ID ${taskId} updated successfully.`);
+}
+
+
+
+
+
 function addNewSubtask(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
     const newSubtaskInput = document.getElementById('newSubtaskInput');
 
     if (task && newSubtaskInput && newSubtaskInput.value.trim() !== '') {
-        task.subtasks.push({ todo: newSubtaskInput.value.trim() }); 
-        newSubtaskInput.value = ''; 
-        editTask(taskId); 
-        renderBoard(); 
+        task.subtasks.push({ todo: newSubtaskInput.value.trim() });
+        newSubtaskInput.value = '';
+        renderBoard();
     } else {
         console.error("Failed to add new subtask or input is empty.");
     }

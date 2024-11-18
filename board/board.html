@@ -46,7 +46,7 @@
                 <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)">
                     <div class="listHeadline">
                         <h4>To-do</h4>
-                        <img src="../assets/icons/png/plusButton.png">
+                        <img onclick="addTaskToList(todoList)" class="addIcons" src="../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div> 
                 </div>
@@ -54,7 +54,7 @@
                 <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')" ondragover="allowDrop(event)">
                     <div class="listHeadline">
                         <h4>in Progress</h4>
-                        <img src="../assets/icons/png/plusButton.png">
+                        <img onclick="addTaskToList(inProgressList)" class="addIcons" src="../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div> 
                 </div>
@@ -62,7 +62,7 @@
                 <div id="awaitFeedbackList" class="listBody" ondrop="handleDrop(event, 'awaitFeedback')" ondragover="allowDrop(event)">
                     <div class="listHeadline">
                         <h4>Await feedback</h4>
-                        <img src="../assets/icons/png/plusButton.png">
+                        <img onclick="addTaskToList(awaitFeedbackList)" class="addIcons" src="../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div> 
                 </div>
@@ -110,9 +110,9 @@
                     <input type="date" id="date">
                     <label for="priority">Prio</label>
                     <div class="priorityBtnContainer">
-                        <button class="priorityBtn" onclick="setPriority('medium')" id="prioMedium" type="button">Medium<img src="../assets/icons/png/PrioritySymbolsMiddle.png"></button>
-                        <button class="priorityBtn" onclick="setPriority('urgent')" id="prioUrgent" type="button">Urgent<img src="../assets/icons/png/PrioritySymbolsUrgent.png"></button>
-                        <button class="priorityBtn" onclick="setPriority('low')" id="prioLow" type="button">Low<img src="../assets/icons/png/PrioritySymbolsLow.png"></button>
+                        <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
+                        <button onclick="setPriority('Medium')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                        <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
                     </div>
                     <label for="category">Category<span class="requiredStar">*</span></label>
                     <select id="category" required tabindex="0">

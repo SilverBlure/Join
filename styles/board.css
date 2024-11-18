@@ -12,6 +12,12 @@
     box-shadow: none;
 }
 
+.addSubtaskButton {
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
 .board {
     margin-left: 32px;
     width: 1340px;
@@ -129,12 +135,14 @@
     font-size: 16px;
     font-weight: 700;
     color: #2A3647;
+    overflow-wrap: break-word;
 }
 
 .taskCardDescription {
     font-size: 16px;
     font-weight: 400;
     color: #A8A8A8;
+    overflow-wrap: break-word;
 }
 
 .taskCardSubtasks {
@@ -257,6 +265,7 @@
 
 .popupDescription {
     font-size: 20px;
+    overflow-wrap: break-word;
     font-weight: 400;
 }
 
@@ -294,6 +303,7 @@ align-items: start;
     width: max-content;
     max-width: 300px;
     margin: 8px;
+    overflow-wrap: break-word;
 }
 
 .popupOverlay {
@@ -414,6 +424,12 @@ margin-bottom: 0px;
     width: 1340px;
     height: 100vh;
 }
+
+
+.addIcons {
+    cursor: pointer;
+}
+
 
 input,
 textarea,
