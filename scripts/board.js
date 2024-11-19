@@ -267,6 +267,19 @@ function deleteSubtask(taskId, subtaskIndex) {
 }
 
 
+function deleteTask(taskId) {
+    tasks.forEach(list => {
+        const taskIndex = list.task.findIndex(task => task.id === taskId);
+        if (taskIndex !== -1) {
+            list.task.splice(taskIndex, 1);
+            renderBoard();
+            closeTaskPopup();
+            console.log(`Task mit ID ${taskId} wurde gelöscht.`);
+            return; 
+        }
+    });
+    console.error(`Task mit ID ${taskId} wurde nicht gefunden.`);
+}
 
 
 
@@ -595,12 +608,12 @@ function closeEditTaskPopup() {
 
 
 
-let taskIdCounter = 1; // Startwert
+let taskIdCounter = 1;
 
 
 
 function createNewTask(event) {
-    event.preventDefault(); // Verhindert das Standard-Formular-Absenden
+    event.preventDefault(); 
 
     const title = document.getElementById('title').value.trim();
     const description = document.getElementById('description').value.trim();
@@ -615,13 +628,12 @@ function createNewTask(event) {
         return;
     }
 
-    // Neue Datenstruktur des Tasks
     const newTask = {
-        id: taskIdCounter++, // Fortlaufende ID
+        id: taskIdCounter++, 
         title: title,
         description: description,
         workers: [
-            { name: 'Default Worker', class: 'worker-default' } // Standardarbeiter
+            { name: 'Default Worker', class: 'worker-default' } 
         ],
         due_Date: dueDate,
         priority: priority,
@@ -631,10 +643,10 @@ function createNewTask(event) {
 
     const todoList = tasks.find(list => list.id === 'todo');
     if (todoList) {
-        todoList.task.push(newTask); // Füge neuen Task zur 'To-Do'-Liste hinzu
-        renderBoard(); // Board neu rendern
-        closeAddTaskPopup(); // Popup schließen
-        document.getElementById('addTaskFormTask').reset(); // Formular zurücksetzen
+        todoList.task.push(newTask); 
+        renderBoard(); 
+        closeAddTaskPopup(); 
+        document.getElementById('addTaskFormTask').reset(); 
     } else {
         console.error('To-Do Liste nicht gefunden!');
     }
