@@ -2,7 +2,7 @@
 
 const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 
- async function initializeEmptyDatabase() {
+async function initializeEmptyDatabase() {
     let response = await fetch(BASE_URL + "/data" + ".json", {
         method: 'POST',
         mode: "no-cors",
@@ -53,21 +53,46 @@ const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.
 }
 
 let userArray = [];
+let emailArray = [];
 
 async function init() {
-    loadSignedInUserData('data/-OBk-K36Ltlzr3ce7zOD/signtInUsers');
+    loadEmails();
 }
 
-async function loadSignedInUserData(path = '') {
-    let response = await fetch(BASE_URL + path + ".json")
+async function loadEmails(path ='data/signtInUsers/emails'){
+    emailArray = [];
+    let response = await fetch(BASE_URL + path + '.json');
+    let data = await response.json();
+    emailArray = Object.values(data).map(entry => entry.email);
+    console.log(emailArray);
+}
+
+
+
+
+
+
+
+// async function manualAdding() {
+//     addSign(path='data/signtInUsers/emails', 'n92@gmail.com');
+// }
+
+async function addSign(path='', emailString) {
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "email": `${emailString}`
+        })
+    })
     let responseAsJson = await response.json();
-    let respondUser = responseAsJson.user
-    for (let i = 0; i < respondUser.length; i++) {
-        const MyUser = new Object; 
-            MyUser.name= respondUser.name;
-            MyUser.email= respondUser.email;
-        console.log(MyUser);
-        userArray.push(MyUser);
-    }
+    console.log(responseAsJson)
+}
+
+
+
+function signIn(){
     
 }
