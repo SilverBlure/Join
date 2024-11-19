@@ -5,12 +5,16 @@ function enableButton(){
 }
 
 // der Button sollte noch irgendwie ausgegraut werden er nicht pressbar ist!
+// die Passwort eingabefelder sollten ausgegraut werden wenn ein wert eingegeben wird!
 
 function emailCheck(email){
     if(emailArray.includes(email)){
-        return alert('Die eingegebene Emailadresse besteht bereits, bitte geb eine andere an!')
-     };
-}
+         alert('Die eingegebene Emailadresse besteht bereits, bitte geb eine andere an!');
+        } else {
+           return true;
+        }
+    }
+
 
 function passwordCheck(pw1, pw2){
     if(pw1!=pw2){
