@@ -6,6 +6,7 @@ function enableButton(){
 
 // der Button sollte noch irgendwie ausgegraut werden er nicht pressbar ist!
 // die Passwort eingabefelder sollten ausgegraut werden wenn ein wert eingegeben wird!
+// die Passwort eingabefelder sollen verschwinden wenn sie angeklickt werden!
 
 function emailCheck(email){
     if(emailArray.includes(email)){
@@ -14,7 +15,6 @@ function emailCheck(email){
            return true;
         }
     }
-
 
 function passwordCheck(pw1, pw2){
     if(pw1!=pw2){
