@@ -94,5 +94,15 @@ async function addSign(path='', emailString) {
 
 
 function signIn(){
-    
+ let name = document.getElementById('name').value;
+ let email = document.getElementById('email').value;
+ let password_1 = document.getElementById('password_1').value;
+ let password_2 = document.getElementById('password_2').value; 
+ emailCheck(email);
+ passwordCheck(password_1, password_2);
+ createNewEntry(name, email, password_1);
+}
+
+async function createNewEntry(name, email, pw){
+    // hier brauchen wir die BaseStuckture fuer die json
 }
