@@ -68,6 +68,7 @@ body {
 .headline {
     margin-left: 100px;
     margin-bottom: 0px;
+    width: 350px;
 }
 
 .userTag {

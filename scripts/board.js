@@ -13,7 +13,7 @@ let tasks = [
                 ],
                 due_Date: '2025-01-01',
                 priority: 'Middle',
-                category: { name: 'Technical Task', class: 'categoryTechnical' },
+                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
                 subtasks: [
                     { todo: 'Wasser abstehen lassen' },
                     { todo: 'Dünger hinzugeben' },
@@ -31,7 +31,7 @@ let tasks = [
                 ],
                 due_Date: '2025-10-24',
                 priority: 'Low',
-                category: { name: 'Technical Task', class: 'categoryTechnical' },
+                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
                 subtasks: [
                     { done: 'JS Datei einbinden' },
                     { todo: 'Summary Styling bearbeiten' },
@@ -55,7 +55,7 @@ let tasks = [
                 ],
                 due_Date: '2044-08-15',
                 priority: 'Urgent',
-                category: { name: 'Technical Task', class: 'categoryTechnical' },
+                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
                 subtasks: [
                     { todo: 'Code Schnipsel sammeln' },
                     { todo: 'auf github mergen' },
@@ -95,7 +95,7 @@ let tasks = [
                 ],
                 due_Date: '2024-11-30',
                 priority: 'Middle',
-                category: { name: 'Technical Task', class: 'categoryTechnical' },
+                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
                 subtasks: [
                     { todo: 'contacts array erstellen' },
                     { todo: 'die daten im tasks aktualisieren' },
@@ -113,7 +113,7 @@ let tasks = [
                 ],
                 due_Date: '2024-11-10',
                 priority: 'Low',
-                category: { name: 'Technical Task', class: 'categoryTechnical' },
+                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
                 subtasks: [
                     { done: 'cloud einstellungen anpassen' },
                     { done: 'neues initialisieren' },
@@ -494,7 +494,7 @@ function editTask(taskId) {
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer" id="prio">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
-                            <button onclick="setPriority('Medium')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                            <button onclick="setPriority('Middle')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
@@ -554,7 +554,7 @@ function saveTaskChanges(taskId) {
     if (categoryInput) {
         task.category.name = categoryInput;
         task.category.class = categoryInput === "Technical Task" 
-            ? "categoryTechnical" 
+            ? "categoryTechnicalTask" 
             : "categoryUserStory"; 
     }
     closeEditTaskPopup();
@@ -587,4 +587,55 @@ function addNewSubtask(taskId) {
 function closeEditTaskPopup() {
     document.getElementById("editTaskPopupOverlay").classList.remove("visible");
     document.getElementById("mainContent").classList.remove("blur");
+}
+
+
+
+
+
+
+
+let taskIdCounter = 1; // Startwert
+
+
+
+function createNewTask(event) {
+    event.preventDefault(); // Verhindert das Standard-Formular-Absenden
+
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const dueDate = document.getElementById('date').value;
+    const category = document.getElementById('category').value;
+    const priority = document.querySelector('.priorityBtn.active')?.id.replace('prio', '') || 'Low';
+    const subtaskInputs = document.querySelectorAll('.addSubTaskInput');
+    const subtasks = Array.from(subtaskInputs).map(input => ({ todo: input.value.trim() })).filter(st => st.todo);
+
+    if (!title || !dueDate || !category) {
+        alert('Bitte füllen Sie alle erforderlichen Felder aus!');
+        return;
+    }
+
+    // Neue Datenstruktur des Tasks
+    const newTask = {
+        id: taskIdCounter++, // Fortlaufende ID
+        title: title,
+        description: description,
+        workers: [
+            { name: 'Default Worker', class: 'worker-default' } // Standardarbeiter
+        ],
+        due_Date: dueDate,
+        priority: priority,
+        category: { name: category, class: `category${category.replace(' ', '')}` },
+        subtasks: subtasks
+    };
+
+    const todoList = tasks.find(list => list.id === 'todo');
+    if (todoList) {
+        todoList.task.push(newTask); // Füge neuen Task zur 'To-Do'-Liste hinzu
+        renderBoard(); // Board neu rendern
+        closeAddTaskPopup(); // Popup schließen
+        document.getElementById('addTaskFormTask').reset(); // Formular zurücksetzen
+    } else {
+        console.error('To-Do Liste nicht gefunden!');
+    }
 }

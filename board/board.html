@@ -28,16 +28,18 @@
             <div class="boardHead">
                 <h1>Board</h1>
                 <div class="searchContainer">
-                    
-                        <div class="searchBar">
-                            <input id="findTask" type="text" class="formControl" placeholder="Find Task" aria-label="Find Task" oninput="findTask()">
-                            <div class="divider"></div>
-                            <button class="btn">
-                                <i class="bi bi-search"></i>
-                            </button>
-                        </div>
-                    
-                    <button id="addTaskBtnBoard" onclick="openAddTaskPopup()" class="addTaskBtn">Add Task <img src="../assets/icons/png/add.png"></button>
+
+                    <div class="searchBar">
+                        <input id="findTask" type="text" class="formControl" placeholder="Find Task"
+                            aria-label="Find Task" oninput="findTask()">
+                        <div class="divider"></div>
+                        <button class="btn">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+
+                    <button id="addTaskBtnBoard" onclick="openAddTaskPopup()" class="addTaskBtn">Add Task <img
+                            src="../assets/icons/png/add.png"></button>
                 </div>
             </div>
 
@@ -46,32 +48,37 @@
                 <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)">
                     <div class="listHeadline">
                         <h4>To-do</h4>
-                        <img onclick="addTaskToList(todoList)" class="addIcons" src="../assets/icons/png/plusButton.png">
+                        <img onclick="addTaskToList(todoList)" class="addIcons"
+                            src="../assets/icons/png/plusButton.png">
                     </div>
-                    <div class="taskContainer"></div> 
+                    <div class="taskContainer"></div>
                 </div>
-                
-                <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')" ondragover="allowDrop(event)">
+
+                <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')"
+                    ondragover="allowDrop(event)">
                     <div class="listHeadline">
                         <h4>in Progress</h4>
-                        <img onclick="addTaskToList(inProgressList)" class="addIcons" src="../assets/icons/png/plusButton.png">
+                        <img onclick="addTaskToList(inProgressList)" class="addIcons"
+                            src="../assets/icons/png/plusButton.png">
                     </div>
-                    <div class="taskContainer"></div> 
+                    <div class="taskContainer"></div>
                 </div>
-                
-                <div id="awaitFeedbackList" class="listBody" ondrop="handleDrop(event, 'awaitFeedback')" ondragover="allowDrop(event)">
+
+                <div id="awaitFeedbackList" class="listBody" ondrop="handleDrop(event, 'awaitFeedback')"
+                    ondragover="allowDrop(event)">
                     <div class="listHeadline">
                         <h4>Await feedback</h4>
-                        <img onclick="addTaskToList(awaitFeedbackList)" class="addIcons" src="../assets/icons/png/plusButton.png">
+                        <img onclick="addTaskToList(awaitFeedbackList)" class="addIcons"
+                            src="../assets/icons/png/plusButton.png">
                     </div>
-                    <div class="taskContainer"></div> 
+                    <div class="taskContainer"></div>
                 </div>
-                
+
                 <div id="doneList" class="listBody" ondrop="handleDrop(event, 'done')" ondragover="allowDrop(event)">
                     <div class="listHeadline">
                         <h4>Done</h4>
                     </div>
-                    <div class="taskContainer"></div> 
+                    <div class="taskContainer"></div>
                 </div>
 
             </div>
@@ -86,66 +93,80 @@
     <div id="editTaskPopupOverlay" class="popupOverlay hidden">
         <div id="editTaskPopupContainer" class="popupContainer"></div>
     </div>
-    
+
 
     <div id="addTaskPopupOverlay" class="popupOverlay hidden">
         <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
-        <div class="popupHeader">
-            <h1>Add Task</h1>
-            <img class="icons close"  onclick="closeAddTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+            <div class="popupHeader">
+                <h1>Add Task</h1>
+                <img class="icons close" onclick="closeAddTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+            </div>
+            <form id="addTaskFormTask" method="post">
+                <div class="formParts">
+                    <div class="formPart">
+                        <label for="title">Title<span class="requiredStar">*</span></label>
+                        <input name="title" type="text" id="title" placeholder="Enter a title">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" rows="5"
+                            placeholder="Enter a Description"></textarea>
+                        <label for="contactSelection">Assigned to</label>
+                        <input name="contactSelection" id="contactSelection" tabindex="0">Select contacts to
+                        assign</input>
+                    </div>
+                    <div class="separator"></div>
+                    <div class="formPart">
+                        <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
+                        <input name="date" type="date" id="date">
+                        <label for="priority">Prio</label>
+                        <div class="priorityBtnContainer">
+                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
+                                class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img
+                                    src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
+                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
+                                class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img
+                                    src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                            <button onclick="setPriority('Low')" id="prioLow" type="button"
+                                class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img
+                                    src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
+                        </div>
+                        <label for="category">Category<span class="requiredStar">*</span></label>
+                        <select name="category" id="category" tabindex="0">
+                            <option value="" disabled selected hidden>Select Task Category</option>
+                            <option value="Technical Task">Technical Task</option>
+                            <option value="User Story">User Story</option>
+                        </select>
+                        <label for="subtask">Subtasks</label>
+
+
+                        <div class="createSubtaskBar">
+                            <input name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
+                                type="text">
+                            <ul id="subTasksList"></ul>
+
+                            <div class="divider"></div>
+
+                            <img onclick="addNewSubtask()" class="addSubtaskButton"
+                                src="../assets/icons/png/addSubtasks.png">
+
+                        </div>
+
+                        <ul id="subTasksList"></ul>
+
+                    </div>
+                </div>
+                <div class="taskFormButtons">
+                    <p><span class="requiredStar">*</span>This field is required</p>
+                    <div class="buttonContainer">
+                        <button onclick="createNewTask(event)" class="button">Create Task<img
+                                src="../assets/icons/png/check.png"></button>
+                        <button type="reset" class="button clearBtn">Clear <img
+                                src="../assets/icons/png/iconoir_cancel.png"></button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <form id="addTaskFormTask" method="post">
-            <div class="formParts">
-                <div class="formPart">
-                    <label for="title">Title<span class="requiredStar">*</span></label>
-                    <input type="text" id="title" placeholder="Enter a title" required>
-                    <label for="description">Description</label>
-                    <textarea id="description" rows="5" placeholder="Enter a Description"></textarea>
-                    <label for="contactSelection">Assigned to</label>
-                    <input id="contactSelection" tabindex="0">Select contacts to assign</input>
-                </div>
-                <div class="separator"></div>
-                <div class="formPart">
-                    <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                    <input type="date" id="date">
-                    <label for="priority">Prio</label>
-                    <div class="priorityBtnContainer">
-                        <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
-                        <button onclick="setPriority('Medium')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
-                        <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
-                    </div>
-                    <label for="category">Category<span class="requiredStar">*</span></label>
-                    <select id="category" required tabindex="0">
-                        <option value="" disabled selected hidden>Select Task Category</option>
-                        <option value="Technical Task">Technical Task</option>
-                        <option value="User Story">User Story</option>
-                    </select>
-                    <label for="subtask">Subtasks</label>
-
-
-                    <div id="addSubTask" class="createSubtaskBar">
-                        <input id="subtask" class="addSubTask" placeholder="Add new subtask" type="text">
-                        <div class="divider"></div>
-                        <button class="btn">
-                            <img class="icons" src="../assets/icons/png/addSubtasks.png">
-                        </button>
-                    </div>
-
-                    <ul id="subTasksList"></ul>
-
-                </div>
-            </div>
-            <div class="taskFormButtons">
-                <p><span class="requiredStar">*</span>This field is required</p>
-                <div class="buttonContainer">
-                    <button type="reset" class="button clearBtn">Clear <img src="../assets/icons/png/iconoir_cancel.png" alt="Icon clear task"></button>
-                    <button type="submit" class="button">Create Task<img src="../assets/icons/png/check.png" alt="Icon create task"></button>
-                </div>
-            </div>
-        </form>
     </div>
-</div>
-<script src="../../scripts/board.js"></script>
+    <script src="../../scripts/board.js"></script>
 </body>
 
 </html>
