@@ -18,6 +18,8 @@ function emailCheck(email){
 
 function passwordCheck(pw1, pw2){
     if(pw1!=pw2){
-       return alert('Die beiden Passworter stimmen nicht überein, Bitte kontrolliere diese noch einmal!')
+       alert('Die beiden Passworter stimmen nicht überein, Bitte kontrolliere diese noch einmal!')
+    }else{
+        return true;
     }
 }

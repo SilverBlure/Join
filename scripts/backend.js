@@ -97,11 +97,12 @@ function signIn() {
     let email = document.getElementById('email').value;
     let password_1 = document.getElementById('password_1').value;
     let password_2 = document.getElementById('password_2').value;
-    emailCheck(email);
-    passwordCheck(password_1, password_2);
+    if(emailCheck(email) && passwordCheck(password_1, password_2)){
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
-    //sign in new email function
+    alert('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
+    location.href ='./login.html';
+    }
 }
 
 async function createNewEntry(name, email, pw) {
