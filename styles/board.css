@@ -317,7 +317,6 @@ align-items: start;
     justify-content: center;
     align-items: center;
     z-index: 999;
-    visibility: hidden;
 }
 
 .popupOverlay.visible {

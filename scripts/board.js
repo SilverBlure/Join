@@ -377,11 +377,6 @@ function closeTaskPopup() {
 
 
 
-function openAddTaskPopup() {
-    document.getElementById("addTaskPopupOverlay").classList.add("visible");
-    document.getElementById("mainContent").classList.add("blur");
-}
-
 
 
 function closeAddTaskPopup() {
@@ -603,51 +598,120 @@ function closeEditTaskPopup() {
 }
 
 
-
-
-
-
-
 let taskIdCounter = 1;
 
 
 
-function createNewTask(event) {
-    event.preventDefault(); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let currentListId = 'todo'; 
+
+function openAddTaskPopup(listId) {
+    currentListId = listId;
+    const popup = document.getElementById('addTaskPopupOverlay');
+    if (popup) {
+        popup.classList.remove('hidden');
+    }
+}
+
+
+function closeAddTaskPopup() {
+    const popup = document.getElementById('addTaskPopupOverlay');
+    if (popup) {
+        popup.classList.add('hidden'); 
+    }
+}
+
+function addTaskToList(event) {
+    if (event) event.preventDefault(); 
 
     const title = document.getElementById('title').value.trim();
-    const description = document.getElementById('description').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
-    const priority = document.querySelector('.priorityBtn.active')?.id.replace('prio', '') || 'Low';
-    const subtaskInputs = document.querySelectorAll('.addSubTaskInput');
-    const subtasks = Array.from(subtaskInputs).map(input => ({ todo: input.value.trim() })).filter(st => st.todo);
 
-    if (!title || !dueDate || !category) {
-        alert('Bitte füllen Sie alle erforderlichen Felder aus!');
+
+    if (!title) {
+        alert('Title is required!');
+        return;
+    }
+    if (!dueDate) {
+        alert('Due date is required!');
+        return;
+    }
+    if (!category) {
+        alert('Category is required!');
         return;
     }
 
+    const description = document.getElementById('description').value.trim();
+    const subtaskInputs = document.querySelectorAll('.addSubTaskInput');
+    const subtasks = Array.from(subtaskInputs).map(input => ({ todo: input.value.trim() })).filter(st => st.todo);
     const newTask = {
-        id: taskIdCounter++, 
+        id: Date.now(),
         title: title,
         description: description,
-        workers: [
-            { name: 'Default Worker', class: 'worker-default' } 
-        ],
+        workers: [{ name: 'Default Worker', class: 'worker-default' }],
         due_Date: dueDate,
-        priority: priority,
+        priority: document.querySelector('.priorityBtn.active')?.id.replace('prio', '') || 'Low',
         category: { name: category, class: `category${category.replace(' ', '')}` },
         subtasks: subtasks
     };
 
-    const todoList = tasks.find(list => list.id === 'todo');
-    if (todoList) {
-        todoList.task.push(newTask); 
-        renderBoard(); 
-        closeAddTaskPopup(); 
-        document.getElementById('addTaskFormTask').reset(); 
+    const targetList = tasks.find(list => list.id === currentListId);
+    if (targetList) {
+        targetList.task.push(newTask);
+        renderBoard();
+        closeAddTaskPopup();
+        document.getElementById('addTaskFormTask').reset();
+        console.log(`Task successfully added to "${currentListId}"`);
     } else {
-        console.error('To-Do Liste nicht gefunden!');
+        console.error(`List with ID "${currentListId}" not found.`);
     }
 }
+
+
+
+function addTaskToTodo() {
+    openAddTaskPopup('todo'); 
+}
+
+function addTaskToInProgress() {
+    openAddTaskPopup('inProgress'); 
+}
+
+function addTaskToAwaitFeedback() {
+    openAddTaskPopup('awaitFeedback'); 
+}
+
