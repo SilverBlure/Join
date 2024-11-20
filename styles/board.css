@@ -12,8 +12,14 @@
     box-shadow: none;
 }
 
+.addSubtaskButton {
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
+}
+
 .board {
-    margin-left: 32px;
+    width: 1340px;
 }
 
 .boardHead {
@@ -24,7 +30,15 @@
     margin-left: 64px;
 }
 
-.custom-search-bar {
+.searchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 28px;
+    margin-left: 320px;
+}
+
+.searchBar {
     border-radius: 10px;
     border: 1px solid #ccc;
     display: flex;
@@ -34,13 +48,14 @@
     overflow: hidden;
 }
 
-.custom-search-bar input {
+.searchBar input {
     border: none;
 }
 
-.custom-search-bar input:focus {
+.searchBar input:focus {
     outline: none;
     box-shadow: none;
+    border: none;
 }
 
 .divider {
@@ -50,23 +65,25 @@
     margin: 0px;
 }
 
-.custom-search-bar .btn {
+.searchBar .btn {
     border: none;
     background: none;
     color: #333;
     padding: 0 15px;
 }
 
-.form-control {
+.formControl {
     width: 210px;
     padding-left: 16px;
     font-size: 20px;
 }
 
-.container {
+.listHeadline {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding-right: 16px;
+
 }
 
 .taskList {
@@ -76,38 +93,16 @@
     margin-top: 60px;
     column-gap: 26px;
     margin-left: 64px;
+    overflow-y: scroll;
+
 }
 
-.toDoList {
-    width: 246px;
+.listBody {
+    width: 280px;
     gap: 20px;
     display: flex;
     flex-direction: column;
     height: 100vh;
-}
-
-.inProgressList {
-    width: 246px;
-    gap: 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.awaitFeedbackList {
-    width: 246px;
-    gap: 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.doneList {
-    width: 246px;
-    gap: 20px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 .nothingToDo {
@@ -118,10 +113,16 @@
     border-radius: 10px;
     background-color: #E7E7E7;
     color: #A8A8A8;
+    width: 246px;
+}
+
+.nothingToDoText {
+    margin: 10px;
 }
 
 .progress {
-    width: 123px;
+    width: 120px;
+    height: 8px;
 }
 
 .boardCard {
@@ -129,7 +130,42 @@
     border-radius: 30px;
     padding: 16px;
     width: 252px;
-    margin-top: 26px;
+}
+
+.taskCardTitle {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2A3647;
+    overflow-wrap: break-word;
+}
+
+.taskCardDescription {
+    font-size: 16px;
+    font-weight: 400;
+    color: #A8A8A8;
+    overflow-wrap: break-word;
+}
+
+.taskCardSubtasks {
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0px;
+}
+
+
+.taskContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 21px;
+}
+
+.BoardCardFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
 }
 
 .worker {
@@ -148,6 +184,51 @@
     align-items: center;
 }
 
+.workerName{
+    margin: 0px;
+}
+
+.priorityBtn {
+    background-color: white;
+    color: black;
+    font-size: 20px;
+    font-weight: 400;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    box-sizing: border-box;
+    width: 136px;
+    height: 56px;
+}
+
+.priorityBtnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 8px;
+}
+
+
+.createSubtaskBar {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 276px;
+    overflow: hidden;
+    width: 100%;
+}
+
+
+.createSubtaskBar input {
+    border: none;
+}
+
+.createSubtaskBar input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
 
 .taskCategory {
     border: solid 1px;
@@ -157,21 +238,6 @@
     font-size: 16px;
     font-weight: 400;
     padding: 1px 25px 1px 25px;
-}
-
-
-.d_flex {
-    display: flex;
-}
-
-.margin_0 {
-    margin: 0px;
-}
-
-.d_spaceBetween {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .worker-stanislav {
@@ -190,10 +256,306 @@
     background-color: black;
 }
 
-.category-technical {
+.categoryTechnicalTask {
     background-color: #1FD7C1;
 }
 
-.category-user-story {
+.categoryUserStory {
     background-color: #0038FF;
+}
+
+.popupDescription {
+    font-size: 20px;
+    overflow-wrap: break-word;
+    font-weight: 400;
+}
+
+.popupIcons {
+    cursor: pointer;
+}
+
+.subtasksContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: min-content;
+}
+
+.editSubtaskItem {
+width: unset;
+display: flex;
+justify-content: start;
+align-items: start;
+
+}
+
+.subtasksCheckbox {
+    width: max-content;
+}
+
+.subtaskText {
+    width: max-content;
+    max-width: 300px;
+    margin: 8px;
+    overflow-wrap: break-word;
+}
+
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popupOverlay.visible {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.popupContainer {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    height: 870px;
+    width: 1116px;
+}
+
+.popupInformation {
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding-right: 250px;
+}
+
+
+.workerInformation {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.workerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 1rem;
+}
+
+.workerIcon {
+margin-left: 30px;
+margin-right: 16px;
+margin-top: 0px;
+margin-bottom: 0px;
+}
+
+.tasksPopupContainer {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    width: 525px;
+}
+
+.popupHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.popupActions {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 30px;
+}
+
+.icons {
+    cursor: pointer;
+    width: 32px;
+}
+
+.active {
+    background-color: #A8A8A8 !important;
+}
+
+
+.formParts {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.formPart {
+    display: flex;
+    flex-direction: column;
+    width: 440px;
+    gap: 20px;
+}
+
+.separator {
+    width: 2px;
+    background-color: #D1D1D1;
+    height: 424px;
+    margin: 0px 50px 0px 50px;
+}
+
+.addTaskContent {
+    display: flex;
+    flex-direction: column;
+    width: 1340px;
+    height: 100vh;
+}
+
+
+.addIcons {
+    cursor: pointer;
+}
+
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+textarea {
+    resize: none;
+    min-height: 140px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border: 1px solid #29ABE2;
+}
+
+::placeholder {
+    color: #D1D1D1;
+}
+
+.requiredStar {
+    color: #FF8190;
+}
+
+
+.prioMediumActive {
+    background: #FFA800;
+    color: white;
+}
+
+.prioLowActive {
+    background: #7AE229;
+    color: white;
+}
+
+
+.taskFormButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 136px;
+}
+
+
+.buttonContainer {
+    display: flex;
+    gap: 16px;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 700;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close {
+    width: 24px;
+    height: 24px;
+}
+
+.clearBtn {
+    background-color: white;
+    color: #2A3647;
+    border: 1px solid #2A3647;
+}
+
+
+.editSubtaskInput {
+    width: 400px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+
+
+/* Drehung der Card */
+.dragging {
+    transform: rotate(10deg); /* Leichte Drehung */
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hervorhebung der Liste */
+.listBody.highlight {
+    border: 2px dashed #4b4b4b; /* Border hinzufügen */
+    background-color: #E7E7E7; /* Optional: Leichte Hintergrundfarbe */
+    transition: background-color 0.2s, border 0.2s; /* Sanfte Animation */
+}
+
+
+
+
+
+
+.subtask-item:hover .hoverBtnContainer {
+    opacity: 1; 
+    pointer-events: all; 
+}
+
+
+.hoverBtnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 16px;
+    padding-left: 20px;
+    opacity: 0; 
+    pointer-events: none;
+    transition: opacity 0.3s ease; 
+}
+
+.hoverBtn {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
 }
