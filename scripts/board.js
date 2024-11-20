@@ -162,7 +162,12 @@ function renderBoard() {
                     `
                     : '';
                 content.innerHTML += /*html*/`
-                    <div id="boardCard-${task.id}" draggable="true" ondragstart="startDragging(${task.id})" onclick="openTaskPopup(${task.id})" class="boardCard">
+                    <div id="boardCard-${task.id}" 
+                    draggable="true" 
+                    ondragenter="highlightList('${list.id}List')" 
+                    ondragleave="unhighlightList('${list.id}List')"
+                    ondragstart="startDragging(${task.id})" 
+                    onclick="openTaskPopup(${task.id})" class="boardCard">
                         <p class="${task.category.class} taskCategory">${task.category.name}</p>
                         <p class="taskCardTitle">${task.title}</p>
                         <p class="taskCardDescription">${task.description}</p>
@@ -385,16 +390,6 @@ function closeAddTaskPopup() {
 }
 
 
-
-function startDragging(taskId) {
-    currentDraggedElement = taskId;
-}
-
-
-
-function allowDrop(event) {
-    event.preventDefault();
-}
 
 
 

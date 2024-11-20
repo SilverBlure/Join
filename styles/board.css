@@ -19,7 +19,6 @@
 }
 
 .board {
-    margin-left: 32px;
     width: 1340px;
 }
 
@@ -83,6 +82,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-right: 16px;
+
 }
 
 .taskList {
@@ -97,7 +98,7 @@
 }
 
 .listBody {
-    width: 246px;
+    width: 280px;
     gap: 20px;
     display: flex;
     flex-direction: column;
@@ -526,8 +527,8 @@ select:focus {
 
 /* Hervorhebung der Liste */
 .listBody.highlight {
-    border: 2px dashed #007bff; /* Border hinzufügen */
-    background-color: rgba(0, 123, 255, 0.1); /* Optional: Leichte Hintergrundfarbe */
+    border: 2px dashed #4b4b4b; /* Border hinzufügen */
+    background-color: #E7E7E7; /* Optional: Leichte Hintergrundfarbe */
     transition: background-color 0.2s, border 0.2s; /* Sanfte Animation */
 }
 
