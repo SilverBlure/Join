@@ -35,3 +35,10 @@ function includeHTML() {
 function showLogin() {
     window.location.href = './html/login.html'; 
 }
+
+
+function logOut() {
+  localStorage.removeItem('email');
+  localStorage.removeItem('password');
+  window.location.href = '../index.html';
+}

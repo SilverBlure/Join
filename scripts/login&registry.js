@@ -135,7 +135,7 @@ let users = [
 function acceptPrivacyPolicy() {
     const checkbox = document.getElementById('checkbox');
     const signUpBtn = document.getElementById('signUpBtn');
-    signUpBtn.disabled = !checkbox.checked; // Enable button only if checkbox is checked
+    signUpBtn.disabled = !checkbox.checked; 
 }
 
 
@@ -143,65 +143,75 @@ function acceptPrivacyPolicy() {
 
 
 function signUp(event) {
-    event.preventDefault(); // Verhindert das Standard-Formular-Absenden.
-
-    // Werte aus den Eingabefeldern holen
+    event.preventDefault(); 
     const name = document.getElementById('name').value.trim();
     const email = document.getElementById('email').value.trim();
     const password1 = document.getElementById('password_1').value;
     const password2 = document.getElementById('password_2').value;
-
-    // Validierung
     if (!name || !email || !password1 || !password2) {
         alert('Bitte füllen Sie alle Felder aus!');
         return;
     }
-
     if (password1 !== password2) {
         alert('Die Passwörter stimmen nicht überein!');
         return;
     }
-
-    // Erstelle ein neues Benutzerobjekt
     const newUser = {
-        id: Date.now(), // Eindeutige ID auf Basis der Zeit
+        id: Date.now(), 
         name: name,
         email: email,
-        password: password1, // Speichern des Passworts (nicht sicher, aber als Beispiel)
-        tasks: [] // Leeres Tasks-Array für den Benutzer
+        password: password1,
+        tasks: [] 
     };
-
-    // Benutzer ins Array hinzufügen
     users.push(newUser);
-
-    // Ausgabe zur Kontrolle
     console.log('Neuer Benutzer hinzugefügt:', newUser);
     console.log('Alle Benutzer:', users);
-
-    // Formular zurücksetzen und Feedback geben
-    document.getElementById('signUpForm').reset(); // Setzt das Formular zurück
+    document.getElementById('signUpForm').reset(); 
     alert('Registrierung erfolgreich!');
-
-    // Weiterleitung zur Login-Seite
-    window.location.href = './../html/login.html'; // URL der Login-Seite anpassen
+    window.location.href = './../html/login.html'; 
 }
 
 
 
 
-function logIn(event) {
-    event.preventDefault(); // Verhindert das Standard-Formular-Absenden
-
-    // Werte aus dem Formular holen
-    const email = document.getElementById('email').value.trim();
+function handleRememberMe(event) {
+    event.preventDefault(); 
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-
-    // Benutzer suchen, der mit den eingegebenen Daten übereinstimmt
-    const user = users.find(u => u.email === email && u.password === password);
-
-    if (user) {
-        window.location.href = './../html/summary.html'; // Zielseite anpassen
+    const rememberMe = document.getElementById('checkbox').checked; 
+    if (rememberMe) {
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
     } else {
-        alert('E-Mail oder Passwort falsch. Bitte erneut versuchen.');
+        localStorage.removeItem('email');
+        localStorage.removeItem('password');
+    }
+    logIn(email, password);  
+}
+
+
+
+
+function logIn(email, password) {
+    const user = users.find(user => user.email === email && user.password === password);
+    if (user) {
+        window.location.href = './../html/summary.html';  
+    } else {
+        alert('E-Mail oder Passwort sind falsch. Bitte versuche es erneut.');
     }
 }
+
+
+
+
+window.onload = function() {
+    const savedEmail = localStorage.getItem('email');
+    const savedPassword = localStorage.getItem('password');
+    if (savedEmail && savedPassword) {
+        document.getElementById('email').value = savedEmail;
+        document.getElementById('password').value = savedPassword;
+        logIn(savedEmail, savedPassword);
+    }
+};
+
+
