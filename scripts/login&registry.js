@@ -186,3 +186,22 @@ function signUp(event) {
     window.location.href = './../html/login.html'; // URL der Login-Seite anpassen
 }
 
+
+
+
+function logIn(event) {
+    event.preventDefault(); // Verhindert das Standard-Formular-Absenden
+
+    // Werte aus dem Formular holen
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    // Benutzer suchen, der mit den eingegebenen Daten übereinstimmt
+    const user = users.find(u => u.email === email && u.password === password);
+
+    if (user) {
+        window.location.href = './../html/summary.html'; // Zielseite anpassen
+    } else {
+        alert('E-Mail oder Passwort falsch. Bitte erneut versuchen.');
+    }
+}
