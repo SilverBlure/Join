@@ -76,9 +76,22 @@ async function createNewMailEntry(email){
 //login section
 let loginArray = [];
 
+let sessionId;
+
 async function initLog(){
     loadLoginData();
+    loadFromLocal();
 }
+
+
+function loadFromLocal(){
+    let email = localStorage.getItem('email');
+    let pw = localStorage.getItem('pw');
+    if(email&&pw){
+        document.getElementById('email').value =`${email}`;
+        document.getElementById('password').value=`${pw}`;}
+}
+
 
 async function loadLoginData(){
     loginArray = [];
@@ -91,25 +104,31 @@ async function loadLoginData(){
         email: fechedLoginData[i][1]['user']['userData']['email'],
         password: fechedLoginData[i][1]['user']['userData']['password'],
          };
-         //
-         console.log(user);
+         //console.log(user);
          loginArray.push(user);
     }
-    console.log(loginArray);
+    //console.log(loginArray);
 }
 
 function login(){
     let emailInput = document.getElementById('email').value;
     let pwInput =document.getElementById('password').value;
-    let checkbox = document.getElementById('checkbox').value;
-    // if(checkLogin(emailInput, pwInput)){
-    //     localStorage.setItem(JSON.stringify('email', emailInput));
-    //     localStorage.setItem(JSON.stringify('pw', pwInput));
-    //     alert('Das hat geklappt!!!!!! Nice')
-    // }
-    console.log(checkbox);
-
-
+    let checkbox = document.getElementById('checkbox');// die kleine checkbox strapaziert meine nerven
+    let check = checkLogin(emailInput, pwInput);
+    sessionId = check.id;
+    console.log(sessionId);
+    let isChecked = checkbox.checked;
+    if(check.match&&isChecked){
+        localStorage.setItem('email', emailInput);
+        localStorage.setItem('pw', pwInput);
+        alert('Login Local gesaved!')
+        location.href ='./summary.html';
+    }else if(check.match){
+        alert('Du wirst weitergeleitet deine anmelde daten werden nicht local gespeichert!')
+        location.href ='./summary.html';
+    }else{
+        alert('deine anmeldedaten sind falsch!')
+    }
 }
 
 //remember me funktion wird ausgefuehrt wenn die abfrage richtig wahr dann werdern die daten in den local storrage gespeichert
@@ -122,3 +141,6 @@ function checkLogin(emailInput, pwInput){
         return {match: false, id: null};
     }
 }
+
+
+

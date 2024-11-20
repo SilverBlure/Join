@@ -88,3 +88,11 @@ function setGreeting() {
     }
     greetingElement.textContent = greetingText;
 }
+
+
+
+//----------------------------------------------------------------------------------------
+
+async function init(){
+    console.log(sessionId);
+}
