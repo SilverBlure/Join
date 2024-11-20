@@ -17,7 +17,8 @@ a:hover {
 .content {
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    animation: fadeInBlur 0.25s ease forwards;
+    max-width: 1340px;
 }
 
 .intro {
@@ -31,14 +32,26 @@ a:hover {
     background-color: #fff;
 }
 
-.joinIntro {
+
+.logo {
     position: absolute;
-    width: 500px;
-    top: 50%; /* Startposition in der Mitte */
+    top: 50%; 
     left: 50%;
-    transform: translate(-50%, -50%); /* Zentriert das Logo */
-    transition: width 2s ease, top 2s ease, left 2s ease; /* Animation für Größe und Position */
+    width: 500px;
+    transform: translate(-50%, -50%); 
     animation: logoToCorner 3s ease forwards;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+@keyframes fadeInBlur {
+    0% {
+        filter: blur(100px); 
+    }
+    100% {
+        filter: blur(0px); 
+    }
 }
 
 @keyframes logoToCorner {
@@ -46,10 +59,13 @@ a:hover {
         width: 500px;
         top: 50%;
         left: 50%;
+        transform: translate(-50%, -50%);
     }
     100% {
-        width: 100px; /* Zielgröße */
-        top: 70px; /* Zielposition */
-        left: 76px;
+        width: 100px; 
+        top: 80px;
+        left: 77px;
+        transform: translate(0, 0); 
     }
 }
+

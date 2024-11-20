@@ -4,19 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
-    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../../styles/fonts.css">
-    <link rel="stylesheet" href="../../styles/templates.css">
-    <link rel="stylesheet" href="../../styles/assets.css">
-    <link rel="stylesheet" href="../../style.css">
-    <link rel="stylesheet" href="../../styles/login.css">
-    <link rel="stylesheet" href="../../styles/registration.css">
+    <script src="./../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./../styles/fonts.css">
+    <link rel="stylesheet" href="./../styles/templates.css">
+    <link rel="stylesheet" href="./../styles/assets.css">
+    <link rel="stylesheet" href="./../style.css">
+    <link rel="stylesheet" href="./../styles/login.css">
+    <link rel="stylesheet" href="./../styles/registration.css">
+    <script src="./../scripts/backend.js"></script>
+    <script src="./../scripts/login&registry.js"></script>
 </head>
-<body>
+<body onload="init()">
 
-    <img class="logo" src="../../assets/icons/svg/joinLogo.svg">
+    <img class="logoLogin" src="../../assets/icons/svg/joinLogo.svg">
 
     <div class="center ">
 
@@ -31,14 +33,14 @@
 
             <div class="border borderInputFields center">
                 <innerInputfield class="innerInputfield">
-                    <input id="name" class="noBorder" placeholder="Name">
+                    <input id="name" class="noBorder" placeholder="Name">   <!--name-->
                     <img src="../../assets/icons/png/person.png">
                 </innerInputfield>
             </div>
 
             <div class="border borderInputFields center">
                 <innerInputfield class="innerInputfield">
-                    <input id="email" class="noBorder" placeholder="Email">
+                    <input id="email" class="noBorder" placeholder="Email">     <!--email-->
                     <img src="../../assets/icons/svg/mail.svg">
                 </innerInputfield>
             </div>
@@ -46,13 +48,13 @@
 
             <div class="border borderInputFields">
                 <innerInputfield class="innerInputfield">
-                    <input id="password" class="noBorder" placeholder="Passwort">
+                    <input id="password_1" class="noBorder" placeholder="Passwort"> <!--password-->
                     <img src="../../assets/icons/svg/lock.svg">
                 </innerInputfield>
             </div>
             <div class="border borderInputFields">
                 <innerInputfield class="innerInputfield">
-                    <input id="password" class="noBorder" placeholder="Passwort">
+                    <input id="password_2" class="noBorder" placeholder="Passwort"> <!--password-->
                     <img src="../../assets/icons/svg/lock.svg">
                 </innerInputfield>
             </div>
@@ -64,11 +66,11 @@
 
 
             <div class="conditionBox">
-                <input id="checkbox" type="checkbox">
+                <input id="checkbox" type="checkbox" onclick="enableButton()">
                 <text class="condition">I accept the <a href="../../privacy policy + legal notice/privacy policy/privacyPolicy.html">Privacy policy</a></text>
             </div>
             
-                <button class="signUpBtn">Sign up</button>
+                <button onclick="signIn()" id="signUpBtn" class="signUpBtn" disabled>Sign up</button>  <!--signUpBtn-->
                       
         </div>
     </div>

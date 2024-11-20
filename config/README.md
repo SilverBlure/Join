@@ -10,3 +10,9 @@ git push -u origin developer
 git branch //hier wird kontroliert wo nun gearbeitet wird
 
 mit diesen befehlen wurde das terminal auf die neue branch eingestellt
+
+
+Hallo @all ich erstelle jetzt einen FireBaseServer für Join und werde versuchen alle Dokumente hier aufzufueren die mit dem 
+Backend zu tun haben:
+
+.backend.js
