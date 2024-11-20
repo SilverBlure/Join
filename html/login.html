@@ -18,10 +18,12 @@
 </head>
 
 <body onload="initLog()">
+<body>
+    <img class="logoLogin" src="../../assets/icons/svg/joinLogo.svg">
 
+<div class="loginBody">
     <div class="loginHeader">
 
-        <img class="logo" src="../../assets/icons/svg/joinLogo.svg">
 
         <div class="registrationLink">
             <p class="registrationTrigger">Not a Join user?</p>
@@ -52,11 +54,11 @@
                 </div>
 
                 <div class="saveLogin">
-                    <input id="checkbox" type="checkbox">
+                    <input value="boolean" id="checkbox" type="checkbox">
                     <text class="">Remember me</text>
                 </div>
                 <div class="buttons">
-                    <button class="logInBtn">Log in</button>
+                    <button onclick="login()" class="logInBtn">Log in</button>
                     <a href="../../summary/summary.html"><button class="guestBtn">Guest Log in</button></a>
                 </div>
             </div>
@@ -70,6 +72,7 @@
         </div>
 
     </div>
+</div>
 </body>
 
 </html>

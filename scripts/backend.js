@@ -81,6 +81,7 @@ async function initLog(){
 }
 
 async function loadLoginData(){
+    loginArray = [];
     let response = await fetch(BASE_URL + 'data/user' + '.json');
     let responseToJson = await response.json();
     let fechedLoginData =  Object.entries(responseToJson);
@@ -90,8 +91,34 @@ async function loadLoginData(){
         email: fechedLoginData[i][1]['user']['userData']['email'],
         password: fechedLoginData[i][1]['user']['userData']['password'],
          };
-         console.log(user)
+         //
+         console.log(user);
+         loginArray.push(user);
     }
-    //console.log(user);
+    console.log(loginArray);
 }
 
+function login(){
+    let emailInput = document.getElementById('email').value;
+    let pwInput =document.getElementById('password').value;
+    let checkbox = document.getElementById('checkbox').value;
+    // if(checkLogin(emailInput, pwInput)){
+    //     localStorage.setItem(JSON.stringify('email', emailInput));
+    //     localStorage.setItem(JSON.stringify('pw', pwInput));
+    //     alert('Das hat geklappt!!!!!! Nice')
+    // }
+    console.log(checkbox);
+
+
+}
+
+//remember me funktion wird ausgefuehrt wenn die abfrage richtig wahr dann werdern die daten in den local storrage gespeichert
+
+function checkLogin(emailInput, pwInput){
+    let login = loginArray.find(user => user.email === emailInput && user.password === pwInput);
+    if(login){
+        return {match: true, id: login.id};
+    } else {
+        return {match: false, id: null};
+    }
+}
