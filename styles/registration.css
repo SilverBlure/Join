@@ -25,7 +25,7 @@
 
 .conditionBox {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     column-gap: 20px;
 }
@@ -39,9 +39,22 @@
     font-size: 21px;
 }
 
+#signUpBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.btnContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+}
+
 .signUpfooter {
     display: flex;
     justify-content: center;
     align-items: center;
     column-gap: 50px;
+    animation: fadeInBlur 1s ease forwards;
 }
