@@ -1,12 +1,7 @@
 body {
     font-family: "Raleway";
     margin: 0px;
-}
-
-h1 {
-    font-size: 61px; 
-    font-weight: 700;
-    overflow-wrap: break-word;
+    max-width: 2560px;
 }
 
 a {
