@@ -132,7 +132,7 @@ let tasks = [
 
 
 
-let currentDraggedElement;
+
 
 
 
@@ -398,8 +398,71 @@ function allowDrop(event) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let currentDraggedElement; // Speichert die ID der aktuell gezogenen Card
+
+function startDragging(taskId) {
+    currentDraggedElement = taskId;
+
+    // Card drehen
+    const card = document.getElementById(`boardCard-${taskId}`);
+    if (card) {
+        card.classList.add('dragging'); // CSS-Klasse hinzufügen
+    }
+}
+
+function stopDragging() {
+    // Drehung entfernen
+    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
+    if (card) {
+        card.classList.remove('dragging'); // CSS-Klasse entfernen
+    }
+
+    currentDraggedElement = null;
+}
+
+function allowDrop(event) { 
+    event.preventDefault(); // Erlaubt das Ablegen
+    event.stopPropagation(); // Verhindert, dass andere Elemente das Event blockieren
+}
+
+
+function highlightList(listId) {
+    const list = document.getElementById(listId);
+  
+        list.classList.add('highlight'); // Füge die Highlight-Klasse hinzu
+    
+}
+
+function unhighlightList(listId) {
+    const list = document.getElementById(listId);
+   
+        list.classList.remove('highlight'); // Entferne die Highlight-Klasse
+    
+}
+
+
 function handleDrop(event, targetListId) {
     event.preventDefault();
+    event.stopPropagation();
     let sourceList, task;
     tasks.forEach(list => {
         const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
@@ -408,12 +471,37 @@ function handleDrop(event, targetListId) {
             [task] = sourceList.task.splice(taskIndex, 1);
         }
     });
+
     const targetList = tasks.find(list => list.id === targetListId);
     if (targetList && task) {
         targetList.task.push(task);
         renderBoard();
     }
+
+    // Entferne Drehung nach dem Drop
+    stopDragging();
+
+    // Entferne Hervorhebung der Liste
+    unhighlightList(`${targetListId}List`);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -698,7 +786,7 @@ function addTaskToList(event) {
         console.log(`Task successfully added to "${currentListId}"`);
     } else {
         console.error(`List with ID "${currentListId}" not found.`);
-    }
+    };
 }
 
 

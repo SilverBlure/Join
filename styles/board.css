@@ -518,6 +518,18 @@ select:focus {
 
 
 
+/* Drehung der Card */
+.dragging {
+    transform: rotate(10deg); /* Leichte Drehung */
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hervorhebung der Liste */
+.listBody.highlight {
+    border: 2px dashed #007bff; /* Border hinzufügen */
+    background-color: rgba(0, 123, 255, 0.1); /* Optional: Leichte Hintergrundfarbe */
+    transition: background-color 0.2s, border 0.2s; /* Sanfte Animation */
+}
 
 
 
