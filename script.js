@@ -41,5 +41,5 @@ function includeHTML() {
 
 
 function showLogin() {
-    window.location.href = 'login + registration/login/login.html'; 
+    window.location.href = './html/login.html'; 
 }
