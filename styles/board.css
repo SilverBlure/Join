@@ -517,24 +517,16 @@ select:focus {
 }
 
 
-
-
-/* Drehung der Card */
 .dragging {
-    transform: rotate(10deg); /* Leichte Drehung */
+    transform: rotate(10deg); 
     transition: transform 0.2s ease-in-out;
 }
 
-/* Hervorhebung der Liste */
 .listBody.highlight {
-    border: 2px dashed #4b4b4b; /* Border hinzufügen */
-    background-color: #E7E7E7; /* Optional: Leichte Hintergrundfarbe */
-    transition: background-color 0.2s, border 0.2s; /* Sanfte Animation */
+    border: 2px dashed #4b4b4b; 
+    background-color: #E7E7E7; 
+    transition: background-color 0.2s, border 0.2s; 
 }
-
-
-
-
 
 
 .subtask-item:hover .hoverBtnContainer {

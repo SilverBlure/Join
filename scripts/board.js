@@ -532,24 +532,27 @@ function handleDrop(event, targetListId) {
 
 
 
-
 function findTask() {
     const searchTerm = document.getElementById('findTask').value.trim().toLowerCase();
-    tasks.forEach(list => {
+    if (!currentUser || !currentUser.tasks) {
+        console.error('Kein gültiger Benutzer oder keine Aufgaben vorhanden.');
+        return;
+    }
+    currentUser.tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
         if (!content) {
             console.error(`Liste mit ID ${list.id} nicht gefunden.`);
             return;
         }
         content.innerHTML = ""; 
-            const filteredTasks = list.task.filter(task =>
+        const filteredTasks = list.task.filter(task =>
             task.title.toLowerCase().includes(searchTerm) ||
             task.description.toLowerCase().includes(searchTerm)
         );
         if (filteredTasks.length === 0) {
             content.innerHTML = /*html*/`
                 <div class="nothingToDo">
-                    <p class="nothingToDoText">No matching Task found</p>
+                    <p class="nothingToDoText">No matching tasks found</p>
                 </div>
             `;
         } else {
@@ -588,6 +591,9 @@ function findTask() {
     });
     console.log(`Suche abgeschlossen. Suchbegriff: "${searchTerm}"`);
 }
+
+
+
 
 
 
