@@ -125,6 +125,11 @@ let users = [
 
 
 
+let currentUser = users.find(user => user.id === '1'); // Beispielhafter angemeldeter Benutzer
+
+
+
+
 function renderBoard() {
     // Angemeldeten Benutzer ermitteln (z. B. basierend auf einer aktuellen Benutzer-ID)
     const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
@@ -584,36 +589,35 @@ function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
 
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+
+    const tasks = currentUser.tasks; // Zugriff auf die Tasks des aktuellen Benutzers
     let sourceList, task;
 
-    // Finde die Quelle der Aufgabe
     tasks.forEach(list => {
         const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
         if (taskIndex !== -1) {
             sourceList = list;
-            [task] = sourceList.task.splice(taskIndex, 1); // Entferne aus Quellliste
+            [task] = sourceList.task.splice(taskIndex, 1); // Entfernt die Aufgabe aus der Quellliste
         }
     });
 
-    if (!task) {
-        console.error(`Task mit ID ${currentDraggedElement} wurde nicht gefunden.`);
-        return;
-    }
-
-    // Füge zur Ziel-Liste hinzu
-    const targetList = tasks.find(list => list.id === targetListId);
-    if (targetList) {
-        targetList.task.push(task);
-        console.log(`Task ID ${currentDraggedElement} verschoben nach ${targetListId}`);
-        renderBoard();
+    const targetList = tasks.find(list => list.id === targetListId); // Ziel-Liste finden
+    if (targetList && task) {
+        targetList.task.push(task); // Fügt die Aufgabe in die Ziel-Liste ein
+        renderBoard(); // Aktualisiert das Board
+        console.log(`Task ${task.id} erfolgreich in Liste "${targetListId}" verschoben.`);
     } else {
-        console.error(`Liste mit ID ${targetListId} nicht gefunden.`);
+        console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
     }
 
-    // Beende Dragging und entferne Highlights
     stopDragging();
     unhighlightList(`${targetListId}List`);
 }
+
 
 
 
@@ -703,123 +707,148 @@ function findTask() {
 }
 
 
-
-
-
 function editTask(taskId) {
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+
+    const tasks = currentUser.tasks; // Zugriff auf die Tasks des aktuellen Benutzers
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
-    if (editTaskPopupOverlay && editTaskPopupContainer && task) {
-        editTaskPopupOverlay.setAttribute("data-task-id", taskId);
-        editTaskPopupOverlay.classList.add("visible");
-        document.getElementById("mainContent").classList.add("blur");
-        const addSubtaskHTML = /*html*/`
-                    <div class="createSubtaskBar">
-                        <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
-                        <div class="divider"></div>
-                        
-                            <img onclick="addNewSubtask(${taskId})" class="addSubtaskButton" src="../assets/icons/png/addSubtasks.png">
-                        
-                    </div>
-        `;
-        editTaskPopupContainer.innerHTML = /*html*/`
-            <div class="popupHeader">
-                <h1>Edit Task</h1>
-                <img class="icon close" onclick="closeEditTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
-            </div>
-            <form id="editTaskForm">
-                <div class="formParts">
-                    <div class="formPart">
-                        <label for="title">Title<span class="requiredStar">*</span></label>
-                        <input type="text" id="title" value="${task.title}" required>
-                        <label for="description">Description</label>
-                        <textarea id="description" rows="5">${task.description}</textarea>
-                        <label for="contactSelection">Assigned to</label>
-                        <div id="contactSelection">${task.workers.map(worker => worker.name).join(', ')}</div>
-                    </div>
-                    <div class="separator"></div>
-                    <div class="formPart">
-                        <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                        <input type="date" id="dueDate" value="${task.due_Date}">
-                        <label for="priority">Prio</label>
-                        <div class="priorityBtnContainer" id="prio">
-                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
-                            <button onclick="setPriority('Middle')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
-                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
-                        </div>
-                        <label for="category">Category<span class="requiredStar">*</span></label>
-                        <select id="category" required>
-                            <option value="Technical Task" ${task.category.name === 'Technical Task' ? 'selected' : ''}>Technical Task</option>
-                            <option value="User Story" ${task.category.name === 'User Story' ? 'selected' : ''}>User Story</option>
-                        </select>
-                        <label for="subtask">Subtasks</label>
-                        <div id="subTasksList">${addSubtaskHTML}</div>
-                    </div>
+
+    if (!editTaskPopupOverlay || !editTaskPopupContainer || !task) {
+        console.error(`Popup-Container oder Task mit ID ${taskId} nicht gefunden.`);
+        return;
+    }
+
+    editTaskPopupOverlay.setAttribute("data-task-id", taskId);
+    editTaskPopupOverlay.classList.add("visible");
+    document.getElementById("mainContent").classList.add("blur");
+
+    const addSubtaskHTML = /*html*/`
+        <div class="createSubtaskBar">
+            <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
+            <div class="divider"></div>
+            <img onclick="addNewSubtask(${taskId})" class="addSubtaskButton" src="../assets/icons/png/addSubtasks.png">
+        </div>
+    `;
+
+    editTaskPopupContainer.innerHTML = /*html*/`
+        <div class="popupHeader">
+            <h1>Edit Task</h1>
+            <img class="icon close" onclick="closeEditTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+        </div>
+        <form id="editTaskForm">
+            <div class="formParts">
+                <div class="formPart">
+                    <label for="title">Title<span class="requiredStar">*</span></label>
+                    <input type="text" id="title" value="${task.title}" required>
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="5">${task.description}</textarea>
+                    <label for="contactSelection">Assigned to</label>
+                    <div id="contactSelection">${task.workers.map(worker => worker.name).join(', ')}</div>
                 </div>
-                <button type="button" onclick="saveTaskChanges(${taskId})">Save Changes</button>
-            </form>
-        `;
-    } else {
-        console.error("Edit task popup overlay or container not found.");
-    };
-    openTaskPopup(taskId);
+                <div class="separator"></div>
+                <div class="formPart">
+                    <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
+                    <input type="date" id="dueDate" value="${task.due_Date}">
+                    <label for="priority">Prio</label>
+                    <div class="priorityBtnContainer" id="prio">
+                        <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
+                        <button onclick="setPriority('Middle')" id="prioMedium" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
+                        <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
+                    </div>
+                    <label for="category">Category<span class="requiredStar">*</span></label>
+                    <select id="category" required>
+                        <option value="Technical Task" ${task.category.name === 'Technical Task' ? 'selected' : ''}>Technical Task</option>
+                        <option value="User Story" ${task.category.name === 'User Story' ? 'selected' : ''}>User Story</option>
+                    </select>
+                    <label for="subtask">Subtasks</label>
+                    <div id="subTasksList">${addSubtaskHTML}</div>
+                </div>
+            </div>
+            <button type="button" onclick="saveTaskChanges(${taskId})">Save Changes</button>
+        </form>
+    `;
 }
 
 
 
 
-let tempPriority = null; 
+let tempPriority = null;
 
 function setPriority(priority) {
-    tempPriority = priority; 
-    document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active')); 
-    const activeButton = document.getElementById(`prio${priority}`); 
+    tempPriority = priority; // Speichere die temporäre Priorität
+    document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active')); // Entferne "active" von allen Buttons
+    
+    const activeButton = document.getElementById(`prio${priority}`); // Finde den entsprechenden Button
     if (activeButton) {
-        activeButton.classList.add('active'); 
+        activeButton.classList.add('active'); // Aktiviere den passenden Button
+    } else {
+        console.warn(`Button for priority "${priority}" not found.`);
     }
 }
-
-
 
 
 
 
 function saveTaskChanges(taskId) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-    if (!task) {
-        console.error(`Task with ID ${taskId} not found.`);
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
         return;
     }
+
+    const tasks = currentUser.tasks; // Zugriff auf die Tasks des aktuellen Benutzers
+    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+
+    if (!task) {
+        console.error(`Task mit ID ${taskId} nicht gefunden.`);
+        return;
+    }
+
     const titleInput = document.getElementById("title").value.trim();
     const descriptionInput = document.getElementById("description").value.trim();
     const dueDateInput = document.getElementById("dueDate").value;
     const categoryInput = document.getElementById("category").value;
+
     if (tempPriority) {
         task.priority = tempPriority;
         tempPriority = null;
     }
+
     if (titleInput) task.title = titleInput;
-    task.description = descriptionInput; 
+    task.description = descriptionInput;
     if (dueDateInput) task.due_Date = dueDateInput;
+
     if (categoryInput) {
         task.category.name = categoryInput;
-        task.category.class = categoryInput === "Technical Task" 
-            ? "categoryTechnicalTask" 
-            : "categoryUserStory"; 
+        task.category.class = categoryInput === "Technical Task"
+            ? "categoryTechnicalTask"
+            : "categoryUserStory";
     }
+
     closeEditTaskPopup();
     renderBoard();
-    openTaskPopup(taskId);
+    openTaskPopup(taskId); // Popup aktualisieren
 
-    console.log(`Task with ID ${taskId} updated successfully.`);
+    console.log(`Task mit ID ${taskId} erfolgreich aktualisiert.`);
 }
+
 
 
 
 
 
 function addNewSubtask(taskId) {
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+
+    const tasks = currentUser.tasks; // Zugriff auf die Tasks des aktuellen Benutzers
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
     const newSubtaskInput = document.getElementById('newSubtaskInput');
 
@@ -827,8 +856,10 @@ function addNewSubtask(taskId) {
         task.subtasks.push({ todo: newSubtaskInput.value.trim() });
         newSubtaskInput.value = '';
         renderBoard();
+        openTaskPopup(taskId); // Popup aktualisieren
+        console.log(`Subtask zu Task ${taskId} hinzugefügt.`);
     } else {
-        console.error("Failed to add new subtask or input is empty.");
+        console.error("Fehler beim Hinzufügen des Subtasks oder Eingabe ist leer.");
     }
 }
 
@@ -836,9 +867,18 @@ function addNewSubtask(taskId) {
 
 
 function closeEditTaskPopup() {
-    document.getElementById("editTaskPopupOverlay").classList.remove("visible");
-    document.getElementById("mainContent").classList.remove("blur");
+    const overlay = document.getElementById("editTaskPopupOverlay");
+    const mainContent = document.getElementById("mainContent");
+
+    if (overlay) overlay.classList.remove("visible");
+    if (mainContent) mainContent.classList.remove("blur");
+
+    // Zusätzliche Aufräumarbeiten
+    tempPriority = null; // Temp-Priorität zurücksetzen, falls vorhanden
+
+    console.log("Edit task popup closed.");
 }
+
 
 
 let taskIdCounter = 1;
@@ -882,67 +922,93 @@ let taskIdCounter = 1;
 let currentListId = 'todo'; 
 
 function openAddTaskPopup(listId) {
-    currentListId = listId;
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+
+    const tasks = currentUser.tasks; // Zugriff auf die Tasks des aktuellen Benutzers
+    const targetList = tasks.find(list => list.id === listId);
+    if (!targetList) {
+        console.error(`Liste mit ID "${listId}" nicht gefunden.`);
+        return;
+    }
+
+    currentListId = listId; // Speichert die ID der Ziel-Liste
     const popup = document.getElementById('addTaskPopupOverlay');
     if (popup) {
         popup.classList.remove('hidden');
+    } else {
+        console.error('Popup-Element nicht gefunden.');
     }
 }
 
 
 function closeAddTaskPopup() {
+    // Schließen des Popups
     const popup = document.getElementById('addTaskPopupOverlay');
+    const mainContent = document.getElementById('mainContent');
     if (popup) {
-        popup.classList.add('hidden'); 
+        popup.classList.add('hidden');
     }
+    if (mainContent) {
+        mainContent.classList.remove('blur'); // Entfernen des Blur-Effekts
+    }
+
+    console.log("Add Task Popup closed.");
 }
 
+
+
+
+
+
 function addTaskToList(event) {
-    if (event) event.preventDefault(); 
+    if (event) event.preventDefault();
+
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+
+    const tasks = currentUser.tasks; // Zugriff auf Tasks des angemeldeten Benutzers
+    const targetList = tasks.find(list => list.id === currentListId);
+
+    if (!targetList) {
+        console.error(`Liste mit ID "${currentListId}" nicht gefunden.`);
+        return;
+    }
 
     const title = document.getElementById('title').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
 
-
-    if (!title) {
-        alert('Title is required!');
-        return;
-    }
-    if (!dueDate) {
-        alert('Due date is required!');
-        return;
-    }
-    if (!category) {
-        alert('Category is required!');
+    if (!title || !dueDate || !category) {
+        alert('Alle Pflichtfelder müssen ausgefüllt werden!');
         return;
     }
 
-    const description = document.getElementById('description').value.trim();
-    const subtaskInputs = document.querySelectorAll('.addSubTaskInput');
-    const subtasks = Array.from(subtaskInputs).map(input => ({ todo: input.value.trim() })).filter(st => st.todo);
     const newTask = {
         id: Date.now(),
         title: title,
-        description: description,
+        description: document.getElementById('description').value.trim(),
         workers: [{ name: 'Default Worker', class: 'worker-default' }],
         due_Date: dueDate,
         priority: document.querySelector('.priorityBtn.active')?.id.replace('prio', '') || 'Low',
         category: { name: category, class: `category${category.replace(' ', '')}` },
-        subtasks: subtasks
+        subtasks: Array.from(document.querySelectorAll('.addSubTaskInput'))
+            .map(input => ({ todo: input.value.trim() }))
+            .filter(st => st.todo)
     };
 
-    const targetList = tasks.find(list => list.id === currentListId);
-    if (targetList) {
-        targetList.task.push(newTask);
-        renderBoard();
-        closeAddTaskPopup();
-        document.getElementById('addTaskFormTask').reset();
-        console.log(`Task successfully added to "${currentListId}"`);
-    } else {
-        console.error(`List with ID "${currentListId}" not found.`);
-    };
+    targetList.task.push(newTask);
+    renderBoard();
+    closeAddTaskPopup();
+    document.getElementById('addTaskFormTask').reset();
+    console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt.`);
 }
+
+
 
 
 
