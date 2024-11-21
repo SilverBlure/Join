@@ -1,3 +1,6 @@
+body{
+    overflow: hidden;
+}
 .contactContainer {
     display: flex;
     justify-content: center;
@@ -14,7 +17,7 @@
 .contactsBar {
     display: flex;
     flex-direction: column;
-    width: 645px;
+    width: 456px;
     height: 1024px;
     padding-left: 35px;
     padding-right: 35px;
@@ -109,15 +112,14 @@
     height: 100vh;
     display: flex;
     justify-content: start;
-    align-items: center;
     flex-direction: column;
+    padding-left: 65px;
 }
 
 .contactHeadline {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 65px;
     margin-top: 50px;
 }
 
@@ -178,4 +180,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+h1{
+    font-size: 61px;
+    font-weight: 700;
+}
+h3{
+    font-size: 27px;
+    font-weight: 400;
 }

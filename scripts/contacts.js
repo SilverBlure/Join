@@ -39,18 +39,20 @@ async function loadContacts(){
 
    let response= await fetch(baseUrl + ".json")
    let contactData = await response.json();
-   let contactDatas =[];
-   contacts.push(contactData);
+   console.log(contactData);
    
-for (let i = 1; i < contactDatas.length; i++) {
+   
+for (let i = 1; i < contactData.length; i++) {
     let UserInfos = {
         id: i,
-        firstName: contacs[0].contacts[i].firstName,
-        lastName: contacts[0].contacts[i].lastName,
-        email: contacts[0].contacts[i].email,
-        phone: contacts[0].contacts[i].phone
+        firstName: contactData.i.firstName,
+        lastName: contactData.i.lastName,
+        email: contactData.i.email,
+        phone: contactData.i.phone
     };
     contacts.push(UserInfos);
+    console.log(UserInfos);
+    
 }
 console.log(contacts);
 
