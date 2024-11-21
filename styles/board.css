@@ -559,3 +559,9 @@ select:focus {
     height: 16px;
     cursor: pointer;
 }
+
+
+.addTaskContent {
+    padding-left: 100px;
+    padding-top: 30px;
+}
