@@ -1,4 +1,3 @@
-// Benutzer-Array
 let users = [
     {
         id: '1',
@@ -121,97 +120,85 @@ let users = [
     }
 ];
 
+let currentUser = users.find(user => user.id === '1'); 
 
 
 
+function addTaskToToDoList(event) {
+    if (event) event.preventDefault();
 
-
-
-
-
-
-
-
-function acceptPrivacyPolicy() {
-    const checkbox = document.getElementById('checkbox');
-    const signUpBtn = document.getElementById('signUpBtn');
-    signUpBtn.disabled = !checkbox.checked; 
-}
-
-
-
-
-
-function signUp(event) {
-    event.preventDefault(); 
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password1 = document.getElementById('password_1').value;
-    const password2 = document.getElementById('password_2').value;
-    if (!name || !email || !password1 || !password2) {
-        alert('Bitte füllen Sie alle Felder aus!');
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
         return;
     }
-    if (password1 !== password2) {
-        alert('Die Passwörter stimmen nicht überein!');
+
+    const tasks = currentUser.tasks; 
+    const todoList = tasks.find(list => list.id === 'todo'); // Statische Zuordnung zur "To-Do"-Liste
+    if (!todoList) {
+        console.error('To-Do-Liste nicht gefunden.');
         return;
     }
-    const newUser = {
-        id: Date.now(), 
-        name: name,
-        email: email,
-        password: password1,
-        tasks: [] 
+
+    const title = document.getElementById('title').value.trim();
+    const dueDate = document.getElementById('date').value;
+    const category = document.getElementById('category').value;
+
+    if (!title || !dueDate || !category) {
+        alert('Alle Pflichtfelder müssen ausgefüllt werden!');
+        return;
+    }
+
+    const newTask = {
+        id: Date.now(), // Automatische ID
+        title: title,
+        description: document.getElementById('description').value.trim(),
+        workers: [{ name: 'Default Worker', class: 'worker-default' }], // Beispiel-Worker
+        due_Date: dueDate,
+        priority: tempPriority || 'Low', // Standard-Priorität, wenn keine ausgewählt
+        category: { name: category, class: `category${category.replace(' ', '')}` },
+        subtasks: Array.from(document.querySelectorAll('.addSubTaskInput'))
+            .map(input => ({ todo: input.value.trim() }))
+            .filter(st => st.todo)
     };
-    users.push(newUser);
-    console.log('Neuer Benutzer hinzugefügt:', newUser);
-    console.log('Alle Benutzer:', users);
-    document.getElementById('signUpForm').reset(); 
-    alert('Registrierung erfolgreich!');
-    window.location.href = './../html/login.html'; 
+
+    todoList.task.push(newTask); // Direkte Zuordnung zur "To-Do"-Liste
+    document.getElementById('addTaskFormTask').reset();
+    tempPriority = null; // Reset der temporären Priorität
+
+    console.log('Neue Aufgabe erfolgreich zur "To-Do"-Liste hinzugefügt.');
 }
 
 
 
 
-function handleRememberMe(event) {
-    event.preventDefault(); 
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const rememberMe = document.getElementById('checkbox').checked; 
-    if (rememberMe) {
-        localStorage.setItem('email', email);
-        localStorage.setItem('password', password);
+let tempPriority = null;
+
+
+
+function setPriority(priority) {
+    tempPriority = priority; 
+    document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active')); 
+    const activeButton = document.getElementById(`prio${priority}`); 
+    if (activeButton) {
+        activeButton.classList.add('active'); 
     } else {
-        localStorage.removeItem('email');
-        localStorage.removeItem('password');
+        console.warn(`Button for priority "${priority}" not found.`);
     }
-    logIn(email, password);  
 }
 
-
-
-
-function logIn(email, password) {
-    const user = users.find(user => user.email === email && user.password === password);
-    if (user) {
-        window.location.href = './../html/summary.html';  
+function addNewSubtask(taskId) {
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+    const tasks = currentUser.tasks; 
+    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+    const newSubtaskInput = document.getElementById('newSubtaskInput');
+    if (task && newSubtaskInput && newSubtaskInput.value.trim() !== '') {
+        task.subtasks.push({ todo: newSubtaskInput.value.trim() });
+        newSubtaskInput.value = '';
+        console.log(`Subtask zu Task ${taskId} hinzugefügt.`);
     } else {
-        alert('E-Mail oder Passwort sind falsch. Bitte versuche es erneut.');
+        console.error("Fehler beim Hinzufügen des Subtasks oder Eingabe ist leer.");
     }
 }
-
-
-
-
-window.onload = function() {
-    const savedEmail = localStorage.getItem('email');
-    const savedPassword = localStorage.getItem('password');
-    if (savedEmail && savedPassword) {
-        document.getElementById('email').value = savedEmail;
-        document.getElementById('password').value = savedPassword;
-        logIn(savedEmail, savedPassword);
-    }
-};
-
-
