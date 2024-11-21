@@ -1,3 +1,6 @@
+const BASE_URL = 'https://join-b023c-default-rtdb.europe-west1.firebasedatabase.app/';
+
+
 let users = [
     {
         id: '1',
@@ -282,25 +285,29 @@ function deleteSubtask(taskId, subtaskIndex) {
 
 
 
-function deleteTask(taskId) {
-    const currentUserId = '1'; 
-    const currentUser = users.find(user => user.id === currentUserId);
-    if (!currentUser) {
-        console.error('Kein angemeldeter Benutzer gefunden!');
-        return;
-    }
-    currentUser.tasks.forEach(list => {
+async function deleteTask(taskId) {
+    const tasks = currentUser.tasks;
+    let taskFound = false;
+
+    tasks.forEach(list => {
         const taskIndex = list.task.findIndex(task => task.id === taskId);
         if (taskIndex !== -1) {
-            list.task.splice(taskIndex, 1);
-            renderBoard();
-            closeTaskPopup();
-            console.log(`Task mit ID ${taskId} wurde gelöscht.`);
-            return;
+            list.task.splice(taskIndex, 1); // Lokal entfernen
+            taskFound = true;
         }
     });
 
-    console.error(`Task mit ID ${taskId} wurde nicht gefunden.`);
+    if (taskFound) {
+        // **Firebase Löschung**
+        await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task/${taskId}.json`, {
+            method: 'DELETE'
+        });
+        renderBoard();
+        closeTaskPopup();
+        console.log(`Task mit ID ${taskId} erfolgreich gelöscht.`);
+    } else {
+        console.error(`Task mit ID ${taskId} nicht gefunden.`);
+    }
 }
 
 
@@ -678,37 +685,38 @@ function setPriority(priority) {
 
 
 
-function saveTaskChanges(taskId) {
-    if (!currentUser) {
-        console.error('Kein Benutzer ist angemeldet!');
-        return;
-    }
-    const tasks = currentUser.tasks; 
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+async function saveTaskChanges(taskId) {
+    const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
     if (!task) {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
         return;
     }
-    const titleInput = document.getElementById("title").value.trim();
-    const descriptionInput = document.getElementById("description").value.trim();
-    const dueDateInput = document.getElementById("dueDate").value;
-    const categoryInput = document.getElementById("category").value;
-    if (tempPriority) {
-        task.priority = tempPriority;
-        tempPriority = null;
-    }
-    if (titleInput) task.title = titleInput;
-    task.description = descriptionInput;
-    if (dueDateInput) task.due_Date = dueDateInput;
-    if (categoryInput) {
-        task.category.name = categoryInput;
-        task.category.class = categoryInput === "Technical Task"
-            ? "categoryTechnicalTask"
-            : "categoryUserStory";
-    }
+
+    const updatedTask = {
+        title: document.getElementById("title").value.trim(),
+        description: document.getElementById("description").value.trim(),
+        due_Date: document.getElementById("dueDate").value,
+        category: {
+            name: document.getElementById("category").value,
+            class: document.getElementById("category").value === "Technical Task" 
+                ? "categoryTechnicalTask" 
+                : "categoryUserStory"
+        },
+        priority: tempPriority || task.priority
+    };
+
+    Object.assign(task, updatedTask); // Update Task lokal
+
+    // **Firebase Aktualisierung**
+    await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task/${taskId}.json`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedTask)
+    });
+
     closeEditTaskPopup();
     renderBoard();
-    openTaskPopup(taskId); 
+    openTaskPopup(taskId);
     console.log(`Task mit ID ${taskId} erfolgreich aktualisiert.`);
 }
 
@@ -791,26 +799,37 @@ function closeAddTaskPopup() {
 
 
 
-
-function addTaskToList(event) {
+async function addTaskToList(event) {
     if (event) event.preventDefault();
+
     if (!currentUser) {
         console.error('Kein Benutzer ist angemeldet!');
         return;
     }
-    const tasks = currentUser.tasks; 
+
+    const tasks = currentUser.tasks;
     const targetList = tasks.find(list => list.id === currentListId);
+
     if (!targetList) {
         console.error(`Liste mit ID "${currentListId}" nicht gefunden.`);
         return;
     }
+
     const title = document.getElementById('title').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
+
+    // Validierung
     if (!title || !dueDate || !category) {
         alert('Alle Pflichtfelder müssen ausgefüllt werden!');
         return;
     }
+
+    if (typeof category !== 'string') {
+        alert("Ungültige Kategorie.");
+        return;
+    }
+
     const newTask = {
         id: Date.now(),
         title: title,
@@ -823,12 +842,20 @@ function addTaskToList(event) {
             .map(input => ({ todo: input.value.trim() }))
             .filter(st => st.todo)
     };
+
     targetList.task.push(newTask);
-    renderBoard();
-    closeAddTaskPopup();
     document.getElementById('addTaskFormTask').reset();
+
+    // Firebase-Speichern
+    await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task.json`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTask)
+    });
+
     console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt.`);
 }
+
 
 
 
@@ -843,4 +870,34 @@ function addTaskToInProgress() {
 function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback'); 
 }
+
+// Alle deine Funktionsdefinitionen
+
+async function loadData() {
+    try {
+        const response = await fetch(`${BASE_URL}/users.json`);
+        const data = await response.json();
+
+        if (data) {
+            const userId = '1'; // Aktueller Benutzer
+            currentUser = data[userId];
+
+            if (!currentUser || !currentUser.tasks) {
+                console.error("Benutzer oder Aufgaben nicht gefunden.");
+                return;
+            }
+
+            renderBoard();
+        } else {
+            console.error("Keine Daten von der Datenbank erhalten.");
+        }
+    } catch (error) {
+        console.error("Fehler beim Laden der Daten:", error);
+    }
+}
+
+// DOMContentLoaded wird hier registriert
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadData();
+});
 
