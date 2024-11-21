@@ -125,11 +125,21 @@ let users = [
 
 
 
-
 function renderBoard() {
-    tasks.forEach(list => {
+    // Angemeldeten Benutzer ermitteln (z. B. basierend auf einer aktuellen Benutzer-ID)
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
+    const currentUser = users.find(user => user.id === currentUserId);
+
+    if (!currentUser) {
+        console.error('Kein angemeldeter Benutzer gefunden!');
+        return;
+    }
+
+    // Durchlaufe die Listen des aktuellen Benutzers
+    currentUser.tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
         content.innerHTML = "";
+
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
                 <div class="nothingToDo">
@@ -178,21 +188,32 @@ function renderBoard() {
 
 
 
-
-
 function openTaskPopup(taskId) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
+    const currentUser = users.find(user => user.id === currentUserId);
+
+    if (!currentUser) {
+        console.error('Kein angemeldeter Benutzer gefunden!');
+        return;
+    }
+
+    // Finde die Task des aktuellen Benutzers
+    const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
+
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
+
     if (popupOverlay && popupContainer && task) {
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
+
         const workersHTML = task.workers.map(worker => /*html*/`
             <div class="workerInformation">
                 <p class="${worker.class} workerEmblem workerIcon">${worker.name.charAt(0)}</p>
                 <p class="workerName">${worker.name}</p> 
             </div>
         `).join('');
+
         const subtasksHTML = task.subtasks.length > 0
             ? /*html*/`
                 <h3>Subtasks</h3>
@@ -214,7 +235,7 @@ function openTaskPopup(taskId) {
                                     class="hoverBtn" 
                                     src="../../assets/icons/png/editIcon.png" 
                                     onclick="editSubtask(${task.id}, ${index})" 
-                                    alt="Delete Subtask">    
+                                    alt="Edit Subtask">    
                             <img 
                                     class="hoverBtn" 
                                     src="../../assets/icons/png/iconoir_cancel.png" 
@@ -226,6 +247,7 @@ function openTaskPopup(taskId) {
             }).join('')}
             `
             : '';
+
         popupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
                 <p class="${task.category.class} taskCategory">${task.category.name}</p>
@@ -244,35 +266,61 @@ function openTaskPopup(taskId) {
             </div>
         `;
     } else {
-        console.error("Popup overlay or task data not found.");
+        console.error("Popup overlay oder Task-Daten nicht gefunden.");
     }
 }
-
 
 
 function deleteSubtask(taskId, subtaskIndex) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
+    const currentUser = users.find(user => user.id === currentUserId);
+
+    if (!currentUser) {
+        console.error('Kein angemeldeter Benutzer gefunden!');
+        return;
+    }
+
+    // Finde die Task des aktuellen Benutzers
+    const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
+
     if (task && task.subtasks[subtaskIndex]) {
+        // Subtask entfernen
         task.subtasks.splice(subtaskIndex, 1);
+
+        // Popup und Board neu rendern
         openTaskPopup(taskId);
         renderBoard();
     } else {
-        console.error(`Subtask with index ${subtaskIndex} not found in task ${taskId}.`);
+        console.error(`Subtask mit Index ${subtaskIndex} nicht in Task ${taskId} gefunden.`);
     }
 }
 
 
+
 function deleteTask(taskId) {
-    tasks.forEach(list => {
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
+    const currentUser = users.find(user => user.id === currentUserId);
+
+    if (!currentUser) {
+        console.error('Kein angemeldeter Benutzer gefunden!');
+        return;
+    }
+
+    // Iteriere über die Task-Listen des aktuellen Benutzers
+    currentUser.tasks.forEach(list => {
         const taskIndex = list.task.findIndex(task => task.id === taskId);
         if (taskIndex !== -1) {
+            // Task löschen
             list.task.splice(taskIndex, 1);
+            
+            // UI aktualisieren
             renderBoard();
             closeTaskPopup();
             console.log(`Task mit ID ${taskId} wurde gelöscht.`);
-            return; 
+            return;
         }
     });
+
     console.error(`Task mit ID ${taskId} wurde nicht gefunden.`);
 }
 
@@ -281,19 +329,41 @@ function deleteTask(taskId) {
 
 
 
+
 function editSubtask(taskId, subtaskIndex) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-    if (!task || !task.subtasks[subtaskIndex]) {
-        console.error(`Task or Subtask not found (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
+    const currentUser = users.find(user => user.id === currentUserId);
+
+    if (!currentUser) {
+        console.error('Kein angemeldeter Benutzer gefunden!');
         return;
     }
+
+    // Finde die entsprechende Task in den Listen des Benutzers
+    let task;
+    currentUser.tasks.forEach(list => {
+        const foundTask = list.task.find(t => t.id === taskId);
+        if (foundTask) {
+            task = foundTask;
+        }
+    });
+
+    if (!task || !task.subtasks[subtaskIndex]) {
+        console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+        return;
+    }
+
     const subtask = task.subtasks[subtaskIndex];
     const subtaskText = subtask.done || subtask.todo;
+
+    // Finde das entsprechende HTML-Element
     const subtaskElement = document.getElementById(`subtask-${taskId}-${subtaskIndex}`);
     if (!subtaskElement) {
-        console.error(`Subtask element not found (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+        console.error(`Subtask-Element nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
         return;
     }
+
+    // Erstelle das Bearbeitungsfeld
     subtaskElement.innerHTML = /*html*/`
         <input
             type="text" 
@@ -306,6 +376,8 @@ function editSubtask(taskId, subtaskIndex) {
             Save
         </button>
     `;
+
+    // Setze den Fokus auf das Eingabefeld
     const inputField = subtaskElement.querySelector('.editSubtaskInput');
     if (inputField) inputField.focus();
 }
@@ -314,21 +386,48 @@ function editSubtask(taskId, subtaskIndex) {
 
 
 
+
 function saveSubtaskEdit(taskId, subtaskIndex, newValue) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-    if (!task || !task.subtasks[subtaskIndex]) {
-        console.error(`Task or Subtask not found (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
+    const currentUser = users.find(user => user.id === currentUserId);
+
+    if (!currentUser) {
+        console.error('Kein angemeldeter Benutzer gefunden!');
         return;
     }
+
+    // Finde die entsprechende Task in den Listen des Benutzers
+    let task;
+    currentUser.tasks.forEach(list => {
+        const foundTask = list.task.find(t => t.id === taskId);
+        if (foundTask) {
+            task = foundTask;
+        }
+    });
+
+    if (!task || !task.subtasks[subtaskIndex]) {
+        console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+        return;
+    }
+
     const subtask = task.subtasks[subtaskIndex];
+
+    // Aktualisiere den entsprechenden Wert
     if (subtask.done) {
         subtask.done = newValue;
     } else if (subtask.todo) {
         subtask.todo = newValue;
+    } else {
+        console.error('Subtask hat kein gültiges Feld (done/todo).');
+        return;
     }
-    openTaskPopup(taskId); 
-    renderBoard(); 
+
+    // Aktualisiere das UI
+    openTaskPopup(taskId);
+    renderBoard();
+    console.log(`Subtask mit Index ${subtaskIndex} in Task ID ${taskId} erfolgreich aktualisiert.`);
 }
+
 
 
 
@@ -336,28 +435,51 @@ function saveSubtaskEdit(taskId, subtaskIndex, newValue) {
 
 
 function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-    if (task && task.subtasks[subtaskIndex]) {
-        const subtask = task.subtasks[subtaskIndex];
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
+    const currentUser = users.find(user => user.id === currentUserId);
 
-        if (isChecked) {
-            subtask.done = subtask.todo;
-            delete subtask.todo;
-        } else {
-            subtask.todo = subtask.done;
-            delete subtask.done;
-        }
-        const subtaskElement = document.querySelector(`#subtask-${taskId}-${subtaskIndex} .subtaskText`);
-        if (subtaskElement) {
-            subtaskElement.style.textDecoration = isChecked ? "line-through" : "none";
-        }
-        openTaskPopup(taskId);
-    } else {
-        console.error(`Subtask with index ${subtaskIndex} not found in task ${taskId}.`);
+    if (!currentUser) {
+        console.error('Kein angemeldeter Benutzer gefunden!');
+        return;
     }
 
+    // Finde die entsprechende Task in den Listen des Benutzers
+    let task;
+    currentUser.tasks.forEach(list => {
+        const foundTask = list.task.find(t => t.id === taskId);
+        if (foundTask) {
+            task = foundTask;
+        }
+    });
+
+    if (!task || !task.subtasks[subtaskIndex]) {
+        console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+        return;
+    }
+
+    const subtask = task.subtasks[subtaskIndex];
+
+    // Status umschalten
+    if (isChecked) {
+        subtask.done = subtask.todo;
+        delete subtask.todo;
+    } else {
+        subtask.todo = subtask.done;
+        delete subtask.done;
+    }
+
+    // Subtask-Stil im UI aktualisieren
+    const subtaskElement = document.querySelector(`#subtask-${taskId}-${subtaskIndex} .subtaskText`);
+    if (subtaskElement) {
+        subtaskElement.style.textDecoration = isChecked ? "line-through" : "none";
+    }
+
+    // Popup und Board aktualisieren
+    openTaskPopup(taskId);
     renderBoard();
+    console.log(`Subtask Status mit Index ${subtaskIndex} in Task ID ${taskId} erfolgreich umgeschaltet.`);
 }
+
 
 
 
@@ -402,71 +524,94 @@ function closeAddTaskPopup() {
 
 
 
-let currentDraggedElement; // Speichert die ID der aktuell gezogenen Card
+let currentDraggedElement; 
 
 function startDragging(taskId) {
     currentDraggedElement = taskId;
 
-    // Card drehen
     const card = document.getElementById(`boardCard-${taskId}`);
     if (card) {
-        card.classList.add('dragging'); // CSS-Klasse hinzufügen
+        card.classList.add('dragging');
+        console.log(`Start dragging task ID: ${taskId}`);
+    } else {
+        console.error(`Card mit ID boardCard-${taskId} nicht gefunden.`);
     }
 }
+
 
 function stopDragging() {
-    // Drehung entfernen
     const card = document.getElementById(`boardCard-${currentDraggedElement}`);
     if (card) {
-        card.classList.remove('dragging'); // CSS-Klasse entfernen
+        card.classList.remove('dragging');
+        console.log(`Stop dragging task ID: ${currentDraggedElement}`);
     }
 
-    currentDraggedElement = null;
+    currentDraggedElement = null; // Reset dragged element
 }
 
-function allowDrop(event) { 
-    event.preventDefault(); // Erlaubt das Ablegen
-    event.stopPropagation(); // Verhindert, dass andere Elemente das Event blockieren
+
+function allowDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
 }
+
 
 
 function highlightList(listId) {
     const list = document.getElementById(listId);
-  
-        list.classList.add('highlight'); // Füge die Highlight-Klasse hinzu
-    
+    if (list) {
+        list.classList.add('highlight');
+        console.log(`Liste mit ID ${listId} hervorgehoben.`);
+    } else {
+        console.error(`Liste mit ID ${listId} nicht gefunden.`);
+    }
 }
+
 
 function unhighlightList(listId) {
     const list = document.getElementById(listId);
-   
-        list.classList.remove('highlight'); // Entferne die Highlight-Klasse
-    
+    if (list) {
+        list.classList.remove('highlight');
+        console.log(`Highlight von Liste mit ID ${listId} entfernt.`);
+    } else {
+        console.error(`Liste mit ID ${listId} nicht gefunden.`);
+    }
 }
+
 
 
 function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
+
     let sourceList, task;
+
+    // Finde die Quelle der Aufgabe
     tasks.forEach(list => {
         const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
         if (taskIndex !== -1) {
             sourceList = list;
-            [task] = sourceList.task.splice(taskIndex, 1);
+            [task] = sourceList.task.splice(taskIndex, 1); // Entferne aus Quellliste
         }
     });
 
-    const targetList = tasks.find(list => list.id === targetListId);
-    if (targetList && task) {
-        targetList.task.push(task);
-        renderBoard();
+    if (!task) {
+        console.error(`Task mit ID ${currentDraggedElement} wurde nicht gefunden.`);
+        return;
     }
 
-    // Entferne Drehung nach dem Drop
-    stopDragging();
+    // Füge zur Ziel-Liste hinzu
+    const targetList = tasks.find(list => list.id === targetListId);
+    if (targetList) {
+        targetList.task.push(task);
+        console.log(`Task ID ${currentDraggedElement} verschoben nach ${targetListId}`);
+        renderBoard();
+    } else {
+        console.error(`Liste mit ID ${targetListId} nicht gefunden.`);
+    }
 
-    // Entferne Hervorhebung der Liste
+    // Beende Dragging und entferne Highlights
+    stopDragging();
     unhighlightList(`${targetListId}List`);
 }
 
@@ -491,38 +636,60 @@ function handleDrop(event, targetListId) {
 
 
 
+
 function findTask() {
-    const searchTerm = document.getElementById('findTask').value.toLowerCase();
+    const searchTerm = document.getElementById('findTask').value.trim().toLowerCase();
+    
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
-        content.innerHTML = "";
+        if (!content) {
+            console.error(`Liste mit ID ${list.id} nicht gefunden.`);
+            return;
+        }
+        
+        content.innerHTML = ""; // Leere den Container
+        
+        // Filtere die Aufgaben basierend auf dem Suchbegriff
         const filteredTasks = list.task.filter(task =>
             task.title.toLowerCase().includes(searchTerm) ||
             task.description.toLowerCase().includes(searchTerm)
         );
+
         if (filteredTasks.length === 0) {
+            // Keine Aufgaben gefunden
             content.innerHTML = /*html*/`
                 <div class="nothingToDo">
                     <p class="nothingToDoText">No matching Task found</p>
                 </div>
             `;
         } else {
+            // Aufgaben anzeigen
             filteredTasks.forEach(task => {
+                const totalCount = task.subtasks ? task.subtasks.length : 0;
+                const doneCount = task.subtasks ? task.subtasks.filter(st => st.done).length : 0;
+                const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
+
                 content.innerHTML += /*html*/`
-                    <div draggable="true" ondragstart="startDragging(${task.id})" class="boardCard">
-                    <p class="${task.category.class} taskCategory">${task.category.name}</p>
+                    <div draggable="true" 
+                         ondragstart="startDragging(${task.id})" 
+                         onclick="openTaskPopup(${task.id})" 
+                         class="boardCard">
+                        <p class="${task.category.class} taskCategory">${task.category.name}</p>
                         <p class="taskCardTitle">${task.title}</p>
                         <p class="taskCardDescription">${task.description}</p>
                         <div class="subtasksContainer">
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
                                 <div class="progress-bar" style="width: ${progressPercent}%;"></div>
                             </div>
-                            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>                        </div>
+                            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
+                        </div>
                         <div class="BoardCardFooter">
                             <div class="worker">
                                 ${task.workers.map((worker, index) =>
-                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`
-                ).join('')}
+                                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">
+                                        ${worker.name.charAt(0)}
+                                     </p>`
+                                ).join('')}
                             </div>
                             <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png"> 
                         </div>
@@ -531,7 +698,10 @@ function findTask() {
             });
         }
     });
+
+    console.log(`Suche abgeschlossen. Suchbegriff: "${searchTerm}"`);
 }
+
 
 
 
