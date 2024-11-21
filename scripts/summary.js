@@ -1,56 +1,49 @@
 function renderDashboard() {
-     renderToDoTasks();
-     renderDoneTasks();
-     renderUrgentTasks();
-     renderAllTasks();
-     renderInProgressTasks();
-     renderAwaitingFeedbackTasks();
+    renderToDoTasks();
+    renderDoneTasks();
+    renderUrgentTasks();
+    renderAllTasks();
+    renderInProgressTasks();
+    renderAwaitingFeedbackTasks();
 }
 
-
 function renderToDoTasks() {
-    const toDoTasks = tasks.find(list => list.id === 'todo').task.length;
+    const toDoTasks = currentUser.tasks.find(list => list.id === 'todo').task.length;
     document.getElementById('toDoTasks').textContent = toDoTasks;
 }
 
-
 function renderDoneTasks() {
-    const doneTasks = tasks.find(list => list.id === 'done').task.length;
+    const doneTasks = currentUser.tasks.find(list => list.id === 'done').task.length;
     document.getElementById('doneTasks').textContent = doneTasks;
 }
 
-
 function renderUrgentTasks() {
-    const urgentTasks = tasks.reduce((count, list) => 
+    const urgentTasks = currentUser.tasks.reduce((count, list) => 
         count + list.task.filter(task => task.priority === 'Urgent').length
     , 0);
     document.getElementById('urgentTasks').textContent = urgentTasks;
 }
 
-
 function renderAllTasks() {
-    const allTasks = tasks.reduce((count, list) => count + list.task.length, 0);
+    const allTasks = currentUser.tasks.reduce((count, list) => count + list.task.length, 0);
     document.getElementById('allTasks').textContent = allTasks;
 }
 
-
 function renderInProgressTasks() {
-    const inProgressTasks = tasks.find(list => list.id === 'inProgress').task.length;
+    const inProgressTasks = currentUser.tasks.find(list => list.id === 'inProgress').task.length;
     document.getElementById('inProgressTasks').textContent = inProgressTasks;
 }
 
-
 function renderAwaitingFeedbackTasks() {
-    const awaitingFeedbackTasks = tasks.find(list => list.id === 'awaitFeedback').task.length;
+    const awaitingFeedbackTasks = currentUser.tasks.find(list => list.id === 'awaitFeedback').task.length;
     document.getElementById('awaitFeddbackTasks').textContent = awaitingFeedbackTasks;
 }
-
 
 function getNextDueDate() {
     const today = new Date(); 
     let closestDate = null;
 
-    tasks.forEach(list => {
+    currentUser.tasks.forEach(list => {
         list.task.forEach(task => {
             const taskDate = new Date(task.due_Date); 
 
@@ -71,8 +64,6 @@ function getNextDueDate() {
         document.getElementById('nextDueDate').innerHTML = "Kein zukünftiges Datum gefunden";
     }
 }
-
-
 
 function setGreeting() {
     const greetingElement = document.getElementById('greeting');

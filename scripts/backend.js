@@ -2,8 +2,6 @@
 
 const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 
-//registrierungs section
-
 let emailArray = [];
 
 async function initReg() {
@@ -29,6 +27,11 @@ function signIn() {
     location.href ='./login.html';
     }
 }
+
+// Test-Aufruf
+saveData(users);
+
+
 
 async function createNewEntry(name, email, pw) {
     let response = await fetch(BASE_URL + "data/user" + '.json', {

@@ -179,6 +179,8 @@ a {
     opacity: 0;
     transition: opacity .45s;
     -webkit-transition: opacity .35s;
+    color: black;
+    cursor: pointer;
 }
 
 .logoutButton:hover .logout {
