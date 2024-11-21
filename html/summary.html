@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/styles/templates.css">
 </head>
 
-<body onload="includeHTML(); renderDashboard()">
+<body onload="includeHTML(); renderDashboard(); getNextDueDate(); setGreeting()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
     
     <div class="content">
@@ -59,7 +59,7 @@
 
                     <span class="greyLine"></span>
                     <div>
-                        <h3 id="nextDueDate" style="font-weight: 700;">November 02, 2024</h3>
+                        <h3 id="nextDueDate" style="font-weight: 700;"></h3>
                         <p>Upcoming Deadline</p>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="userGreeting">
-                <h2 class="margin_0">Good Morning,</h2>
+                <h2 id="greeting" class="margin_0">Good Morning,</h2>
                 <h1 class="name">Stanislav Levin</h1>
             </div>
         </div>

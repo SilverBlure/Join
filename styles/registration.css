@@ -8,6 +8,8 @@
     border-radius: 30px;
     gap: 28px;
     padding: 20px 50px;
+    margin-top: 84px;
+    animation: fadeInBlur 1s ease forwards;
 }
 
 .condition {

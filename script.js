@@ -27,18 +27,10 @@ function includeHTML() {
   }
 
   function startIntro() {
-    const introLogo = document.querySelector('.joinIntro');
-
- 
-    setTimeout(() => {
-        introLogo.classList.add('shrink'); 
-    }, 8000);
-
     setTimeout(() => {
         showLogin();
-    }, 4000);
+    }, 3000);
 };
-
 
 function showLogin() {
     window.location.href = 'login + registration/login/login.html'; 
