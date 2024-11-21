@@ -115,15 +115,15 @@ function login(){
     let pwInput =document.getElementById('password').value;
     let checkbox = document.getElementById('checkbox');// die kleine checkbox strapaziert meine nerven
     let check = checkLogin(emailInput, pwInput);
-    sessionId = check.id;
-    console.log(sessionId);
     let isChecked = checkbox.checked;
     if(check.match&&isChecked){
         localStorage.setItem('email', emailInput);
         localStorage.setItem('pw', pwInput);
+        localStorage.setItem('sessionKey', check.id);
         alert('Login Local gesaved!')
         location.href ='./summary.html';
     }else if(check.match){
+        localStorage.setItem('sessionKey', check.id);
         alert('Du wirst weitergeleitet deine anmelde daten werden nicht local gespeichert!')
         location.href ='./summary.html';
     }else{

@@ -94,5 +94,12 @@ function setGreeting() {
 //----------------------------------------------------------------------------------------
 
 async function init(){
-    console.log(sessionId);
+    getUserData();
+}
+
+async function getUserData(){
+    let sessionKey = localStorage.getItem('sessionKey')
+    let response = await fetch(BASE_URL + 'data/user/' + sessionKey + '.json');
+    let responseAsJson = await response.json();
+    console.log(responseAsJson);
 }
