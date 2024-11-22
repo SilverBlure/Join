@@ -284,7 +284,6 @@ function deleteSubtask(taskId, subtaskIndex) {
 }
 
 
-
 async function deleteTask(taskId) {
     const tasks = currentUser.tasks;
     let taskFound = false;
@@ -292,19 +291,24 @@ async function deleteTask(taskId) {
     tasks.forEach(list => {
         const taskIndex = list.task.findIndex(task => task.id === taskId);
         if (taskIndex !== -1) {
-            list.task.splice(taskIndex, 1); // Lokal entfernen
+            list.task.splice(taskIndex, 1); 
             taskFound = true;
         }
     });
 
     if (taskFound) {
-        // **Firebase Löschung**
-        await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task/${taskId}.json`, {
-            method: 'DELETE'
-        });
-        renderBoard();
-        closeTaskPopup();
-        console.log(`Task mit ID ${taskId} erfolgreich gelöscht.`);
+        try {
+            await fetch(`${BASE_URL}/users/${currentUser.id}/tasks.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(currentUser.tasks)
+            });
+            renderBoard();
+            closeTaskPopup();
+            console.log(`Task mit ID ${taskId} erfolgreich gelöscht.`);
+        } catch (error) {
+            console.error("Fehler beim Löschen der Aufgabe in Firebase:", error);
+        }
     } else {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
     }
@@ -438,103 +442,10 @@ function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
 
 
 
-function closeTaskPopup() {
-    document.getElementById("viewTaskPopupOverlay").classList.remove("visible");
-    document.getElementById("mainContent").classList.remove("blur");
-}
-
-
-
-function closeAddTaskPopup() {
-    document.getElementById("addTaskPopupOverlay").classList.remove("visible");
-    document.getElementById("mainContent").classList.remove("blur");
-}
 
 
 
 
-
-let currentDraggedElement; 
-
-function startDragging(taskId) {
-    currentDraggedElement = taskId;
-    const card = document.getElementById(`boardCard-${taskId}`);
-    if (card) {
-        card.classList.add('dragging');
-        console.log(`Start dragging task ID: ${taskId}`);
-    } else {
-        console.error(`Card mit ID boardCard-${taskId} nicht gefunden.`);
-    }
-}
-
-
-function stopDragging() {
-    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
-    if (card) {
-        card.classList.remove('dragging');
-        console.log(`Stop dragging task ID: ${currentDraggedElement}`);
-    }
-    currentDraggedElement = null; 
-}
-
-
-function allowDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
-}
-
-
-
-function highlightList(listId) {
-    const list = document.getElementById(listId);
-    if (list) {
-        list.classList.add('highlight');
-        console.log(`Liste mit ID ${listId} hervorgehoben.`);
-    } else {
-        console.error(`Liste mit ID ${listId} nicht gefunden.`);
-    }
-}
-
-
-function unhighlightList(listId) {
-    const list = document.getElementById(listId);
-    if (list) {
-        list.classList.remove('highlight');
-        console.log(`Highlight von Liste mit ID ${listId} entfernt.`);
-    } else {
-        console.error(`Liste mit ID ${listId} nicht gefunden.`);
-    }
-}
-
-
-
-function handleDrop(event, targetListId) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!currentUser) {
-        console.error('Kein Benutzer ist angemeldet!');
-        return;
-    }
-    const tasks = currentUser.tasks; 
-    let sourceList, task;
-    tasks.forEach(list => {
-        const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
-        if (taskIndex !== -1) {
-            sourceList = list;
-            [task] = sourceList.task.splice(taskIndex, 1); 
-        }
-    });
-    const targetList = tasks.find(list => list.id === targetListId); 
-    if (targetList && task) {
-        targetList.task.push(task); 
-        renderBoard();
-        console.log(`Task ${task.id} erfolgreich in Liste "${targetListId}" verschoben.`);
-    } else {
-        console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
-    }
-    stopDragging();
-    unhighlightList(`${targetListId}List`);
-}
 
 
 
@@ -691,33 +602,33 @@ async function saveTaskChanges(taskId) {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
         return;
     }
+    const titleInput = document.getElementById("title").value.trim();
+    const descriptionInput = document.getElementById("description").value.trim();
+    const dueDateInput = document.getElementById("dueDate").value;
+    const categoryInput = document.getElementById("category").value;
 
-    const updatedTask = {
-        title: document.getElementById("title").value.trim(),
-        description: document.getElementById("description").value.trim(),
-        due_Date: document.getElementById("dueDate").value,
-        category: {
-            name: document.getElementById("category").value,
-            class: document.getElementById("category").value === "Technical Task" 
-                ? "categoryTechnicalTask" 
-                : "categoryUserStory"
-        },
-        priority: tempPriority || task.priority
-    };
+    if (titleInput) task.title = titleInput;
+    task.description = descriptionInput;
+    if (dueDateInput) task.due_Date = dueDateInput;
+    if (categoryInput) {
+        task.category.name = categoryInput;
+        task.category.class = categoryInput === "Technical Task" 
+            ? "categoryTechnicalTask" 
+            : "categoryUserStory";
+    }
 
-    Object.assign(task, updatedTask); // Update Task lokal
-
-    // **Firebase Aktualisierung**
-    await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task/${taskId}.json`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedTask)
-    });
-
-    closeEditTaskPopup();
-    renderBoard();
-    openTaskPopup(taskId);
-    console.log(`Task mit ID ${taskId} erfolgreich aktualisiert.`);
+    try {
+        await fetch(`${BASE_URL}/users/${currentUser.id}/tasks.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(currentUser.tasks)
+        });
+        console.log(`Task mit ID ${taskId} erfolgreich aktualisiert.`);
+        renderBoard();
+        closeEditTaskPopup();
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren der Aufgabe in Firebase:", error);
+    }
 }
 
 
@@ -765,8 +676,8 @@ let taskIdCounter = 1;
 
 let currentListId = 'todo'; 
 function openAddTaskPopup(listId) {
-    if (!currentUser) {
-        console.error('Kein Benutzer ist angemeldet!');
+    if (!currentUser || !currentUser.tasks) {
+        console.error('Kein Benutzer oder Aufgabenliste verfügbar.');
         return;
     }
     const tasks = currentUser.tasks; 
@@ -779,10 +690,9 @@ function openAddTaskPopup(listId) {
     const popup = document.getElementById('addTaskPopupOverlay');
     if (popup) {
         popup.classList.remove('hidden');
-    } else {
-        console.error('Popup-Element nicht gefunden.');
     }
 }
+
 
 
 function closeAddTaskPopup() {
@@ -798,38 +708,26 @@ function closeAddTaskPopup() {
 }
 
 
-
 async function addTaskToList(event) {
     if (event) event.preventDefault();
-
     if (!currentUser) {
         console.error('Kein Benutzer ist angemeldet!');
         return;
     }
-
     const tasks = currentUser.tasks;
     const targetList = tasks.find(list => list.id === currentListId);
-
     if (!targetList) {
         console.error(`Liste mit ID "${currentListId}" nicht gefunden.`);
         return;
     }
-
     const title = document.getElementById('title').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
 
-    // Validierung
     if (!title || !dueDate || !category) {
         alert('Alle Pflichtfelder müssen ausgefüllt werden!');
         return;
     }
-
-    if (typeof category !== 'string') {
-        alert("Ungültige Kategorie.");
-        return;
-    }
-
     const newTask = {
         id: Date.now(),
         title: title,
@@ -843,18 +741,195 @@ async function addTaskToList(event) {
             .filter(st => st.todo)
     };
 
-    targetList.task.push(newTask);
+    targetList.task.push(newTask); // Lokal speichern
     document.getElementById('addTaskFormTask').reset();
 
-    // Firebase-Speichern
-    await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task.json`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTask)
-    });
-
-    console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt.`);
+    try {
+        await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task.json`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newTask)
+        });
+        console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt.`);
+    } catch (error) {
+        console.error("Fehler beim Speichern der Aufgabe in Firebase:", error);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let currentDraggedElement; 
+
+function startDragging(taskId) {
+    currentDraggedElement = taskId;
+    const card = document.getElementById(`boardCard-${taskId}`);
+    if (card) {
+        card.classList.add('dragging');
+        console.log(`Start dragging task ID: ${taskId}`);
+    } else {
+        console.error(`Card mit ID boardCard-${taskId} nicht gefunden.`);
+    }
+}
+
+
+function stopDragging() {
+    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
+    if (card) {
+        card.classList.remove('dragging');
+        console.log(`Stop dragging task ID: ${currentDraggedElement}`);
+    }
+    currentDraggedElement = null; 
+}
+
+
+function allowDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+
+
+function highlightList(listId) {
+    const list = document.getElementById(listId);
+    if (list) {
+        list.classList.add('highlight');
+        console.log(`Liste mit ID ${listId} hervorgehoben.`);
+    } else {
+        console.error(`Liste mit ID ${listId} nicht gefunden.`);
+    }
+}
+
+
+function unhighlightList(listId) {
+    const list = document.getElementById(listId);
+    if (list) {
+        list.classList.remove('highlight');
+        console.log(`Highlight von Liste mit ID ${listId} entfernt.`);
+    } else {
+        console.error(`Liste mit ID ${listId} nicht gefunden.`);
+    }
+}
+
+
+
+function handleDrop(event, targetListId) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+    const tasks = currentUser.tasks; 
+    let sourceList, task;
+    tasks.forEach(list => {
+        const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
+        if (taskIndex !== -1) {
+            sourceList = list;
+            [task] = sourceList.task.splice(taskIndex, 1); 
+        }
+    });
+    const targetList = tasks.find(list => list.id === targetListId); 
+    if (targetList && task) {
+        targetList.task.push(task); 
+        renderBoard();
+        console.log(`Task ${task.id} erfolgreich in Liste "${targetListId}" verschoben.`);
+    } else {
+        console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
+    }
+    stopDragging();
+    unhighlightList(`${targetListId}List`);
+}
+
+
+
+function closeTaskPopup() {
+    document.getElementById("viewTaskPopupOverlay").classList.remove("visible");
+    document.getElementById("mainContent").classList.remove("blur");
+}
+
+
 
 
 
@@ -871,23 +946,20 @@ function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback'); 
 }
 
-// Alle deine Funktionsdefinitionen
-
 async function loadData() {
     try {
         const response = await fetch(`${BASE_URL}/users.json`);
         const data = await response.json();
 
         if (data) {
-            const userId = '1'; // Aktueller Benutzer
-            currentUser = data[userId];
+            users = Object.values(data); // Daten aus Firebase in ein Array umwandeln
+            currentUser = users.find(user => user.id === '1'); // Beispiel: Benutzer mit ID '1'
 
             if (!currentUser || !currentUser.tasks) {
-                console.error("Benutzer oder Aufgaben nicht gefunden.");
+                console.error("Kein Benutzer oder Aufgabenliste verfügbar.");
                 return;
             }
-
-            renderBoard();
+            renderBoard(); // Rendert das Board nach dem Laden der Daten
         } else {
             console.error("Keine Daten von der Datenbank erhalten.");
         }
@@ -896,7 +968,8 @@ async function loadData() {
     }
 }
 
-// DOMContentLoaded wird hier registriert
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     await loadData();
 });
