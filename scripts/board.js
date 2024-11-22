@@ -134,53 +134,59 @@ let currentUser = users.find(user => user.id === '1');
 
 
 function renderBoard() {
-    const currentUserId = '1'; 
-    const currentUser = users.find(user => user.id === currentUserId);
     if (!currentUser) {
-        console.error('Kein angemeldeter Benutzer gefunden!');
+        console.error('Kein Benutzer ist angemeldet!');
         return;
     }
+
+    // Aufgaben für jede Liste rendern
     currentUser.tasks.forEach(list => {
-        const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
+        const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
+        if (!content) {
+            console.error(`Container für Liste "${list.id}" nicht gefunden.`);
+            return;
+        }
+
         content.innerHTML = "";
+
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
                 <div class="nothingToDo">
-                    <p class="nothingToDoText">No Tasks To-do</p>
+                    <p class="nothingToDoText">No Tasks To-Do</p>
                 </div>
             `;
         } else {
             list.task.forEach(task => {
-                const totalCount = task.subtasks && task.subtasks.length > 0 ? task.subtasks.length : 0;
-                const doneCount = totalCount > 0 ? task.subtasks.filter(subtask => subtask.done).length : 0;
+                const totalCount = task.subtasks.length;
+                const doneCount = task.subtasks.filter(st => st.done).length;
                 const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-                const progressHTML = totalCount > 0
-                    ? /*html*/`
-                        <div class="subtasksContainer">
-                            <div class="progress" role="progressbar" aria-label="Task Progress" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar" style="width: ${progressPercent}%;"></div>
-                            </div>
-                            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
+
+                const progressHTML = totalCount > 0 ? /*html*/`
+                    <div class="subtasksContainer">
+                        <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: ${progressPercent}%;"></div>
                         </div>
-                    `
-                    : '';
+                        <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
+                    </div>
+                ` : '';
+
                 content.innerHTML += /*html*/`
                     <div id="boardCard-${task.id}" 
-                    draggable="true" 
-                    ondragenter="highlightList('${list.id}List')" 
-                    ondragleave="unhighlightList('${list.id}List')"
-                    ondragstart="startDragging(${task.id})" 
-                    onclick="openTaskPopup(${task.id})" class="boardCard">
+                         draggable="true"
+                         ondragstart="startDragging(${task.id})"
+                         onclick="openTaskPopup(${task.id})"
+                         class="boardCard">
                         <p class="${task.category.class} taskCategory">${task.category.name}</p>
                         <p class="taskCardTitle">${task.title}</p>
                         <p class="taskCardDescription">${task.description}</p>
-                        ${progressHTML} 
+                        ${progressHTML}
                         <div class="BoardCardFooter">
                             <div class="worker">
-                                ${task.workers.map((worker, index) =>
-                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`).join('')}
+                                ${task.workers.map(worker =>
+                                    `<p class="${worker.class} workerEmblem">${worker.name.charAt(0)}</p>`
+                                ).join('')}
                             </div>
-                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png"> 
+                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png">
                         </div>
                     </div>
                 `;
@@ -190,26 +196,32 @@ function renderBoard() {
 }
 
 
-
 function openTaskPopup(taskId) {
-    const currentUserId = '1'; 
+    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
     const currentUser = users.find(user => user.id === currentUserId);
+
     if (!currentUser) {
         console.error('Kein angemeldeter Benutzer gefunden!');
         return;
     }
+
+    // Finde die Task des aktuellen Benutzers
     const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
+
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
+
     if (popupOverlay && popupContainer && task) {
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
+
         const workersHTML = task.workers.map(worker => /*html*/`
             <div class="workerInformation">
                 <p class="${worker.class} workerEmblem workerIcon">${worker.name.charAt(0)}</p>
                 <p class="workerName">${worker.name}</p> 
             </div>
         `).join('');
+
         const subtasksHTML = task.subtasks.length > 0
             ? /*html*/`
                 <h3>Subtasks</h3>
@@ -243,6 +255,7 @@ function openTaskPopup(taskId) {
             }).join('')}
             `
             : '';
+
         popupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
                 <p class="${task.category.class} taskCategory">${task.category.name}</p>
@@ -266,6 +279,7 @@ function openTaskPopup(taskId) {
 }
 
 
+
 function deleteSubtask(taskId, subtaskIndex) {
     const currentUserId = '1'; 
     const currentUser = users.find(user => user.id === currentUserId);
@@ -284,34 +298,16 @@ function deleteSubtask(taskId, subtaskIndex) {
 }
 
 
-async function deleteTask(taskId) {
-    const tasks = currentUser.tasks;
-    let taskFound = false;
-
-    tasks.forEach(list => {
-        const taskIndex = list.task.findIndex(task => task.id === taskId);
-        if (taskIndex !== -1) {
-            list.task.splice(taskIndex, 1); 
-            taskFound = true;
+function deleteTask(taskId) {
+    currentUser.tasks.forEach(list => {
+        const index = list.task.findIndex(task => task.id === taskId);
+        if (index !== -1) {
+            list.task.splice(index, 1); // Task aus Liste entfernen
+            renderBoard(); // UI aktualisieren
+            closeTaskPopup(); // Popup schließen
+            console.log(`Task mit ID ${taskId} gelöscht.`);
         }
     });
-
-    if (taskFound) {
-        try {
-            await fetch(`${BASE_URL}/users/${currentUser.id}/tasks.json`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(currentUser.tasks)
-            });
-            renderBoard();
-            closeTaskPopup();
-            console.log(`Task mit ID ${taskId} erfolgreich gelöscht.`);
-        } catch (error) {
-            console.error("Fehler beim Löschen der Aufgabe in Firebase:", error);
-        }
-    } else {
-        console.error(`Task mit ID ${taskId} nicht gefunden.`);
-    }
 }
 
 
@@ -595,18 +591,21 @@ function setPriority(priority) {
 
 
 
-
-async function saveTaskChanges(taskId) {
+function saveTaskChanges(taskId) {
+    // Task im Array des aktuellen Benutzers finden
     const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
     if (!task) {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
         return;
     }
+
+    // Neue Eingaben aus dem Formular
     const titleInput = document.getElementById("title").value.trim();
     const descriptionInput = document.getElementById("description").value.trim();
     const dueDateInput = document.getElementById("dueDate").value;
     const categoryInput = document.getElementById("category").value;
 
+    // Task-Details aktualisieren
     if (titleInput) task.title = titleInput;
     task.description = descriptionInput;
     if (dueDateInput) task.due_Date = dueDateInput;
@@ -617,19 +616,17 @@ async function saveTaskChanges(taskId) {
             : "categoryUserStory";
     }
 
-    try {
-        await fetch(`${BASE_URL}/users/${currentUser.id}/tasks.json`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(currentUser.tasks)
-        });
-        console.log(`Task mit ID ${taskId} erfolgreich aktualisiert.`);
-        renderBoard();
-        closeEditTaskPopup();
-    } catch (error) {
-        console.error("Fehler beim Aktualisieren der Aufgabe in Firebase:", error);
-    }
+    // Debugging-Ausgaben
+    console.log(`Task mit ID ${taskId} erfolgreich aktualisiert:`, task);
+    console.log('Aktueller Zustand der Aufgaben:', currentUser.tasks);
+
+    // Board neu rendern, um Änderungen anzuzeigen
+    renderBoard();
+
+    // Popup schließen
+    closeEditTaskPopup();
 }
+
 
 
 
@@ -708,52 +705,60 @@ function closeAddTaskPopup() {
 }
 
 
-async function addTaskToList(event) {
+function addTaskToList(event) {
     if (event) event.preventDefault();
+
     if (!currentUser) {
         console.error('Kein Benutzer ist angemeldet!');
         return;
     }
-    const tasks = currentUser.tasks;
-    const targetList = tasks.find(list => list.id === currentListId);
+
+    const tasks = currentUser.tasks; // Aufgaben des aktuellen Benutzers
+    const targetList = tasks.find(list => list.id === currentListId); // Ziel-Liste
     if (!targetList) {
         console.error(`Liste mit ID "${currentListId}" nicht gefunden.`);
         return;
     }
+
     const title = document.getElementById('title').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
 
+    // Pflichtfelder prüfen
     if (!title || !dueDate || !category) {
         alert('Alle Pflichtfelder müssen ausgefüllt werden!');
         return;
     }
+
+    // Neues Task-Objekt erstellen
     const newTask = {
         id: Date.now(),
         title: title,
         description: document.getElementById('description').value.trim(),
-        workers: [{ name: 'Default Worker', class: 'worker-default' }],
+        workers: [{ name: 'Default Worker', class: 'worker-default' }], // Beispielarbeiter
         due_Date: dueDate,
         priority: document.querySelector('.priorityBtn.active')?.id.replace('prio', '') || 'Low',
         category: { name: category, class: `category${category.replace(' ', '')}` },
         subtasks: Array.from(document.querySelectorAll('.addSubTaskInput'))
             .map(input => ({ todo: input.value.trim() }))
-            .filter(st => st.todo)
+            .filter(st => st.todo) // Nur nicht-leere Subtasks hinzufügen
     };
 
-    targetList.task.push(newTask); // Lokal speichern
+    // Task zur Ziel-Liste hinzufügen
+    targetList.task.push(newTask);
+
+    // Formular zurücksetzen
     document.getElementById('addTaskFormTask').reset();
 
-    try {
-        await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task.json`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newTask)
-        });
-        console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt.`);
-    } catch (error) {
-        console.error("Fehler beim Speichern der Aufgabe in Firebase:", error);
-    }
+    // Temporäre Priorität zurücksetzen
+    tempPriority = null;
+
+    // Konsole für Debugging
+    console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt:`, newTask);
+    console.log('Aktuelle Aufgaben des Benutzers:', currentUser.tasks);
+
+    // Optional: Board neu rendern
+    renderBoard();
 }
 
 
@@ -945,32 +950,4 @@ function addTaskToInProgress() {
 function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback'); 
 }
-
-async function loadData() {
-    try {
-        const response = await fetch(`${BASE_URL}/users.json`);
-        const data = await response.json();
-
-        if (data) {
-            users = Object.values(data); // Daten aus Firebase in ein Array umwandeln
-            currentUser = users.find(user => user.id === '1'); // Beispiel: Benutzer mit ID '1'
-
-            if (!currentUser || !currentUser.tasks) {
-                console.error("Kein Benutzer oder Aufgabenliste verfügbar.");
-                return;
-            }
-            renderBoard(); // Rendert das Board nach dem Laden der Daten
-        } else {
-            console.error("Keine Daten von der Datenbank erhalten.");
-        }
-    } catch (error) {
-        console.error("Fehler beim Laden der Daten:", error);
-    }
-}
-
-
-
-document.addEventListener("DOMContentLoaded", async () => {
-    await loadData();
-});
 
