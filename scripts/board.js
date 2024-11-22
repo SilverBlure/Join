@@ -1,6 +1,3 @@
-const BASE_URL = 'https://join-b023c-default-rtdb.europe-west1.firebasedatabase.app/';
-
-
 let users = [
     {
         id: '1',
@@ -125,11 +122,7 @@ let users = [
 
 
 
-
-
-
 let currentUser = users.find(user => user.id === '1'); 
-
 
 
 
@@ -138,17 +131,13 @@ function renderBoard() {
         console.error('Kein Benutzer ist angemeldet!');
         return;
     }
-
-    // Aufgaben für jede Liste rendern
     currentUser.tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
         if (!content) {
             console.error(`Container für Liste "${list.id}" nicht gefunden.`);
             return;
         }
-
         content.innerHTML = "";
-
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
                 <div class="nothingToDo">
@@ -169,7 +158,6 @@ function renderBoard() {
                         <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                     </div>
                 ` : '';
-
                 content.innerHTML += /*html*/`
                     <div id="boardCard-${task.id}" 
                          draggable="true"
@@ -196,32 +184,26 @@ function renderBoard() {
 }
 
 
-function openTaskPopup(taskId) {
-    const currentUserId = '1'; // Beispiel-ID des aktuell angemeldeten Benutzers
-    const currentUser = users.find(user => user.id === currentUserId);
 
+function openTaskPopup(taskId) {
+    const currentUserId = '1'; 
+    const currentUser = users.find(user => user.id === currentUserId);
     if (!currentUser) {
         console.error('Kein angemeldeter Benutzer gefunden!');
         return;
     }
-
-    // Finde die Task des aktuellen Benutzers
     const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
-
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
-
     if (popupOverlay && popupContainer && task) {
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-
         const workersHTML = task.workers.map(worker => /*html*/`
             <div class="workerInformation">
                 <p class="${worker.class} workerEmblem workerIcon">${worker.name.charAt(0)}</p>
                 <p class="workerName">${worker.name}</p> 
             </div>
         `).join('');
-
         const subtasksHTML = task.subtasks.length > 0
             ? /*html*/`
                 <h3>Subtasks</h3>
@@ -255,7 +237,6 @@ function openTaskPopup(taskId) {
             }).join('')}
             `
             : '';
-
         popupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
                 <p class="${task.category.class} taskCategory">${task.category.name}</p>
@@ -298,21 +279,17 @@ function deleteSubtask(taskId, subtaskIndex) {
 }
 
 
+
 function deleteTask(taskId) {
     currentUser.tasks.forEach(list => {
         const index = list.task.findIndex(task => task.id === taskId);
         if (index !== -1) {
-            list.task.splice(index, 1); // Task aus Liste entfernen
-            renderBoard(); // UI aktualisieren
-            closeTaskPopup(); // Popup schließen
-            console.log(`Task mit ID ${taskId} gelöscht.`);
+            list.task.splice(index, 1); 
+            renderBoard(); 
+            closeTaskPopup(); 
         }
     });
 }
-
-
-
-
 
 
 
@@ -359,9 +336,6 @@ function editSubtask(taskId, subtaskIndex) {
 
 
 
-
-
-
 function saveSubtaskEdit(taskId, subtaskIndex, newValue) {
     const currentUserId = '1'; 
     const currentUser = users.find(user => user.id === currentUserId);
@@ -391,12 +365,7 @@ function saveSubtaskEdit(taskId, subtaskIndex, newValue) {
     }
     openTaskPopup(taskId);
     renderBoard();
-    console.log(`Subtask mit Index ${subtaskIndex} in Task ID ${taskId} erfolgreich aktualisiert.`);
 }
-
-
-
-
 
 
 
@@ -432,17 +401,7 @@ function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
     }
     openTaskPopup(taskId);
     renderBoard();
-    console.log(`Subtask Status mit Index ${subtaskIndex} in Task ID ${taskId} erfolgreich umgeschaltet.`);
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -503,11 +462,7 @@ function findTask() {
             });
         }
     });
-    console.log(`Suche abgeschlossen. Suchbegriff: "${searchTerm}"`);
 }
-
-
-
 
 
 
@@ -575,8 +530,8 @@ function editTask(taskId) {
 
 
 
-
 let tempPriority = null;
+
 
 function setPriority(priority) {
     tempPriority = priority; 
@@ -592,20 +547,15 @@ function setPriority(priority) {
 
 
 function saveTaskChanges(taskId) {
-    // Task im Array des aktuellen Benutzers finden
     const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
     if (!task) {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
         return;
     }
-
-    // Neue Eingaben aus dem Formular
     const titleInput = document.getElementById("title").value.trim();
     const descriptionInput = document.getElementById("description").value.trim();
     const dueDateInput = document.getElementById("dueDate").value;
     const categoryInput = document.getElementById("category").value;
-
-    // Task-Details aktualisieren
     if (titleInput) task.title = titleInput;
     task.description = descriptionInput;
     if (dueDateInput) task.due_Date = dueDateInput;
@@ -615,21 +565,10 @@ function saveTaskChanges(taskId) {
             ? "categoryTechnicalTask" 
             : "categoryUserStory";
     }
-
-    // Debugging-Ausgaben
-    console.log(`Task mit ID ${taskId} erfolgreich aktualisiert:`, task);
     console.log('Aktueller Zustand der Aufgaben:', currentUser.tasks);
-
-    // Board neu rendern, um Änderungen anzuzeigen
     renderBoard();
-
-    // Popup schließen
     closeEditTaskPopup();
 }
-
-
-
-
 
 
 
@@ -646,12 +585,10 @@ function addNewSubtask(taskId) {
         newSubtaskInput.value = '';
         renderBoard();
         openTaskPopup(taskId); 
-        console.log(`Subtask zu Task ${taskId} hinzugefügt.`);
     } else {
         console.error("Fehler beim Hinzufügen des Subtasks oder Eingabe ist leer.");
     }
 }
-
 
 
 
@@ -661,13 +598,11 @@ function closeEditTaskPopup() {
     if (overlay) overlay.classList.remove("visible");
     if (mainContent) mainContent.classList.remove("blur");
     tempPriority = null; 
-    console.log("Edit task popup closed.");
 }
 
 
 
 let taskIdCounter = 1;
-
 
 
 
@@ -701,172 +636,73 @@ function closeAddTaskPopup() {
     if (mainContent) {
         mainContent.classList.remove('blur'); 
     }
-    console.log("Add Task Popup closed.");
 }
+
 
 
 function addTaskToList(event) {
     if (event) event.preventDefault();
-
     if (!currentUser) {
         console.error('Kein Benutzer ist angemeldet!');
         return;
     }
-
-    const tasks = currentUser.tasks; // Aufgaben des aktuellen Benutzers
-    const targetList = tasks.find(list => list.id === currentListId); // Ziel-Liste
+    const tasks = currentUser.tasks; 
+    const targetList = tasks.find(list => list.id === currentListId); 
     if (!targetList) {
         console.error(`Liste mit ID "${currentListId}" nicht gefunden.`);
         return;
     }
-
     const title = document.getElementById('title').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
-
-    // Pflichtfelder prüfen
     if (!title || !dueDate || !category) {
         alert('Alle Pflichtfelder müssen ausgefüllt werden!');
         return;
     }
-
-    // Neues Task-Objekt erstellen
     const newTask = {
         id: Date.now(),
         title: title,
         description: document.getElementById('description').value.trim(),
-        workers: [{ name: 'Default Worker', class: 'worker-default' }], // Beispielarbeiter
+        workers: [{ name: 'Default Worker', class: 'worker-default' }], 
         due_Date: dueDate,
         priority: document.querySelector('.priorityBtn.active')?.id.replace('prio', '') || 'Low',
         category: { name: category, class: `category${category.replace(' ', '')}` },
         subtasks: Array.from(document.querySelectorAll('.addSubTaskInput'))
             .map(input => ({ todo: input.value.trim() }))
-            .filter(st => st.todo) // Nur nicht-leere Subtasks hinzufügen
+            .filter(st => st.todo) 
     };
-
-    // Task zur Ziel-Liste hinzufügen
     targetList.task.push(newTask);
-
-    // Formular zurücksetzen
     document.getElementById('addTaskFormTask').reset();
-
-    // Temporäre Priorität zurücksetzen
     tempPriority = null;
-
-    // Konsole für Debugging
-    console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt:`, newTask);
-    console.log('Aktuelle Aufgaben des Benutzers:', currentUser.tasks);
-
-    // Optional: Board neu rendern
     renderBoard();
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 let currentDraggedElement; 
+
+
 
 function startDragging(taskId) {
     currentDraggedElement = taskId;
     const card = document.getElementById(`boardCard-${taskId}`);
     if (card) {
         card.classList.add('dragging');
-        console.log(`Start dragging task ID: ${taskId}`);
     } else {
         console.error(`Card mit ID boardCard-${taskId} nicht gefunden.`);
     }
 }
 
 
+
 function stopDragging() {
     const card = document.getElementById(`boardCard-${currentDraggedElement}`);
     if (card) {
         card.classList.remove('dragging');
-        console.log(`Stop dragging task ID: ${currentDraggedElement}`);
     }
     currentDraggedElement = null; 
 }
+
 
 
 function allowDrop(event) {
@@ -880,18 +716,17 @@ function highlightList(listId) {
     const list = document.getElementById(listId);
     if (list) {
         list.classList.add('highlight');
-        console.log(`Liste mit ID ${listId} hervorgehoben.`);
     } else {
         console.error(`Liste mit ID ${listId} nicht gefunden.`);
     }
 }
 
 
+
 function unhighlightList(listId) {
     const list = document.getElementById(listId);
     if (list) {
         list.classList.remove('highlight');
-        console.log(`Highlight von Liste mit ID ${listId} entfernt.`);
     } else {
         console.error(`Liste mit ID ${listId} nicht gefunden.`);
     }
@@ -919,7 +754,6 @@ function handleDrop(event, targetListId) {
     if (targetList && task) {
         targetList.task.push(task); 
         renderBoard();
-        console.log(`Task ${task.id} erfolgreich in Liste "${targetListId}" verschoben.`);
     } else {
         console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
     }
@@ -936,16 +770,17 @@ function closeTaskPopup() {
 
 
 
-
-
-
 function addTaskToTodo() {
     openAddTaskPopup('todo'); 
 }
 
+
+
 function addTaskToInProgress() {
     openAddTaskPopup('inProgress'); 
 }
+
+
 
 function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback'); 
