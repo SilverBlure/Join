@@ -250,6 +250,7 @@ h3{
 
 .createContact{
     display: flex;
+    width: 50%;
     flex-direction: column;
     padding-left: 50px;
 }
@@ -287,5 +288,5 @@ h3{
 
 .createContactBtn{
 display: flex;
-justify-content: space-around;
+justify-content: space-between;
 }
