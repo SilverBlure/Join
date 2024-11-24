@@ -1,6 +1,3 @@
-const BASE_URL = 'https://join-b023c-default-rtdb.europe-west1.firebasedatabase.app/';
-
-
 let users = [
     {
         id: '1',
@@ -125,62 +122,59 @@ let users = [
 
 
 
-
-
-
 let currentUser = users.find(user => user.id === '1'); 
 
 
 
-
 function renderBoard() {
-    const currentUserId = '1'; 
-    const currentUser = users.find(user => user.id === currentUserId);
     if (!currentUser) {
-        console.error('Kein angemeldeter Benutzer gefunden!');
+        console.error('Kein Benutzer ist angemeldet!');
         return;
     }
     currentUser.tasks.forEach(list => {
-        const content = document.getElementById(`${list.id}List`).querySelector('.taskContainer');
+        const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
+        if (!content) {
+            console.error(`Container für Liste "${list.id}" nicht gefunden.`);
+            return;
+        }
         content.innerHTML = "";
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
                 <div class="nothingToDo">
-                    <p class="nothingToDoText">No Tasks To-do</p>
+                    <p class="nothingToDoText">No Tasks To-Do</p>
                 </div>
             `;
         } else {
             list.task.forEach(task => {
-                const totalCount = task.subtasks && task.subtasks.length > 0 ? task.subtasks.length : 0;
-                const doneCount = totalCount > 0 ? task.subtasks.filter(subtask => subtask.done).length : 0;
+                const totalCount = task.subtasks.length;
+                const doneCount = task.subtasks.filter(st => st.done).length;
                 const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-                const progressHTML = totalCount > 0
-                    ? /*html*/`
-                        <div class="subtasksContainer">
-                            <div class="progress" role="progressbar" aria-label="Task Progress" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar" style="width: ${progressPercent}%;"></div>
-                            </div>
-                            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
+
+                const progressHTML = totalCount > 0 ? /*html*/`
+                    <div class="subtasksContainer">
+                        <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="progress-bar" style="width: ${progressPercent}%;"></div>
                         </div>
-                    `
-                    : '';
+                        <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
+                    </div>
+                ` : '';
                 content.innerHTML += /*html*/`
                     <div id="boardCard-${task.id}" 
-                    draggable="true" 
-                    ondragenter="highlightList('${list.id}List')" 
-                    ondragleave="unhighlightList('${list.id}List')"
-                    ondragstart="startDragging(${task.id})" 
-                    onclick="openTaskPopup(${task.id})" class="boardCard">
+                         draggable="true"
+                         ondragstart="startDragging(${task.id})"
+                         onclick="openTaskPopup(${task.id})"
+                         class="boardCard">
                         <p class="${task.category.class} taskCategory">${task.category.name}</p>
                         <p class="taskCardTitle">${task.title}</p>
                         <p class="taskCardDescription">${task.description}</p>
-                        ${progressHTML} 
+                        ${progressHTML}
                         <div class="BoardCardFooter">
                             <div class="worker">
-                                ${task.workers.map((worker, index) =>
-                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">${worker.name.charAt(0)}</p>`).join('')}
+                                ${task.workers.map(worker =>
+                                    `<p class="${worker.class} workerEmblem">${worker.name.charAt(0)}</p>`
+                                ).join('')}
                             </div>
-                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png"> 
+                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png">
                         </div>
                     </div>
                 `;
@@ -266,6 +260,7 @@ function openTaskPopup(taskId) {
 }
 
 
+
 function deleteSubtask(taskId, subtaskIndex) {
     const currentUserId = '1'; 
     const currentUser = users.find(user => user.id === currentUserId);
@@ -285,34 +280,16 @@ function deleteSubtask(taskId, subtaskIndex) {
 
 
 
-async function deleteTask(taskId) {
-    const tasks = currentUser.tasks;
-    let taskFound = false;
-
-    tasks.forEach(list => {
-        const taskIndex = list.task.findIndex(task => task.id === taskId);
-        if (taskIndex !== -1) {
-            list.task.splice(taskIndex, 1); // Lokal entfernen
-            taskFound = true;
+function deleteTask(taskId) {
+    currentUser.tasks.forEach(list => {
+        const index = list.task.findIndex(task => task.id === taskId);
+        if (index !== -1) {
+            list.task.splice(index, 1); 
+            renderBoard(); 
+            closeTaskPopup(); 
         }
     });
-
-    if (taskFound) {
-        // **Firebase Löschung**
-        await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task/${taskId}.json`, {
-            method: 'DELETE'
-        });
-        renderBoard();
-        closeTaskPopup();
-        console.log(`Task mit ID ${taskId} erfolgreich gelöscht.`);
-    } else {
-        console.error(`Task mit ID ${taskId} nicht gefunden.`);
-    }
 }
-
-
-
-
 
 
 
@@ -359,9 +336,6 @@ function editSubtask(taskId, subtaskIndex) {
 
 
 
-
-
-
 function saveSubtaskEdit(taskId, subtaskIndex, newValue) {
     const currentUserId = '1'; 
     const currentUser = users.find(user => user.id === currentUserId);
@@ -391,12 +365,7 @@ function saveSubtaskEdit(taskId, subtaskIndex, newValue) {
     }
     openTaskPopup(taskId);
     renderBoard();
-    console.log(`Subtask mit Index ${subtaskIndex} in Task ID ${taskId} erfolgreich aktualisiert.`);
 }
-
-
-
-
 
 
 
@@ -432,110 +401,7 @@ function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
     }
     openTaskPopup(taskId);
     renderBoard();
-    console.log(`Subtask Status mit Index ${subtaskIndex} in Task ID ${taskId} erfolgreich umgeschaltet.`);
 }
-
-
-
-
-function closeTaskPopup() {
-    document.getElementById("viewTaskPopupOverlay").classList.remove("visible");
-    document.getElementById("mainContent").classList.remove("blur");
-}
-
-
-
-function closeAddTaskPopup() {
-    document.getElementById("addTaskPopupOverlay").classList.remove("visible");
-    document.getElementById("mainContent").classList.remove("blur");
-}
-
-
-
-
-
-let currentDraggedElement; 
-
-function startDragging(taskId) {
-    currentDraggedElement = taskId;
-    const card = document.getElementById(`boardCard-${taskId}`);
-    if (card) {
-        card.classList.add('dragging');
-        console.log(`Start dragging task ID: ${taskId}`);
-    } else {
-        console.error(`Card mit ID boardCard-${taskId} nicht gefunden.`);
-    }
-}
-
-
-function stopDragging() {
-    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
-    if (card) {
-        card.classList.remove('dragging');
-        console.log(`Stop dragging task ID: ${currentDraggedElement}`);
-    }
-    currentDraggedElement = null; 
-}
-
-
-function allowDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
-}
-
-
-
-function highlightList(listId) {
-    const list = document.getElementById(listId);
-    if (list) {
-        list.classList.add('highlight');
-        console.log(`Liste mit ID ${listId} hervorgehoben.`);
-    } else {
-        console.error(`Liste mit ID ${listId} nicht gefunden.`);
-    }
-}
-
-
-function unhighlightList(listId) {
-    const list = document.getElementById(listId);
-    if (list) {
-        list.classList.remove('highlight');
-        console.log(`Highlight von Liste mit ID ${listId} entfernt.`);
-    } else {
-        console.error(`Liste mit ID ${listId} nicht gefunden.`);
-    }
-}
-
-
-
-function handleDrop(event, targetListId) {
-    event.preventDefault();
-    event.stopPropagation();
-    if (!currentUser) {
-        console.error('Kein Benutzer ist angemeldet!');
-        return;
-    }
-    const tasks = currentUser.tasks; 
-    let sourceList, task;
-    tasks.forEach(list => {
-        const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
-        if (taskIndex !== -1) {
-            sourceList = list;
-            [task] = sourceList.task.splice(taskIndex, 1); 
-        }
-    });
-    const targetList = tasks.find(list => list.id === targetListId); 
-    if (targetList && task) {
-        targetList.task.push(task); 
-        renderBoard();
-        console.log(`Task ${task.id} erfolgreich in Liste "${targetListId}" verschoben.`);
-    } else {
-        console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
-    }
-    stopDragging();
-    unhighlightList(`${targetListId}List`);
-}
-
 
 
 
@@ -596,11 +462,7 @@ function findTask() {
             });
         }
     });
-    console.log(`Suche abgeschlossen. Suchbegriff: "${searchTerm}"`);
 }
-
-
-
 
 
 
@@ -668,8 +530,8 @@ function editTask(taskId) {
 
 
 
-
 let tempPriority = null;
+
 
 function setPriority(priority) {
     tempPriority = priority; 
@@ -684,44 +546,29 @@ function setPriority(priority) {
 
 
 
-
-async function saveTaskChanges(taskId) {
+function saveTaskChanges(taskId) {
     const task = currentUser.tasks.flatMap(list => list.task).find(t => t.id === taskId);
     if (!task) {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
         return;
     }
-
-    const updatedTask = {
-        title: document.getElementById("title").value.trim(),
-        description: document.getElementById("description").value.trim(),
-        due_Date: document.getElementById("dueDate").value,
-        category: {
-            name: document.getElementById("category").value,
-            class: document.getElementById("category").value === "Technical Task" 
-                ? "categoryTechnicalTask" 
-                : "categoryUserStory"
-        },
-        priority: tempPriority || task.priority
-    };
-
-    Object.assign(task, updatedTask); // Update Task lokal
-
-    // **Firebase Aktualisierung**
-    await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task/${taskId}.json`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedTask)
-    });
-
-    closeEditTaskPopup();
+    const titleInput = document.getElementById("title").value.trim();
+    const descriptionInput = document.getElementById("description").value.trim();
+    const dueDateInput = document.getElementById("dueDate").value;
+    const categoryInput = document.getElementById("category").value;
+    if (titleInput) task.title = titleInput;
+    task.description = descriptionInput;
+    if (dueDateInput) task.due_Date = dueDateInput;
+    if (categoryInput) {
+        task.category.name = categoryInput;
+        task.category.class = categoryInput === "Technical Task" 
+            ? "categoryTechnicalTask" 
+            : "categoryUserStory";
+    }
+    console.log('Aktueller Zustand der Aufgaben:', currentUser.tasks);
     renderBoard();
-    openTaskPopup(taskId);
-    console.log(`Task mit ID ${taskId} erfolgreich aktualisiert.`);
+    closeEditTaskPopup();
 }
-
-
-
 
 
 
@@ -738,12 +585,10 @@ function addNewSubtask(taskId) {
         newSubtaskInput.value = '';
         renderBoard();
         openTaskPopup(taskId); 
-        console.log(`Subtask zu Task ${taskId} hinzugefügt.`);
     } else {
         console.error("Fehler beim Hinzufügen des Subtasks oder Eingabe ist leer.");
     }
 }
-
 
 
 
@@ -753,7 +598,6 @@ function closeEditTaskPopup() {
     if (overlay) overlay.classList.remove("visible");
     if (mainContent) mainContent.classList.remove("blur");
     tempPriority = null; 
-    console.log("Edit task popup closed.");
 }
 
 
@@ -762,11 +606,10 @@ let taskIdCounter = 1;
 
 
 
-
 let currentListId = 'todo'; 
 function openAddTaskPopup(listId) {
-    if (!currentUser) {
-        console.error('Kein Benutzer ist angemeldet!');
+    if (!currentUser || !currentUser.tasks) {
+        console.error('Kein Benutzer oder Aufgabenliste verfügbar.');
         return;
     }
     const tasks = currentUser.tasks; 
@@ -779,10 +622,9 @@ function openAddTaskPopup(listId) {
     const popup = document.getElementById('addTaskPopupOverlay');
     if (popup) {
         popup.classList.remove('hidden');
-    } else {
-        console.error('Popup-Element nicht gefunden.');
     }
 }
+
 
 
 function closeAddTaskPopup() {
@@ -794,68 +636,137 @@ function closeAddTaskPopup() {
     if (mainContent) {
         mainContent.classList.remove('blur'); 
     }
-    console.log("Add Task Popup closed.");
 }
 
 
 
-async function addTaskToList(event) {
+function addTaskToList(event) {
     if (event) event.preventDefault();
-
     if (!currentUser) {
         console.error('Kein Benutzer ist angemeldet!');
         return;
     }
-
-    const tasks = currentUser.tasks;
-    const targetList = tasks.find(list => list.id === currentListId);
-
+    const tasks = currentUser.tasks; 
+    const targetList = tasks.find(list => list.id === currentListId); 
     if (!targetList) {
         console.error(`Liste mit ID "${currentListId}" nicht gefunden.`);
         return;
     }
-
     const title = document.getElementById('title').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
-
-    // Validierung
     if (!title || !dueDate || !category) {
         alert('Alle Pflichtfelder müssen ausgefüllt werden!');
         return;
     }
-
-    if (typeof category !== 'string') {
-        alert("Ungültige Kategorie.");
-        return;
-    }
-
     const newTask = {
         id: Date.now(),
         title: title,
         description: document.getElementById('description').value.trim(),
-        workers: [{ name: 'Default Worker', class: 'worker-default' }],
+        workers: [{ name: 'Default Worker', class: 'worker-default' }], 
         due_Date: dueDate,
         priority: document.querySelector('.priorityBtn.active')?.id.replace('prio', '') || 'Low',
         category: { name: category, class: `category${category.replace(' ', '')}` },
         subtasks: Array.from(document.querySelectorAll('.addSubTaskInput'))
             .map(input => ({ todo: input.value.trim() }))
-            .filter(st => st.todo)
+            .filter(st => st.todo) 
     };
-
     targetList.task.push(newTask);
     document.getElementById('addTaskFormTask').reset();
-
-    // Firebase-Speichern
-    await fetch(`${BASE_URL}/users/${currentUser.id}/tasks/${currentListId}/task.json`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTask)
-    });
-
-    console.log(`Task erfolgreich zu Liste "${currentListId}" hinzugefügt.`);
+    tempPriority = null;
+    renderBoard();
 }
 
+
+
+let currentDraggedElement; 
+
+
+
+function startDragging(taskId) {
+    currentDraggedElement = taskId;
+    const card = document.getElementById(`boardCard-${taskId}`);
+    if (card) {
+        card.classList.add('dragging');
+    } else {
+        console.error(`Card mit ID boardCard-${taskId} nicht gefunden.`);
+    }
+}
+
+
+
+function stopDragging() {
+    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
+    if (card) {
+        card.classList.remove('dragging');
+    }
+    currentDraggedElement = null; 
+}
+
+
+
+function allowDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+
+
+function highlightList(listId) {
+    const list = document.getElementById(listId);
+    if (list) {
+        list.classList.add('highlight');
+    } else {
+        console.error(`Liste mit ID ${listId} nicht gefunden.`);
+    }
+}
+
+
+
+function unhighlightList(listId) {
+    const list = document.getElementById(listId);
+    if (list) {
+        list.classList.remove('highlight');
+    } else {
+        console.error(`Liste mit ID ${listId} nicht gefunden.`);
+    }
+}
+
+
+
+function handleDrop(event, targetListId) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!currentUser) {
+        console.error('Kein Benutzer ist angemeldet!');
+        return;
+    }
+    const tasks = currentUser.tasks; 
+    let sourceList, task;
+    tasks.forEach(list => {
+        const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
+        if (taskIndex !== -1) {
+            sourceList = list;
+            [task] = sourceList.task.splice(taskIndex, 1); 
+        }
+    });
+    const targetList = tasks.find(list => list.id === targetListId); 
+    if (targetList && task) {
+        targetList.task.push(task); 
+        renderBoard();
+    } else {
+        console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
+    }
+    stopDragging();
+    unhighlightList(`${targetListId}List`);
+}
+
+
+
+function closeTaskPopup() {
+    document.getElementById("viewTaskPopupOverlay").classList.remove("visible");
+    document.getElementById("mainContent").classList.remove("blur");
+}
 
 
 
@@ -863,41 +774,15 @@ function addTaskToTodo() {
     openAddTaskPopup('todo'); 
 }
 
+
+
 function addTaskToInProgress() {
     openAddTaskPopup('inProgress'); 
 }
 
+
+
 function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback'); 
 }
-
-// Alle deine Funktionsdefinitionen
-
-async function loadData() {
-    try {
-        const response = await fetch(`${BASE_URL}/users.json`);
-        const data = await response.json();
-
-        if (data) {
-            const userId = '1'; // Aktueller Benutzer
-            currentUser = data[userId];
-
-            if (!currentUser || !currentUser.tasks) {
-                console.error("Benutzer oder Aufgaben nicht gefunden.");
-                return;
-            }
-
-            renderBoard();
-        } else {
-            console.error("Keine Daten von der Datenbank erhalten.");
-        }
-    } catch (error) {
-        console.error("Fehler beim Laden der Daten:", error);
-    }
-}
-
-// DOMContentLoaded wird hier registriert
-document.addEventListener("DOMContentLoaded", async () => {
-    await loadData();
-});
 

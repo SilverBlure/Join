@@ -1,4 +1,3 @@
-// Benutzer-Array
 let users = [
     {
         id: '1',
