@@ -102,11 +102,13 @@ function addTaskToList(event) {
 /**
  * Priorität setzen
  */
-let tempPriority = null;
-
 function setPriority(priority) {
     tempPriority = priority;
+
+    
     document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active'));
+
+   
     const activeButton = document.getElementById(`prio${priority}`);
     if (activeButton) {
         activeButton.classList.add('active');
@@ -114,6 +116,7 @@ function setPriority(priority) {
         console.warn(`Button für Priorität "${priority}" nicht gefunden.`);
     }
 }
+
 
 /**
  * Subtask hinzufügen
