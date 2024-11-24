@@ -25,25 +25,44 @@
 
     <div id="contactDialog">
         
-        <div class="newContact" id="addContact">
+        
+            <div class="newContactContainer">
+                <div class="newContact">
             <div class="addContactLogo">
                 <img src="../assets/icons/svg/joinLogoWhite.svg" alt="">
-                <h1>Contacts</h1>
-                <h3>Better with a team</h3>
+                <h1>Add contact</h1>
+                <h3>Tasks are better with a team</h3>
             </div> 
                 <div class="addContacts">
                     <div>
-                        <p class="userTagBig"></p>
+                        <img src="../assets/icons/png/userpic_leer.png" alt="">
                     </div>
                     <div class="createContact">
                     <div>
-                        platzhalterX
+                        <img src="../assets/icons/png/iconoir_cancel.png" alt="">
                     </div>
-                    <div class="contacInput">
+                    <div>
                     <form class="contacInput">
-                        <input type="text" placeholder="name">
-                        <input type="email" placeholder="email">
-                        <input type="number" placeholder="phone">
+                        <div>
+                            <innerInputfield class="innerInputfield">
+                                <input id="name" class="noBorder" placeholder="Name" required>
+                                <img src="../../assets/icons/png/person.png">
+                            </innerInputfield>
+                        </div>
+                    
+                        <div>
+                            <innerInputfield class="innerInputfield">
+                                <input id="email" type="email" class="noBorder" placeholder="Email" required>
+                                <img src="../../assets/icons/svg/mail.svg">
+                            </innerInputfield>
+                        </div>
+                    
+                        <div>
+                            <innerInputfield class="innerInputfield">
+                                <input id="password_1" type="password" class="noBorder" placeholder="Passwort" required>
+                                <img src="../../assets/icons/svg/lock.svg">
+                            </innerInputfield>
+                        </div>
                     </form>
                     </div>
                     <div>
@@ -51,7 +70,9 @@
                     </div>
                 </div>
                 </div>
-        </div>
+            </div>
+            </div>
+        
     
     </div>
 
