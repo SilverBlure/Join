@@ -38,35 +38,49 @@
                 <h1>Log in</h1>
                 <div class="seperator"></div>
 
-                <div class="border borderInputFields center">
-                    <innerInputfield class="innerInputfield">
-                        <input id="email" class="noBorder" placeholder="Email">
-                        <img src="../../assets/icons/svg/mail.svg">
-                    </innerInputfield>
-                </div>
-
-                <div class="border borderInputFields">
-                    <innerInputfield class="innerInputfield">
-                        <input id="password" class="noBorder" placeholder="Passwort">
-                        <img src="../../assets/icons/svg/lock.svg">
-                    </innerInputfield>
-                </div>
-
-                <div class="saveLogin">
-                    <input id="checkbox" type="checkbox">
-                    <text class="">Remember me</text>
-                </div>
-                <div class="buttons">
-                    <button class="logInBtn">Log in</button>
-                    <a href="../../summary/summary.html"><button class="guestBtn">Guest Log in</button></a>
-                </div>
+                <form id="loginForm" onsubmit="handleRememberMe(event)">
+                    <div class="border borderInputFields center">
+                        <div class="innerInputfield">
+                            <input 
+                                id="email" 
+                                class="noBorder" 
+                                type="email" 
+                                placeholder="Email" 
+                                required>
+                            <img src="../../assets/icons/svg/mail.svg" alt="Email Icon">
+                        </div>
+                    </div>
+                
+                    <div class="border borderInputFields">
+                        <div class="innerInputfield">
+                            <input 
+                                id="password" 
+                                class="noBorder" 
+                                type="password" 
+                                placeholder="Passwort" 
+                                required>
+                            <img src="../../assets/icons/svg/lock.svg" alt="Password Icon">
+                        </div>
+                    </div>
+                
+                    <div class="saveLogin">
+                        <input id="checkbox" type="checkbox">
+                        <label for="checkbox">Remember me</label>
+                    </div>
+                
+                    <div class="buttons">
+                        <button type="submit" class="logInBtn">Log in</button>
+                        <button class="guestBtn">Guest Log in</button>
+                    </div>
+                </form>
+                
             </div>
         </div>
 
         <div class="loginfooter">
 
-            <a href="../../privacy policy + legal notice/privacy policy/privacyPolicy.html">Privacy Policy</a>
-            <a href="../../privacy policy + legal notice/legal notice/legalNotice.html">Legal notice</a>
+            <a href="./privacyPolicy.html">Privacy Policy</a>
+            <a href="./legalNotice.html">Legal notice</a>
 
         </div>
 

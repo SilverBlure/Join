@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,119 +15,20 @@
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
 </head>
-
-<body onload="includeHTML(),renderBoard(),loadData()">
+<body onload="includeHTML()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
-
-    <div id="mainContent" class="content">
+    <div class="content">
         <div class="header" w3-include-html="../../templates/header.html"></div>
-
-        <div class="board">
-
-            <div class="boardHead">
-                <h1>Board</h1>
-                <div class="searchContainer">
-
-                    <div class="searchBar">
-                        <input id="findTask" type="text" class="formControl" placeholder="Find Task"
-                            aria-label="Find Task" oninput="findTask()">
-                        <div class="divider"></div>
-                        <button class="btn">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-
-                    <button id="addTaskBtnBoard" onclick="openAddTaskPopup('todo')" class="addTaskBtn">Add Task <img
-                            src="../assets/icons/png/add.png"></button>
-                </div>
-            </div>
-
-            <div class="taskList">
-
-                <div id="todoList" class="listBody" 
-                ondrop="handleDrop(event, 'todo')" 
-                ondragover="allowDrop(event)"
-                ondragenter="highlightList('todoList')" 
-                ondragleave="unhighlightList('todoList')">
-                    <div class="listHeadline">
-                        <h4>To-do</h4>
-                        <img onclick="openAddTaskPopup('todo')" class="addIcons"
-                            src="../assets/icons/png/plusButton.png">
-                    </div>
-                    <div class="taskContainer"></div>
-                </div>
-
-                <div id="inProgressList" class="listBody" 
-                ondrop="handleDrop(event, 'inProgress')" 
-                ondragover="allowDrop(event)" 
-                ondragenter="highlightList('inProgressList')" 
-                ondragleave="unhighlightList('inProgressList')">
-                    <div class="listHeadline">
-
-                        <h4>in Progress</h4>
-                        <img onclick="openAddTaskPopup('inProgress')" class="addIcons"
-                            src="../assets/icons/png/plusButton.png">
-                    </div>
-                    <div class="taskContainer"></div>
-                </div>
-
-                <div id="awaitFeedbackList" class="listBody" 
-                ondrop="handleDrop(event, 'awaitFeedback')" 
-                ondragover="allowDrop(event)" 
-                ondragenter="highlightList('awaitFeedbackList')" 
-                ondragleave="unhighlightList('awaitFeedbackList')">
-                    <div class="listHeadline">
-                        <h4>Await feedback</h4>
-                        <img onclick="openAddTaskPopup('awaitFeedback')" class="addIcons"
-                            src="../assets/icons/png/plusButton.png">
-                    </div>
-                    <div class="taskContainer"></div>
-                </div>
-
-                <div id="doneList" class="listBody" 
-                ondrop="handleDrop(event, 'done')" 
-                ondragover="allowDrop(event)" 
-                ondragenter="highlightList('doneList')" 
-                ondragleave="unhighlightList('doneList')">
-                    <div class="listHeadline">
-                        <h4>Done</h4>
-                    </div>
-                    <div class="taskContainer"></div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    </div>
-
-    <div id="viewTaskPopupOverlay" class="popupOverlay hidden">
-        <div id="viewTaskContainer" class="tasksPopupContainer" onclick="event.stopPropagation()"></div>
-    </div>
-
-    <div id="editTaskPopupOverlay" class="popupOverlay hidden">
-        <div id="editTaskPopupContainer" class="popupContainer"></div>
-    </div>
-
-    <div id="addTaskPopupOverlay" class="popupOverlay hidden">
-        <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
-
-
-
-            <div class="popupHeader">
-                <h1>Add Task</h1>
-                <img class="icons close" onclick="closeAddTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
-            </div>
-
-            <form id="addTaskFormTask" onsubmit="addTaskToList(event)">
+        <div class="addTaskContent">
+            <h1>Add Task</h1>
+            <form id="addTaskFormTask" onsubmit="addTaskToToDoList(event)">
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
                         <input name="title" type="text" id="title" placeholder="Enter a title" required>
-
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
-
                         <label for="contactSelection">Assigned to</label>
                         <input name="contactSelection" id="contactSelection" placeholder="Enter contacts" tabindex="0">
                     </div>
@@ -136,7 +36,6 @@
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
                         <input name="date" type="date" id="date" required>
-
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
@@ -151,14 +50,12 @@
                                 <img src="../../assets/icons/png/PrioritySymbolsLow.png">
                             </button>
                         </div>
-
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <select name="category" id="category" required>
                             <option value="" disabled selected hidden>Select Task Category</option>
                             <option value="Technical Task">Technical Task</option>
                             <option value="User Story">User Story</option>
                         </select>
-
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
                             <input name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
@@ -183,16 +80,8 @@
                     </div>
                 </div>
             </form>
-
-
-
-
-
-
-
         </div>
     </div>
-    <script src="../../scripts/board.js"></script>
+    <script src="../../scripts/addTask.js"></script>
 </body>
-
 </html>

@@ -1,71 +1,62 @@
+const BASE_URL = 'https://join-b023c-default-rtdb.europe-west1.firebasedatabase.app/';
 
 
-const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 
-let emailArray = [];
 
-async function init() {
-    loadEmails();
-}
 
-async function loadEmails(path = 'data/signtInUsers/emails') {
-    emailArray = [];
-    let response = await fetch(BASE_URL + path + '.json');
-    let data = await response.json();
-    emailArray = Object.values(data).map(entry => entry.email);
-}
 
-function signIn() {
-    let name = document.getElementById('name').value;
-    let email = document.getElementById('email').value;
-    let password_1 = document.getElementById('password_1').value;
-    let password_2 = document.getElementById('password_2').value;
-    if(emailCheck(email) && passwordCheck(password_1, password_2)){
-    createNewEntry(name, email, password_1);
-    createNewMailEntry(email);
-    alert('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
-    location.href ='./login.html';
+
+async function saveData(users) {
+    try {
+        const response = await fetch(`${BASE_URL}/users.json`, {
+            method: 'PUT', // Überschreibt den vorhandenen Knoten
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(users)
+        });
+
+        if (!response.ok) throw new Error('Fehler beim Speichern der Daten');
+        console.log('Daten erfolgreich gespeichert!');
+    } catch (error) {
+        console.error('Fehler:', error.message);
     }
 }
 
-async function createNewEntry(name, email, pw) {
-    let response = await fetch(BASE_URL + "data/user" + '.json', {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            user: {
-                userData: {
-                    name: `${name}`,
-                    email: `${email}`,
-                    password: `${pw}`,
-                },
-                tasks: {
-                    task: "noTaskTillNow"
-                },
-                contacts: {
-                    contact: "noContactsTillNow"
-                }
-            }
-        })
-    });
-    return responseAsJson = await response.json();
+// Test-Aufruf
+saveData(users);
+
+
+
+async function loadData() {
+    try {
+        const response = await fetch(`${BASE_URL}/users.json`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (!response.ok) throw new Error('Fehler beim Laden der Daten');
+        const data = await response.json();
+
+        console.log('Geladene Daten:', data);
+        return data;
+    } catch (error) {
+        console.error('Fehler:', error.message);
+    }
 }
 
-//kleine notiz du kannst in firebase keine null undefined oder andere leerwerte als platzhalter übergeben das geht nicht 
-// fuer alle die das lesen es muss immer was mit angegeben werden
+// Test-Aufruf
+loadData();
 
-async function createNewMailEntry(email){
-    let response = await fetch(BASE_URL + 'data/signtInUsers/emails' + ".json", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            "email": `${email}`
-        })
-    })
-    let responseAsJson = await response.json();
-    console.log(responseAsJson)
+
+
+async function initApp() {
+    const usersData = await loadData();
+    if (usersData) {
+        users = Object.values(usersData); // Konvertiert Firebase-Objekte in Array
+        currentUser = users.find(user => user.id === '1'); // Beispiel: Benutzer mit ID '1'
+        console.log('Anwendung erfolgreich initialisiert.');
+    } else {
+        console.error('Keine Daten verfügbar!');
+    }
 }
+
+initApp();
