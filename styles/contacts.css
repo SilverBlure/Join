@@ -204,41 +204,71 @@ h3{
     margin: auto;   
 }
 
+.newContactContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 20px;
+}
+
 .newContact{
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 600px;
-    width: 80%;
-    margin: 0px;
+    width: 100vw;
+    border-radius: 15px;
+    color: white;
     
 }
 
 .addContactLogo{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     flex-direction: column;
     background-color: rgb(42, 54, 71);
     height: 100%;
-    width: 467px;
+    width: 470px;
+    gap:10px;
+    padding-left: 50px;
+    border-radius: 20px 0px 0px 20px;
 }
 
 .addContacts{
-    
+    padding-left: 50px;
     background-color: white;
     display: flex;
     align-items: center;
-    height: 100%;   
+    height: 100%; 
+    width: 640px;  
+    border-radius: 0 20px 20px 0px;
 }
 
 .createContact{
     display: flex;
     flex-direction: column;
+    padding-left: 50px;
 }
 
 .contacInput{
     display: flex;
     flex-direction: column;
+    gap: 20px;
+    margin-bottom: 50px;
+}
+
+.innerInputfield {
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.noBorder {
+    border: none;
 }
