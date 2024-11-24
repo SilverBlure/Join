@@ -1,7 +1,8 @@
+
+
+
 let contacts = [];
 
-
-const baseUrl = "https://test-b993b-default-rtdb.europe-west1.firebasedatabase.app/";
 
 function renderContacts() {
  
@@ -64,5 +65,55 @@ renderContacts();
 
 function addContact(){
     document.getElementById('contactDialog').style.display = "block";
- 
+}
+
+
+let ID;
+
+
+function init(){
+    loadSessionId();
+}
+
+function loadSessionId(){
+    ID = localStorage.getItem('sessionKey');
+}
+
+
+
+
+async function createContact(name, email, phone){
+    let response = await fetch(BASE_URL + "data/user" + ID + "user/contacts" + ".json", {
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            contact:{
+                name:`${name}`,
+                email:`${email}`,
+                phone:`${phone}`,
+            }
+        })
+    }
+    )
+    return responseAsJson = response.json();
+}
+
+async function editContact(){
+    let response = await fetch(BASE_URL + "data/user" + ID + "user/contacts"  + ".json", {
+        method: "Put",
+        headers:{
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            contact:{
+                name:`${name}`,
+                email:`${email}`,
+                phone:`${phone}`,
+            }
+        })
+    }
+    )
+    return responseAsJson = response.json();
 }
