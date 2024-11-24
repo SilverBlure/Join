@@ -134,12 +134,15 @@ function closeAddContact(){
 async function getContacts(){
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
+    let keys = Object.keys(data);
     data = Object.values(data);
     for(let i =0;i< data.length; i++){
+
         const contact ={
             name: data[i].contact.name,
             email:data[i].contact.email,
             phone:data[i].contact.phone,
+            id: keys[i],
         }
         contactsArray.push(contact);
     }
