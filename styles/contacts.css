@@ -272,3 +272,20 @@ h3{
 .noBorder {
     border: none;
 }
+
+
+.closeBtn{
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+}
+
+
+.close:hover{
+    cursor: pointer;
+}
+
+.createContactBtn{
+display: flex;
+justify-content: space-around;
+}

@@ -63,7 +63,7 @@ renderContacts();
 }
 
 
-function addContact(){
+function openAddContact(){
     document.getElementById('contactDialog').style.display = "block";
 }
 
@@ -116,4 +116,8 @@ async function editContact(){
     }
     )
     return responseAsJson = response.json();
+}
+function closeAddContact(){
+    document.getElementById('contactDialog').style.display = "none";
+ 
 }
