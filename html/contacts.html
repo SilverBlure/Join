@@ -23,6 +23,38 @@
 
 <body onload="includeHTML(), loadContacts()">
 
+    <div id="contactDialog">
+        
+        <div class="newContact" id="addContact">
+            <div class="addContactLogo">
+                <img src="../assets/icons/svg/joinLogoWhite.svg" alt="">
+                <h1>Contacts</h1>
+                <h3>Better with a team</h3>
+            </div> 
+                <div class="addContacts">
+                    <div>
+                        <p class="userTagBig"></p>
+                    </div>
+                    <div class="createContact">
+                    <div>
+                        platzhalterX
+                    </div>
+                    <div class="contacInput">
+                    <form class="contacInput">
+                        <input type="text" placeholder="name">
+                        <input type="email" placeholder="email">
+                        <input type="number" placeholder="phone">
+                    </form>
+                    </div>
+                    <div>
+                        <button>cancel</button><button>create contact</button>
+                    </div>
+                </div>
+                </div>
+        </div>
+    
+    </div>
+
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
 
     <div class="contacts">
@@ -31,7 +63,7 @@
 
         <div class="contactContainer">
             <div class="contactsBar">
-                <div class="btnContainer"><button class="addContactBtn">Add new contact <img
+                <div class="btnContainer"><button class="addContactBtn" onclick="addContact()">Add new contact <img
                             src="../assets/icons/png/person_add.png" alt=""></button></div>
                 <div id="contacts"></div>
             </div>

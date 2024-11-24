@@ -60,3 +60,9 @@ renderContacts();
 
 
 }
+
+
+function addContact(){
+    document.getElementById('contactDialog').style.display = "block";
+ 
+}
