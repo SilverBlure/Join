@@ -24,12 +24,12 @@ function signIn() {
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
     alert('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
-    location.href ='./login.html';
+    //location.href ='./login.html';
     }
 }
 
 async function createNewEntry(name, email, pw) {
-    let response = await fetch(BASE_URL + "data/user" + '.json', {
+    let response = await fetch(BASE_URL + "data/user"+  '.json', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -139,4 +139,10 @@ function checkLogin(emailInput, pwInput){
         return {match: false, id: null};
     }
 }
+
+
+
+
+
+
 
