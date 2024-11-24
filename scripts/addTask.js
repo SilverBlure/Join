@@ -1,4 +1,4 @@
-let users = [
+/*let users = [
     {
         id: '1',
         name: 'Stanislav',
@@ -202,3 +202,26 @@ function addNewSubtask(taskId) {
         console.error("Fehler beim Hinzufügen des Subtasks oder Eingabe ist leer.");
     }
 }
+
+*/
+
+function init(){
+    createTaskOnject();
+}
+
+function getValues(){
+    const singleTask = new Object; 
+    let title = document.getElementById('title').value;
+    let contactSelection = document.getElementById('contactSelection').value;
+    let description = document.getElementById('description').value;
+    let date = document.getElementById('date').value;
+    let category = document.getElementById('category').value;
+    let subTasks = document.getElementById('subTasksList').value;
+    singleTask.title = title;
+    singleTask.contact = contactSelection;
+    singleTask.description = description;
+    singleTask.date = date;
+    singleTask.category = category;
+    singleTask.subTasks = subTasks;
+}
+

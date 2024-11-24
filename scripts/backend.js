@@ -28,11 +28,6 @@ function signIn() {
     }
 }
 
-// Test-Aufruf
-saveData(users);
-
-
-
 async function createNewEntry(name, email, pw) {
     let response = await fetch(BASE_URL + "data/user" + '.json', {
         method: "POST",
@@ -144,6 +139,4 @@ function checkLogin(emailInput, pwInput){
         return {match: false, id: null};
     }
 }
-
-
 
