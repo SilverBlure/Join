@@ -22,7 +22,7 @@
 
 </head>
 
-<body onload="includeHTML(), loadContacts(), init()">
+<body onload="includeHTML(), init()">
 
     <div id="contactDialog">
         
@@ -60,14 +60,14 @@
                     
                         <div>
                             <innerInputfield class="innerInputfield">
-                                <input id="password_1" type="number" class="noBorder" placeholder="phone" required>
+                                <input id="phone" type="number" class="noBorder" placeholder="phone" required>
                                 <img src="../assets/icons/png/call.png">
                             </innerInputfield>
                         </div>
                     </form>
                     </div>
                     <div class="createContactBtn">
-                        <button onclick="closeAddContact()">cancel</button><button>create contact <img src="../assets/icons/png/check.png"></button>
+                        <button onclick="closeAddContact()">cancel</button><button onclick="createContact()">create contact <img src="../assets/icons/png/check.png"></button>
                     </div>
                 </div>
                 </div>
