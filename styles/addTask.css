@@ -1,0 +1,528 @@
+
+
+.assign-contact-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 16px;
+    height: 16px;
+    background-color: white;
+    border: 2px solid #2A3647;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+}
+
+.assign-contact-checkbox:checked {
+    background-color: #2A3647;
+    border: 2px solid white;
+}
+
+.addTaskContent {
+    width: 100%;
+}
+
+.assign-contact-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    bottom: 2px;
+    left: 6px;
+    width: 6px;
+    height: 15px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.content-container {
+    height: 100vh;
+    width: calc(100vw - 232px);
+    margin-left: 232px;
+}
+
+.parent-container {
+    box-sizing: border-box;
+    background-color: #F6F7F8;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+}
+
+.main-container-task {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.added-to-board {
+    background-color: #2A3547;
+    color: white;
+    border-radius: 20px;
+    height: 74px;
+    position: absolute;
+    top: 45%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    width: 300px;
+    justify-content: center;
+    gap: 16px;
+    font-size: 20px;
+}
+
+.added-to-board img {
+    width: 22px;
+    height: 26px;
+}
+
+.aot-task-container {
+    width: 80%;
+    height: 15%;
+    display: flex;
+    align-items: center;
+    margin: 24px 65px 0 74px;
+}
+
+.aot-task-container-small {
+    margin: 24px 0 32px 46px;
+}
+
+.inputs-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.main-container-task-one-two,
+.main-container-task-one-two-small {
+    display: flex;
+    gap: 32px;
+    margin: 0 65px 0 74px;
+}
+
+.button-end-process-container,
+.button-end-process-container-small {
+    box-sizing: border-box;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 70px 65px 24px 74px;
+}
+
+.button-end-process-container-small {
+    margin: 0px 65px 0px 74px;
+    height: 70px;
+}
+
+.add-task-set-up-one-container {
+    width: 50%;
+    display: flex;
+    gap: 16px
+}
+
+.seperate-container {
+    background-color: rgb(209, 209, 209);
+    width: 1px;
+}
+
+.add-task-set-up-two-container {
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-task-title {
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.add-task-set-up-one {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.task-input-field {
+    padding: 12px 8px 8px 12px;
+    border-radius: 10px;
+    border: 1px solid rgb(209, 209, 209);
+    font-family: 'Inter';
+}
+
+.add-task-set-up-two {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.button-prio-width {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.button-prio {
+    background-color: white;
+    color: black;
+    padding: 10px 15px 10px 15px;
+    border: 1px solid rgb(209, 209, 209);
+    border: 1px solid rgb(209, 209, 209);
+    border-radius: 10px;
+    cursor: pointer;
+    gap: 8px;
+    min-width: 88px;
+
+}
+
+
+.pointer {
+    cursor: pointer;
+}
+
+.prio-photos {
+    width: 20px;
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-txt-img {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: clamp(1rem, 0.585rem + 1.329vi, 1.25rem);
+}
+
+.color-blue-button:hover {
+    background-color: #29ABE2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.color-white-button {
+    background-color: white;
+    color: black;
+    border: 1px solid rgb(209, 209, 209);
+    border: 1px solid rgb(209, 209, 209);
+    padding: 8px 8px 8px 8px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.color-blue-button {
+    background-color: rgb(42, 54, 71);
+    background-color: rgb(42, 54, 71);
+    color: white;
+    border: 1px solid rgb(209, 209, 209);
+    border: 1px solid rgb(209, 209, 209);
+    padding: 8px 8px 8px 8px;
+    cursor: pointer;
+    border-radius: 10px;
+    border-radius: 10px;
+}
+
+.color-white-button:hover {
+    border-color: #29ABE2;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.check-svg {
+    width: 16px;
+}
+
+.close-svg {
+    width: 12px;
+}
+
+.bubble-setup {
+    display: flex;
+}
+
+.drop-down {
+    position: relative;
+}
+
+.drop-down * {
+    box-sizing: border-box;
+}
+
+.select {
+    background-color: rgb(255, 255, 255);
+    padding: 10px 8px 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(209, 209, 209);
+    border: 1px solid rgb(209, 209, 209);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.caret {
+    width: 0;
+    height: 0px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid rgb(0, 0, 0);
+}
+
+.createRotate {
+    transform: rotate(180deg);
+}
+
+.menu {
+    list-style: none;
+    padding: 0.2em 0.5em;
+    border: 1px solid rgb(209, 209, 209);
+    border: 1px solid rgb(209, 209, 209);
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    position: absolute;
+    top: 2.43em;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    display: none;
+    transition: 0.5s;
+    z-index: 1;
+    overflow-y: auto;
+    max-height: 164px;
+}
+
+.selectClicked {
+    box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.2)
+}
+
+.menu li {
+    cursor: pointer;
+}
+
+.menu li:hover {
+    background-color: rgba(0, 0, 0, 0.021);
+}
+
+.active {
+    background: rgba(235, 234, 234, 0.87);
+}
+
+.menu-open {
+    display: block;
+    opacity: 1;
+    min-height: 200px;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F6F7F8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #A8A8A8;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #29ABE2;
+    border-radius: 4px;
+}
+
+.input-with-img {
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(209, 209, 209);
+    border: 1px solid rgb(209, 209, 209);
+    display: flex;
+    align-items: center;
+}
+
+.input-with-img:focus-within {
+    border: solid 2px black;
+}
+
+.task-input-with-img {
+    width: 96%;
+    padding: 10px 8px 8px 10px;
+    border-radius: 10px;
+    border-width: 0px 0px 0px 0px;
+    outline: unset;
+    font-family: 'Inter';
+}
+
+.input-field-svg {
+    margin-right: 2%;
+}
+
+.check-cross-position {
+    width: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    display: none;
+}
+
+.subtaskButtons {
+    cursor: pointer;
+}
+
+.button-transparacy {
+    background-color: transparent;
+    border: transparent;
+}
+
+.name-initial {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.contact-boarder,
+.contact-boarder-edittask {
+    margin-bottom: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.contact-boarder:hover,
+.contact-boarder-edittask:hover {
+    background-color: lightgrey;
+}
+
+.circle-initial,
+.circle-initial-edittask {
+    width: 30px;
+    height: 30px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+}
+
+.initial-style {
+    color: white;
+    font-size: 12px;
+}
+
+.initial-centering {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subtask-container {
+    height: 70px;
+    overflow: auto;
+}
+
+.subtask-Txt {
+    cursor: pointer;
+    width: 95%;
+    margin: 2px;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.subtask-Txt:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+.bubble-initial {
+    width: 30px;
+    height: 30px;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.creat-and-close-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.assigned-contacts-container {
+    display: flex;
+    gap: 8px;
+}
+
+.subtask-Txt .delete-edit {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.subtask-Txt:hover .delete-edit {
+    opacity: 1;
+}
+
+.lowSelected,
+.lowSelectedEdit {
+    background-color: rgb(122, 226, 41);
+    color: #FFFFFF;
+
+}
+
+.mediumSelected,
+.mediumSelectedEdit {
+    background-color: rgb(255, 168, 0);
+    color: #FFFFFF;
+
+}
+
+.urgentSelected,
+.urgentSelectedEdit {
+    background-color: rgb(255, 61, 0);
+    color: #FFFFFF;
+}
+
+.button-prio svg .urgentSelected {
+    fill: #FF3D00;
+}
+
+.button-prio svg .mediumSelected {
+    fill: rgb(255, 168, 0);
+}
+
+.button-prio svg .lowSelected {
+    fill: rgb(122, 226, 41);
+}
+
+.button-prio.urgentSelected svg .urgentSelected,
+.button-prio.mediumSelected svg .mediumSelected,
+.button-prio.lowSelected svg .lowSelected {
+    fill: #FFFFFF;
+}
+
+.orange-background {
+    background-color: rgb(255, 168, 0);
+    color: white;
+}
+
+.corect-incorect {
+    font-size: 12px;
+}
+
+@media(max-width: 350px) {
+    .button-prio-width {
+        flex-wrap: nowrap;
+    }
+}
