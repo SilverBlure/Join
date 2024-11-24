@@ -79,3 +79,18 @@ function setGreeting() {
     }
     greetingElement.textContent = greetingText;
 }
+
+
+
+//----------------------------------------------------------------------------------------
+
+async function init(){
+    getUserData();
+}
+
+async function getUserData(){
+    let sessionKey = localStorage.getItem('sessionKey')
+    let response = await fetch(BASE_URL + 'data/user/' + sessionKey + '.json');
+    let responseAsJson = await response.json();
+    console.log(responseAsJson);
+}

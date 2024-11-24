@@ -16,10 +16,11 @@
     <script src="../../scripts/templates.js"></script>
     <script src="../../scripts/summary.js"></script>
     <script src="../../scripts/board.js"></script>
+    <script src="./../scripts/backend.js"></script>
     <link rel="stylesheet" href="/styles/templates.css">
 </head>
 
-<body onload="includeHTML(); renderDashboard(); getNextDueDate(); setGreeting()">
+<body onload="includeHTML(); renderDashboard(); getNextDueDate(); setGreeting(); init()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
     
     <div class="content">
