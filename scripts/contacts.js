@@ -108,9 +108,9 @@ async function pushData(name, email, phone){
     return responseAsJson = response.json();
 }
 
-async function editContact(){
-    let response = await fetch(BASE_URL + "data/user" + ID + "user/contacts"  + ".json", {
-        method: "Put",
+async function editContact(contactId, name, email, phone ){
+    let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
+        method: "PUT",
         headers:{
             "Content-Type": "application/json",
         },
@@ -147,3 +147,10 @@ async function getContacts(){
         contactsArray.push(contact);
     }
 }
+
+async function deleteContact(contactId) {
+    await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
+        method: "DELETE",
+    })
+}
+
