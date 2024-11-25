@@ -3,17 +3,18 @@ let ID;
 let contactsArray = [];
 
 
-function init(){
-   loadSessionId();
-   getContacts();
-   
+function init() {
+    loadSessionId();
+    getContacts();
+
 }
 
 
-function renderContacts(){
-    for(let i = 0; i< contactsArray.length; i++){
+function renderContacts() {
+    document.getElementById('contacts').innerHTML = '';
+    for (let i = 0; i < contactsArray.length; i++) {
         document.getElementById('contacts').innerHTML +=
-        contactTemps(i);
+            contactTemps(i);
     }
 }
 
@@ -40,10 +41,10 @@ function renderContacts(){
 // }
 
 
-function renderContactDetails(i){
-    document.getElementById('ContactDetailed').innerHTML="";
-    document.getElementById('ContactDetailed').innerHTML+=
-    ContactDetailsTemps(i);
+function renderContactDetails(i) {
+    document.getElementById('ContactDetailed').innerHTML = "";
+    document.getElementById('ContactDetailed').innerHTML +=
+        ContactDetailsTemps(i);
 }
 
 
@@ -52,8 +53,8 @@ function renderContactDetails(i){
 //    let response= await fetch(baseUrl + ".json")
 //    let contactData = await response.json();
 //    console.log(contactData);
-   
-   
+
+
 // for (let i = 1; i < contactData.length; i++) {
 //     let UserInfos = {
 //         id: i,
@@ -64,7 +65,7 @@ function renderContactDetails(i){
 //     };
 //     contacts.push(UserInfos);
 //     console.log(UserInfos);
-    
+
 // }
 // console.log(contacts);
 
@@ -74,27 +75,29 @@ function renderContactDetails(i){
 // }
 
 
-function openAddContact(){
+function openAddContact() {
     document.getElementById('contactDialog').style.display = "block";
 }
 
-function editContact(i){
-    console.log('edit');
+function editContact(i) {
+    console.log('edit', i);
     openAddContact();
 }
 
 
-function deleteContact(i){
-console.log('delete');
-
+function deleteContact(i) {
+    console.log(contactsArray[i].id);
+    deleteContactDatabase(contactsArray[i].id);
+    contactsArray = [];
+    getContacts();
 }
 
 
-function loadSessionId(){
+function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
 }
 
-async function createContact(){
+async function createContact() {
     let name = document.getElementById('name').value;
     let email = document.getElementById('email').value;
     let phone = +document.getElementById('phone').value;
@@ -103,17 +106,17 @@ async function createContact(){
 }
 
 
-async function pushData(name, email, phone){
+async function pushData(name, email, phone) {
     let response = await fetch(BASE_URL + "data/user/" + ID + "/user/contacts/" + ".json", {
         method: "POST",
-        headers:{
+        headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            contact:{
-                name:`${name}`,
-                email:`${email}`,
-                phone:`${phone}`,
+            contact: {
+                name: `${name}`,
+                email: `${email}`,
+                phone: `${phone}`,
             }
         })
     }
@@ -121,17 +124,17 @@ async function pushData(name, email, phone){
     return responseAsJson = response.json();
 }
 
-async function editContact(contactId, name, email, phone ){
+async function putContact(contactId, name, email, phone) {
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "PUT",
-        headers:{
+        headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            contact:{
-                name:`${name}`,
-                email:`${email}`,
-                phone:`${phone}`,
+            contact: {
+                name: `${name}`,
+                email: `${email}`,
+                phone: `${phone}`,
             }
         })
     }
@@ -139,22 +142,22 @@ async function editContact(contactId, name, email, phone ){
     return responseAsJson = response.json();
 }
 
-function closeAddContact(){
+function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
- 
+
 }
 
-async function getContacts(){
+async function getContacts() {
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
     let keys = Object.keys(data);
     data = Object.values(data);
-    for(let i =0;i< data.length; i++){
+    for (let i = 0; i < data.length; i++) {
 
-        const contact ={
+        const contact = {
             name: data[i].contact.name,
-            email:data[i].contact.email,
-            phone:data[i].contact.phone,
+            email: data[i].contact.email,
+            phone: data[i].contact.phone,
             id: keys[i],
         }
         contactsArray.push(contact);
@@ -162,7 +165,7 @@ async function getContacts(){
     renderContacts();
 }
 
-async function deleteContact(contactId) {
+async function deleteContactDatabase(contactId) {
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "DELETE",
     })

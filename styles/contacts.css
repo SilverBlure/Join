@@ -285,6 +285,9 @@ h3{
     margin-bottom: 50px;
 }
 
+.pointer{
+    cursor: pointer;
+}
 
 .close:hover{
     cursor: pointer;
