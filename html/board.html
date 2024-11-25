@@ -17,7 +17,7 @@
     <script src="../../scripts/templates.js"></script>
 </head>
 
-<body onload="includeHTML(),renderBoard()">
+<body onload="includeHTML(),renderBoard(), initBoard()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
 
     <div id="mainContent" class="content">
@@ -193,6 +193,8 @@
         </div>
     </div>
     <script src="../../scripts/board.js"></script>
+    <script src="../../scripts/boardBackend.js"></script>
+
 </body>
 
 </html>
