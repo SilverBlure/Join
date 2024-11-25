@@ -4,7 +4,7 @@ body{
 .contactContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
 }
 
@@ -60,6 +60,7 @@ body{
     align-items: center;
     justify-content: center;
     gap: 16px;
+    margin-top: 16px;
 }
 
 .contact {
@@ -283,6 +284,7 @@ h3{
     display: flex;
     justify-content: flex-end;
     margin-bottom: 50px;
+    width: 350px;
 }
 
 .pointer{
