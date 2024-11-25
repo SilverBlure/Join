@@ -1,32 +1,43 @@
 
+let ID;
+let contactsArray = [];
 
 
-let contacts = [];
+function init(){
+   loadSessionId();
+   getContacts();
+   
+}
 
 
-function renderContacts() {
- 
-
-    
-
-     contactsArray.sort((a, b) => a.firstName.localeCompare(b.firstName));
-
-    document.getElementById('contacts').innerHTML = "";
-    let currentLetter = ""; 
-
-    for (let i = 1; i < contactsArray.length; i++) {
-        let firstLetter = contactsArray.i.firstName.slice(0, 1);
-
-        if (firstLetter !== currentLetter) {
-            currentLetter = firstLetter;
-            document.getElementById('contacts').innerHTML += 
-            renderCurrentLetter(currentLetter);
-        }
-
-       document.getElementById(`group-${currentLetter}`).innerHTML +=
-       contactTemps(i); 
+function renderContacts(){
+    for(let i = 0; i< contactsArray.length; i++){
+        document.getElementById('contacts').innerHTML +=
+        contactTemps(i);
     }
 }
+
+
+
+
+// function renderContacts() {
+//     // contactsArray.sort((a, b) => a.firstName.localeCompare(b.firstName));
+//     document.getElementById('contacts').innerHTML = "";
+//     //let currentLetter = ""; 
+
+//     for (let i = 1; i < contactsArray.length; i++) {
+//         // let firstLetter = contactsArray[i].name;
+
+//         // if (firstLetter !== currentLetter) {
+//         //     currentLetter = firstLetter;
+//         //     document.getElementById('contacts').innerHTML += 
+//         //     renderCurrentLetter(currentLetter);
+//         // }
+
+//        document.getElementById(`group-${currentLetter}`).innerHTML +=
+//        contactTemps(i); 
+//     }
+// }
 
 
 function renderContactDetails(i){
@@ -67,16 +78,17 @@ function openAddContact(){
     document.getElementById('contactDialog').style.display = "block";
 }
 
-
-let ID;
-let contactsArray = [];
-
-
-function init(){
-    loadSessionId();
-    getContacts();
-   renderContacts();
+function editContact(i){
+    console.log('edit');
+    openAddContact();
 }
+
+
+function deleteContact(i){
+console.log('delete');
+
+}
+
 
 function loadSessionId(){
     ID = localStorage.getItem('sessionKey');
@@ -147,6 +159,7 @@ async function getContacts(){
         }
         contactsArray.push(contact);
     }
+    renderContacts();
 }
 
 async function deleteContact(contactId) {
