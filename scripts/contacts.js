@@ -9,13 +9,13 @@ function renderContacts() {
 
     
 
-     contacts.sort((a, b) => a.firstName.localeCompare(b.firstName));
+     contactsArray.sort((a, b) => a.firstName.localeCompare(b.firstName));
 
     document.getElementById('contacts').innerHTML = "";
     let currentLetter = ""; 
 
-    for (let i = 1; i < contacts.length; i++) {
-        let firstLetter = contacts.i.firstName.slice(0, 1);
+    for (let i = 1; i < contactsArray.length; i++) {
+        let firstLetter = contactsArray.i.firstName.slice(0, 1);
 
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
@@ -74,7 +74,8 @@ let contactsArray = [];
 
 function init(){
     loadSessionId();
-    getContacts()
+    getContacts();
+   renderContacts();
 }
 
 function loadSessionId(){
