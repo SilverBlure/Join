@@ -17,11 +17,12 @@
     <script src="../../script.js"></script>
     <script src="../scripts/contacts.js"></script>
     <script src="../scripts/templates.js"></script>
+    <script src="./../scripts/backend.js"></script>
 
 
 </head>
 
-<body onload="includeHTML(), loadContacts()">
+<body onload="includeHTML(), init()">
 
     <div id="contactDialog">
         
@@ -38,35 +39,39 @@
                         <img src="../assets/icons/png/userpic_leer.png" alt="">
                     </div>
                     <div class="createContact">
-                    <div>
-                        <img src="../assets/icons/png/iconoir_cancel.png" alt="">
+                    <div class="closeBtn">
+                        <img class="close" onclick="closeAddContact()" src="../assets/icons/png/iconoir_cancel.png" alt="">
                     </div>
                     <div>
                     <form class="contacInput">
-                        <div>
+                        <div class="inputBorder">
                             <innerInputfield class="innerInputfield">
-                                <input id="name" class="noBorder" placeholder="Name" required>
+                                <input class="noBorder" id="name" placeholder="Name" required>
                                 <img src="../../assets/icons/png/person.png">
                             </innerInputfield>
                         </div>
                     
-                        <div>
+                        <div class="inputBorder">
                             <innerInputfield class="innerInputfield">
                                 <input id="email" type="email" class="noBorder" placeholder="Email" required>
                                 <img src="../../assets/icons/svg/mail.svg">
                             </innerInputfield>
                         </div>
                     
-                        <div>
+                        <div class="inputBorder">
                             <innerInputfield class="innerInputfield">
-                                <input id="password_1" type="password" class="noBorder" placeholder="Passwort" required>
-                                <img src="../../assets/icons/svg/lock.svg">
+                                <input id="phone" type="number" class="noBorder" placeholder="phone" required>
+                                <img src="../assets/icons/png/call.png">
                             </innerInputfield>
                         </div>
                     </form>
                     </div>
-                    <div>
-                        <button>cancel</button><button>create contact</button>
+                    <div class="createContactBtn">
+<<<<<<< Updated upstream
+                        <button onclick="closeAddContact()">cancel</button><button onclick="createContact()">create contact <img src="../assets/icons/png/check.png"></button>
+=======
+                        <button class="addbutton" onclick="closeAddContact()">cancel</button><button class="addbutton">create contact <img src="../assets/icons/png/check.png"></button>
+>>>>>>> Stashed changes
                     </div>
                 </div>
                 </div>
@@ -84,7 +89,7 @@
 
         <div class="contactContainer">
             <div class="contactsBar">
-                <div class="btnContainer"><button class="addContactBtn" onclick="addContact()">Add new contact <img
+                <div class="btnContainer"><button class="addContactBtn" onclick="openAddContact()">Add new contact <img
                             src="../assets/icons/png/person_add.png" alt=""></button></div>
                 <div id="contacts"></div>
             </div>
