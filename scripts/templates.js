@@ -24,7 +24,7 @@ function contactTemps(i) {
 
 function ContactDetailsTemps(i) {
     return `<div class="InfoBoxHead">
-    <div><p class="userTagBig">${contacts[i].firstName.slice(0, 1)}${contacts[i].lastName.slice(0, 1)}</p></div>
+<div><p class="userTagBig">${contacts[i].firstName.slice(0, 1)}${contacts[i].lastName.slice(0, 1)}</p></div>
     <div>
         <div><H2>${contacts[i].firstName} ${contacts[i].lastName}</H2></div>
         <div><a href=""><img src="../assets/icons/png/edit.png" alt=""></a><a href=""><img src="../assets/icons/png/Delete contact.png" alt=""></a></div>
