@@ -121,7 +121,6 @@ function renderBoard() {
         console.error('Keine Aufgaben gefunden!');
         return;
     }
-
     tasks.forEach(list => {
         // Sucht den Container für die jeweilige Liste anhand der ID
         const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
@@ -129,10 +128,8 @@ function renderBoard() {
             console.error(`Container für Liste "${list.id}" nicht gefunden.`);
             return;
         }
-
         // Löscht den Inhalt des Containers
         content.innerHTML = "";
-
         // Falls keine Aufgaben in der Liste sind
         if (list.task.length === 0) {
             content.innerHTML += /*html*/`
@@ -146,7 +143,6 @@ function renderBoard() {
                 const totalCount = task.subtasks.length; // Gesamtanzahl der Subtasks
                 const doneCount = task.subtasks.filter(st => st.done).length; // Abgeschlossene Subtasks
                 const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0; // Fortschritt in %
-
                 // Fortschrittsanzeige für Subtasks
                 const progressHTML = totalCount > 0 ? /*html*/`
                     <div class="subtasksContainer">
@@ -156,7 +152,6 @@ function renderBoard() {
                         <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                     </div>
                 ` : '';
-
                 // Fügt die Aufgabe in den Container ein
                 content.innerHTML += /*html*/`
                     <div id="boardCard-${task.id}" 
@@ -189,15 +184,12 @@ function openTaskPopup(taskId) {
     // Alle Aufgaben aus allen Listen suchen
     const allTasks = tasks.flatMap(list => list.task);
     const task = allTasks.find(t => t.id === taskId); // Finde die Aufgabe mit der ID
-
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
-
     if (popupOverlay && popupContainer && task) {
         // Zeige das Popup an und füge Blur-Effekt hinzu
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-
         // Arbeiter-HTML generieren
         const workersHTML = task.workers.map(worker => /*html*/`
             <div class="workerInformation">
@@ -205,7 +197,6 @@ function openTaskPopup(taskId) {
                 <p class="workerName">${worker.name}</p> 
             </div>
         `).join('');
-
         // Subtasks-HTML generieren
         const subtasksHTML = task.subtasks.length > 0
             ? /*html*/`
@@ -240,7 +231,6 @@ function openTaskPopup(taskId) {
             }).join('')}
             `
             : '';
-
         // HTML für das Popup generieren
         popupContainer.innerHTML = /*html*/`
             <div class="popupHeader">
@@ -295,21 +285,17 @@ function deleteTask(taskId) {
 
 function editSubtask(taskId, subtaskIndex) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); // Finde die Aufgabe
-
     if (!task || !task.subtasks[subtaskIndex]) {
         console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
         return;
     }
-
     const subtask = task.subtasks[subtaskIndex];
     const subtaskText = subtask.done || subtask.todo; // Subtask-Text holen
     const subtaskElement = document.getElementById(`subtask-${taskId}-${subtaskIndex}`); // HTML-Element finden
-
     if (!subtaskElement) {
         console.error(`Subtask-Element nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
         return;
     }
-
     // Bearbeitungsfeld einfügen
     subtaskElement.innerHTML = /*html*/`
         <input
@@ -323,7 +309,6 @@ function editSubtask(taskId, subtaskIndex) {
             Save
         </button>
     `;
-
     // Eingabefeld fokussieren
     const inputField = subtaskElement.querySelector('.editSubtaskInput');
     if (inputField) inputField.focus();
@@ -333,12 +318,10 @@ function editSubtask(taskId, subtaskIndex) {
 
 function saveSubtaskEdit(taskId, subtaskIndex, newText) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); // Finde die Aufgabe
-
     if (!task || !task.subtasks[subtaskIndex]) {
         console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
         return;
     }
-
     // Aktualisiere den Subtask
     const subtask = task.subtasks[subtaskIndex];
     if (subtask.done !== undefined) {
@@ -346,9 +329,7 @@ function saveSubtaskEdit(taskId, subtaskIndex, newText) {
     } else {
         subtask.todo = newText; // Aktualisiere den Text im 'todo'-Feld
     }
-
     console.log(`Subtask aktualisiert (Task ID: ${taskId}, Subtask Index: ${subtaskIndex}):`, subtask);
-
     // Aktualisiere die Anzeige
     renderBoard();
     openTaskPopup(taskId); // Öffne das Popup erneut, um die Änderungen zu zeigen
@@ -358,14 +339,11 @@ function saveSubtaskEdit(taskId, subtaskIndex, newText) {
 
 function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); // Finde die Aufgabe
-
     if (!task || !task.subtasks[subtaskIndex]) {
         console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
         return;
     }
-
     const subtask = task.subtasks[subtaskIndex];
-
     // Status des Subtasks ändern
     if (isChecked) {
         subtask.done = subtask.todo; // Markiere als erledigt
@@ -374,13 +352,11 @@ function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
         subtask.todo = subtask.done; // Setze zurück auf `todo`
         delete subtask.done; // Entferne das `done`-Feld
     }
-
     // Aktualisiere die Darstellung des Subtasks
     const subtaskElement = document.querySelector(`#subtask-${taskId}-${subtaskIndex} .subtaskText`);
     if (subtaskElement) {
         subtaskElement.style.textDecoration = isChecked ? "line-through" : "none";
     }
-
     openTaskPopup(taskId); // Aktualisiere das Popup
     renderBoard(); // Aktualisiere das Board
 }
@@ -388,7 +364,6 @@ function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
 
 function findTask() {
     const searchTerm = document.getElementById('findTask').value.trim().toLowerCase();
-
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
         if (!content) {
@@ -396,12 +371,10 @@ function findTask() {
             return;
         }
         content.innerHTML = "";
-
         const filteredTasks = list.task.filter(task =>
             task.title.toLowerCase().includes(searchTerm) ||
             task.description.toLowerCase().includes(searchTerm)
         );
-
         if (filteredTasks.length === 0) {
             content.innerHTML = /*html*/`
                 <div class="nothingToDo">
@@ -413,7 +386,6 @@ function findTask() {
                 const totalCount = task.subtasks ? task.subtasks.length : 0;
                 const doneCount = task.subtasks ? task.subtasks.filter(st => st.done).length : 0;
                 const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-
                 content.innerHTML += /*html*/`
                     <div draggable="true" 
                          ondragstart="startDragging(${task.id})" 
@@ -449,19 +421,15 @@ function findTask() {
 
 function editTask(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); // Finde die Aufgabe
-
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
-
     if (!editTaskPopupOverlay || !editTaskPopupContainer || !task) {
         console.error(`Popup-Container oder Task mit ID ${taskId} nicht gefunden.`);
         return;
     }
-
     editTaskPopupOverlay.setAttribute("data-task-id", taskId);
     editTaskPopupOverlay.classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
-
     const addSubtaskHTML = /*html*/`
         <div class="createSubtaskBar">
             <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
@@ -469,7 +437,6 @@ function editTask(taskId) {
             <img onclick="addNewSubtask(${taskId})" class="addSubtaskButton" src="../assets/icons/png/addSubtasks.png">
         </div>
     `;
-
     editTaskPopupContainer.innerHTML = /*html*/`
         <div class="popupHeader">
             <h1>Edit Task</h1>
@@ -533,13 +500,11 @@ function saveTaskChanges(taskId) {
         console.error(`Task mit ID ${taskId} nicht gefunden.`);
         return;
     }
-
     // Eingaben aus den Feldern abrufen
     const titleInput = document.getElementById("title").value.trim();
     const descriptionInput = document.getElementById("description").value.trim();
     const dueDateInput = document.getElementById("dueDate").value;
     const categoryInput = document.getElementById("category").value;
-
     // Task-Felder aktualisieren
     if (titleInput) task.title = titleInput;
     task.description = descriptionInput;
@@ -550,7 +515,6 @@ function saveTaskChanges(taskId) {
             ? "categoryTechnicalTask"
             : "categoryUserStory";
     }
-
     console.log('Aktueller Zustand der Aufgaben:', tasks);
     renderBoard(); // Board neu rendern
     closeEditTaskPopup(); // Bearbeitungs-Popup schließen
@@ -561,7 +525,6 @@ function saveTaskChanges(taskId) {
 function addNewSubtask(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); // Task finden
     const newSubtaskInput = document.getElementById('newSubtaskInput');
-
     // Subtask hinzufügen, wenn Eingabe vorhanden ist
     if (task && newSubtaskInput && newSubtaskInput.value.trim() !== '') {
         task.subtasks.push({ todo: newSubtaskInput.value.trim() });
@@ -595,7 +558,6 @@ function openAddTaskPopup(listId) {
         console.error(`Liste mit ID "${listId}" nicht gefunden.`);
         return;
     }
-
     currentListId = listId; // Aktuelle Liste setzen
     const popup = document.getElementById('addTaskPopupOverlay');
     if (popup) {
@@ -620,22 +582,18 @@ function closeAddTaskPopup() {
 
 function addTaskToList(event) {
     if (event) event.preventDefault();
-
     const targetList = tasks.find(list => list.id === currentListId); // Ziel-Liste finden
     if (!targetList) {
         console.error(`Liste mit ID "${currentListId}" nicht gefunden.`);
         return;
     }
-
     const title = document.getElementById('title').value.trim();
     const dueDate = document.getElementById('date').value;
     const category = document.getElementById('category').value;
-
     if (!title || !dueDate || !category) {
         alert('Alle Pflichtfelder müssen ausgefüllt werden!');
         return;
     }
-
     const newTask = {
         id: Date.now(),
         title: title,
@@ -648,7 +606,6 @@ function addTaskToList(event) {
             .map(input => ({ todo: input.value.trim() }))
             .filter(st => st.todo)
     };
-
     targetList.task.push(newTask); // Task zur Ziel-Liste hinzufügen
     document.getElementById('addTaskFormTask').reset(); // Formular zurücksetzen
     tempPriority = null; // Priorität zurücksetzen
@@ -715,9 +672,7 @@ function unhighlightList(listId) {
 function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
-
     let sourceList, task;
-
     // Die Liste und den Task finden, aus der der Task entfernt wird
     tasks.forEach(list => {
         const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
@@ -726,7 +681,6 @@ function handleDrop(event, targetListId) {
             [task] = sourceList.task.splice(taskIndex, 1); // Task aus der Quell-Liste entfernen
         }
     });
-
     // Ziel-Liste finden und Task hinzufügen
     const targetList = tasks.find(list => list.id === targetListId);
     if (targetList && task) {
@@ -735,7 +689,6 @@ function handleDrop(event, targetListId) {
     } else {
         console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
     }
-
     stopDragging(); // Dragging beenden
     unhighlightList(`${targetListId}List`); // Hervorhebung entfernen
 }
