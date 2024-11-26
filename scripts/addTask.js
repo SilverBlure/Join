@@ -1,156 +1,158 @@
-let tasks = [
-    {
-        id: 'todo',
-        name: 'To Do',
-        task: [
-            {
-                id: 1,
-                title: 'Gießen',
-                description: '300ml Wasser gießen',
-                workers: [
-                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
-                    { name: 'Ozan Orhan', class: 'worker-ozan' }
-                ],
-                due_Date: '2025-01-01',
-                priority: 'Middle',
-                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
-                subtasks: [
-                    { todo: 'Wasser abstehen lassen' },
-                    { todo: 'Dünger hinzugeben' },
-                    { todo: 'PH Wert anpassen' },
-                    { todo: 'im Ring gießen' }
-                ]
-            },
-            {
-                id: 2,
-                title: 'coden',
-                description: 'Join coden',
-                workers: [
-                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
-                    { name: 'Kevin Fischer', class: 'worker-kevin' }
-                ],
-                due_Date: '2025-10-24',
-                priority: 'Low',
-                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
-                subtasks: [
-                    { done: 'JS Datei einbinden' },
-                    { todo: 'Summary Styling bearbeiten' },
-                    { todo: 'auf github pushen' },
-                    { todo: 'mit Team besprechen' }
-                ]
-            }
-        ]
-    },
-    {
-        id: 'inProgress',
-        name: 'In Progress',
-        task: [
-            {
-                id: 3,
-                title: 'HTML templates einbinden',
-                description: 'alle HTML datein zusammenfassen',
-                workers: [
-                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
-                    { name: 'Nicolai Österle', class: 'worker-nicolai' }
-                ],
-                due_Date: '2044-08-15',
-                priority: 'Urgent',
-                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
-                subtasks: [
-                    { todo: 'Code Schnipsel sammeln' },
-                    { todo: 'auf github mergen' },
-                    { todo: 'mit dem Team besprechen' },
-                    { todo: 'änderungen anpassen und clean code beachten' }
-                ]
-            },
-            {
-                id: 4,
-                title: 'add Task einbinden',
-                description: 'add task erfolgreich ins array einbinden',
-                workers: [
-                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
-                    { name: 'Ozan Orhan', class: 'worker-ozan' }
-                ],
-                due_Date: '2036-06-28',
-                priority: 'Middle',
-                category: { name: 'User Story', class: 'categoryUserStory' },
-                subtasks: [
-                    { todo: 'datenstruktur besprechen' },
-                    { todo: 'Änderungen übernehmen' }
-                ]
-            }
-        ]
-    },
-    {
-        id: 'awaitFeedback',
-        name: 'Await Feedback',
-        task: [
-            {
-                id: 5,
-                title: 'contacts einbinden',
-                description: 'codeblöcke miteinander verbinden',
-                workers: [
-                    { name: 'Stanislav Levin', class: 'worker-stanislav' },
-                    { name: 'Kevin Fischer', class: 'worker-kevin' }
-                ],
-                due_Date: '2024-11-30',
-                priority: 'Middle',
-                category: { name: 'Technical Task', class: 'categoryTechnicalTask' },
-                subtasks: [
-                    { todo: 'contacts array erstellen' },
-                    { todo: 'die daten im tasks aktualisieren' },
-                    { done: 'dateien einbinden' },
-                    { done: 'Contacts anzeigen lassen' }
-                ]
-            }
-        ]
-    },
-    {
-        id: 'done',
-        name: 'Done',
-        task: []
-    }
-];
+const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
+let tempPriority = null;
 
-// Aufgabe hinzufügen
-function addTaskToToDoList(event) {
-    event.preventDefault();
 
-    const todoList = tasks.find(list => list.id === 'todo');
-    if (!todoList) {
-        console.error('To-Do-Liste nicht gefunden.');
+
+async function main() {
+    loadSessionId(); 
+    const isInitialized = await initializeTaskLists();
+    if (!isInitialized) {
+        console.error("Fehler beim Initialisieren der Listenstruktur. Anwendung kann nicht fortgesetzt werden.");
         return;
     }
-
-    const title = document.getElementById('title').value.trim();
-    const dueDate = document.getElementById('date').value;
-    const category = document.getElementById('category').value;
-
-    if (!title || !dueDate || !category) {
-        alert('Alle Pflichtfelder müssen ausgefüllt werden!');
-        return;
-    }
-
-    const newTask = {
-        title: title,
-        description: document.getElementById('description').value.trim(),
-        workers: [{ name: 'Default Worker', class: 'worker-default' }],
-        due_Date: dueDate,
-        priority: tempPriority || 'Low',
-        category: { name: category, class: `category${category.replace(' ', '')}` },
-        subtasks: Array.from(document.querySelectorAll('.addSubTaskInput'))
-            .map(input => ({ todo: input.value.trim() }))
-            .filter(st => st.todo)
-    };
-
-    todoList.task.push(newTask);
-    document.getElementById('addTaskFormTask').reset();
-    tempPriority = null;
-    console.log('Neue Aufgabe erfolgreich zur "To-Do"-Liste hinzugefügt.', newTask);
+    await getTasks();
 }
 
-// Priorität setzen
-let tempPriority = null;
+
+
+function loadSessionId() {
+    ID = localStorage.getItem('sessionKey');
+}
+
+
+
+async function getTasks() {
+    try {
+        const url = BASE_URL + "data/user/" + ID + "/user/tasks.json";
+        console.log("Lade Aufgaben von:", url);
+        let response = await fetch(url);
+        if (!response.ok) {
+            console.error(`Fehler beim Abrufen der Aufgaben: ${response.status} - ${response.statusText}`);
+            return;
+        }
+        let data = await response.json();
+        if (!data) {
+            console.warn("Keine Aufgaben gefunden.");
+            return;
+        }
+        tasks = Object.keys(data).map(key => ({
+            id: key,
+            name: data[key].name,
+            task: data[key].task || [],
+        }));
+        console.log("Aufgaben erfolgreich geladen:", tasks);
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Aufgaben:", error);
+    }
+}
+
+
+
+async function addTaskToToDoList(event) {
+    event.preventDefault(); 
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
+    const dueDate = document.getElementById("date").value;
+    const priority = tempPriority;
+    const workers = document.getElementById("contactSelection").value;
+    const category = document.getElementById("category").value;
+    const subtasksInput = document.getElementById("subtasksInput").value;
+    const subtasks = subtasksInput ? subtasksInput.split(",").map(todo => ({ todo: todo.trim() })) : [];
+    if (!priority) {
+        console.warn("Keine Priorität ausgewählt.");
+        return;
+    }
+    try {
+        const result = await addTaskToList(title, description, dueDate, priority, workers, category, subtasks);
+        if (result) {
+            console.log("Task erfolgreich hinzugefügt:", result);
+            await getTasks();
+            document.getElementById("addTaskFormTask").reset();
+            tempPriority = null;
+        } else {
+            console.error("Task konnte nicht hinzugefügt werden.");
+        }
+    } catch (error) {
+        console.error("Fehler beim Hinzufügen des Tasks:", error);
+    }
+}
+
+
+
+async function initializeTaskLists() {
+    try {
+        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json");
+        if (response.ok) {
+            let data = await response.json();
+            if (data) {
+                console.log("Bestehende Listenstruktur gefunden:", data);
+                return true; 
+            }
+        }
+        const defaultLists = {
+            toDo: { name: "To Do", task: [] },
+            inProgress: { name: "In Progress", task: [] },
+            awaitFeedback: { name: "Await Feedback", task: [] },
+            done: { name: "Done", task: [] },
+        };
+        let initResponse = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(defaultLists),
+        });
+        if (initResponse.ok) {
+            console.log("Listenstruktur erfolgreich initialisiert.");
+            return true;
+        } else {
+            let errorText = await initResponse.text();
+            console.error("Fehler beim Initialisieren der Listen:", initResponse.status, errorText);
+            return false;
+        }
+    } catch (error) {
+        console.error("Ein Fehler ist beim Initialisieren aufgetreten:", error);
+        return false;
+    }
+}
+
+
+
+async function addTaskToList(title, description, dueDate, priority, workers, category, subtasks) {
+    try {
+        const newTask = {
+            title: title,
+            description: description,
+            dueDate: dueDate,
+            priority: priority,
+            workers: [workers], 
+            category: { name: category, class: `category${category.replace(' ', '')}` },
+            subtasks: Array.isArray(subtasks) ? subtasks : [subtasks],
+        };
+        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/toDo/task.json", {
+            method: "POST", 
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newTask),
+        });
+        if (response.ok) {
+            let responseData = await response.json();
+            console.log("Task erfolgreich hinzugefügt:", responseData);
+            return responseData;
+        } else {
+            let errorText = await response.text();
+            console.error("Fehler beim Hinzufügen des Tasks:", response.status, errorText);
+            return null;
+        }
+    } catch (error) {
+        console.error("Ein Fehler ist beim Hinzufügen des Tasks aufgetreten:", error);
+        return null;
+    }
+}
+
+
+
 function setPriority(priority) {
     tempPriority = priority;
     document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active'));
@@ -162,7 +164,8 @@ function setPriority(priority) {
     }
 }
 
-// Neue Subtask hinzufügen
+
+
 function addNewSubtask(taskId) {
     const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
     const newSubtaskInput = document.getElementById('newSubtaskInput');

@@ -15,7 +15,7 @@
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
 </head>
-<body onload="includeHTML()">
+<body onload="includeHTML(), main()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
     <div class="content">
         <div class="header" w3-include-html="../../templates/header.html"></div>
@@ -58,7 +58,7 @@
                         </select>
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
+                            <input id="subtasksInput" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
                                 type="text">
                             <ul id="subTasksList"></ul>
                             <div class="divider"></div>
@@ -82,6 +82,7 @@
             </form>
         </div>
     </div>
+    <script src="../../scripts/addTaskBackend.js"></script>
     <script src="../../scripts/addTask.js"></script>
 </body>
 </html>
