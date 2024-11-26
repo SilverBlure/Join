@@ -52,8 +52,6 @@ function openEditContact(i) {
     //aus dem array eintrag abgerufen und im Formular aufge zeigt
     // die daten muessen genommenwerden und in das json hochgeladen 
     //danach muss der inhalt neu geladen werden
-
-
 }
 
 
@@ -124,22 +122,27 @@ function closeAddContact() {
 }
 
 async function getContacts() {
+    
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
-    let keys = Object.keys(data);
-    data = Object.values(data);
-    for (let i = 0; i < data.length; i++) {
-
-        const contact = {
-            name: data[i].contact.name,
-            email: data[i].contact.email,
-            phone: data[i].contact.phone,
-            id: keys[i],
+    if(data){let keys = Object.keys(data);
+        data = Object.values(data);
+        for (let i = 0; i < data.length; i++) {
+            const contact = {
+                name: data[i].contact.name,
+                email: data[i].contact.email,
+                phone: data[i]?.contact.phone || 'none',
+                id: keys[i],
+            }
+            contactsArray.push(contact);
         }
-        contactsArray.push(contact);
-    }
-    renderContacts();
+        renderContacts();
+    }else{
+            console.log('ich schreib mir ne date');
+        }
+    
 }
+
 
 async function deleteContactDatabase(i) {
     contactId = contactsArray[i].id;
@@ -169,7 +172,7 @@ function deleteContact(i){
     document.getElementById('dialogInfo').innerHTML ="Delete contact";
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
-     
+
 }
 
 

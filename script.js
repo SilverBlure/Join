@@ -40,5 +40,6 @@ function showLogin() {
 function logOut() {
   localStorage.removeItem('email');
   localStorage.removeItem('password');
+  localStorage.removeItem('sessionKey');
   window.location.href = '../index.html';
 }
