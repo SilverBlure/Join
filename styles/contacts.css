@@ -343,3 +343,20 @@ height: 50px;
 width: 350px;
 border-radius: 10px;
 }
+
+.deleteDialog{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    padding-left: 50px;
+    font-size: 20px;
+
+}
+
+.deleteBtn{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}

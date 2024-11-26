@@ -34,12 +34,13 @@ function renderContactDetails(i) {
     let initialien = vorname[0] + nachname[0];
     document.getElementById('ContactDetailed').innerHTML = "";
     document.getElementById('ContactDetailed').innerHTML +=
-        ContactDetailsTemps(i, initialien);
+        contactDetailsTemps(i, initialien);
 }
 
 
 function openAddContact() {
     document.getElementById('contactDialog').style.display = "block";
+    addContact();
 }
 
 function editContact(i) {
@@ -67,7 +68,7 @@ async function createContact() {
     console.log(name, email, phone, ID);
     pushData(name, email, phone);
     closeAddContact();
-    renderContacts();
+    getContacts();
 }
 
 
@@ -104,12 +105,14 @@ async function putContact(contactId, name, email, phone) {
         })
     }
     )
+    closeAddContact();
+    getContacts();
     return responseAsJson = response.json();
 }
 
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
-    document.getElementById("contactForm").reset();
+    // document.getElementById("contactForm").reset();
 
 }
 
@@ -131,9 +134,50 @@ async function getContacts() {
     renderContacts();
 }
 
-async function deleteContactDatabase(contactId) {
+async function deleteContactDatabase(i) {
+    contactId = contactsArray[i].id;
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "DELETE",
     })
+    getContacts();
+    closeAddContact();
 }
 
+
+function addContact(){
+    document.getElementById('editContact').innerHTML ="";
+    document.getElementById('editContact').innerHTML = addContactTemp();
+}
+
+function editContact(i){
+    openAddContact();
+    document.getElementById('dialogInfo').innerHTML ="Edit contact";
+    document.getElementById('editContact').innerHTML ="";
+    document.getElementById('editContact').innerHTML = editContactTemp(i);
+    openEditContact(i) 
+}
+
+function deleteContact(i){
+    openAddContact();
+    document.getElementById('dialogInfo').innerHTML ="Delete contact";
+    document.getElementById('editContact').innerHTML ="";
+    document.getElementById('editContact').innerHTML = deleteContactTemp(i);   
+}
+
+
+function openEditContact(i) {
+    console.log('edit', i);
+    document.getElementById('name').value=`${contactsArray[i].name}`;
+    document.getElementById('email').value=`${contactsArray[i].email}`;
+    document.getElementById('phone').value=`${contactsArray[i].phone}`; 
+    
+}
+
+
+function getFromEdit(i) {
+    let name = document.getElementById('name').value;
+    let phone = document.getElementById('phone').value;
+    let email= document.getElementById('email').value;
+    let contactId = contactsArray[i].id;
+    putContact(contactId, name, email, phone)
+}
