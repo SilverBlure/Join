@@ -168,7 +168,8 @@ function deleteContact(i){
     openAddContact();
     document.getElementById('dialogInfo').innerHTML ="Delete contact";
     document.getElementById('editContact').innerHTML ="";
-    document.getElementById('editContact').innerHTML = deleteContactTemp(i);   
+    document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
+     
 }
 
 
