@@ -33,7 +33,7 @@ function renderContactDetails(i) {
     let [vorname, nachname] = contactsArray[i].name.split(" ");
     let initialien = vorname[0] + nachname[0];
     document.getElementById('ContactDetailed').innerHTML = "";
-    document.getElementById('ContactDetailed').innerHTML +=
+    document.getElementById('ContactDetailed').innerHTML =
         contactDetailsTemps(i, initialien);
 }
 
@@ -41,19 +41,6 @@ function renderContactDetails(i) {
 function openAddContact() {
     document.getElementById('contactDialog').style.display = "block";
     addContact();
-}
-
-function openEditContact(i) {
-    console.log('edit', i);
-    openAddContact();
-    document.getElementById('name').value=`${contactsArray[i].name}`;
-    document.getElementById('email').value=`${contactsArray[i].email}`;
-    document.getElementById('phone').value=`${contactsArray[i].phone}`; // hier werden die daten nochmal 
-    //aus dem array eintrag abgerufen und im Formular aufge zeigt
-    // die daten muessen genommenwerden und in das json hochgeladen 
-    //danach muss der inhalt neu geladen werden
-
-
 }
 
 
@@ -76,7 +63,8 @@ async function createContact() {
     console.log(name, email, phone, ID);
     pushData(name, email, phone);
     closeAddContact();
-    getContacts();
+    await getContacts();
+    renderContacts()
 }
 
 async function pushData(name, email, phone) {
@@ -97,7 +85,7 @@ async function pushData(name, email, phone) {
     return responseAsJson = response.json();
 }
 
-async function putContact(contactId, name, email, phone) {
+async function putContact(contactId, name, email, phone, i) {
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "PUT",
         headers: {
@@ -113,17 +101,19 @@ async function putContact(contactId, name, email, phone) {
     }
     )
     closeAddContact();
-    getContacts();
+    await getContacts();
+    renderContactDetails(i)
     return responseAsJson = response.json();
 }
 
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
-    // document.getElementById("contactForm").reset();
+   
 
 }
 
 async function getContacts() {
+    contactsArray = []
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
     let keys = Object.keys(data);
@@ -139,6 +129,7 @@ async function getContacts() {
         contactsArray.push(contact);
     }
     renderContacts();
+    
 }
 
 async function deleteContactDatabase(i) {
@@ -146,6 +137,7 @@ async function deleteContactDatabase(i) {
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "DELETE",
     })
+    document.getElementById('ContactDetailed').innerHTML = "";
     getContacts();
     closeAddContact();
 }
@@ -187,5 +179,5 @@ function getFromEdit(i) {
     let phone = document.getElementById('phone').value;
     let email= document.getElementById('email').value;
     let contactId = contactsArray[i].id;
-    putContact(contactId, name, email, phone)
+    putContact(contactId, name, email, phone, i)
 }
