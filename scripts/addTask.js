@@ -20,31 +20,36 @@ function loadSessionId() {
 }
 
 
-
 async function getTasks() {
     try {
         const url = BASE_URL + "data/user/" + ID + "/user/tasks.json";
         console.log("Lade Aufgaben von:", url);
+
         let response = await fetch(url);
         if (!response.ok) {
             console.error(`Fehler beim Abrufen der Aufgaben: ${response.status} - ${response.statusText}`);
             return;
         }
+
         let data = await response.json();
         if (!data) {
             console.warn("Keine Aufgaben gefunden.");
             return;
         }
+
+        // Aufgaben in das `tasks`-Array umwandeln und Standardnamen setzen
         tasks = Object.keys(data).map(key => ({
             id: key,
-            name: data[key].name,
+            name: data[key].name || key, // Standardname setzen, falls `name` fehlt
             task: data[key].task || [],
         }));
+
         console.log("Aufgaben erfolgreich geladen:", tasks);
     } catch (error) {
         console.error("Fehler beim Abrufen der Aufgaben:", error);
     }
 }
+
 
 
 
@@ -78,23 +83,27 @@ async function addTaskToToDoList(event) {
 }
 
 
-
 async function initializeTaskLists() {
     try {
+        // Prüfen, ob die Listenstruktur bereits existiert
         let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json");
         if (response.ok) {
             let data = await response.json();
             if (data) {
                 console.log("Bestehende Listenstruktur gefunden:", data);
-                return true; 
+                return true; // Listenstruktur vorhanden, keine Initialisierung notwendig
             }
         }
+
+        // Standard-Listen definieren, wenn keine Struktur vorhanden ist
         const defaultLists = {
             toDo: { name: "To Do", task: [] },
             inProgress: { name: "In Progress", task: [] },
             awaitFeedback: { name: "Await Feedback", task: [] },
             done: { name: "Done", task: [] },
         };
+
+        // Standard-Listenstruktur hochladen
         let initResponse = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json", {
             method: "PUT",
             headers: {
@@ -102,6 +111,7 @@ async function initializeTaskLists() {
             },
             body: JSON.stringify(defaultLists),
         });
+
         if (initResponse.ok) {
             console.log("Listenstruktur erfolgreich initialisiert.");
             return true;
@@ -120,6 +130,14 @@ async function initializeTaskLists() {
 
 async function addTaskToList(title, description, dueDate, priority, workers, category, subtasks) {
     try {
+        // Sicherstellen, dass die Liste 'toDo' existiert
+        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/toDo.json");
+        if (!response.ok) {
+            console.warn("Liste 'toDo' existiert nicht. Initialisiere sie erneut.");
+            await initializeTaskLists(); // Initialisiere Listen, falls nötig
+        }
+
+        // Task-Daten definieren
         const newTask = {
             title: title,
             description: description,
@@ -129,20 +147,23 @@ async function addTaskToList(title, description, dueDate, priority, workers, cat
             category: { name: category, class: `category${category.replace(' ', '')}` },
             subtasks: Array.isArray(subtasks) ? subtasks : [subtasks],
         };
-        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/toDo/task.json", {
-            method: "POST", 
+
+        // Task zur 'toDo'-Liste hinzufügen
+        let postResponse = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/toDo/task.json", {
+            method: "POST", // POST erstellt automatisch einen neuen Eintrag
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(newTask),
         });
-        if (response.ok) {
-            let responseData = await response.json();
+
+        if (postResponse.ok) {
+            let responseData = await postResponse.json();
             console.log("Task erfolgreich hinzugefügt:", responseData);
             return responseData;
         } else {
-            let errorText = await response.text();
-            console.error("Fehler beim Hinzufügen des Tasks:", response.status, errorText);
+            let errorText = await postResponse.text();
+            console.error("Fehler beim Hinzufügen des Tasks:", postResponse.status, errorText);
             return null;
         }
     } catch (error) {
@@ -150,6 +171,7 @@ async function addTaskToList(title, description, dueDate, priority, workers, cat
         return null;
     }
 }
+
 
 
 
@@ -166,14 +188,3 @@ function setPriority(priority) {
 
 
 
-function addNewSubtask(taskId) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId);
-    const newSubtaskInput = document.getElementById('newSubtaskInput');
-    if (task && newSubtaskInput && newSubtaskInput.value.trim() !== '') {
-        task.subtasks.push({ todo: newSubtaskInput.value.trim() });
-        newSubtaskInput.value = '';
-        console.log(`Subtask zu Task ${taskId} hinzugefügt.`);
-    } else {
-        console.error('Fehler beim Hinzufügen der Subtask oder Eingabe ist leer.');
-    }
-}

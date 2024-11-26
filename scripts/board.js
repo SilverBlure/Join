@@ -719,3 +719,86 @@ function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback');
 }
 
+const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
+
+
+
+async function main() {
+    loadSessionId(); 
+    const isInitialized = await initializeTaskLists();
+    if (!isInitialized) {
+        console.error("Fehler beim Initialisieren der Listenstruktur. Anwendung kann nicht fortgesetzt werden.");
+        return;
+    }
+    await getTasks();
+}
+
+
+
+function loadSessionId() {
+    ID = localStorage.getItem('sessionKey');
+}
+
+
+
+async function getTasks() {
+    try {
+        const url = BASE_URL + "data/user/" + ID + "/user/tasks.json";
+        console.log("Lade Aufgaben von:", url);
+        let response = await fetch(url);
+        if (!response.ok) {
+            console.error(`Fehler beim Abrufen der Aufgaben: ${response.status} - ${response.statusText}`);
+            return;
+        }
+        let data = await response.json();
+        if (!data) {
+            console.warn("Keine Aufgaben gefunden.");
+            return;
+        }
+        tasks = Object.keys(data).map(key => ({
+            id: key,
+            name: data[key].name,
+            task: data[key].task || [],
+        }));
+        console.log("Aufgaben erfolgreich geladen:", tasks);
+    } catch (error) {
+        console.error("Fehler beim Abrufen der Aufgaben:", error);
+    }
+}
+
+async function initializeTaskLists() {
+    try {
+        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json");
+        if (response.ok) {
+            let data = await response.json();
+            if (data) {
+                console.log("Bestehende Listenstruktur gefunden:", data);
+                return true; 
+            }
+        }
+        const defaultLists = {
+            toDo: { name: "To Do", task: [] },
+            inProgress: { name: "In Progress", task: [] },
+            awaitFeedback: { name: "Await Feedback", task: [] },
+            done: { name: "Done", task: [] },
+        };
+        let initResponse = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(defaultLists),
+        });
+        if (initResponse.ok) {
+            console.log("Listenstruktur erfolgreich initialisiert.");
+            return true;
+        } else {
+            let errorText = await initResponse.text();
+            console.error("Fehler beim Initialisieren der Listen:", initResponse.status, errorText);
+            return false;
+        }
+    } catch (error) {
+        console.error("Ein Fehler ist beim Initialisieren aufgetreten:", error);
+        return false;
+    }
+}
