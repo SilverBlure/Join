@@ -11,68 +11,31 @@ function init() {
 
 
 function renderContacts() {
+    contactsArray.sort((a, b) => a.name.localeCompare(b.name));
     document.getElementById('contacts').innerHTML = '';
+    let currentLetter = ""; 
     for (let i = 0; i < contactsArray.length; i++) {
-        document.getElementById('contacts').innerHTML +=
-            contactTemps(i);
+        let [vorname, nachname] = contactsArray[i].name.split(" ");
+        let initialien = vorname[0] + nachname[0];
+        let firstLetter = contactsArray[i].name.slice(0,1);
+        if (firstLetter !== currentLetter) {
+            currentLetter = firstLetter;
+            document.getElementById('contacts').innerHTML += 
+            renderCurrentLetter(currentLetter);
+        }
+       document.getElementById(`group-${currentLetter}`).innerHTML +=
+       contactTemps(i, initialien); 
     }
 }
 
 
-
-
-// function renderContacts() {
-//     // contactsArray.sort((a, b) => a.firstName.localeCompare(b.firstName));
-//     document.getElementById('contacts').innerHTML = "";
-//     //let currentLetter = ""; 
-
-//     for (let i = 1; i < contactsArray.length; i++) {
-//         // let firstLetter = contactsArray[i].name;
-
-//         // if (firstLetter !== currentLetter) {
-//         //     currentLetter = firstLetter;
-//         //     document.getElementById('contacts').innerHTML += 
-//         //     renderCurrentLetter(currentLetter);
-//         // }
-
-//        document.getElementById(`group-${currentLetter}`).innerHTML +=
-//        contactTemps(i); 
-//     }
-// }
-
-
 function renderContactDetails(i) {
+    let [vorname, nachname] = contactsArray[i].name.split(" ");
+    let initialien = vorname[0] + nachname[0];
     document.getElementById('ContactDetailed').innerHTML = "";
     document.getElementById('ContactDetailed').innerHTML +=
-        ContactDetailsTemps(i);
+        ContactDetailsTemps(i, initialien);
 }
-
-
-// async function loadContacts(){
-
-//    let response= await fetch(baseUrl + ".json")
-//    let contactData = await response.json();
-//    console.log(contactData);
-
-
-// for (let i = 1; i < contactData.length; i++) {
-//     let UserInfos = {
-//         id: i,
-//         firstName: contactData.i.firstName,
-//         lastName: contactData.i.lastName,
-//         email: contactData.i.email,
-//         phone: contactData.i.phone
-//     };
-//     contacts.push(UserInfos);
-//     console.log(UserInfos);
-
-// }
-// console.log(contacts);
-
-// renderContacts();
-
-
-// }
 
 
 function openAddContact() {
@@ -111,6 +74,8 @@ async function createContact() {
     let phone = +document.getElementById('phone').value;
     console.log(name, email, phone, ID);
     pushData(name, email, phone);
+    closeAddContact();
+    renderContacts();
 }
 
 async function pushData(name, email, phone) {
@@ -151,6 +116,7 @@ async function putContact(contactId, name, email, phone) {
 
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
+    document.getElementById("contactForm").reset();
 
 }
 
