@@ -27,7 +27,7 @@ function ContactDetailsTemps(i) {
 <div><p class="userTagBig">${contactsArray[i].name}</p></div>
     <div>
         <div><H2>${contactsArray[i].name}</H2></div>
-        <img class="pointer" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="deleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
+        <img class="pointer" onclick="openEditContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="deleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
     </div>
     </div>
     <h4>Contact Information</h4>

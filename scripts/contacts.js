@@ -79,9 +79,17 @@ function openAddContact() {
     document.getElementById('contactDialog').style.display = "block";
 }
 
-function editContact(i) {
+function openEditContact(i) {
     console.log('edit', i);
     openAddContact();
+    document.getElementById('name').value=`${contactsArray[i].name}`;
+    document.getElementById('email').value=`${contactsArray[i].email}`;
+    document.getElementById('phone').value=`${contactsArray[i].phone}`; // hier werden die daten nochmal 
+    //aus dem array eintrag abgerufen und im Formular aufge zeigt
+    // die daten muessen genommenwerden und in das json hochgeladen 
+    //danach muss der inhalt neu geladen werden
+
+
 }
 
 
@@ -104,7 +112,6 @@ async function createContact() {
     console.log(name, email, phone, ID);
     pushData(name, email, phone);
 }
-
 
 async function pushData(name, email, phone) {
     let response = await fetch(BASE_URL + "data/user/" + ID + "/user/contacts/" + ".json", {
