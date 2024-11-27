@@ -28,7 +28,7 @@ p{
 .contactsBar {
     display: flex;
     flex-direction: column;
-    width: 456px;
+    width: 556px;
     height: 90vh;
     padding-left: 35px;
     padding-right: 35px;
@@ -193,6 +193,12 @@ p{
     height: 59px;
     margin-left: 30px;
     margin-right: 30px;
+}
+
+.blueLineHorizontal {
+    border: 2px solid #29ABE2;
+    width: 85px;
+
 }
 
 .userTag {

@@ -71,7 +71,7 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
+        <button class="addbutton" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
