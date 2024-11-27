@@ -1,5 +1,3 @@
-
-
 const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 
 let emailArray = [];
