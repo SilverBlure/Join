@@ -24,9 +24,11 @@ function signIn() {
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
     alert('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
-    location.href ='./login.html';
+    location.href ='./../index.html';
     }
 }
+
+
 
 async function createNewEntry(name, email, pw) {
     let response = await fetch(BASE_URL + "data/user"+  '.json', {
