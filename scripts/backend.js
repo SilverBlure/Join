@@ -138,6 +138,20 @@ function checkLogin(emailInput, pwInput){
     }
 }
 
+async function getUserTag(){
+    let sessionKey = localStorage.getItem("sessionKey");
+    let response = await fetch(BASE_URL + 'data/user/' + sessionKey + '.json');
+    let data = await response.json();
+    let [vorname, nachname] = data.user.userData.name.split(" ");
+    userTag = vorname[0] + nachname[0];
+    console.log(userTag);
+    return userTag;
+}
+
+async function setUserTag(){
+    document.getElementById('logedInUser').innerHTML = `${await getUserTag()}`;
+}
+
 
 
 
