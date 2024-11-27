@@ -181,3 +181,14 @@ function getFromEdit(i) {
     let contactId = contactsArray[i].id;
     putContact(contactId, name, email, phone, i)
 }
+
+
+function checkInput(){
+    let fullname = document.getElementById('name').value;
+
+  if (fullname.split(" ").length < 2) {
+    alert("please insert first and lastname")
+  } else {
+    createContact();
+  }
+}

@@ -50,7 +50,7 @@ function addContactTemp(){
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
             <innerInputfield class="innerInputfield">
-                <input class="noBorder" id="name" placeholder="Name" required>
+                <input class="noBorder" id="name" placeholder="Firstname Lastname" required>
                 <img src="../../assets/icons/png/person.png">
             </innerInputfield>
         </div>
@@ -71,7 +71,7 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="createContact()">create contact <img src="../assets/icons/png/check.png"></button>
+        <button onclick="closeAddContact()">cancel</button><button onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
