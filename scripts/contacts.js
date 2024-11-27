@@ -125,6 +125,7 @@ async function getContacts() {
     
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
+    if(data){
     let keys = Object.keys(data);
         data = Object.values(data);
         for (let i = 0; i < data.length; i++) {
@@ -137,6 +138,14 @@ async function getContacts() {
             contactsArray.push(contact);
         }
         renderContacts();
+    }else{
+        let response = await fetch(BASE_URL + '/data/user/' + ID + '/user/userData.json');
+        let responseAsJson = await response.json();
+        pushData(responseAsJson.name, responseAsJson.email, 'editMe');
+        setTimeout(()=>{
+        getContacts()}
+        , 1000);
+    }
 }
 
 
