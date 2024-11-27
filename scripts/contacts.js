@@ -188,3 +188,4 @@ function getFromEdit(i) {
     let contactId = contactsArray[i].id;
     putContact(contactId, name, email, phone)
 }
+    
