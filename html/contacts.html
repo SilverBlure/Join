@@ -25,6 +25,16 @@
 <body onload="includeHTML(), init()">
 
     <div id="contactDialog">
+
+
+
+        <div class="newContactContainer">
+            <div class="newContact">
+                <div class="addContactLogo">
+                    <img src="../assets/icons/svg/joinLogoWhite.svg" alt="">
+                    <h1 id="dialogInfo">Add contact</h1>
+                    <h3>Tasks are better with a team</h3>
+
         
         
             <div class="newContactContainer">
@@ -70,11 +80,13 @@
                         <button onclick="closeAddContact()">cancel</button><button onclick="createContact()">create contact <img src="../assets/icons/png/check.png"></button>
                     </div>
                 </div>
+
                 </div>
+                <div class="addContacts" id="editContact"></div>
             </div>
-            </div>
-        
-    
+        </div>
+
+
     </div>
 
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
@@ -92,7 +104,7 @@
             <div class="contactDetails">
                 <div class="contactHeadline">
                     <div>
-                        <h1>Contacts</h1>  
+                        <h1>Contacts</h1>
                     </div>
                     <div class="blueLine"></div>
                     <h3>Better with a team</h3>
@@ -109,3 +121,4 @@
 </body>
 
 </html>
+

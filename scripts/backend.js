@@ -38,12 +38,6 @@ async function createNewEntry(name, email, pw) {
                     name: `${name}`,
                     email: `${email}`,
                     password: `${pw}`,
-                },
-                tasks: {
-                    task: "noTaskTillNow"
-                },
-                contacts: {
-                    contact: "noContactsTillNow"
                 }
             }
         })
@@ -100,10 +94,8 @@ async function loadLoginData(){
         email: fechedLoginData[i][1]['user']['userData']['email'],
         password: fechedLoginData[i][1]['user']['userData']['password'],
          };
-         //console.log(user);
          loginArray.push(user);
     }
-    //console.log(loginArray);
 }
 
 function login(){
