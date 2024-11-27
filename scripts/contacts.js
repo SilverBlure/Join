@@ -48,10 +48,7 @@ function openEditContact(i) {
     openAddContact();
     document.getElementById('name').value=`${contactsArray[i].name}`;
     document.getElementById('email').value=`${contactsArray[i].email}`;
-    document.getElementById('phone').value=`${contactsArray[i].phone}`; // hier werden die daten nochmal 
-    //aus dem array eintrag abgerufen und im Formular aufge zeigt
-    // die daten muessen genommenwerden und in das json hochgeladen 
-    //danach muss der inhalt neu geladen werden
+    document.getElementById('phone').value=`${contactsArray[i].phone}`;
 }
 
 

@@ -97,7 +97,7 @@ async function initializeTaskLists() {
 
         // Standard-Listen definieren, wenn keine Struktur vorhanden ist
         const defaultLists = {
-            toDo: { name: "To Do", task: [] },
+            todo: { name: "To Do", task: [] },
             inProgress: { name: "In Progress", task: [] },
             awaitFeedback: { name: "Await Feedback", task: [] },
             done: { name: "Done", task: [] },
@@ -131,7 +131,7 @@ async function initializeTaskLists() {
 async function addTaskToList(title, description, dueDate, priority, workers, category, subtasks) {
     try {
         // Sicherstellen, dass die Liste 'toDo' existiert
-        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/toDo.json");
+        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/todo.json");
         if (!response.ok) {
             console.warn("Liste 'toDo' existiert nicht. Initialisiere sie erneut.");
             await initializeTaskLists(); // Initialisiere Listen, falls nötig
@@ -149,7 +149,7 @@ async function addTaskToList(title, description, dueDate, priority, workers, cat
         };
 
         // Task zur 'toDo'-Liste hinzufügen
-        let postResponse = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/toDo/task.json", {
+        let postResponse = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks/todo/task.json", {
             method: "POST", // POST erstellt automatisch einen neuen Eintrag
             headers: {
                 "Content-Type": "application/json",
