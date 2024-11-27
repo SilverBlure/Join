@@ -210,62 +210,58 @@ function saveSubtaskEdit(taskId, subtaskIndex, newText) {
     openTaskPopup(taskId); 
 }
 
-
-
 function findTask() {
     const searchTerm = document.getElementById('findTask').value.trim().toLowerCase();
-    tasks.forEach(list => {
-        const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
-        if (!content) {
-            console.error(`Liste mit ID ${list.id} nicht gefunden.`);
-            return;
-        }
-        content.innerHTML = "";
-        const filteredTasks = list.task.filter(task =>
-            task.title.toLowerCase().includes(searchTerm) ||
-            task.description.toLowerCase().includes(searchTerm)
-        );
-        if (filteredTasks.length === 0) {
-            content.innerHTML = /*html*/`
-                <div class="nothingToDo">
-                    <p class="nothingToDoText">No matching tasks found</p>
-                </div>
-            `;
-        } else {
-            filteredTasks.forEach(task => {
-                const totalCount = task.subtasks ? task.subtasks.length : 0;
-                const doneCount = task.subtasks ? task.subtasks.filter(st => st.done).length : 0;
-                const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-                content.innerHTML += /*html*/`
-                    <div draggable="true" 
-                         ondragstart="startDragging(${task.id})" 
-                         onclick="openTaskPopup(${task.id})" 
-                         class="boardCard">
-                        <p class="${task.category.class} taskCategory">${task.category.name}</p>
-                        <p class="taskCardTitle">${task.title}</p>
-                        <p class="taskCardDescription">${task.description}</p>
-                        <div class="subtasksContainer">
-                            <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
-                                <div class="progress-bar" style="width: ${progressPercent}%;"></div>
-                            </div>
-                            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
-                        </div>
-                        <div class="BoardCardFooter">
-                            <div class="worker">
-                                ${task.workers.map((worker, index) =>
-                    `<p class="${worker.class} workerEmblem" style="margin-left: ${index === 1 ? '-10px' : '0'};">
-                                        ${worker.name.charAt(0)}
-                                     </p>`
-                ).join('')}
-                            </div>
-                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png"> 
-                        </div>
+
+    // Alle gerenderten Task-Container durchsuchen
+    const allTaskContainers = document.querySelectorAll('.taskContainer');
+
+    allTaskContainers.forEach(container => {
+        const taskCards = container.querySelectorAll('.boardCard');
+        let hasMatchingTask = false;
+
+        // Suche in jeder Task-Karte innerhalb des Containers
+        taskCards.forEach(card => {
+            const title = card.querySelector('.taskCardTitle')?.textContent.toLowerCase() || '';
+            const description = card.querySelector('.taskCardDescription')?.textContent.toLowerCase() || '';
+
+            // Sichtbarkeit basierend auf Suchkriterium einstellen
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = ''; // Zeige das passende Element
+                hasMatchingTask = true;
+            } else {
+                card.style.display = 'none'; // Verstecke das nicht passende Element
+            }
+        });
+
+        // Fallback, wenn keine Übereinstimmungen in einem Container gefunden werden
+        if (!hasMatchingTask) {
+            const nothingToDo = container.querySelector('.nothingToDo');
+            if (!nothingToDo) {
+                container.innerHTML += /*html*/`
+                    <div class="nothingToDo">
+                        <p class="nothingToDoText">No matching tasks found</p>
                     </div>
                 `;
+            }
+        } else {
+            // Entferne die "No matching tasks found"-Meldung, wenn wieder passende Tasks gefunden werden
+            const nothingToDo = container.querySelector('.nothingToDo');
+            if (nothingToDo) {
+                nothingToDo.remove();
+            }
+        }
+
+        // Stelle den ursprünglichen Zustand her, wenn kein Suchbegriff eingegeben ist
+        if (searchTerm === '') {
+            taskCards.forEach(card => {
+                card.style.display = ''; // Zeige alle Elemente
             });
+            container.querySelector('.nothingToDo')?.remove(); // Entferne die "No tasks found"-Meldung
         }
     });
 }
+
 
 
 
