@@ -207,6 +207,24 @@
     column-gap: 8px;
 }
 
+.priorityBtn.active#prioUrgent {
+    background-color: red !important;
+    color: white;
+}
+
+.priorityBtn.active#prioMiddle {
+    background-color: #f5a841 !important; 
+    color: white;
+}
+
+.priorityBtn.active#prioLow {
+    background-color: #90ee90 !important; 
+    color: white;
+}
+
+.priorityBtn.active img {
+    filter: brightness(0) invert(1) !important; 
+}
 
 .createSubtaskBar {
     border-radius: 10px;
