@@ -1,10 +1,21 @@
 body{
     overflow: hidden;
 }
+
+.mailTo{
+    color: rgb(103, 176, 245)!important;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+p{
+    margin: 0;
+}
+
 .contactContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: row;
 }
 
@@ -18,12 +29,11 @@ body{
     display: flex;
     flex-direction: column;
     width: 456px;
-    height: 1024px;
+    height: 90vh;
     padding-left: 35px;
     padding-right: 35px;
     background-color: white;
-    overflow-y: scroll;
-    max-height: fit-content;
+    overflow-y: scroll;   
 }
 
 .contactsBar::-webkit-scrollbar {
@@ -60,6 +70,8 @@ body{
     align-items: center;
     justify-content: center;
     gap: 16px;
+    margin-top: 16px;
+    margin-bottom: 20px;
 }
 
 .contact {
@@ -92,10 +104,14 @@ body{
 
 }
 
-.seperator {
-    height: 3px;
-    width: 150px;
-    background-color: #29ABE2;
+.contact-group{
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.separator {
+    padding-bottom: 20px;
+    border-bottom: solid rgb(209, 209, 209) 1px;   
 }
 
 
@@ -127,7 +143,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 200px;
+    padding-top: 20px;
 }
 
 .InfoBoxHead {
@@ -146,6 +162,7 @@ body{
     color: rgb(41, 171, 226);
     margin-right: 30px;
     margin-left: 30px;
+    font-size: 12px;
 }
 
 .userTagBig {
@@ -161,6 +178,14 @@ body{
     margin-right: 30px;
     font-size: 47px;
     font-weight: 500;
+}
+
+.email{
+    margin-bottom: 30px;
+}
+
+.phone{
+    gap: 15px;
 }
 
 .blueLine {
@@ -189,6 +214,12 @@ h1{
 h3{
     font-size: 27px;
     font-weight: 400;
+}
+
+h4{
+    font-size: 20px;
+    font-weight: 400;
+    padding: 50px 0 50px 0 ;
 }
 
 #contactDialog{
@@ -283,8 +314,12 @@ h3{
     display: flex;
     justify-content: flex-end;
     margin-bottom: 50px;
+    width: 350px;
 }
 
+.pointer{
+    cursor: pointer;
+}
 
 .close:hover{
     cursor: pointer;
@@ -307,4 +342,21 @@ border: solid rgba(0, 0, 0, 0.144) 1px;
 height: 50px;
 width: 350px;
 border-radius: 10px;
+}
+
+.deleteDialog{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: black;
+    padding-left: 50px;
+    font-size: 20px;
+
+}
+
+.deleteBtn{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
 }
