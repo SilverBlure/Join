@@ -24,6 +24,7 @@ function includeHTML() {
         return;
       }
     }
+    setUserTag();
   }
 
   function startIntro() {

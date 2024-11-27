@@ -147,9 +147,7 @@ async function getUserTag(){
     let [vorname, nachname] = data.user.userData.name.split(" ");
     userTag = vorname[0] + nachname[0];
     console.log(userTag);
-    
     return userTag;
-    
 }
 
 async function setUserTag(){
