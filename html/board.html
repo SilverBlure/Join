@@ -18,7 +18,7 @@
     <script src="./../scripts/backend.js"></script>
 </head>
 
-<body onload="includeHTML(),renderBoard(), main()">
+<body onload="includeHTML(), main()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
 
     <div id="mainContent" class="content">
@@ -120,7 +120,7 @@
                 <img class="icons close" onclick="closeAddTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
             </div>
 
-            <form id="addTaskFormTask" onsubmit="addTaskToList(event)">
+            <form id="addTaskFormTask">
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
@@ -162,7 +162,7 @@
 
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
+                            <input id="popupSubtask" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
                                 type="text">
                             <ul id="subTasksList"></ul>
                             <div class="divider"></div>
@@ -193,6 +193,7 @@
 
         </div>
     </div>
+    <script src="../../scripts/boardDrag&Drop.js"></script>
     <script src="../../scripts/board.js"></script>
     <script src="../../scripts/boardBackend.js"></script>
 
