@@ -1,4 +1,6 @@
 const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
+let tasks = {}; // Globale Variable für die Aufgaben
+let ID = null;  // Globale Variable für die Session-ID
 
 async function main() {
     loadSessionId();
@@ -9,58 +11,45 @@ async function main() {
     }
 
     await getTasks(); // Aufgaben laden
-    renderBoard(); // Aufgaben im Board anzeigen
+    renderBoard();    // Aufgaben im Board anzeigen
 }
 
-
-
-
+// **Laden der Session-ID**
 function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
+    if (!ID) {
+        console.error("Session-ID nicht gefunden. Der Benutzer ist möglicherweise nicht angemeldet.");
+    }
 }
 
-
+// **Abrufen und Verarbeiten der Aufgaben aus Firebase**
 async function getTasks() {
     try {
-        const url = BASE_URL + `data/user/${ID}/user/tasks.json`;
+        const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
         console.log("Lade Aufgaben von:", url);
 
-        let response = await fetch(url);
+        const response = await fetch(url);
         if (!response.ok) {
             console.error(`Fehler beim Abrufen der Aufgaben: ${response.status} - ${response.statusText}`);
             return;
         }
 
-        let data = await response.json();
+        const data = await response.json();
         if (!data) {
             console.warn("Keine Aufgaben gefunden.");
+            tasks = {}; // Setze Aufgaben auf leeres Objekt
             return;
         }
 
-        // Aufgaben in ein einheitliches Format bringen
-        tasks = Object.keys(data).map(listKey => {
-            const list = data[listKey]; // Zugriff auf die Liste
-            const tasksInList = list.task ? Object.keys(list.task).map(taskKey => {
-                const task = list.task[taskKey];
-
-                return {
-                    id: taskKey,
-                    title: task.title || "No Title",
-                    description: task.description || "No Description",
-                    dueDate: task.dueDate || "No Date",
-                    priority: task.priority || "Low",
-                    category: task.category || { name: "Uncategorized", class: "defaultCategory" },
-                    workers: task.workers || [], // Arbeiter als Array
-                    subtasks: task.subtasks || {}, // Subtasks als Objekt
-                };
-            }) : [];
-
-            return {
+        // Aufgabenstruktur aus Firebase direkt in ein konsistentes Format bringen
+        tasks = Object.entries(data).reduce((acc, [listKey, listValue]) => {
+            acc[listKey] = {
                 id: listKey,
-                name: list.name || listKey, // Standardname setzen, falls `name` fehlt
-                task: tasksInList,
+                name: listValue.name || listKey, // Setze den Namen oder den Schlüssel
+                task: listValue.task || {}       // Behalte die Tasks als Objekte mit IDs bei
             };
-        });
+            return acc;
+        }, {});
 
         console.log("Aufgaben erfolgreich geladen:", tasks);
     } catch (error) {
@@ -68,32 +57,31 @@ async function getTasks() {
     }
 }
 
-
-
-
-
+// **Initialisierung der Standard-Listenstruktur in Firebase**
 async function initializeTaskLists() {
     try {
+        const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
+
         // Prüfen, ob die Listenstruktur bereits existiert
-        let response = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json");
+        const response = await fetch(url);
         if (response.ok) {
-            let data = await response.json();
+            const data = await response.json();
             if (data) {
                 console.log("Bestehende Listenstruktur gefunden:", data);
                 return true; // Listenstruktur vorhanden, keine Initialisierung notwendig
             }
         }
 
-        // Standard-Listen definieren, wenn keine Struktur vorhanden ist
+        // Standard-Listen definieren
         const defaultLists = {
-            todo: { name: "To Do", task: [] },
-            inProgress: { name: "In Progress", task: [] },
-            awaitFeedback: { name: "Await Feedback", task: [] },
-            done: { name: "Done", task: [] },
+            todo: { name: "To Do", task: {} },
+            inProgress: { name: "In Progress", task: {} },
+            awaitFeedback: { name: "Await Feedback", task: {} },
+            done: { name: "Done", task: {} },
         };
 
         // Standard-Listenstruktur hochladen
-        let initResponse = await fetch(BASE_URL + "data/user/" + ID + "/user/tasks.json", {
+        const initResponse = await fetch(url, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -105,7 +93,7 @@ async function initializeTaskLists() {
             console.log("Listenstruktur erfolgreich initialisiert.");
             return true;
         } else {
-            let errorText = await initResponse.text();
+            const errorText = await initResponse.text();
             console.error("Fehler beim Initialisieren der Listen:", initResponse.status, errorText);
             return false;
         }
@@ -114,4 +102,3 @@ async function initializeTaskLists() {
         return false;
     }
 }
-
