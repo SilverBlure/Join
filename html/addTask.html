@@ -17,7 +17,7 @@
     <script src="../../scripts/addTask.js"></script>
     <script src="../../scripts/contacts.js"></script>
 </head>
-<body onload="includeHTML(), main()">
+<body onload="includeHTML(); init()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
     <div class="content">
         <div class="header" w3-include-html="../../templates/header.html"></div>
@@ -60,7 +60,7 @@
                         </select>
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input id="subtasksInput" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
+                            <input name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
                                 type="text">
                             <ul id="subTasksList"></ul>
                             <div class="divider"></div>
@@ -73,7 +73,7 @@
                 <div class="taskFormButtons">
                     <p><span class="requiredStar">*</span>This field is required</p>
                     <div class="buttonContainer">
-                        <button type="submit" class="button">Create Task
+                        <button type="submit" onclick="addTask()" class="button">Create Task
                             <img src="../assets/icons/png/check.png">
                         </button>
                         <button type="reset" class="button clearBtn">Clear

@@ -50,7 +50,7 @@ function addContactTemp(){
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
             <innerInputfield class="innerInputfield">
-                <input class="noBorder" id="name" placeholder="Name" required>
+                <input class="noBorder" id="name" placeholder="Firstname Lastname" required>
                 <img src="../../assets/icons/png/person.png">
             </innerInputfield>
         </div>
@@ -71,7 +71,7 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="createContact()">create contact <img src="../assets/icons/png/check.png"></button>
+        <button class="addbutton" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -111,7 +111,7 @@ function editContactTemp(i){
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="getFromEdit(${i})">create contact <img src="../assets/icons/png/check.png"></button>
+        <button onclick="closeAddContact()">cancel</button><button onclick="getFromEdit(${i})">edit contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -119,6 +119,6 @@ function editContactTemp(i){
 
 function deleteContactTemp(i){
     return `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
-    <div class="deleteBtn"><button onclick="deleteContactDatabase(${i})">Yes</button><button onclick="closeAddContact()">No</button></div></div>
+    <div class="deleteBtn"><button onclick="closeAddContact()">cancel</button><button onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
     `
 }

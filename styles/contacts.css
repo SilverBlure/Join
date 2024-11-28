@@ -28,7 +28,7 @@ p{
 .contactsBar {
     display: flex;
     flex-direction: column;
-    width: 456px;
+    width: 556px;
     height: 90vh;
     padding-left: 35px;
     padding-right: 35px;
@@ -195,6 +195,12 @@ p{
     margin-right: 30px;
 }
 
+.blueLineHorizontal {
+    border: 2px solid #29ABE2;
+    width: 85px;
+
+}
+
 .userTag {
     border: white 1px solid;
     color: white;
@@ -299,7 +305,7 @@ h4{
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 250px;
+    width: 350px;
     border: none;
     padding-left: 5px;
 
@@ -359,4 +365,8 @@ border-radius: 10px;
     justify-content: center;
     margin-top: 20px;
     gap: 20px;
+}
+
+input{
+    width: 300px;
 }
