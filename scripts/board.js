@@ -3,15 +3,12 @@ let taskIdCounter = 1;
 let currentListId = null; 
 let tempPriority = null;
 
-
 function renderBoard() {
     if (!tasks || tasks.length === 0) {
         console.error('Keine Aufgaben gefunden!');
         return;
     }
-    document.querySelectorAll('.taskContainer').forEach(container => {
-        container.innerHTML = ""; // Alte Karten entfernen
-    });
+
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
         if (!content) {
@@ -19,18 +16,19 @@ function renderBoard() {
             return;
         }
         content.innerHTML = "";
+
         if (list.task.length === 0) {
-            content.innerHTML += /*html*/`
+            content.innerHTML += /*html*/ `
                 <div class="nothingToDo">
                     <p class="nothingToDoText">No Tasks To-Do</p>
                 </div>
             `;
         } else {
             list.task.forEach(task => {
-                const totalCount = task.subtasks.length; 
-                const doneCount = task.subtasks.filter(st => st.done).length; 
-                const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-                const progressHTML = totalCount > 0 ? /*html*/`
+                const totalCount = task.subtasks?.length || 0; // Gesamtanzahl der Subtasks
+                const doneCount = task.subtasks?.filter(st => st.done).length || 0; // Abgeschlossene Subtasks
+                const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0; // Fortschritt in %
+                const progressHTML = totalCount > 0 ? /*html*/ `
                     <div class="subtasksContainer">
                         <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar" style="width: ${progressPercent}%;"></div>
@@ -39,25 +37,26 @@ function renderBoard() {
                     </div>
                 ` : '';
                 const workersHTML = Array.isArray(task.workers)
-                    ? task.workers.map(worker =>
-                        `<p class="workerEmblem">${typeof worker === "string" ? worker.charAt(0) : "?"}</p>`
-                    ).join('')
+                    ? task.workers.map(worker => {
+                        const workerClass = worker?.class || 'defaultWorker';
+                        const workerInitial = worker?.name?.charAt(0) || '?';
+                        return `<p class="${workerClass} workerEmblem">${workerInitial}</p>`;
+                    }).join('')
                     : '';
-                content.innerHTML += /*html*/`
+
+                content.innerHTML += /*html*/ `
                     <div id="boardCard-${task.id}" 
                          draggable="true"
-                         ondragstart="startDragging('${task.id}')"
-                         onclick="openTaskPopup('${task.id}')"
+                         ondragstart="startDragging('${task.id}', '${list.id}')"
+                         onclick="openTaskPopup('${task.id}', '${list.id}')"
                          class="boardCard">
-                        <p class="${task.category.class} taskCategory">${task.category.name}</p>
+                        <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || 'No Category'}</p>
                         <p class="taskCardTitle">${task.title}</p>
                         <p class="taskCardDescription">${task.description}</p>
                         ${progressHTML}
                         <div class="BoardCardFooter">
-                            <div class="worker">
-                                ${workersHTML}
-                            </div>
-                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png">
+                            <div class="worker">${workersHTML}</div>
+                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
                         </div>
                     </div>
                 `;
@@ -68,72 +67,85 @@ function renderBoard() {
 
 
 
-function openTaskPopup(taskId) {
-    const allTasks = tasks.flatMap(list => list.task);
-    const task = allTasks.find(t => t.id === taskId); 
-    const popupOverlay = document.getElementById("viewTaskPopupOverlay");
-    const popupContainer = document.getElementById("viewTaskContainer");
-    if (popupOverlay && popupContainer && task) {
-        popupOverlay.classList.add("visible");
-        document.getElementById("mainContent").classList.add("blur");
-        const workersHTML = task.workers.map(worker => /*html*/`
-            <div class="workerInformation">
-                <p class="${worker.class} workerEmblem workerIcon">${worker.name.charAt(0)}</p>
-                <p class="workerName">${worker.name}</p> 
-            </div>
-        `).join('');
-        const subtasksHTML = task.subtasks.length > 0
-            ? /*html*/`
-                <h3>Subtasks</h3>
-                ${task.subtasks.map((subtask, index) => {
-                const subtaskText = subtask.done || subtask.todo; 
-                const isDone = !!subtask.done; 
-                return /*html*/`
-                        <div id="subtask-${task.id}-${index}" class="subtask-item">
-                            <input 
-                                class="subtasksCheckbox popupIcons" 
-                                type="checkbox" 
-                                ${isDone ? 'checked' : ''} 
-                                onchange="toggleSubtaskStatus(${task.id}, ${index}, this.checked)">
-                            <p class="subtaskText" style="text-decoration: ${isDone ? 'line-through' : 'none'};">
-                                ${subtaskText}
-                            </p>
-                            <div class="hoverBtnContainer">
-                                <img
-                                    class="hoverBtn" 
-                                    src="../../assets/icons/png/editIcon.png" 
-                                    onclick="editSubtask(${task.id}, ${index})" 
-                                    alt="Edit Subtask">    
-                                <img 
-                                    class="hoverBtn" 
-                                    src="../../assets/icons/png/iconoir_cancel.png" 
-                                    onclick="deleteSubtask(${task.id}, ${index})" 
-                                    alt="Delete Subtask">
+async function openTaskPopup(taskId, listId) {
+    if (!listId) {
+        console.error(`Task ${taskId} kann nicht geöffnet werden, da keine Liste angegeben wurde.`);
+        return;
+    }
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+            return;
+        }
+        const task = await response.json();
+        if (!task) {
+            console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
+            return;
+        }
+        const popupOverlay = document.getElementById("viewTaskPopupOverlay");
+        const popupContainer = document.getElementById("viewTaskContainer");
+        if (popupOverlay && popupContainer) {
+            popupOverlay.classList.add("visible");
+            document.getElementById("mainContent").classList.add("blur");
+            const workersHTML = task.workers?.map(worker => /*html*/ `
+                <div class="workerInformation">
+                    <p class="${worker.class || 'defaultWorker'} workerEmblem workerIcon">
+                        ${worker.name?.charAt(0) || '?'}
+                    </p>
+                    <p class="workerName">${worker.name || 'Unknown'}</p> 
+                </div>
+            `).join('') || '';
+            const subtasksHTML = task.subtasks?.length > 0
+                ? /*html*/ `
+                    <h3>Subtasks</h3>
+                    ${task.subtasks.map((subtask, index) => {
+                        const subtaskText = subtask.done || subtask.todo || 'Unnamed Subtask'; 
+                        const isDone = !!subtask.done; 
+                        return /*html*/ `
+                            <div id="subtask-${taskId}-${index}" class="subtask-item">
+                                <input 
+                                    class="subtasksCheckbox popupIcons" 
+                                    type="checkbox" 
+                                    ${isDone ? 'checked' : ''} 
+                                    onchange="toggleSubtaskStatus('${listId}', '${taskId}', ${index}, this.checked)">
+                                <p class="subtaskText" style="text-decoration: ${isDone ? 'line-through' : 'none'};">
+                                    ${subtaskText}
+                                </p>
                             </div>
-                        </div>
-                    `;
-            }).join('')}
-            `
-            : '';
-        popupContainer.innerHTML = /*html*/`
-            <div class="popupHeader">
-                <p class="${task.category.class} taskCategory">${task.category.name}</p>
-                <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
-            </div> 
-            <h1>${task.title}</h1>
-            <p class="popupDescription">${task.description}</p>
-            <p class="popupInformation">Due Date:<strong>${task.due_Date}</strong></p>
-            <p class="popupInformation">Priority:<strong>${task.priority}<img src="../../assets/icons/png/PrioritySymbols${task.priority}.png"></strong></p>
-            <p>Assigned to:</p>
-            <div class="workerContainer">${workersHTML}</div>
-            <div class="subtasks-container">${subtasksHTML}</div>
-            <div class="popupActions">
-                <img onclick="editTask(${task.id})" class="popupIcons" src="../../assets/icons/png/edit.png">
-                <img onclick="deleteTask(${task.id})" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
-            </div>
-        `;
-    } else {
-        console.error("Popup overlay oder Task-Daten nicht gefunden.");
+                        `;
+                    }).join('')}
+                `
+                : '<p>Keine Subtasks vorhanden.</p>';
+
+            // Fülle das Popup mit den abgerufenen Task-Daten
+            popupContainer.innerHTML = /*html*/ `
+                <div class="popupHeader">
+                    <p class="${task.category?.class || 'defaultCategory'} taskCategory">
+                        ${task.category?.name || 'No Category'}
+                    </p>
+                    <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
+                </div> 
+                <h1>${task.title}</h1>
+                <p class="popupDescription">${task.description || 'No description'}</p>
+                <p class="popupInformation">Due Date:<strong>${task.dueDate || 'No date'}</strong></p>
+                <p class="popupInformation">Priority:<strong>${task.priority || 'Low'}
+                    <img src="../../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
+                </strong></p>
+                <p>Assigned to:</p>
+                <div class="workerContainer">${workersHTML}</div>
+                <div class="subtasks-container">${subtasksHTML}</div>
+                <div class="popupActions">
+                    <img onclick="editTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/edit.png">
+                    <img onclick="deleteTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
+                </div>
+            `;
+        } else {
+            console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
+        }
+    } catch (error) {
+        console.error("Fehler beim Öffnen des Task-Popups:", error);
     }
 }
 
