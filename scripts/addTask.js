@@ -11,6 +11,8 @@ async function main() {
         return;
     }
     await getTasks();
+    getContacts();
+
 }
 
 
@@ -235,3 +237,16 @@ function setPriority(priority) {
 
 
 
+
+function renderContactsDropdown(){
+    let dropDown = document.getElementById('contactSelection')
+    if (dropDown.options.length > 0) return; 
+     dropDown.innerHTML="";
+     for (let i = 0; i < contactsArray.length; i++) {
+       document.getElementById('contactSelection').innerHTML += /*html*/`
+               <option value="${contactsArray[i].name}">${contactsArray[i].name}</option>;
+
+       `
+     }
+ 
+ }

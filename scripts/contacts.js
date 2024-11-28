@@ -1,4 +1,3 @@
-
 let ID;
 let contactsArray = [];
 
@@ -48,7 +47,10 @@ function openEditContact(i) {
     openAddContact();
     document.getElementById('name').value=`${contactsArray[i].name}`;
     document.getElementById('email').value=`${contactsArray[i].email}`;
-    document.getElementById('phone').value=`${contactsArray[i].phone}`;
+    document.getElementById('phone').value=`${contactsArray[i].phone}`; // hier werden die daten nochmal 
+    //aus dem array eintrag abgerufen und im Formular aufge zeigt
+    // die daten muessen genommenwerden und in das json hochgeladen 
+    //danach muss der inhalt neu geladen werden
 }
 
 
@@ -122,23 +124,29 @@ async function getContacts() {
     
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
-    if(data){let keys = Object.keys(data);
+    if(data){
+    let keys = Object.keys(data);
         data = Object.values(data);
         for (let i = 0; i < data.length; i++) {
             const contact = {
                 name: data[i].contact.name,
                 email: data[i].contact.email,
-                phone: data[i]?.contact.phone || 'none',
+                phone: data[i].contact.phone,
                 id: keys[i],
             }
             contactsArray.push(contact);
         }
         renderContacts();
     }else{
-            console.log('ich schreib mir ne date');
-        }
-    
+        let response = await fetch(BASE_URL + '/data/user/' + ID + '/user/userData.json');
+        let responseAsJson = await response.json();
+        pushData(responseAsJson.name, responseAsJson.email, 'editMe');
+        setTimeout(()=>{
+        getContacts()}
+        , 1000);
+    }
 }
+
 
 
 async function deleteContactDatabase(i) {
@@ -189,3 +197,4 @@ function getFromEdit(i) {
     let contactId = contactsArray[i].id;
     putContact(contactId, name, email, phone)
 }
+    
