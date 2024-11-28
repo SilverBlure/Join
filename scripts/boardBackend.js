@@ -50,6 +50,7 @@ async function getTasks() {
         }));
 
         console.log("Aufgaben erfolgreich geladen:", tasks);
+        renderBoard();
     } catch (error) {
         console.error("Fehler beim Abrufen der Aufgaben:", error);
     }

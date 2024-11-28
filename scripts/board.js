@@ -9,6 +9,9 @@ function renderBoard() {
         console.error('Keine Aufgaben gefunden!');
         return;
     }
+    document.querySelectorAll('.taskContainer').forEach(container => {
+        container.innerHTML = ""; // Alte Karten entfernen
+    });
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
         if (!content) {
