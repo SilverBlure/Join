@@ -1,90 +1,88 @@
+let currentDraggedElement = null;
 
-
-
-let currentDraggedElement;
-
-
-
+// **Drag starten**
 function startDragging(taskId) {
-    currentDraggedElement = taskId;
+    console.log("Dragging gestartet für Task-ID:", taskId);
+    currentDraggedElement = taskId; // Speichere die Task-ID
     const card = document.getElementById(`boardCard-${taskId}`);
     if (card) {
-        card.classList.add('dragging');
+        card.classList.add("dragging");
     } else {
         console.error(`Card mit ID boardCard-${taskId} nicht gefunden.`);
     }
 }
 
-
-
+// **Drag stoppen**
 function stopDragging() {
+    console.log("Dragging beendet für Task:", currentDraggedElement);
     const card = document.getElementById(`boardCard-${currentDraggedElement}`);
     if (card) {
-        card.classList.remove('dragging');
+        card.classList.remove("dragging");
     }
     currentDraggedElement = null;
 }
 
-
-
+// **Drop erlauben**
 function allowDrop(event) {
     event.preventDefault();
     event.stopPropagation();
 }
 
-
-
+// **Liste hervorheben**
 function highlightList(listId) {
     const list = document.getElementById(listId);
     if (list) {
-        list.classList.add('highlight');
+        list.classList.add("highlight");
     } else {
         console.error(`Liste mit ID ${listId} nicht gefunden.`);
     }
 }
 
-
-
+// **Hervorhebung entfernen**
 function unhighlightList(listId) {
     const list = document.getElementById(listId);
     if (list) {
-        list.classList.remove('highlight');
+        list.classList.remove("highlight");
     } else {
         console.error(`Liste mit ID ${listId} nicht gefunden.`);
     }
 }
 
+// **Drop-Logik**
 async function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
 
-    const sourceListId = await findTaskSourceList(currentDraggedElement); // Quell-Liste ermitteln
+    console.log("Target List-ID:", targetListId);
+    console.log("Aktuell gezogene Task-ID:", currentDraggedElement);
+
+    const sourceListId = await findTaskSourceList(currentDraggedElement);
     if (!sourceListId) {
         console.error(`Quell-Liste für Task ${currentDraggedElement} nicht gefunden.`);
-        stopDragging();
+        stopDragging(); // Dragging beenden
         return;
     }
 
     try {
-        // Task-Daten aus Firebase holen
-        const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
+        console.log(`Verschiebe Task ${currentDraggedElement} von ${sourceListId} nach ${targetListId}`);
 
+        // Task aus Firebase holen
+        const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
         if (!task) {
             console.error(`Task ${currentDraggedElement} konnte nicht aus Liste ${sourceListId} geladen werden.`);
             stopDragging();
             return;
         }
 
-        // Task aus der Quell-Liste entfernen
+        // Task aus der Quell-Liste löschen
         await deleteTaskFromFirebase(sourceListId, currentDraggedElement);
 
-        // Task in die Ziel-Liste einfügen
+        // Task in die Ziel-Liste hinzufügen
         await addTaskToFirebase(targetListId, task);
 
-        // **Direkt das Board aktualisieren**
-        // Daten erneut abrufen und rendern
-        const tasks = await getTasks(); // `getTasks()` aktualisiert globalen Zustand
-        renderBoard(); // Board neu rendern
+        // Aufgaben neu laden und Board aktualisieren
+        await getTasks(); 
+        renderBoard();
     } catch (error) {
         console.error("Fehler beim Verschieben des Tasks:", error);
     } finally {
@@ -93,8 +91,7 @@ async function handleDrop(event, targetListId) {
     }
 }
 
-
-// **Hilfsfunktionen für Firebase**
+// **Hilfsfunktionen**
 
 async function findTaskSourceList(taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
@@ -105,11 +102,17 @@ async function findTaskSourceList(taskId) {
     }
 
     const data = await response.json();
+    console.log("Datenstruktur für Aufgaben:", data);
+
     for (const listId in data) {
-        if (data[listId].task && data[listId].task[taskId]) {
-            return listId; // Quell-Liste gefunden
+        const tasks = data[listId]?.task || {};
+        if (tasks[taskId]) {
+            console.log(`Task ${taskId} gefunden in Liste ${listId}`);
+            return listId;
         }
     }
+
+    console.error(`Task ${taskId} nicht gefunden in irgendeiner Liste.`);
     return null;
 }
 
@@ -125,7 +128,7 @@ async function fetchTaskFromFirebase(listId, taskId) {
 
 async function deleteTaskFromFirebase(listId, taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-    const response = await fetch(url, { method: 'DELETE' });
+    const response = await fetch(url, { method: "DELETE" });
     if (!response.ok) {
         console.error(`Fehler beim Löschen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
     }
@@ -133,12 +136,17 @@ async function deleteTaskFromFirebase(listId, taskId) {
 
 async function addTaskToFirebase(listId, task) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
+    console.log(`Füge Task zu Liste ${listId} hinzu:`, task);
     const response = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(task),
     });
+
     if (!response.ok) {
-        console.error(`Fehler beim Hinzufügen des Tasks zu Liste ${listId}: ${response.status}`);
+        const errorText = await response.text();
+        console.error(`Fehler beim Hinzufügen des Tasks zu Liste ${listId}: ${response.status}`, errorText);
+    } else {
+        console.log(`Task erfolgreich zu Liste ${listId} hinzugefügt.`);
     }
 }

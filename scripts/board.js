@@ -1,4 +1,3 @@
-let tasks = [];
 let taskIdCounter = 1;
 let currentListId = null; 
 let tempPriority = null;
@@ -10,12 +9,12 @@ let tempPriority = null;
 
 
 function renderBoard() {
-    if (!tasks || tasks.length === 0) {
+    if (!tasks || Object.keys(tasks).length === 0) {
         console.error("Keine Aufgaben gefunden!");
         return;
     }
 
-    tasks.forEach(list => {
+    Object.values(tasks).forEach(list => {
         const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
         if (!content) {
             console.error(`Container für Liste "${list.id}" nicht gefunden.`);
@@ -37,6 +36,7 @@ function renderBoard() {
                 const doneCount = subtasks.filter(st => st.done).length;
                 const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
 
+                // Fortschritt-HTML
                 const progressHTML = totalCount > 0 ? /*html*/ `
                     <div class="subtasksContainer">
                         <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
@@ -46,6 +46,7 @@ function renderBoard() {
                     </div>
                 ` : "";
 
+                // Arbeiter-HTML
                 const workersHTML = Array.isArray(task.workers)
                     ? task.workers.map(worker => {
                           const workerClass = worker?.class || "defaultWorker";
@@ -54,6 +55,7 @@ function renderBoard() {
                       }).join("")
                     : "";
 
+                // Task-HTML generieren
                 content.innerHTML += /*html*/ `
                     <div id="boardCard-${taskId}" 
                          draggable="true"
@@ -74,7 +76,6 @@ function renderBoard() {
         }
     });
 }
-
 
 
 
