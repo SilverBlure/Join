@@ -44,49 +44,38 @@ function logOut() {
   window.location.href = '../index.html';
 }
 
-async function toggleSubtaskStatus(taskId, subtaskIndex, isChecked, listId) {
-  console.log("toggleSubtaskStatus aufgerufen mit:", { taskId, subtaskIndex, isChecked, listId });
 
-  if (!listId) {
-      console.warn("listId nicht übergeben. Versuche, sie aus der Task-Datenbank zu extrahieren.");
-      const listEntry = Object.entries(tasks).find(([key, value]) =>
-          value.task && value.task.some(task => task.id === taskId)
-      );
-      if (listEntry) {
-          listId = listEntry[0]; // Extrahiert die Liste, in der der Task gefunden wurde
-          console.log("listId automatisch erkannt:", listId);
-      } else {
-          console.error("listId konnte nicht automatisch erkannt werden.");
-          return;
-      }
+
+
+
+async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
+  console.log("toggleSubtaskStatus aufgerufen mit:", { listId, taskId, subtaskId, isChecked });
+
+  if (!listId || !taskId || !subtaskId) {
+      console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
+      return;
   }
 
   try {
       // 1. Task von Firebase abrufen
       const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-      console.log("Task-URL:", taskUrl);
-
       const response = await fetch(taskUrl);
+
       if (!response.ok) {
-          console.error(`Fehler beim Abrufen der Aufgabe: ${response.statusText}`);
+          console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
           return;
       }
 
       const task = await response.json();
-
-      if (!task || !Array.isArray(task.subtasks)) {
-          console.error(`Task oder Subtasks nicht gefunden (Task ID: ${taskId}, Liste: ${listId}).`);
-          return;
-      }
-
-      const subtask = task.subtasks[subtaskIndex];
-      if (!subtask) {
-          console.error(`Subtask mit Index '${subtaskIndex}' für Task '${taskId}' in Liste '${listId}' nicht gefunden.`);
+      if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
+          console.error(`Subtask mit ID '${subtaskId}' nicht gefunden (Task ID: ${taskId}, Liste: ${listId}).`);
           return;
       }
 
       // 2. Subtask-Status aktualisieren
-      if (isChecked) {
+      const subtaskKey = Object.keys(task.subtasks)[subtaskIndex];
+      const subtask = task.subtasks[subtaskKey];
+            if (isChecked) {
           subtask.done = subtask.todo; // Markiere als erledigt
           delete subtask.todo; // Entferne das `todo`-Feld
       } else {
@@ -111,12 +100,13 @@ async function toggleSubtaskStatus(taskId, subtaskIndex, isChecked, listId) {
       console.log("Subtask erfolgreich aktualisiert:", subtask);
 
       // 4. Darstellung aktualisieren
-      renderBoard(); // Board neu rendern
-      openTaskPopup(taskId, listId); // Popup aktualisieren
+      await renderBoard(); // Board neu rendern
+      await openTaskPopup(taskId, listId); // Popup aktualisieren
   } catch (error) {
       console.error("Fehler beim Umschalten des Subtask-Status:", error);
   }
 }
+
 
 
 

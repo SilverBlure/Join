@@ -22,7 +22,7 @@ function loadSessionId() {
 
 async function getTasks() {
     try {
-        const url = BASE_URL + "data/user/" + ID + "/user/tasks.json";
+        const url = BASE_URL + `data/user/${ID}/user/tasks.json`;
         console.log("Lade Aufgaben von:", url);
 
         let response = await fetch(url);
@@ -37,24 +37,37 @@ async function getTasks() {
             return;
         }
 
-        // Konvertiere die Datenstruktur in das erwartete Format
-        tasks = Object.keys(data).map(key => ({
-            id: key, // ID der Liste (toDo, inProgress, etc.)
-            name: data[key].name, // Name der Liste
-            task: data[key].task ? Object.keys(data[key].task).map(taskKey => ({
-                id: taskKey, // ID des Tasks
-                ...data[key].task[taskKey], // Alle Task-Daten übernehmen
-                subtasks: data[key].task[taskKey].subtasks || [], // Subtasks übernehmen oder leeres Array setzen
-                workers: data[key].task[taskKey].workers || [], // Workers übernehmen oder leeres Array setzen
-            })) : [], // Wenn keine Tasks vorhanden sind, ein leeres Array setzen
-        }));
+        // Aufgaben in ein einheitliches Format bringen
+        tasks = Object.keys(data).map(listKey => {
+            const list = data[listKey]; // Zugriff auf die Liste
+            const tasksInList = list.task ? Object.keys(list.task).map(taskKey => {
+                const task = list.task[taskKey];
+
+                return {
+                    id: taskKey,
+                    title: task.title || "No Title",
+                    description: task.description || "No Description",
+                    dueDate: task.dueDate || "No Date",
+                    priority: task.priority || "Low",
+                    category: task.category || { name: "Uncategorized", class: "defaultCategory" },
+                    workers: task.workers || [], // Arbeiter als Array
+                    subtasks: task.subtasks || {}, // Subtasks als Objekt
+                };
+            }) : [];
+
+            return {
+                id: listKey,
+                name: list.name || listKey, // Standardname setzen, falls `name` fehlt
+                task: tasksInList,
+            };
+        });
 
         console.log("Aufgaben erfolgreich geladen:", tasks);
-        renderBoard();
     } catch (error) {
         console.error("Fehler beim Abrufen der Aufgaben:", error);
     }
 }
+
 
 
 

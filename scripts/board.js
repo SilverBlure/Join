@@ -3,6 +3,13 @@ let taskIdCounter = 1;
 let currentListId = null; 
 let tempPriority = null;
 
+
+
+
+
+
+
+
 function renderBoard() {
     if (!tasks || tasks.length === 0) {
         console.error('Keine Aufgaben gefunden!');
@@ -17,17 +24,21 @@ function renderBoard() {
         }
         content.innerHTML = "";
 
-        if (list.task.length === 0) {
+        if (!list.task || Object.keys(list.task).length === 0) {
             content.innerHTML += /*html*/ `
                 <div class="nothingToDo">
                     <p class="nothingToDoText">No Tasks To-Do</p>
                 </div>
             `;
         } else {
-            list.task.forEach(task => {
-                const totalCount = task.subtasks?.length || 0; // Gesamtanzahl der Subtasks
-                const doneCount = task.subtasks?.filter(st => st.done).length || 0; // Abgeschlossene Subtasks
+            Object.entries(list.task).forEach(([taskId, task]) => {
+                // Subtasks-Verarbeitung: Subtask-Objekt iterieren
+                const subtasks = task.subtasks ? Object.values(task.subtasks) : {};
+                const totalCount = Object.keys(subtasks).length; // Gesamtanzahl der Subtasks
+                const doneCount = Object.values(subtasks).filter(st => st.done).length; // Abgeschlossene Subtasks
                 const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0; // Fortschritt in %
+
+                // Fortschritts-HTML
                 const progressHTML = totalCount > 0 ? /*html*/ `
                     <div class="subtasksContainer">
                         <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
@@ -36,6 +47,8 @@ function renderBoard() {
                         <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                     </div>
                 ` : '';
+
+                // Arbeiter-HTML generieren
                 const workersHTML = Array.isArray(task.workers)
                     ? task.workers.map(worker => {
                         const workerClass = worker?.class || 'defaultWorker';
@@ -44,11 +57,12 @@ function renderBoard() {
                     }).join('')
                     : '';
 
+                // Task-HTML generieren und einfügen
                 content.innerHTML += /*html*/ `
-                    <div id="boardCard-${task.id}" 
+                    <div id="boardCard-${taskId}" 
                          draggable="true"
-                         ondragstart="startDragging('${task.id}', '${list.id}')"
-                         onclick="openTaskPopup('${task.id}', '${list.id}')"
+                         ondragstart="startDragging('${taskId}', '${list.id}')"
+                         onclick="openTaskPopup('${taskId}', '${list.id}')"
                          class="boardCard">
                         <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || 'No Category'}</p>
                         <p class="taskCardTitle">${task.title}</p>
@@ -67,87 +81,97 @@ function renderBoard() {
 
 
 
+
 async function openTaskPopup(taskId, listId) {
     if (!listId) {
         console.error(`Task ${taskId} kann nicht geöffnet werden, da keine Liste angegeben wurde.`);
         return;
     }
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
             console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
             return;
         }
+
         const task = await response.json();
         if (!task) {
             console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
             return;
         }
+
         const popupOverlay = document.getElementById("viewTaskPopupOverlay");
         const popupContainer = document.getElementById("viewTaskContainer");
-        if (popupOverlay && popupContainer) {
-            popupOverlay.classList.add("visible");
-            document.getElementById("mainContent").classList.add("blur");
-            const workersHTML = task.workers?.map(worker => /*html*/ `
+
+        if (!popupOverlay || !popupContainer) {
+            console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
+            return;
+        }
+
+        popupOverlay.classList.add("visible");
+        document.getElementById("mainContent").classList.add("blur");
+
+        // Arbeiter anzeigen
+        const workersHTML = task.workers
+            ? Object.entries(task.workers).map(([workerId, worker]) => /*html*/ `
                 <div class="workerInformation">
                     <p class="${worker.class || 'defaultWorker'} workerEmblem workerIcon">
                         ${worker.name?.charAt(0) || '?'}
                     </p>
                     <p class="workerName">${worker.name || 'Unknown'}</p> 
                 </div>
-            `).join('') || '';
-            const subtasksHTML = task.subtasks?.length > 0
-                ? /*html*/ `
-                    <h3>Subtasks</h3>
-                    ${task.subtasks.map((subtask, index) => {
-                        const subtaskText = subtask.done || subtask.todo || 'Unnamed Subtask'; 
-                        const isDone = !!subtask.done; 
-                        return /*html*/ `
-                            <div id="subtask-${taskId}-${index}" class="subtask-item">
-                                <input 
-                                    class="subtasksCheckbox popupIcons" 
-                                    type="checkbox" 
-                                    ${isDone ? 'checked' : ''} 
-                                    onchange="toggleSubtaskStatus('${listId}', '${taskId}', ${index}, this.checked)">
-                                <p class="subtaskText" style="text-decoration: ${isDone ? 'line-through' : 'none'};">
-                                    ${subtaskText}
-                                </p>
-                            </div>
-                        `;
-                    }).join('')}
-                `
-                : '<p>Keine Subtasks vorhanden.</p>';
+            `).join('')
+            : '<p>Keine zugewiesenen Arbeiter.</p>';
 
-            // Fülle das Popup mit den abgerufenen Task-Daten
-            popupContainer.innerHTML = /*html*/ `
-                <div class="popupHeader">
-                    <p class="${task.category?.class || 'defaultCategory'} taskCategory">
-                        ${task.category?.name || 'No Category'}
-                    </p>
-                    <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
-                </div> 
-                <h1>${task.title}</h1>
-                <p class="popupDescription">${task.description || 'No description'}</p>
-                <p class="popupInformation">Due Date:<strong>${task.dueDate || 'No date'}</strong></p>
-                <p class="popupInformation">Priority:<strong>${task.priority || 'Low'}
-                    <img src="../../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
-                </strong></p>
-                <p>Assigned to:</p>
-                <div class="workerContainer">${workersHTML}</div>
-                <div class="subtasks-container">${subtasksHTML}</div>
-                <div class="popupActions">
-                    <img onclick="editTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/edit.png">
-                    <img onclick="deleteTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
-                </div>
-            `;
-        } else {
-            console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
-        }
+        // Subtasks anzeigen
+        const subtasksHTML = task.subtasks
+            ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => {
+                const subtaskText = subtask.done || subtask.todo || 'Unnamed Subtask';
+                const isDone = !!subtask.done;
+                return /*html*/ `
+                    <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
+                        <input 
+                            class="subtasksCheckbox popupIcons" 
+                            type="checkbox" 
+                            ${isDone ? 'checked' : ''} 
+                            onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
+                        <p class="subtaskText" style="text-decoration: ${isDone ? 'line-through' : 'none'};">
+                            ${subtaskText}
+                        </p>
+                    </div>
+                `;
+            }).join('')
+            : '<p>Keine Subtasks vorhanden.</p>';
+
+        // Popup mit den Daten füllen
+        popupContainer.innerHTML = /*html*/ `
+            <div class="popupHeader">
+                <p class="${task.category?.class || 'defaultCategory'} taskCategory">
+                    ${task.category?.name || 'No Category'}
+                </p>
+                <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
+            </div> 
+            <h1>${task.title || 'Kein Titel'}</h1>
+            <p class="popupDescription">${task.description || 'Keine Beschreibung'}</p>
+            <p class="popupInformation">Due Date:<strong>${task.dueDate || 'Kein Datum'}</strong></p>
+            <p class="popupInformation">Priority:<strong>${task.priority || 'Low'}
+                <img src="../../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
+            </strong></p>
+            <p>Assigned to:</p>
+            <div class="workerContainer">${workersHTML}</div>
+            <div class="subtasks-container">${subtasksHTML}</div>
+            <div class="popupActions">
+                <img onclick="editTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/edit.png">
+                <img onclick="deleteTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
+            </div>
+        `;
     } catch (error) {
         console.error("Fehler beim Öffnen des Task-Popups:", error);
     }
 }
+
 
 
 
@@ -471,7 +495,12 @@ async function addTaskToSpecificList(listId, event) {
     const workers = document.getElementById("contactSelection").value;
     const category = document.getElementById("category").value;
     const subtasksInput = document.getElementById("popupSubtask").value;
-    const subtasks = subtasksInput ? subtasksInput.split(",").map(todo => ({ todo: todo.trim() })) : [];
+    const subtasks = subtasksInput
+    ? subtasksInput.split(",").reduce((obj, todo, index) => {
+        obj[`subtask_${index}`] = { title: todo.trim(), done: false };
+        return obj;
+    }, {})
+    : {};
     if (!priority) {
         console.warn("Keine Priorität ausgewählt.");
         return;

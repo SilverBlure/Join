@@ -54,7 +54,6 @@ function unhighlightList(listId) {
     }
 }
 
-
 async function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
@@ -82,8 +81,10 @@ async function handleDrop(event, targetListId) {
         // Task in die Ziel-Liste einfügen
         await addTaskToFirebase(targetListId, task);
 
-        // Board neu laden
-        await getTasks();
+        // **Direkt das Board aktualisieren**
+        // Daten erneut abrufen und rendern
+        const tasks = await getTasks(); // `getTasks()` aktualisiert globalen Zustand
+        renderBoard(); // Board neu rendern
     } catch (error) {
         console.error("Fehler beim Verschieben des Tasks:", error);
     } finally {
@@ -91,6 +92,7 @@ async function handleDrop(event, targetListId) {
         unhighlightList(`${targetListId}List`);
     }
 }
+
 
 // **Hilfsfunktionen für Firebase**
 
