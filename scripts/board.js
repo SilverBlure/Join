@@ -4,11 +4,17 @@ let currentListId = null;
 let tempPriority = null;
 
 
+
+
+
+
+
 function renderBoard() {
     if (!tasks || tasks.length === 0) {
-        console.error('Keine Aufgaben gefunden!');
+        console.error("Keine Aufgaben gefunden!");
         return;
     }
+
     tasks.forEach(list => {
         const content = document.getElementById(`${list.id}List`)?.querySelector('.taskContainer');
         if (!content) {
@@ -16,45 +22,51 @@ function renderBoard() {
             return;
         }
         content.innerHTML = "";
-        if (list.task.length === 0) {
-            content.innerHTML += /*html*/`
+
+        if (!list.task || Object.keys(list.task).length === 0) {
+            content.innerHTML += /*html*/ `
                 <div class="nothingToDo">
                     <p class="nothingToDoText">No Tasks To-Do</p>
                 </div>
             `;
         } else {
-            list.task.forEach(task => {
-                const totalCount = task.subtasks.length; 
-                const doneCount = task.subtasks.filter(st => st.done).length; 
+            Object.entries(list.task).forEach(([taskId, task]) => {
+                // Subtasks als Objekt iterieren
+                const subtasks = task.subtasks ? Object.values(task.subtasks) : [];
+                const totalCount = subtasks.length;
+                const doneCount = subtasks.filter(st => st.done).length;
                 const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-                const progressHTML = totalCount > 0 ? /*html*/`
+
+                const progressHTML = totalCount > 0 ? /*html*/ `
                     <div class="subtasksContainer">
                         <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar" style="width: ${progressPercent}%;"></div>
                         </div>
                         <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                     </div>
-                ` : '';
+                ` : "";
+
                 const workersHTML = Array.isArray(task.workers)
-                    ? task.workers.map(worker =>
-                        `<p class="workerEmblem">${typeof worker === "string" ? worker.charAt(0) : "?"}</p>`
-                    ).join('')
-                    : '';
-                content.innerHTML += /*html*/`
-                    <div id="boardCard-${task.id}" 
+                    ? task.workers.map(worker => {
+                          const workerClass = worker?.class || "defaultWorker";
+                          const workerInitial = worker?.name?.charAt(0) || "?";
+                          return `<p class="${workerClass} workerEmblem">${workerInitial}</p>`;
+                      }).join("")
+                    : "";
+
+                content.innerHTML += /*html*/ `
+                    <div id="boardCard-${taskId}" 
                          draggable="true"
-                         ondragstart="startDragging('${task.id}')"
-                         onclick="openTaskPopup('${task.id}')"
+                         ondragstart="startDragging('${taskId}', '${list.id}')"
+                         onclick="openTaskPopup('${taskId}', '${list.id}')"
                          class="boardCard">
-                        <p class="${task.category.class} taskCategory">${task.category.name}</p>
+                        <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || "No Category"}</p>
                         <p class="taskCardTitle">${task.title}</p>
                         <p class="taskCardDescription">${task.description}</p>
                         ${progressHTML}
                         <div class="BoardCardFooter">
-                            <div class="worker">
-                                ${workersHTML}
-                            </div>
-                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority}.png">
+                            <div class="worker">${workersHTML}</div>
+                            <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
                         </div>
                     </div>
                 `;
@@ -65,74 +77,98 @@ function renderBoard() {
 
 
 
-function openTaskPopup(taskId) {
-    const allTasks = tasks.flatMap(list => list.task);
-    const task = allTasks.find(t => t.id === taskId); 
-    const popupOverlay = document.getElementById("viewTaskPopupOverlay");
-    const popupContainer = document.getElementById("viewTaskContainer");
-    if (popupOverlay && popupContainer && task) {
+
+
+async function openTaskPopup(taskId, listId) {
+    if (!listId) {
+        console.error(`Task ${taskId} kann nicht geöffnet werden, da keine Liste angegeben wurde.`);
+        return;
+    }
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+            return;
+        }
+
+        const task = await response.json();
+        if (!task) {
+            console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
+            return;
+        }
+
+        const popupOverlay = document.getElementById("viewTaskPopupOverlay");
+        const popupContainer = document.getElementById("viewTaskContainer");
+
+        if (!popupOverlay || !popupContainer) {
+            console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
+            return;
+        }
+
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-        const workersHTML = task.workers.map(worker => /*html*/`
-            <div class="workerInformation">
-                <p class="${worker.class} workerEmblem workerIcon">${worker.name.charAt(0)}</p>
-                <p class="workerName">${worker.name}</p> 
-            </div>
-        `).join('');
-        const subtasksHTML = task.subtasks.length > 0
-            ? /*html*/`
-                <h3>Subtasks</h3>
-                ${task.subtasks.map((subtask, index) => {
-                const subtaskText = subtask.done || subtask.todo; 
-                const isDone = !!subtask.done; 
-                return /*html*/`
-                        <div id="subtask-${task.id}-${index}" class="subtask-item">
-                            <input 
-                                class="subtasksCheckbox popupIcons" 
-                                type="checkbox" 
-                                ${isDone ? 'checked' : ''} 
-                                onchange="toggleSubtaskStatus(${task.id}, ${index}, this.checked)">
-                            <p class="subtaskText" style="text-decoration: ${isDone ? 'line-through' : 'none'};">
-                                ${subtaskText}
-                            </p>
-                            <div class="hoverBtnContainer">
-                                <img
-                                    class="hoverBtn" 
-                                    src="../../assets/icons/png/editIcon.png" 
-                                    onclick="editSubtask(${task.id}, ${index})" 
-                                    alt="Edit Subtask">    
-                                <img 
-                                    class="hoverBtn" 
-                                    src="../../assets/icons/png/iconoir_cancel.png" 
-                                    onclick="deleteSubtask(${task.id}, ${index})" 
-                                    alt="Delete Subtask">
-                            </div>
-                        </div>
-                    `;
-            }).join('')}
-            `
-            : '';
-        popupContainer.innerHTML = /*html*/`
+
+        // Arbeiter anzeigen
+        const workersHTML = task.workers
+            ? Object.entries(task.workers).map(([workerId, worker]) => /*html*/ `
+                <div class="workerInformation">
+                    <p class="${worker.class || 'defaultWorker'} workerEmblem workerIcon">
+                        ${worker.name?.charAt(0) || '?'}
+                    </p>
+                    <p class="workerName">${worker.name || 'Unknown'}</p> 
+                </div>
+            `).join('')
+            : '<p>Keine zugewiesenen Arbeiter.</p>';
+
+        // Subtasks anzeigen
+        const subtasksHTML = task.subtasks
+            ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => {
+                const subtaskText = subtask.done || subtask.todo || 'Unnamed Subtask';
+                const isDone = !!subtask.done;
+                return /*html*/ `
+                    <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
+                        <input 
+                            class="subtasksCheckbox popupIcons" 
+                            type="checkbox" 
+                            ${isDone ? 'checked' : ''} 
+                            onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
+                        <p class="subtaskText" style="text-decoration: ${isDone ? 'line-through' : 'none'};">
+                            ${subtaskText}
+                        </p>
+                    </div>
+                `;
+            }).join('')
+            : '<p>Keine Subtasks vorhanden.</p>';
+
+        // Popup mit den Daten füllen
+        popupContainer.innerHTML = /*html*/ `
             <div class="popupHeader">
-                <p class="${task.category.class} taskCategory">${task.category.name}</p>
+                <p class="${task.category?.class || 'defaultCategory'} taskCategory">
+                    ${task.category?.name || 'No Category'}
+                </p>
                 <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">   
             </div> 
-            <h1>${task.title}</h1>
-            <p class="popupDescription">${task.description}</p>
-            <p class="popupInformation">Due Date:<strong>${task.due_Date}</strong></p>
-            <p class="popupInformation">Priority:<strong>${task.priority}<img src="../../assets/icons/png/PrioritySymbols${task.priority}.png"></strong></p>
+            <h1>${task.title || 'Kein Titel'}</h1>
+            <p class="popupDescription">${task.description || 'Keine Beschreibung'}</p>
+            <p class="popupInformation">Due Date:<strong>${task.dueDate || 'Kein Datum'}</strong></p>
+            <p class="popupInformation">Priority:<strong>${task.priority || 'Low'}
+                <img src="../../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
+            </strong></p>
             <p>Assigned to:</p>
             <div class="workerContainer">${workersHTML}</div>
             <div class="subtasks-container">${subtasksHTML}</div>
             <div class="popupActions">
-                <img onclick="editTask(${task.id})" class="popupIcons" src="../../assets/icons/png/edit.png">
-                <img onclick="deleteTask(${task.id})" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
+                <img onclick="editTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/edit.png">
+                <img onclick="deleteTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
             </div>
         `;
-    } else {
-        console.error("Popup overlay oder Task-Daten nicht gefunden.");
+    } catch (error) {
+        console.error("Fehler beim Öffnen des Task-Popups:", error);
     }
 }
+
 
 
 
@@ -403,42 +439,64 @@ function closeAddTaskPopup() {
     }
 }
 
-
-
-async function addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasks) {
+async function addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasksInput) {
     try {
-        const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}.json`;
+        const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
+
+        // Sicherstellen, dass die Liste existiert
         let response = await fetch(url);
         if (!response.ok) {
             console.warn(`Liste '${listId}' existiert nicht. Initialisiere sie erneut.`);
-            await initializeTaskLists(); 
+            await initializeTaskLists();
         }
+
+        // **Sicherstellen, dass subtasksInput ein String ist**
+        subtasksInput = subtasksInput || ""; // Wenn undefined oder null, setze leeren String
+        if (typeof subtasksInput !== "string") {
+            console.error("subtasksInput ist kein gültiger String:", subtasksInput);
+            return null;
+        }
+
+        // Subtasks korrekt als Objekt mit eindeutigen Schlüsseln formatieren
+        const subtasks = subtasksInput
+            ? subtasksInput.split(",").reduce((obj, todo, index) => {
+                  obj[`subtask_${index}`] = {
+                      title: todo.trim(),
+                      done: false,
+                  };
+                  return obj;
+              }, {})
+            : {};
+
+        // Task-Daten definieren
         const newTask = {
-            title: title,
-            description: description,
-            dueDate: dueDate,
-            priority: priority,
-            workers: workers ? workers.split(',').map(w => w.trim()) : [],
-            category: { name: category, class: `category${category.replace(' ', '')}` },
-            subtasks: Array.isArray(subtasks) ? subtasks : [subtasks],
+            title,
+            description,
+            dueDate,
+            priority,
+            workers: workers ? workers.split(",").map(w => ({ name: w.trim(), class: `worker-${w.trim().toLowerCase()}` })) : [],
+            category: { name: category, class: `category${category.replace(" ", "")}` },
+            subtasks, // Subtasks als Objekt
         };
-        const postUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
-        let postResponse = await fetch(postUrl, {
+
+        // Task in Firebase speichern
+        const postResponse = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(newTask),
         });
-        if (postResponse.ok) {
-            let responseData = await postResponse.json();
-            console.log(`Task erfolgreich zu Liste '${listId}' hinzugefügt:`, responseData);
-            return responseData;
-        } else {
-            let errorText = await postResponse.text();
-            console.error(`Fehler beim Hinzufügen des Tasks zu Liste '${listId}':`, postResponse.status, errorText);
+
+        if (!postResponse.ok) {
+            const errorText = await postResponse.text();
+            console.error(`Fehler beim Hinzufügen des Tasks: ${postResponse.status}`, errorText);
             return null;
         }
+
+        const responseData = await postResponse.json();
+        console.log(`Task erfolgreich zu Liste '${listId}' hinzugefügt:`, responseData);
+        return responseData;
     } catch (error) {
         console.error(`Ein Fehler ist beim Hinzufügen des Tasks zu Liste '${listId}' aufgetreten:`, error);
         return null;
@@ -447,16 +505,19 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
 
 
 
+
 async function addTaskToSpecificList(listId, event) {
-    event.preventDefault(); 
+    event.preventDefault();
+
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const dueDate = document.getElementById("date").value;
     const priority = tempPriority;
     const workers = document.getElementById("contactSelection").value;
     const category = document.getElementById("category").value;
-    const subtasksInput = document.getElementById("popupSubtask").value;
-    const subtasks = subtasksInput ? subtasksInput.split(",").map(todo => ({ todo: todo.trim() })) : [];
+    const subtasksInputElement = document.getElementById("popupSubtask");
+    const subtasksInput = subtasksInputElement?.value || ""; 
+
     if (!priority) {
         console.warn("Keine Priorität ausgewählt.");
         return;
@@ -465,13 +526,14 @@ async function addTaskToSpecificList(listId, event) {
         console.error("Keine Liste angegeben, in die der Task hinzugefügt werden soll.");
         return;
     }
+
     try {
-        const result = await addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasks);
+        const result = await addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasksInput);
         if (result) {
             console.log(`Task erfolgreich in Liste '${listId}' hinzugefügt:`, result);
-            await getTasks(); 
-            document.getElementById("addTaskFormTask").reset(); 
-            tempPriority = null; 
+            await getTasks();
+            document.getElementById("addTaskFormTask").reset();
+            tempPriority = null;
             closeAddTaskPopup();
             renderBoard();
         } else {
@@ -481,6 +543,7 @@ async function addTaskToSpecificList(listId, event) {
         console.error(`Fehler beim Hinzufügen des Tasks in Liste '${listId}':`, error);
     }
 }
+
 
 
 

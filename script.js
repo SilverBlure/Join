@@ -46,29 +46,71 @@ function logOut() {
 }
 
 
-function toggleSubtaskStatus(taskId, subtaskIndex, isChecked) {
-  const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); // Finde die Aufgabe
-  if (!task || !task.subtasks[subtaskIndex]) {
-      console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+
+
+
+async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
+  console.log("toggleSubtaskStatus aufgerufen mit:", { listId, taskId, subtaskId, isChecked });
+
+  if (!listId || !taskId || !subtaskId) {
+      console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
       return;
   }
-  const subtask = task.subtasks[subtaskIndex];
-  // Status des Subtasks ändern
-  if (isChecked) {
-      subtask.done = subtask.todo; // Markiere als erledigt
-      delete subtask.todo; // Entferne das `todo`-Feld
-  } else {
-      subtask.todo = subtask.done; // Setze zurück auf `todo`
-      delete subtask.done; // Entferne das `done`-Feld
+
+  try {
+      // 1. Task von Firebase abrufen
+      const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+      const response = await fetch(taskUrl);
+
+      if (!response.ok) {
+          console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+          return;
+      }
+
+      const task = await response.json();
+      if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
+          console.error(`Subtask mit ID '${subtaskId}' nicht gefunden (Task ID: ${taskId}, Liste: ${listId}).`);
+          return;
+      }
+
+      // 2. Subtask-Status aktualisieren
+      const subtaskKey = Object.keys(task.subtasks)[subtaskIndex];
+      const subtask = task.subtasks[subtaskKey];
+            if (isChecked) {
+          subtask.done = subtask.todo; // Markiere als erledigt
+          delete subtask.todo; // Entferne das `todo`-Feld
+      } else {
+          subtask.todo = subtask.done; // Setze zurück auf `todo`
+          delete subtask.done; // Entferne das `done`-Feld
+      }
+
+      // 3. Aktualisierten Task in Firebase speichern
+      const updateResponse = await fetch(taskUrl, {
+          method: "PUT",
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify(task),
+      });
+
+      if (!updateResponse.ok) {
+          console.error(`Fehler beim Aktualisieren des Subtasks: ${updateResponse.statusText}`);
+          return;
+      }
+
+      console.log("Subtask erfolgreich aktualisiert:", subtask);
+
+      // 4. Darstellung aktualisieren
+      await renderBoard(); // Board neu rendern
+      await openTaskPopup(taskId, listId); // Popup aktualisieren
+  } catch (error) {
+      console.error("Fehler beim Umschalten des Subtask-Status:", error);
   }
-  // Aktualisiere die Darstellung des Subtasks
-  const subtaskElement = document.querySelector(`#subtask-${taskId}-${subtaskIndex} .subtaskText`);
-  if (subtaskElement) {
-      subtaskElement.style.textDecoration = isChecked ? "line-through" : "none";
-  }
-  openTaskPopup(taskId); // Aktualisiere das Popup
-  renderBoard(); // Aktualisiere das Board
 }
+
+
+
+
 
 
 function setPriority(priority) {

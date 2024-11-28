@@ -54,27 +54,91 @@ function unhighlightList(listId) {
     }
 }
 
-
-function handleDrop(event, targetListId) {
+async function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
-    let sourceList, task;
-    // Die Liste und den Task finden, aus der der Task entfernt wird
-    tasks.forEach(list => {
-        const taskIndex = list.task.findIndex(t => t.id === currentDraggedElement);
-        if (taskIndex !== -1) {
-            sourceList = list;
-            [task] = sourceList.task.splice(taskIndex, 1); // Task aus der Quell-Liste entfernen
-        }
-    });
-    // Ziel-Liste finden und Task hinzufügen
-    const targetList = tasks.find(list => list.id === targetListId);
-    if (targetList && task) {
-        targetList.task.push(task); // Task in die Ziel-Liste verschieben
-        renderBoard(); // Board neu rendern
-    } else {
-        console.error(`Ziel-Liste mit ID "${targetListId}" oder Task nicht gefunden.`);
+
+    const sourceListId = await findTaskSourceList(currentDraggedElement); // Quell-Liste ermitteln
+    if (!sourceListId) {
+        console.error(`Quell-Liste für Task ${currentDraggedElement} nicht gefunden.`);
+        stopDragging();
+        return;
     }
-    stopDragging(); // Dragging beenden
-    unhighlightList(`${targetListId}List`); // Hervorhebung entfernen
+
+    try {
+        // Task-Daten aus Firebase holen
+        const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
+
+        if (!task) {
+            console.error(`Task ${currentDraggedElement} konnte nicht aus Liste ${sourceListId} geladen werden.`);
+            stopDragging();
+            return;
+        }
+
+        // Task aus der Quell-Liste entfernen
+        await deleteTaskFromFirebase(sourceListId, currentDraggedElement);
+
+        // Task in die Ziel-Liste einfügen
+        await addTaskToFirebase(targetListId, task);
+
+        // **Direkt das Board aktualisieren**
+        // Daten erneut abrufen und rendern
+        const tasks = await getTasks(); // `getTasks()` aktualisiert globalen Zustand
+        renderBoard(); // Board neu rendern
+    } catch (error) {
+        console.error("Fehler beim Verschieben des Tasks:", error);
+    } finally {
+        stopDragging();
+        unhighlightList(`${targetListId}List`);
+    }
+}
+
+
+// **Hilfsfunktionen für Firebase**
+
+async function findTaskSourceList(taskId) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        console.error(`Fehler beim Abrufen der Listen: ${response.status}`);
+        return null;
+    }
+
+    const data = await response.json();
+    for (const listId in data) {
+        if (data[listId].task && data[listId].task[taskId]) {
+            return listId; // Quell-Liste gefunden
+        }
+    }
+    return null;
+}
+
+async function fetchTaskFromFirebase(listId, taskId) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+        return null;
+    }
+    return await response.json();
+}
+
+async function deleteTaskFromFirebase(listId, taskId) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    const response = await fetch(url, { method: 'DELETE' });
+    if (!response.ok) {
+        console.error(`Fehler beim Löschen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+    }
+}
+
+async function addTaskToFirebase(listId, task) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task),
+    });
+    if (!response.ok) {
+        console.error(`Fehler beim Hinzufügen des Tasks zu Liste ${listId}: ${response.status}`);
+    }
 }
