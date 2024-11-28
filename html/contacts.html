@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join</title>
+    <link rel="icon" href="../assets/icons/svg/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../styles/fonts.css">
+    <link rel="stylesheet" href="../styles/assets.css">
+    <link rel="stylesheet" href="../styles/contacts.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styles/templates.css">
+    <script src="../../script.js"></script>
+    <script src="../scripts/contacts.js"></script>
+    <script src="../scripts/templates.js"></script>
+    <script src="./../scripts/backend.js"></script>
+
+
+</head>
+
+<body onload="includeHTML(), init()">
+
+    <div id="contactDialog">
+
+
+
+        <div class="newContactContainer">
+            <div class="newContact">
+                <div class="addContactLogo">
+                    <img src="../assets/icons/svg/joinLogoWhite.svg" alt="">
+                    <h1 id="dialogInfo">Add contact</h1>
+                    <h3>Tasks are better with a team</h3>
+
+        
+        
+            <div class="newContactContainer">
+                <div class="newContact">
+            <div class="addContactLogo">
+                <img src="../assets/icons/svg/joinLogoWhite.svg" alt="">
+                <h1>Add contact</h1>
+                <h3>Tasks are better with a team</h3>
+            </div> 
+                <div class="addContacts">
+                    <div>
+                        <img src="../assets/icons/png/userpic_leer.png" alt="">
+                    </div>
+                    <div class="createContact">
+                    <div class="closeBtn">
+                        <img class="close" onclick="closeAddContact()" src="../assets/icons/png/iconoir_cancel.png" alt="">
+                    </div>
+                    <div>
+                    <form class="contacInput">
+                        <div class="inputBorder">
+                            <innerInputfield class="innerInputfield">
+                                <input class="noBorder" id="name" placeholder="Name" required>
+                                <img src="../../assets/icons/png/person.png">
+                            </innerInputfield>
+                        </div>
+                    
+                        <div class="inputBorder">
+                            <innerInputfield class="innerInputfield">
+                                <input id="email" type="email" class="noBorder" placeholder="Email" required>
+                                <img src="../../assets/icons/svg/mail.svg">
+                            </innerInputfield>
+                        </div>
+                    
+                        <div class="inputBorder">
+                            <innerInputfield class="innerInputfield">
+                                <input id="phone" type="number" class="noBorder" placeholder="phone" required>
+                                <img src="../assets/icons/png/call.png">
+                            </innerInputfield>
+                        </div>
+                    </form>
+                    </div>
+                    <div class="createContactBtn">
+                        <button onclick="closeAddContact()">cancel</button><button onclick="createContact()">create contact <img src="../assets/icons/png/check.png"></button>
+                    </div>
+                </div>
+
+                </div>
+                <div class="addContacts" id="editContact"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
+
+    <div class="contacts">
+
+        <div class="header" w3-include-html="../../templates/header.html"></div>
+
+        <div class="contactContainer">
+            <div class="contactsBar">
+                <div class="btnContainer"><button class="addContactBtn" onclick="openAddContact()">Add new contact <img
+                            src="../assets/icons/png/person_add.png" alt=""></button></div>
+                <div id="contacts"></div>
+            </div>
+            <div class="contactDetails">
+                <div class="contactHeadline">
+                    <div>
+                        <h1>Contacts</h1>
+                    </div>
+                    <div class="blueLine"></div>
+                    <h3>Better with a team</h3>
+                </div>
+                <div id="ContactDetailed" class="contactInfoBox">
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+</body>
+
+</html>
+
