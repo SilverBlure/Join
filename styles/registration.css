@@ -58,3 +58,28 @@
     column-gap: 50px;
     animation: fadeInBlur 1s ease forwards;
 }
+
+
+.textDialogfeld{
+    height: 150px;
+    width: 240px;
+    background-color: aliceblue;
+    border: solid 2px;
+    border-radius: 15px;
+    z-index: 100;
+    position: absolute;
+    right: 64px;
+    bottom: 0px;
+    transform: translate(-150px);
+    animation-name: passout;
+    animation-delay: 2s;
+    animation-duration: 1s;
+    overflow-y: hidden;
+}
+
+@keyframes passout {
+    100%{
+        bottom: -160px;
+    }
+    
+}
