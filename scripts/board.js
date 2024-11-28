@@ -9,10 +9,9 @@ let tempPriority = null;
 
 
 
-
 function renderBoard() {
     if (!tasks || tasks.length === 0) {
-        console.error('Keine Aufgaben gefunden!');
+        console.error("Keine Aufgaben gefunden!");
         return;
     }
 
@@ -32,13 +31,12 @@ function renderBoard() {
             `;
         } else {
             Object.entries(list.task).forEach(([taskId, task]) => {
-                // Subtasks-Verarbeitung: Subtask-Objekt iterieren
-                const subtasks = task.subtasks ? Object.values(task.subtasks) : {};
-                const totalCount = Object.keys(subtasks).length; // Gesamtanzahl der Subtasks
-                const doneCount = Object.values(subtasks).filter(st => st.done).length; // Abgeschlossene Subtasks
-                const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0; // Fortschritt in %
+                // Subtasks als Objekt iterieren
+                const subtasks = task.subtasks ? Object.values(task.subtasks) : [];
+                const totalCount = subtasks.length;
+                const doneCount = subtasks.filter(st => st.done).length;
+                const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
 
-                // Fortschritts-HTML
                 const progressHTML = totalCount > 0 ? /*html*/ `
                     <div class="subtasksContainer">
                         <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
@@ -46,25 +44,23 @@ function renderBoard() {
                         </div>
                         <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                     </div>
-                ` : '';
+                ` : "";
 
-                // Arbeiter-HTML generieren
                 const workersHTML = Array.isArray(task.workers)
                     ? task.workers.map(worker => {
-                        const workerClass = worker?.class || 'defaultWorker';
-                        const workerInitial = worker?.name?.charAt(0) || '?';
-                        return `<p class="${workerClass} workerEmblem">${workerInitial}</p>`;
-                    }).join('')
-                    : '';
+                          const workerClass = worker?.class || "defaultWorker";
+                          const workerInitial = worker?.name?.charAt(0) || "?";
+                          return `<p class="${workerClass} workerEmblem">${workerInitial}</p>`;
+                      }).join("")
+                    : "";
 
-                // Task-HTML generieren und einfügen
                 content.innerHTML += /*html*/ `
                     <div id="boardCard-${taskId}" 
                          draggable="true"
                          ondragstart="startDragging('${taskId}', '${list.id}')"
                          onclick="openTaskPopup('${taskId}', '${list.id}')"
                          class="boardCard">
-                        <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || 'No Category'}</p>
+                        <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || "No Category"}</p>
                         <p class="taskCardTitle">${task.title}</p>
                         <p class="taskCardDescription">${task.description}</p>
                         ${progressHTML}
@@ -78,6 +74,7 @@ function renderBoard() {
         }
     });
 }
+
 
 
 
@@ -442,42 +439,64 @@ function closeAddTaskPopup() {
     }
 }
 
-
-
-async function addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasks) {
+async function addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasksInput) {
     try {
-        const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}.json`;
+        const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
+
+        // Sicherstellen, dass die Liste existiert
         let response = await fetch(url);
         if (!response.ok) {
             console.warn(`Liste '${listId}' existiert nicht. Initialisiere sie erneut.`);
-            await initializeTaskLists(); 
+            await initializeTaskLists();
         }
+
+        // **Sicherstellen, dass subtasksInput ein String ist**
+        subtasksInput = subtasksInput || ""; // Wenn undefined oder null, setze leeren String
+        if (typeof subtasksInput !== "string") {
+            console.error("subtasksInput ist kein gültiger String:", subtasksInput);
+            return null;
+        }
+
+        // Subtasks korrekt als Objekt mit eindeutigen Schlüsseln formatieren
+        const subtasks = subtasksInput
+            ? subtasksInput.split(",").reduce((obj, todo, index) => {
+                  obj[`subtask_${index}`] = {
+                      title: todo.trim(),
+                      done: false,
+                  };
+                  return obj;
+              }, {})
+            : {};
+
+        // Task-Daten definieren
         const newTask = {
-            title: title,
-            description: description,
-            dueDate: dueDate,
-            priority: priority,
-            workers: workers ? workers.split(',').map(w => w.trim()) : [],
-            category: { name: category, class: `category${category.replace(' ', '')}` },
-            subtasks: Array.isArray(subtasks) ? subtasks : [subtasks],
+            title,
+            description,
+            dueDate,
+            priority,
+            workers: workers ? workers.split(",").map(w => ({ name: w.trim(), class: `worker-${w.trim().toLowerCase()}` })) : [],
+            category: { name: category, class: `category${category.replace(" ", "")}` },
+            subtasks, // Subtasks als Objekt
         };
-        const postUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
-        let postResponse = await fetch(postUrl, {
+
+        // Task in Firebase speichern
+        const postResponse = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(newTask),
         });
-        if (postResponse.ok) {
-            let responseData = await postResponse.json();
-            console.log(`Task erfolgreich zu Liste '${listId}' hinzugefügt:`, responseData);
-            return responseData;
-        } else {
-            let errorText = await postResponse.text();
-            console.error(`Fehler beim Hinzufügen des Tasks zu Liste '${listId}':`, postResponse.status, errorText);
+
+        if (!postResponse.ok) {
+            const errorText = await postResponse.text();
+            console.error(`Fehler beim Hinzufügen des Tasks: ${postResponse.status}`, errorText);
             return null;
         }
+
+        const responseData = await postResponse.json();
+        console.log(`Task erfolgreich zu Liste '${listId}' hinzugefügt:`, responseData);
+        return responseData;
     } catch (error) {
         console.error(`Ein Fehler ist beim Hinzufügen des Tasks zu Liste '${listId}' aufgetreten:`, error);
         return null;
@@ -486,21 +505,19 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
 
 
 
+
 async function addTaskToSpecificList(listId, event) {
-    event.preventDefault(); 
+    event.preventDefault();
+
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const dueDate = document.getElementById("date").value;
     const priority = tempPriority;
     const workers = document.getElementById("contactSelection").value;
     const category = document.getElementById("category").value;
-    const subtasksInput = document.getElementById("popupSubtask").value;
-    const subtasks = subtasksInput
-    ? subtasksInput.split(",").reduce((obj, todo, index) => {
-        obj[`subtask_${index}`] = { title: todo.trim(), done: false };
-        return obj;
-    }, {})
-    : {};
+    const subtasksInputElement = document.getElementById("popupSubtask");
+    const subtasksInput = subtasksInputElement?.value || ""; 
+
     if (!priority) {
         console.warn("Keine Priorität ausgewählt.");
         return;
@@ -509,13 +526,14 @@ async function addTaskToSpecificList(listId, event) {
         console.error("Keine Liste angegeben, in die der Task hinzugefügt werden soll.");
         return;
     }
+
     try {
-        const result = await addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasks);
+        const result = await addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasksInput);
         if (result) {
             console.log(`Task erfolgreich in Liste '${listId}' hinzugefügt:`, result);
-            await getTasks(); 
-            document.getElementById("addTaskFormTask").reset(); 
-            tempPriority = null; 
+            await getTasks();
+            document.getElementById("addTaskFormTask").reset();
+            tempPriority = null;
             closeAddTaskPopup();
             renderBoard();
         } else {
@@ -525,6 +543,7 @@ async function addTaskToSpecificList(listId, event) {
         console.error(`Fehler beim Hinzufügen des Tasks in Liste '${listId}':`, error);
     }
 }
+
 
 
 

@@ -183,13 +183,13 @@ async function initializeTaskLists() {
             let data = await response.json();
             if (data) {
                 console.log("Bestehende Listenstruktur gefunden:", data);
-                return true;
+                return true; // Listenstruktur vorhanden, keine Initialisierung notwendig
             }
         }
 
         // Standard-Listen definieren
         const defaultLists = {
-            todo: { name: "To Do", task: {} },
+            todo: { name: "To Do", task: {} }, // task als Objekt
             inProgress: { name: "In Progress", task: {} },
             awaitFeedback: { name: "Await Feedback", task: {} },
             done: { name: "Done", task: {} },
@@ -217,6 +217,7 @@ async function initializeTaskLists() {
         return false;
     }
 }
+
 
 
 
