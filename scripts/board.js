@@ -3,6 +3,18 @@ let currentListId = null;
 let tempPriority = null;
 
 
+function renderContactsDropdown(){
+    let dropDown = document.getElementById('contactSelection')
+    if (dropDown.options.length > 0) return; 
+     dropDown.innerHTML="";
+     for (let i = 0; i < contactsArray.length; i++) {
+       document.getElementById('contactSelection').innerHTML += /*html*/`
+               <option value="${contactsArray[i].name}">${contactsArray[i].name}</option>;
+
+       `
+     }
+ 
+ }
 
 
 
@@ -79,7 +91,6 @@ function renderBoard() {
 
 
 
-
 async function openTaskPopup(taskId, listId) {
     if (!listId) {
         console.error(`Task ${taskId} kann nicht geöffnet werden, da keine Liste angegeben wurde.`);
@@ -123,11 +134,11 @@ async function openTaskPopup(taskId, listId) {
             `).join('')
             : '<p>Keine zugewiesenen Arbeiter.</p>';
 
-        // Subtasks anzeigen
+        // Subtasks anzeigen mit Edit- und Delete-Icons
         const subtasksHTML = task.subtasks
             ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => {
-                const subtaskText = subtask.done || subtask.todo || 'Unnamed Subtask';
-                const isDone = !!subtask.done;
+                const subtaskText = subtask.title || 'Unnamed Subtask'; // Nutze 'title' als Text
+                const isDone = subtask.done || false; // Standardwert für 'done'
                 return /*html*/ `
                     <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
                         <input 
@@ -138,6 +149,18 @@ async function openTaskPopup(taskId, listId) {
                         <p class="subtaskText" style="text-decoration: ${isDone ? 'line-through' : 'none'};">
                             ${subtaskText}
                         </p>
+                        <div class="hoverBtnContainer">
+                            <img
+                                    class="hoverBtn" 
+                                    src="../../assets/icons/png/editIcon.png" 
+                                    onclick="editSubtask('${listId}', '${taskId}', '${subtaskId}')"
+                                    alt="Delete Subtask">    
+                            <img 
+                                    class="hoverBtn" 
+                                    src="../../assets/icons/png/iconoir_cancel.png" 
+                                    onclick="deleteSubtask('${listId}', '${taskId}', '${subtaskId}')"
+                                    alt="Delete Subtask">
+                            </div>
                     </div>
                 `;
             }).join('')
@@ -173,79 +196,169 @@ async function openTaskPopup(taskId, listId) {
 
 
 
-function deleteSubtask(taskId, subtaskIndex) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); 
-    if (task && task.subtasks[subtaskIndex]) {
-        task.subtasks.splice(subtaskIndex, 1); 
-        openTaskPopup(taskId); 
-        renderBoard(); 
-    } else {
-        console.error(`Subtask mit Index ${subtaskIndex} nicht in Task ${taskId} gefunden.`);
+
+async function deleteSubtask(listId, taskId, subtaskId) {
+    if (!listId || !taskId || !subtaskId) {
+        console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
+        return;
     }
-}
 
-
-
-function deleteTask(taskId) {
-    tasks.forEach(list => {
-        const index = list.task.findIndex(task => task.id === taskId); 
-        if (index !== -1) {
-            list.task.splice(index, 1); 
-            renderBoard(); 
-            closeTaskPopup(); 
+    try {
+        // Abrufen der Task-Daten
+        const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+        const response = await fetch(taskUrl);
+        if (!response.ok) {
+            console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+            return;
         }
-    });
+
+        const task = await response.json();
+        if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
+            console.error(`Subtask mit ID '${subtaskId}' nicht gefunden.`);
+            return;
+        }
+
+        // Löschen des Subtasks
+        delete task.subtasks[subtaskId];
+
+        // Speichern der Änderungen
+        const updateResponse = await fetch(taskUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task),
+        });
+
+        if (!updateResponse.ok) {
+            console.error(`Fehler beim Löschen des Subtasks: ${updateResponse.statusText}`);
+            return;
+        }
+
+        console.log(`Subtask ${subtaskId} erfolgreich gelöscht.`);
+        await renderBoard(); // Aktualisiere das Board
+        await openTaskPopup(taskId, listId); // Aktualisiere das Popup
+    } catch (error) {
+        console.error("Fehler beim Löschen des Subtasks:", error);
+    }
 }
 
 
 
-function editSubtask(taskId, subtaskIndex) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); 
-    if (!task || !task.subtasks[subtaskIndex]) {
-        console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+async function deleteTask(listId, taskId) {
+    if (!listId || !taskId) {
+        console.error("Ungültige Parameter für das Löschen:", { listId, taskId });
         return;
     }
-    const subtask = task.subtasks[subtaskIndex];
-    const subtaskText = subtask.done || subtask.todo; 
-    const subtaskElement = document.getElementById(`subtask-${taskId}-${subtaskIndex}`); 
+
+    try {
+        // Firebase-URL für den spezifischen Task
+        const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+
+        // DELETE-Anfrage an Firebase senden
+        const response = await fetch(taskUrl, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            console.error(`Fehler beim Löschen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+            return;
+        }
+
+        console.log(`Task ${taskId} erfolgreich aus Liste ${listId} gelöscht.`);
+
+        // Board neu rendern, um die Änderung darzustellen
+        await getTasks(); // Aktualisiere die globale `tasks`-Variable
+        renderBoard(); // Board neu rendern
+        closeTaskPopup(); // Schließe das Popup
+    } catch (error) {
+        console.error("Fehler beim Löschen des Tasks:", error);
+    }
+}
+
+
+
+function editSubtask(listId, taskId, subtaskId) {
+    if (!listId || !taskId || !subtaskId) {
+        console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
+        return;
+    }
+
+    // Element des Subtasks finden
+    const subtaskElement = document.getElementById(`subtask-${taskId}-${subtaskId}`);
     if (!subtaskElement) {
-        console.error(`Subtask-Element nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+        console.error(`Subtask-Element nicht gefunden (Task ID: ${taskId}, Subtask ID: ${subtaskId})`);
         return;
     }
-    subtaskElement.innerHTML = /*html*/`
-        <input
+
+    // Der aktuelle Titel des Subtasks wird als Wert des Input-Felds gesetzt
+    const currentTitle = subtaskElement.querySelector(".subtaskText")?.innerText || "Unnamed Subtask";
+
+    // Eingabefeld und Speichern-Button hinzufügen
+    subtaskElement.innerHTML = /*html*/ `
+        <input 
             type="text" 
             class="editSubtaskInput" 
-            value="${subtaskText}" 
-            onblur="saveSubtaskEdit(${taskId}, ${subtaskIndex}, this.value)">
-        <button
+            value="${currentTitle}" 
+            onblur="saveSubtaskEdit('${listId}', '${taskId}', '${subtaskId}', this.value)">
+        <button 
             class="saveSubtaskBtn" 
-            onclick="saveSubtaskEdit(${taskId}, ${subtaskIndex}, document.querySelector('#subtask-${taskId}-${subtaskIndex} .editSubtaskInput').value)">
+            onclick="saveSubtaskEdit('${listId}', '${taskId}', '${subtaskId}', document.querySelector('#subtask-${taskId}-${subtaskId} .editSubtaskInput').value)">
             Save
         </button>
     `;
+
+    // Fokus auf das Eingabefeld setzen
     const inputField = subtaskElement.querySelector('.editSubtaskInput');
     if (inputField) inputField.focus();
 }
 
 
 
-function saveSubtaskEdit(taskId, subtaskIndex, newText) {
-    const task = tasks.flatMap(list => list.task).find(t => t.id === taskId); 
-    if (!task || !task.subtasks[subtaskIndex]) {
-        console.error(`Task oder Subtask nicht gefunden (Task ID: ${taskId}, Subtask Index: ${subtaskIndex})`);
+async function saveSubtaskEdit(listId, taskId, subtaskId, newTitle) {
+    if (!listId || !taskId || !subtaskId || !newTitle.trim()) {
+        console.error("Ungültige Parameter oder leerer Titel:", { listId, taskId, subtaskId, newTitle });
         return;
     }
-    const subtask = task.subtasks[subtaskIndex];
-    if (subtask.done !== undefined) {
-        subtask.done = newText; 
-    } else {
-        subtask.todo = newText; 
+
+    try {
+        // Abrufen der Task-Daten
+        const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+        const response = await fetch(taskUrl);
+        if (!response.ok) {
+            console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+            return;
+        }
+
+        const task = await response.json();
+        if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
+            console.error(`Subtask mit ID '${subtaskId}' nicht gefunden.`);
+            return;
+        }
+
+        // Aktualisieren des Subtask-Titels und Setzen von done: false
+        task.subtasks[subtaskId].title = newTitle;
+        task.subtasks[subtaskId].done = false; // Status immer auf "done: false" setzen
+
+        // Speichern der Änderungen
+        const updateResponse = await fetch(taskUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(task),
+        });
+
+        if (!updateResponse.ok) {
+            console.error(`Fehler beim Speichern des bearbeiteten Subtasks: ${updateResponse.statusText}`);
+            return;
+        }
+
+        console.log(`Subtask ${subtaskId} erfolgreich bearbeitet und auf done: false gesetzt.`);
+        await renderBoard(); // Aktualisiere das Board
+        await openTaskPopup(taskId, listId); // Aktualisiere das Popup
+    } catch (error) {
+        console.error("Fehler beim Bearbeiten des Subtasks:", error);
     }
-    console.log(`Subtask aktualisiert (Task ID: ${taskId}, Subtask Index: ${subtaskIndex}):`, subtask);
-    renderBoard();
-    openTaskPopup(taskId); 
 }
+
+
 
 function findTask() {
     const searchTerm = document.getElementById('findTask').value.trim().toLowerCase();

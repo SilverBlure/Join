@@ -1,4 +1,3 @@
-const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 let tempPriority = null;
 
 
@@ -71,42 +70,45 @@ async function getTasks() {
     }
 }
 
-
 async function addTaskToToDoList(event) {
     event.preventDefault();
 
-    // Eingabewerte abrufen
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const dueDate = document.getElementById("date").value;
     const priority = tempPriority;
     const workersInput = document.getElementById("contactSelection").value;
     const category = document.getElementById("category").value;
-    const subtasksInput = document.getElementById("subtasksInput").value;
+    const subtasksInputElement = document.getElementById("subTaskInputAddTask");
+    const subtasksInput = subtasksInputElement ? subtasksInputElement.value : "";
 
-    // Subtasks als Objekte mit eindeutigen IDs definieren
-    const subtasks = subtasksInput
-    ? subtasksInput.split(",").reduce((obj, todo, index) => {
-        obj[`subtask_${index}`] = { title: todo.trim(), done: false };
-        return obj;
-    }, {})
-    : {};
-
-    // Workers als Objekte mit name und class definieren
-    const workers = workersInput
-        ? workersInput.split(",").map((worker, index) => ({
-            name: worker.trim(),
-            class: `worker-${index}`,
-        }))
-        : [];
-
-    if (!priority) {
-        console.warn("Keine Priorität ausgewählt.");
+    // Validierung: Keine leeren Felder für notwendige Eingaben
+    if (!title || !dueDate || !priority || !category) {
+        console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
         return;
     }
 
+    // Subtasks-Objekt erstellen
+    const subtasks = subtasksInput
+        ? subtasksInput.split(",").reduce((obj, todo, index) => {
+              obj[`subtask_${index}`] = {
+                  title: todo.trim(), // Titel des Subtasks
+                  done: false, // Standardwert für `done`
+              };
+              return obj;
+          }, {})
+        : {};
+
+    // Arbeiter-Array erstellen
+    const workers = workersInput
+        ? workersInput.split(",").map(worker => ({
+              name: worker.trim(),
+              class: `worker-${worker.trim().toLowerCase()}`,
+          }))
+        : [];
+
     try {
-        // Aufgabe zur ToDo-Liste hinzufügen
+        // Task zur Firebase hinzufügen
         const result = await addTaskToList(
             title,
             description,
@@ -114,13 +116,14 @@ async function addTaskToToDoList(event) {
             priority,
             workers,
             category,
-            subtasks
+            subtasks // Subtasks als korrektes Objekt übergeben
         );
+
         if (result) {
             console.log("Task erfolgreich hinzugefügt:", result);
-            await getTasks();
-            document.getElementById("addTaskFormTask").reset();
-            tempPriority = null;
+            await getTasks(); // Tasks neu laden
+            document.getElementById("addTaskFormTask").reset(); // Formular zurücksetzen
+            tempPriority = null; // Priorität zurücksetzen
         } else {
             console.error("Task konnte nicht hinzugefügt werden.");
         }
@@ -129,12 +132,14 @@ async function addTaskToToDoList(event) {
     }
 }
 
+
+
 async function addTaskToList(title, description, dueDate, priority, workers, category, subtasks) {
     try {
         const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/todo/task.json`;
 
-        // Sicherstellen, dass die Liste 'todo' existiert
-        let response = await fetch(taskUrl);
+        // Sicherstellen, dass die Liste existiert
+        const response = await fetch(taskUrl);
         if (!response.ok) {
             console.warn("Liste 'todo' existiert nicht. Initialisiere sie erneut.");
             await initializeTaskLists();
@@ -142,38 +147,38 @@ async function addTaskToList(title, description, dueDate, priority, workers, cat
 
         // Task-Daten definieren
         const newTask = {
-            title: title,
-            description: description,
-            dueDate: dueDate,
-            priority: priority,
-            workers: workers, // Bereits formatierte Objekte
-            category: { name: category, class: `category${category.replace(' ', '')}` },
-            subtasks: subtasks, // Subtasks als Objekt
+            title,
+            description,
+            dueDate,
+            priority,
+            workers,
+            category: { name: category, class: `category${category.replace(/\s/g, "")}` },
+            subtasks, // Subtasks direkt als korrektes Objekt verwenden
         };
 
-        // Task in die Datenbank speichern
-        let postResponse = await fetch(taskUrl, {
+        // Task speichern
+        const postResponse = await fetch(taskUrl, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newTask),
         });
 
-        if (postResponse.ok) {
-            let responseData = await postResponse.json();
-            console.log("Task erfolgreich hinzugefügt:", responseData);
-            return responseData;
-        } else {
-            let errorText = await postResponse.text();
-            console.error("Fehler beim Hinzufügen des Tasks:", postResponse.status, errorText);
+        if (!postResponse.ok) {
+            const errorText = await postResponse.text();
+            console.error(`Fehler beim Speichern des Tasks: ${postResponse.status}`, errorText);
             return null;
         }
+
+        const responseData = await postResponse.json();
+        console.log("Task erfolgreich gespeichert:", responseData);
+        return responseData;
     } catch (error) {
-        console.error("Ein Fehler ist beim Hinzufügen des Tasks aufgetreten:", error);
+        console.error("Fehler beim Speichern des Tasks:", error);
         return null;
     }
 }
+
+
 
 async function initializeTaskLists() {
     try {

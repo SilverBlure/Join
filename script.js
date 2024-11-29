@@ -74,14 +74,12 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
       }
 
       // 2. Subtask-Status aktualisieren
-      const subtaskKey = Object.keys(task.subtasks)[subtaskIndex];
-      const subtask = task.subtasks[subtaskKey];
-            if (isChecked) {
-          subtask.done = subtask.todo; // Markiere als erledigt
+      const subtask = task.subtasks[subtaskId]; // Direkt den Subtask über die ID holen
+      if (isChecked) {
+          subtask.done = true; // Markiere als erledigt
           delete subtask.todo; // Entferne das `todo`-Feld
       } else {
-          subtask.todo = subtask.done; // Setze zurück auf `todo`
-          delete subtask.done; // Entferne das `done`-Feld
+          subtask.done = false; // Setze zurück auf unerledigt
       }
 
       // 3. Aktualisierten Task in Firebase speichern

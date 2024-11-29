@@ -16,6 +16,10 @@
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
     <script src="./../scripts/backend.js"></script>
+    <script src="../../scripts/boardDrag&Drop.js"></script>
+    <script src="../../scripts/board.js"></script>
+    <script src="../../scripts/boardBackend.js"></script>
+    <script src="../../scripts/contacts.js"></script>
 </head>
 
 <body onload="includeHTML(), main()">
@@ -131,7 +135,7 @@
                             placeholder="Enter a Description"></textarea>
 
                         <label for="contactSelection">Assigned to</label>
-                        <input name="contactSelection" id="contactSelection" placeholder="Enter contacts" tabindex="0">
+                        <select onclick="renderContactsDropdown()" name="contactSelection" id="contactSelection" placeholder="Enter contacts"></select>
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
@@ -193,9 +197,7 @@
 
         </div>
     </div>
-    <script src="../../scripts/boardDrag&Drop.js"></script>
-    <script src="../../scripts/board.js"></script>
-    <script src="../../scripts/boardBackend.js"></script>
+
 
 </body>
 

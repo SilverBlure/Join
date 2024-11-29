@@ -1,6 +1,4 @@
-const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 let tasks = {}; // Globale Variable für die Aufgaben
-let ID = null;  // Globale Variable für die Session-ID
 
 async function main() {
     loadSessionId();
@@ -11,6 +9,7 @@ async function main() {
     }
 
     await getTasks(); // Aufgaben laden
+    getContacts();
     renderBoard();    // Aufgaben im Board anzeigen
 }
 
