@@ -454,12 +454,88 @@ function findTask() {
 }
 
 
+function editExistingSubtask(taskId, subtaskId) {
+    const subtaskTextElement = document.querySelector(`#subtask-${taskId}-${subtaskId} .subtaskText`);
+    if (!subtaskTextElement) {
+        console.error("Subtask-Text nicht gefunden.");
+        return;
+    }
+
+    // Subtask-Text in ein Input-Feld umwandeln
+    const currentTitle = subtaskTextElement.textContent.trim();
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.className = "editSubtaskInput";
+    inputField.value = currentTitle;
+    inputField.onblur = () => updateSubtaskTitle(taskId, subtaskId, inputField.value); // Speichern bei Verlassen des Feldes
+    inputField.onkeydown = (event) => {
+        if (event.key === "Enter") {
+            updateSubtaskTitle(taskId, subtaskId, inputField.value); // Speichern bei Enter-Taste
+        } else if (event.key === "Escape") {
+            cancelSubtaskEdit(taskId, subtaskId, currentTitle); // Abbrechen bei Escape-Taste
+        }
+    };
+
+    // Ersetze <p> durch <input>
+    subtaskTextElement.replaceWith(inputField);
+    inputField.focus();
+}
+
+
+
+function cancelSubtaskEdit(taskId, subtaskId, originalTitle) {
+    const subtaskItem = document.getElementById(`subtask-${taskId}-${subtaskId}`);
+    if (subtaskItem) {
+        const inputField = subtaskItem.querySelector(".editSubtaskInput");
+        const originalTextElement = document.createElement("p");
+        originalTextElement.className = "subtaskText";
+        originalTextElement.id = `subtask-p-${taskId}-${subtaskId}`;
+        originalTextElement.textContent = originalTitle;
+        originalTextElement.onclick = () => editExistingSubtask(taskId, subtaskId);
+
+        inputField.replaceWith(originalTextElement);
+    }
+}
+
+
+
+function updateSubtaskTitle(taskId, subtaskId, newTitle) {
+    if (!newTitle.trim()) {
+        console.warn("Subtask-Titel darf nicht leer sein.");
+        return;
+    }
+
+    // Aktualisiere den Titel in localEditedSubtasks
+    if (window.localEditedSubtasks && window.localEditedSubtasks[subtaskId]) {
+        window.localEditedSubtasks[subtaskId].title = newTitle.trim();
+    } else {
+        console.warn(`Subtask ${subtaskId} ist nicht in localEditedSubtasks vorhanden.`);
+        return;
+    }
+
+    // Aktualisiere das DOM
+    const subtaskItem = document.getElementById(`subtask-${taskId}-${subtaskId}`);
+    if (subtaskItem) {
+        const inputField = subtaskItem.querySelector(".editSubtaskInput");
+        const updatedTextElement = document.createElement("p");
+        updatedTextElement.className = "subtaskText";
+        updatedTextElement.id = `subtask-p-${taskId}-${subtaskId}`;
+        updatedTextElement.textContent = newTitle;
+        updatedTextElement.onclick = () => editExistingSubtask(taskId, subtaskId);
+
+        inputField.replaceWith(updatedTextElement);
+    }
+}
+
+
+
 
 async function editTask(listId, taskId) {
     if (!listId || !taskId) {
         console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
         return;
     }
+
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
     try {
         const response = await fetch(url);
@@ -467,29 +543,76 @@ async function editTask(listId, taskId) {
             console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
             return;
         }
+
         const task = await response.json();
         if (!task) {
             console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
             return;
         }
+
         const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
         const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
+
         if (!editTaskPopupOverlay || !editTaskPopupContainer) {
             console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
             return;
         }
+
+        // Synchronisiere Subtasks mit localEditedSubtasks
+        window.localEditedSubtasks = task.subtasks ? { ...task.subtasks } : {};
+
+        console.log("Subtasks wurden in localEditedSubtasks synchronisiert:", window.localEditedSubtasks);
+
+        // Setze Task-Informationen in das Popup
         editTaskPopupOverlay.setAttribute("data-task-id", taskId);
         editTaskPopupOverlay.setAttribute("data-list-id", listId);
         editTaskPopupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-        const addSubtaskHTML = /*html*/`
+
+        // Generiere Subtasks-HTML mit IDs für <p>
+        const subtasksHTML = task.subtasks
+            ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => `
+                <div class="subtask-item" id="subtask-${taskId}-${subtaskId}">
+                    <input 
+                        class="subtasksCheckbox" 
+                        type="checkbox" 
+                        ${subtask.done ? 'checked' : ''} 
+                        onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
+                    <p 
+                        id="subtask-p-${taskId}-${subtaskId}" 
+                        class="subtaskText"
+                        onclick="editExistingSubtask('${taskId}', '${subtaskId}')">
+                        ${subtask.title || "Unnamed Subtask"}
+                    </p>
+                        <img 
+                            class="hoverBtn" 
+                            src="../../assets/icons/png/editIcon.png" 
+                            onclick="editExistingSubtask('${taskId}', '${subtaskId}')"
+                            alt="Edit Subtask">
+                        <img 
+                            class="hoverBtn" 
+                            src="../../assets/icons/png/iconoir_cancel.png" 
+                            onclick="deleteSubtask('${listId}', '${taskId}', '${subtaskId}')"
+                            alt="Delete Subtask">
+                    
+                </div>
+            `).join("")
+            : '<p>Keine Subtasks vorhanden.</p>';
+
+        // Subtask-Input für neue Subtasks
+        const addSubtaskHTML = `
             <div class="createSubtaskBar">
                 <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
                 <div class="divider"></div>
-                <img onclick="addNewSubtask('${listId}', '${taskId}')" class="addSubtaskButton" src="../assets/icons/png/addSubtasks.png">
+                <img 
+                    onclick="addNewSubtask('${listId}', '${taskId}')" 
+                    class="addSubtaskButton" 
+                    src="../assets/icons/png/addSubtasks.png">
             </div>
         `;
-        editTaskPopupContainer.innerHTML = /*html*/`
+
+        // Setze den Inhalt des Edit-Popups
+        editTaskPopupContainer.innerHTML = `
             <div class="popupHeader">
                 <h1>Edit Task</h1>
                 <img class="icon close" onclick="closeEditTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
@@ -502,17 +625,17 @@ async function editTask(listId, taskId) {
                         <label for="description">Description</label>
                         <textarea id="description" rows="5">${task.description || ''}</textarea>
                         <label for="contactSelection">Assigned to</label>
-                        <div id="contactSelection">${task.workers.map(worker => worker.name).join(', ')}</div>
+                        <div id="contactSelection">${task.workers.map(worker => worker.name).join(", ")}</div>
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
                         <input type="date" id="dueDate" value="${task.dueDate || ''}">
                         <label for="priority">Prio</label>
-                        <div class="priorityBtnContainer" id="prio">
-                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent<img src="../../assets/icons/png/PrioritySymbolsUrgent.png"></button>
-                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Medium<img src="../../assets/icons/png/PrioritySymbolsMiddle.png"></button>
-                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low<img src="../../assets/icons/png/PrioritySymbolsLow.png"></button>
+                        <div class="priorityBtnContainer">
+                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent</button>
+                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Middle</button>
+                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low</button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <select id="category" required>
@@ -521,22 +644,7 @@ async function editTask(listId, taskId) {
                         </select>
                         <label for="subtask">Subtasks</label>
                         <div id="subTasksList">
-                            ${Object.entries(task.subtasks || {}).map(([subtaskId, subtask]) => /*html*/`
-                                <div class="subtask-item" id="subtask-${taskId}-${subtaskId}">
-                                    <p 
-                                        id="subtask-p-${taskId}-${subtaskId}" 
-                                        class="subtaskText"
-                                        onclick="editSubtask('${listId}', '${taskId}', '${subtaskId}')"
-                                    >
-                                        ${subtask.title || 'Unnamed Subtask'}
-                                    </p>
-                                    <img 
-                                        class="hoverBtn" 
-                                        src="../../assets/icons/png/iconoir_cancel.png" 
-                                        onclick="deleteSubtask('${listId}', '${taskId}', '${subtaskId}')"
-                                        alt="Delete Subtask">
-                                </div>
-                            `).join('')}
+                            ${subtasksHTML}
                             ${addSubtaskHTML}
                         </div>
                     </div>
@@ -545,9 +653,13 @@ async function editTask(listId, taskId) {
             </form>
         `;
     } catch (error) {
-        console.error("Fehler beim Öffnen des Bearbeiten-Popups:", error);
+        console.error("Fehler beim Öffnen des Edit-Popups:", error);
     }
 }
+
+
+
+
 
 
 async function saveTaskChanges(listId, taskId) {
@@ -599,7 +711,7 @@ async function saveTaskChanges(listId, taskId) {
     }
 }
 
-function syncSubtasksFromDOM() {
+function syncSubtasksFromDOM(taskId) {
     const subTasksList = document.getElementById("subTasksList");
     if (!subTasksList) {
         console.error("Subtasks-Liste nicht gefunden.");
@@ -609,12 +721,12 @@ function syncSubtasksFromDOM() {
     const updatedSubtasks = {};
 
     subTasksList.querySelectorAll(".subtask-item").forEach(subtaskElement => {
-        const subtaskId = subtaskElement.id; // Direkte Verwendung der Subtask-ID
+        const subtaskId = subtaskElement.id.replace(`subtask-${taskId}-`, "").trim(); // Extrahiere Subtask-ID
         const subtaskTextElement = subtaskElement.querySelector(".subtaskText");
         const checkbox = subtaskElement.querySelector(".subtasksCheckbox");
 
         if (!subtaskTextElement) {
-            console.warn(`Subtask-Text für ID "${subtaskId}" fehlt.`);
+            console.warn(`Subtask-Text für ${subtaskId} fehlt.`);
             return;
         }
 
@@ -624,9 +736,10 @@ function syncSubtasksFromDOM() {
         };
     });
 
-    window.localSubtasks = updatedSubtasks;
-    console.log("Subtasks aus DOM synchronisiert:", window.localSubtasks);
+    window.localEditedSubtasks = updatedSubtasks; // Lokale Subtasks aktualisieren
+    console.log("Subtasks aus DOM synchronisiert:", updatedSubtasks);
 }
+
 
 
 
@@ -684,21 +797,6 @@ function addNewSubtask(listId, taskId) {
     console.log(`Subtask "${subtaskTitle}" hinzugefügt.`);
 }
 
-
-
-
-function editExistingSubtask(taskId, subtaskId) {
-    const subtaskTextElement = document.querySelector(`#subtask-${taskId}-${subtaskId} .subtaskText`);
-    if (!subtaskTextElement) {
-        console.error("Subtask-Text nicht gefunden.");
-        return;
-    }
-    const newTitle = prompt("Bearbeite Subtask:", subtaskTextElement.textContent);
-    if (newTitle) {
-        subtaskTextElement.textContent = newTitle;
-        window.localEditedSubtasks[subtaskId].title = newTitle; // Lokal aktualisieren
-    }
-}
 
 
 
