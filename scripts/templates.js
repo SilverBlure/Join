@@ -11,7 +11,7 @@ function contactTemps(i, initialien) {
     return `<div class="contact">
                 <div class="shortInfo" onclick="renderContactDetails(${i})">
                     <div class="tag">
-                        <p class="ContactUserTag">${initialien}</p>
+                        <p id="userTag${i}" class="contactUserTag">${initialien}</p>
                     </div>
                     <div>
                         <p>${contactsArray[i].name}</p>
@@ -24,7 +24,7 @@ function contactTemps(i, initialien) {
 
 function contactDetailsTemps(i, initialien) {
     return `<div class="InfoBoxHead">
-<div><p class="userTagBig">${initialien}</p></div>
+<div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
     <div>
         <div><H2>${contactsArray[i].name}</H2></div>
         <img class="pointer" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="deleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
