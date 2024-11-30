@@ -454,81 +454,6 @@ function findTask() {
 }
 
 
-function editExistingSubtask(taskId, subtaskId) {
-    const subtaskTextElement = document.querySelector(`#subtask-${taskId}-${subtaskId} .subtaskText`);
-    if (!subtaskTextElement) {
-        console.error("Subtask-Text nicht gefunden.");
-        return;
-    }
-
-    // Subtask-Text in ein Input-Feld umwandeln
-    const currentTitle = subtaskTextElement.textContent.trim();
-    const inputField = document.createElement("input");
-    inputField.type = "text";
-    inputField.className = "editSubtaskInput";
-    inputField.value = currentTitle;
-    inputField.onblur = () => updateSubtaskTitle(taskId, subtaskId, inputField.value); // Speichern bei Verlassen des Feldes
-    inputField.onkeydown = (event) => {
-        if (event.key === "Enter") {
-            updateSubtaskTitle(taskId, subtaskId, inputField.value); // Speichern bei Enter-Taste
-        } else if (event.key === "Escape") {
-            cancelSubtaskEdit(taskId, subtaskId, currentTitle); // Abbrechen bei Escape-Taste
-        }
-    };
-
-    // Ersetze <p> durch <input>
-    subtaskTextElement.replaceWith(inputField);
-    inputField.focus();
-}
-
-
-
-function cancelSubtaskEdit(taskId, subtaskId, originalTitle) {
-    const subtaskItem = document.getElementById(`subtask-${taskId}-${subtaskId}`);
-    if (subtaskItem) {
-        const inputField = subtaskItem.querySelector(".editSubtaskInput");
-        const originalTextElement = document.createElement("p");
-        originalTextElement.className = "subtaskText";
-        originalTextElement.id = `subtask-p-${taskId}-${subtaskId}`;
-        originalTextElement.textContent = originalTitle;
-        originalTextElement.onclick = () => editExistingSubtask(taskId, subtaskId);
-
-        inputField.replaceWith(originalTextElement);
-    }
-}
-
-
-
-function updateSubtaskTitle(taskId, subtaskId, newTitle) {
-    if (!newTitle.trim()) {
-        console.warn("Subtask-Titel darf nicht leer sein.");
-        return;
-    }
-
-    // Aktualisiere den Titel in localEditedSubtasks
-    if (window.localEditedSubtasks && window.localEditedSubtasks[subtaskId]) {
-        window.localEditedSubtasks[subtaskId].title = newTitle.trim();
-    } else {
-        console.warn(`Subtask ${subtaskId} ist nicht in localEditedSubtasks vorhanden.`);
-        return;
-    }
-
-    // Aktualisiere das DOM
-    const subtaskItem = document.getElementById(`subtask-${taskId}-${subtaskId}`);
-    if (subtaskItem) {
-        const inputField = subtaskItem.querySelector(".editSubtaskInput");
-        const updatedTextElement = document.createElement("p");
-        updatedTextElement.className = "subtaskText";
-        updatedTextElement.id = `subtask-p-${taskId}-${subtaskId}`;
-        updatedTextElement.textContent = newTitle;
-        updatedTextElement.onclick = () => editExistingSubtask(taskId, subtaskId);
-
-        inputField.replaceWith(updatedTextElement);
-    }
-}
-
-
-
 
 async function editTask(listId, taskId) {
     if (!listId || !taskId) {
@@ -584,11 +509,6 @@ async function editTask(listId, taskId) {
                         onclick="editExistingSubtask('${taskId}', '${subtaskId}')">
                         ${subtask.title || "Unnamed Subtask"}
                     </p>
-                        <img 
-                            class="hoverBtn" 
-                            src="../../assets/icons/png/editIcon.png" 
-                            onclick="editExistingSubtask('${taskId}', '${subtaskId}')"
-                            alt="Edit Subtask">
                         <img 
                             class="hoverBtn" 
                             src="../../assets/icons/png/iconoir_cancel.png" 

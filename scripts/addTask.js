@@ -1,7 +1,5 @@
 let tempPriority = null;
 
-
-
 async function main() {
     loadSessionId(); 
     const isInitialized = await initializeTaskLists();
@@ -11,16 +9,11 @@ async function main() {
     }
     await getTasks();
     getContacts();
-
 }
-
-
 
 function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
 }
-
-
 
 async function getTasks() {
     try {
@@ -71,33 +64,23 @@ async function getTasks() {
 }
 
 async function addTaskToToDoList(event) {
-    event.preventDefault();
+    event.preventDefault(); // Verhindert die Standard-Aktion des Formulars
 
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    const dueDate = document.getElementById("date").value;
+    const title = document.getElementById("title").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const dueDate = document.getElementById("date").value.trim();
     const priority = tempPriority;
+    const categoryName = document.getElementById("category").value.trim(); // Kategorie-Name abrufen
     const workersInput = document.getElementById("contactSelection").value;
-    const category = document.getElementById("category").value;
-    const subtasksInputElement = document.getElementById("subTaskInputAddTask");
-    const subtasksInput = subtasksInputElement ? subtasksInputElement.value : "";
 
-    // Validierung: Keine leeren Felder für notwendige Eingaben
-    if (!title || !dueDate || !priority || !category) {
+    // Validierung der Pflichtfelder
+    if (!title || !dueDate || !priority || !categoryName) {
         console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
         return;
     }
 
-    // Subtasks-Objekt erstellen
-    const subtasks = subtasksInput
-        ? subtasksInput.split(",").reduce((obj, todo, index) => {
-              obj[`subtask_${index}`] = {
-                  title: todo.trim(), // Titel des Subtasks
-                  done: false, // Standardwert für `done`
-              };
-              return obj;
-          }, {})
-        : {};
+    // Subtasks aus der lokalen Liste
+    const subtasks = getLocalSubtasks(); // Holt die gesammelten Subtasks
 
     // Arbeiter-Array erstellen
     const workers = workersInput
@@ -107,22 +90,31 @@ async function addTaskToToDoList(event) {
           }))
         : [];
 
+    // Kategorie-Objekt erstellen
+    const category = {
+        name: categoryName,
+        class: `category${categoryName.replace(/\s/g, "")}`, // Klasse basierend auf dem Namen
+    };
+
+    // Neues Task-Objekt vorbereiten
+    const newTask = {
+        title,
+        description,
+        dueDate,
+        priority,
+        category, // Kategorie als Objekt hinzufügen
+        workers,
+        subtasks, // Subtasks aus der lokalen Liste hinzufügen
+    };
+
     try {
-        // Task zur Firebase hinzufügen
-        const result = await addTaskToList(
-            title,
-            description,
-            dueDate,
-            priority,
-            workers,
-            category,
-            subtasks // Subtasks als korrektes Objekt übergeben
-        );
+        // Task in Firebase speichern
+        const result = await addTaskToList(newTask);
 
         if (result) {
             console.log("Task erfolgreich hinzugefügt:", result);
-            await getTasks(); // Tasks neu laden
             document.getElementById("addTaskFormTask").reset(); // Formular zurücksetzen
+            clearLocalSubtasks(); // Subtask-Liste zurücksetzen
             tempPriority = null; // Priorität zurücksetzen
         } else {
             console.error("Task konnte nicht hinzugefügt werden.");
@@ -133,8 +125,29 @@ async function addTaskToToDoList(event) {
 }
 
 
+function getLocalSubtasks() {
+    if (!window.localSubtasks || Object.keys(window.localSubtasks).length === 0) {
+        console.warn("Keine Subtasks in der lokalen Liste gefunden.");
+        return {}; // Gibt ein leeres Objekt zurück, wenn keine Subtasks vorhanden sind
+    }
+    console.log("Subtasks aus lokaler Liste:", window.localSubtasks);
+    return { ...window.localSubtasks }; // Gibt eine Kopie der Subtasks zurück
+}
 
-async function addTaskToList(title, description, dueDate, priority, workers, category, subtasks) {
+
+
+function clearLocalSubtasks() {
+    window.localSubtasks = {}; // Löscht die Subtasks
+    const subTasksList = document.getElementById("subTasksList");
+    if (subTasksList) {
+        subTasksList.innerHTML = ""; // Subtasks aus dem DOM entfernen
+    }
+}
+
+
+
+
+async function addTaskToList(task) {
     try {
         const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/todo/task.json`;
 
@@ -145,22 +158,11 @@ async function addTaskToList(title, description, dueDate, priority, workers, cat
             await initializeTaskLists();
         }
 
-        // Task-Daten definieren
-        const newTask = {
-            title,
-            description,
-            dueDate,
-            priority,
-            workers,
-            category: { name: category, class: `category${category.replace(/\s/g, "")}` },
-            subtasks, // Subtasks direkt als korrektes Objekt verwenden
-        };
-
         // Task speichern
         const postResponse = await fetch(taskUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newTask),
+            body: JSON.stringify(task), // Direkt das Task-Objekt senden
         });
 
         if (!postResponse.ok) {
@@ -225,10 +227,6 @@ async function initializeTaskLists() {
     }
 }
 
-
-
-
-
 function setPriority(priority) {
     tempPriority = priority;
     document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active'));
@@ -240,9 +238,6 @@ function setPriority(priority) {
     }
 }
 
-
-
-
 function renderContactsDropdown(){
     let dropDown = document.getElementById('contactSelection')
     if (dropDown.options.length > 0) return; 
@@ -253,5 +248,57 @@ function renderContactsDropdown(){
 
        `
      }
- 
  }
+
+
+ function addNewSubtask() {
+    const subTaskInput = document.getElementById("subTaskInputAddTask");
+    const subTasksList = document.getElementById("subTasksList");
+
+    if (!subTaskInput || !subTasksList) {
+        console.error("Subtask-Input oder Subtasks-Liste nicht gefunden.");
+        return;
+    }
+
+    const subtaskTitle = subTaskInput.value.trim();
+    if (!subtaskTitle) {
+        console.warn("Subtask-Titel darf nicht leer sein.");
+        return;
+    }
+
+    if (!window.localSubtasks) {
+        window.localSubtasks = {}; // Initialisiere die lokale Liste
+    }
+
+    const subtaskId = `subtask_${Date.now()}`; // Eindeutige ID generieren
+    const subtaskItem = {
+        title: subtaskTitle,
+        done: false, // Subtask ist standardmäßig "nicht erledigt"
+    };
+
+    // Subtask zur lokalen Liste hinzufügen
+    window.localSubtasks[subtaskId] = subtaskItem;
+
+    // Subtask ins DOM hinzufügen
+    const subtaskHTML = `
+        <div class="subtask-item" id="${subtaskId}">
+            <input 
+                type="checkbox" 
+                onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
+            <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">
+                ${subtaskTitle}
+            </p>
+            <img 
+                class="hoverBtn" 
+                src="../../assets/icons/png/iconoir_cancel.png" 
+                onclick="removeSubtaskFromList('${subtaskId}')"
+                alt="Remove Subtask">
+        </div>
+    `;
+    subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
+
+    // Input-Feld leeren
+    subTaskInput.value = "";
+
+    console.log(`Subtask "${subtaskTitle}" hinzugefügt.`, window.localSubtasks);
+}
