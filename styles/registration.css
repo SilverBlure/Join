@@ -61,25 +61,37 @@
 
 
 .textDialogfeld{
-    height: 150px;
+    height: 120px;
     width: 240px;
-    background-color: aliceblue;
-    border: solid 2px;
+    background-color: white ;
+    border: solid 4px;
+    color: #2A3647;
+    border-color: #29ABE2;
     border-radius: 15px;
     z-index: 100;
     position: absolute;
     right: 64px;
-    bottom: 0px;
-    transform: translate(-150px);
     animation-name: passout;
-    animation-delay: 2s;
-    animation-duration: 1s;
-    overflow-y: hidden;
+    animation-duration: 6s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @keyframes passout {
+    0%{
+        top: -150px;
+    }
+    50%{
+        top: 20px;
+        
+    }
     100%{
-        bottom: -160px;
+        top: -150px;
     }
     
+}
+
+.none{
+    display: none;
 }

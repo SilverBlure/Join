@@ -22,8 +22,7 @@ function signIn() {
     if(emailCheck(email) && passwordCheck(password_1, password_2)){
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
-    //alert('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
-    location.href ='./login.html';
+    info('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
     }
 }
 
@@ -134,8 +133,14 @@ function checkLogin(emailInput, pwInput){
 }
 
 
+function info(message){
+    document.getElementById('textDialogfeld').classList.toggle('none');
+document.getElementById('info').innerHTML =`<h4>Hallo</h4>`;
 
-
-
+setTimeout(() => {
+    document.getElementById('textDialogfeld').classList.toggle('none'); 
+}, 4);
+//location.href ='./login.html'
+}
 
 
