@@ -160,7 +160,8 @@ function renderBoard() {
                 const workersHTML = Array.isArray(task.workers)
                     ? task.workers.map(worker => {
                           const workerClass = worker?.class || "defaultWorker";
-                          const workerInitial = worker?.name?.charAt(0) || "?";
+                          const [vorname, nachname] = worker?.name?.split(" ") ||"?"
+                          const workerInitial = vorname[0] + nachname[0];
                           return `<p class="${workerClass} workerEmblem">${workerInitial}</p>`;
                       }).join("")
                     : "";
@@ -886,3 +887,9 @@ function addTaskToInProgress() {
 function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback');
 }
+
+function deleteWorkerFromTask(){
+    let worker = document.getElementsByClassName(`worker-kevin fischer workerEmblem} workerEmblem`).innerHTML;
+     console.log(worker);
+     
+ }

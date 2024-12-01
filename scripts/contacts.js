@@ -22,8 +22,10 @@ function renderContacts() {
             renderCurrentLetter(currentLetter);
         }
        document.getElementById(`group-${currentLetter}`).innerHTML +=
-       contactTemps(i, initialien); 
+       contactTemps(i, initialien);
+       setUserTagColor(vorname, nachname, i); 
     }
+    
 }
 
 
@@ -33,6 +35,7 @@ function renderContactDetails(i) {
     document.getElementById('ContactDetailed').innerHTML = "";
     document.getElementById('ContactDetailed').innerHTML =
         contactDetailsTemps(i, initialien);
+        setUserTagBigColor(vorname, nachname, i); 
 }
 
 
@@ -229,4 +232,32 @@ function checkInput(){
     createContact();
   }
 }
+
+
+function setUserTagColor(vorname, nachname, i){
+    document.getElementById(`userTag${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
+
+}
+
+function setUserTagBigColor(vorname, nachname, i){
+    document.getElementById(`userTagBig${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
+
+}
+
+function getColorHex(vorname, nachname){
+    let completeName = (vorname+nachname).toLowerCase();
+    let hash = 0;
+
+    for( let i = 0; i< completeName.length; i++){
+        hash += completeName.charCodeAt(i);
+    }
+
+    let r = (hash * 123) % 256;
+    let g = (hash * 456) % 256;
+    let b = (hash * 789) % 256;
+
+    let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return hexColor;
+}
+
 
