@@ -22,7 +22,7 @@ function signIn() {
     if(emailCheck(email) && passwordCheck(password_1, password_2)){
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
-    showSnackbar('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst gleich auf die LoginSeite weitergeleietet!');
+    showSnackbar('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst gleich auf die LoginSeite weitergeleitet!');
     setTimeout(() => {
         location.href="./login.html";
     }, 3000);
