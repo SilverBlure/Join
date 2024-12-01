@@ -4,16 +4,22 @@ let tasks = [];
 async function initSummary() {
     try {
         const tasksArray = await fetchAndPrepareTasks();
-        if (tasksArray) {
-            renderDashboard(tasksArray);
-            getNextDueDate(tasksArray);
-        } else {
-            console.error("Tasks konnten nicht geladen werden.");
+        if (!tasksArray || !Array.isArray(tasksArray)) {
+            console.warn("Keine gültigen Tasks für das Dashboard verfügbar.");
+            setDefaultDashboardValues(); // Aufruf bei fehlenden Daten
+            return;
         }
+
+        renderDashboard(tasksArray);
+        getNextDueDate(tasksArray);
     } catch (error) {
-        console.error("Fehler beim Initialisieren:", error);
+        console.error("Fehler beim Initialisieren der Summary-Seite:", error);
+        setDefaultDashboardValues(); // Aufruf bei einem Fehler
     }
 }
+
+
+    
 
 
 
@@ -55,9 +61,9 @@ async function fetchAndPrepareTasks() {
 
 
 function parseDateString(dateString) {
-    if (!dateString) return null;
+    if (!dateString || typeof dateString !== "string") return null;
 
-    // Überprüfen, ob das Datum korrekt erkannt wird
+    // Überprüfe, ob das Datum korrekt erkannt wird
     const parsedDate = new Date(dateString);
     if (isNaN(parsedDate.getTime())) {
         console.warn("Ungültiges Datum gefunden:", dateString);
@@ -68,28 +74,51 @@ function parseDateString(dateString) {
 }
 
 
+function setDefaultDashboardValues() {
+    document.getElementById("toDoTasks").textContent = "0";
+    document.getElementById("doneTasks").textContent = "0";
+    document.getElementById("inProgressTasks").textContent = "0";
+    document.getElementById("awaitFeddbackTasks").textContent = "0";
+    document.getElementById("urgentTasks").textContent = "0";
+    document.getElementById("allTasks").textContent = "0";
+    document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
+    document.getElementById("noTaskInBoard").style.display = "none";
+}
 
 
-async function renderDashboard(tasksArray) {
+function renderDashboard(tasksArray) {
     if (!Array.isArray(tasksArray)) {
-        console.error("Tasks ist kein gültiges Array:", tasksArray);
+        console.error("TasksArray ist kein gültiges Array:", tasksArray);
+        setDefaultDashboardValues();
         return;
     }
 
-    // Die Rendering-Funktionen aufrufen
+    // Prüfen, ob mindestens eine Liste Tasks enthält
+    const hasTasks = tasksArray.some((list) => list.tasks && list.tasks.length > 0);
+    if (!hasTasks) {
+        console.warn("Keine Tasks in den Listen gefunden. Dashboard wird zurückgesetzt.");
+        setDefaultDashboardValues();
+        return;
+    }
+
+    // Die restlichen Rendering-Funktionen aufrufen
     renderToDoTasks(tasksArray);
     renderDoneTasks(tasksArray);
-    renderInProgressTasks(tasksArray);
-    renderAwaitingFeedbackTasks(tasksArray);
     renderUrgentTasks(tasksArray);
     renderAllTasks(tasksArray);
+    renderInProgressTasks(tasksArray);
+    renderAwaitingFeedbackTasks(tasksArray);
 }
 
+
+
+
 function renderToDoTasks(tasksArray) {
-    const todoList = tasksArray.find(list => list.id === "todo");
-    const taskCount = todoList ? todoList.tasks.length : 0;
+    const toDoList = tasksArray.find((list) => list.id === "todo");
+    const taskCount = toDoList?.tasks ? toDoList.tasks.length : 0;
     document.getElementById("toDoTasks").textContent = taskCount;
 }
+
 
 function renderDoneTasks(tasksArray) {
     const doneList = tasksArray.find(list => list.id === "done");
@@ -129,8 +158,8 @@ function renderAllTasks(tasksArray) {
 }
 
 function getNextDueDate(tasksArray) {
-    if (!Array.isArray(tasksArray)) {
-        console.error("Ungültige Tasks-Daten in getNextDueDate:", tasksArray);
+    if (!Array.isArray(tasksArray) || tasksArray.length === 0) {
+        console.warn("Keine Tasks verfügbar. Standardwert wird angezeigt.");
         document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
         return;
     }
@@ -138,15 +167,17 @@ function getNextDueDate(tasksArray) {
     const today = new Date();
     let closestDate = null;
 
-    tasksArray.forEach(list => {
-        list.tasks.forEach(task => {
-            const taskDate = parseDateString(task.dueDate);
+    // Iteriere durch alle Listen und deren Tasks
+    tasksArray.forEach((list) => {
+        list.tasks.forEach((task) => {
+            const taskDate = parseDateString(task.dueDate); // Konvertiere dueDate in ein gültiges Date-Objekt
             if (taskDate && taskDate > today && (!closestDate || taskDate < closestDate)) {
-                closestDate = taskDate;
+                closestDate = taskDate; // Setze das nächste Datum
             }
         });
     });
 
+    // Ergebnis formatieren und anzeigen
     if (closestDate) {
         const formattedDate = closestDate.toLocaleDateString("de-DE", {
             day: "2-digit",
@@ -155,9 +186,11 @@ function getNextDueDate(tasksArray) {
         });
         document.getElementById("nextDueDate").innerHTML = formattedDate;
     } else {
-        document.getElementById("nextDueDate").innerHTML = "Kein zukünftiges Datum gefunden";
+        document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
     }
 }
+
+
 
 
 
@@ -179,6 +212,7 @@ function convertTasksToArray(tasksObject) {
             : [],
     }));
 }
+
 
 
 function setUserName(userName) {
