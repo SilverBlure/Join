@@ -41,17 +41,64 @@ function addSubtaskToList() {
 
 
 function removeSubtaskFromList(subtaskId) {
-    const subtaskElement = document.getElementById(subtaskId);
-    if (!subtaskElement) {
-        console.error(`Subtask-Element mit ID "${subtaskId}" nicht gefunden.`);
+    if (!subtaskId) {
+        console.error("Keine Subtask-ID übergeben.");
         return;
     }
-    subtaskElement.remove(); 
-    if (window.localSubtasks) {
-        delete window.localSubtasks[subtaskId]; 
+
+    // Subtask-Element im DOM suchen
+    const subtaskElement = document.getElementById(subtaskId);
+
+    if (subtaskElement) {
+        // Subtask-Element entfernen, wenn es existiert
+        subtaskElement.remove();
+        console.log(`Subtask-Element mit ID "${subtaskId}" aus der Liste entfernt.`);
+    } else {
+        console.warn(`Subtask-Element mit ID "${subtaskId}" nicht im DOM gefunden. Dies könnte bereits entfernt worden sein.`);
     }
-    console.log(`Subtask mit ID "${subtaskId}" entfernt.`);
+
+    // Subtask aus der lokalen Liste entfernen, falls vorhanden
+    if (window.localSubtasks && window.localSubtasks[subtaskId]) {
+        delete window.localSubtasks[subtaskId];
+        console.log(`Subtask mit ID "${subtaskId}" aus localSubtasks entfernt.`);
+    } else {
+        console.warn(`Subtask mit ID "${subtaskId}" nicht in localSubtasks gefunden.`);
+    }
+
+    // Liste im UI synchronisieren, nur wenn notwendig
+    syncLocalSubtasksInDOM(subtaskId);
 }
+
+
+
+
+
+function syncLocalSubtasksInDOM(subtaskId) {
+    const subTasksList = document.getElementById("subTasksList");
+    if (!subTasksList) {
+        console.error("subTasksList-Element nicht gefunden.");
+        return;
+    }
+
+    if (!window.localSubtasks || Object.keys(window.localSubtasks).length === 0) {
+        // Keine Subtasks mehr vorhanden, UI anpassen
+        subTasksList.innerHTML = `<p class="noSubtasksMessage">Keine Subtasks vorhanden.</p>`;
+        console.log("Alle Subtasks wurden entfernt.");
+        return;
+    }
+
+    // Prüfe, ob das gelöschte Subtask-Element entfernt wurde
+    const subtaskElement = document.getElementById(subtaskId);
+    if (subtaskElement) {
+        subtaskElement.remove(); // Nur das spezifische Element entfernen
+        console.log(`Subtask-Element mit ID "${subtaskId}" wurde aus dem DOM entfernt.`);
+    } else {
+        console.warn(`Subtask-Element mit ID "${subtaskId}" war bereits nicht im DOM.`);
+    }
+}
+
+
+
 
 
 
@@ -231,42 +278,79 @@ async function openTaskPopup(taskId, listId) {
     }
 }
 
+async function editSubtaskList(listId, taskId, subtaskId) {
+    try {
+        // Lösche den Subtask und warte, bis der Vorgang abgeschlossen ist
+        await deleteSubtask(listId, taskId, subtaskId);
+
+        // Rufe editTask nur auf, wenn der Subtask erfolgreich gelöscht wurde
+        await editTask(listId, taskId);
+
+        console.log(`Subtask ${subtaskId} erfolgreich gelöscht und Popup aktualisiert.`);
+    } catch (error) {
+        console.error("Fehler beim Bearbeiten der Subtask-Liste:", error);
+    }
+}
 
 
 async function deleteSubtask(listId, taskId, subtaskId) {
     if (!listId || !taskId || !subtaskId) {
-        console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
+        console.error("Ungültige Parameter für deleteSubtask:", { listId, taskId, subtaskId });
         return;
     }
+
     try {
+        // Task-Daten laden
         const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
         const response = await fetch(taskUrl);
         if (!response.ok) {
-            console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
+            console.error(`Fehler beim Laden des Tasks: ${response.status}`);
             return;
         }
+
         const task = await response.json();
         if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
-            console.error(`Subtask mit ID "${subtaskId}" nicht gefunden.`);
+            console.warn(`Subtask ${subtaskId} nicht gefunden.`);
             return;
         }
+
+        // Subtask löschen
         delete task.subtasks[subtaskId];
+
+        // Task mit aktualisierten Subtasks speichern
         const updateResponse = await fetch(taskUrl, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(task),
         });
+
         if (!updateResponse.ok) {
-            console.error(`Fehler beim Löschen des Subtasks: ${updateResponse.statusText}`);
+            console.error(`Fehler beim Speichern des Tasks: ${updateResponse.status}`);
             return;
         }
-        console.log(`Subtask "${subtaskId}" erfolgreich gelöscht.`);
-        await renderBoard();
-        await openTaskPopup(taskId, listId); 
+
+        console.log(`Subtask ${subtaskId} erfolgreich gelöscht.`);
+
+        // UI aktualisieren
+        const currentPopup = document.querySelector(".popupOverlay.visible");
+
+        if (currentPopup?.id === "viewTaskPopupOverlay") {
+            // Aktualisiere das View-Popup
+            await openTaskPopup(taskId, listId);
+        } else if (currentPopup?.id === "editTaskPopupOverlay") {
+            // Aktualisiere das Edit-Popup
+            await editTask(listId, taskId);
+        } else {
+            // Aktualisiere das Board
+            await renderBoard();
+        }
     } catch (error) {
         console.error("Fehler beim Löschen des Subtasks:", error);
     }
 }
+
+
+
 
 
 
@@ -467,7 +551,7 @@ async function editTask(listId, taskId) {
                         <img 
                             class="hoverBtn" 
                             src="../../assets/icons/png/iconoir_cancel.png" 
-                            onclick="deleteSubtask('${listId}', '${taskId}', '${subtaskId}')"
+                            onclick="editSubtaskList('${listId}', '${taskId}', '${subtaskId}')"
                             alt="Delete Subtask">
                     
                 </div>
@@ -504,9 +588,17 @@ async function editTask(listId, taskId) {
                         <input type="date" id="dueDate" value="${task.dueDate || ''}">
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
-                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn ${task.priority === 'Urgent' ? 'active' : ''}">Urgent</button>
-                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button" class="priorityBtn ${task.priority === 'Middle' ? 'active' : ''}">Middle</button>
-                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn ${task.priority === 'Low' ? 'active' : ''}">Low</button>
+                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
+                                class="priorityBtn">Urgent
+                                <img src="../../assets/icons/png/PrioritySymbolsUrgent.png">
+                            </button>
+                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
+                                class="priorityBtn">Medium
+                                <img src="../../assets/icons/png/PrioritySymbolsMiddle.png">
+                            </button>
+                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
+                                <img src="../../assets/icons/png/PrioritySymbolsLow.png">
+                            </button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <select id="category" required>
