@@ -15,9 +15,14 @@
     <link rel="stylesheet" href="./../style.css">
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
+    <script src="./../scripts/backend.js"></script>
+    <script src="../../scripts/boardDrag&Drop.js"></script>
+    <script src="../../scripts/board.js"></script>
+    <script src="../../scripts/boardBackend.js"></script>
+    <script src="../../scripts/contacts.js"></script>
 </head>
 
-<body onload="includeHTML(),renderBoard(), main()">
+<body onload="includeHTML(), main()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
 
     <div id="mainContent" class="content">
@@ -45,11 +50,8 @@
 
             <div class="taskList">
 
-                <div id="todoList" class="listBody" 
-                ondrop="handleDrop(event, 'todo')" 
-                ondragover="allowDrop(event)"
-                ondragenter="highlightList('todoList')" 
-                ondragleave="unhighlightList('todoList')">
+                <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)"
+                    ondragenter="highlightList('todoList')" ondragleave="unhighlightList('todoList')">
                     <div class="listHeadline">
                         <h4>To-do</h4>
                         <img onclick="openAddTaskPopup('todo')" class="addIcons"
@@ -58,11 +60,9 @@
                     <div class="taskContainer"></div>
                 </div>
 
-                <div id="inProgressList" class="listBody" 
-                ondrop="handleDrop(event, 'inProgress')" 
-                ondragover="allowDrop(event)" 
-                ondragenter="highlightList('inProgressList')" 
-                ondragleave="unhighlightList('inProgressList')">
+                <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')"
+                    ondragover="allowDrop(event)" ondragenter="highlightList('inProgressList')"
+                    ondragleave="unhighlightList('inProgressList')">
                     <div class="listHeadline">
 
                         <h4>in Progress</h4>
@@ -72,11 +72,9 @@
                     <div class="taskContainer"></div>
                 </div>
 
-                <div id="awaitFeedbackList" class="listBody" 
-                ondrop="handleDrop(event, 'awaitFeedback')" 
-                ondragover="allowDrop(event)" 
-                ondragenter="highlightList('awaitFeedbackList')" 
-                ondragleave="unhighlightList('awaitFeedbackList')">
+                <div id="awaitFeedbackList" class="listBody" ondrop="handleDrop(event, 'awaitFeedback')"
+                    ondragover="allowDrop(event)" ondragenter="highlightList('awaitFeedbackList')"
+                    ondragleave="unhighlightList('awaitFeedbackList')">
                     <div class="listHeadline">
                         <h4>Await feedback</h4>
                         <img onclick="openAddTaskPopup('awaitFeedback')" class="addIcons"
@@ -85,11 +83,8 @@
                     <div class="taskContainer"></div>
                 </div>
 
-                <div id="doneList" class="listBody" 
-                ondrop="handleDrop(event, 'done')" 
-                ondragover="allowDrop(event)" 
-                ondragenter="highlightList('doneList')" 
-                ondragleave="unhighlightList('doneList')">
+                <div id="doneList" class="listBody" ondrop="handleDrop(event, 'done')" ondragover="allowDrop(event)"
+                    ondragenter="highlightList('doneList')" ondragleave="unhighlightList('doneList')">
                     <div class="listHeadline">
                         <h4>Done</h4>
                     </div>
@@ -119,7 +114,7 @@
                 <img class="icons close" onclick="closeAddTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
             </div>
 
-            <form id="addTaskFormTask" onsubmit="addTaskToList(event)">
+            <form id="addTaskFormTask">
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
@@ -130,7 +125,8 @@
                             placeholder="Enter a Description"></textarea>
 
                         <label for="contactSelection">Assigned to</label>
-                        <input name="contactSelection" id="contactSelection" placeholder="Enter contacts" tabindex="0">
+                        <select onclick="renderContactsDropdown()" name="contactSelection" id="contactSelection"
+                            placeholder="Enter contacts"></select>
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
@@ -161,11 +157,10 @@
 
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
-                                type="text">
-                            <ul id="subTasksList"></ul>
+                            <input id="newSubtaskInput" name="subTaskInput" class="addSubTaskInput"
+                                placeholder="Add new subtask" type="text"  onkeydown="handleSubtaskKey(event)">
                             <div class="divider"></div>
-                            <img onclick="addNewSubtask()" class="addSubtaskButton"
+                            <img onclick="addNewSubtask('listId', 'taskId')" class="addSubtaskButton"
                                 src="../assets/icons/png/addSubtasks.png">
                         </div>
                         <ul id="subTasksList"></ul>
@@ -183,18 +178,7 @@
                     </div>
                 </div>
             </form>
-
-
-
-
-
-
-
         </div>
     </div>
-    <script src="../../scripts/board.js"></script>
-    <script src="../../scripts/boardBackend.js"></script>
-
 </body>
-
 </html>

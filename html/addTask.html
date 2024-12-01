@@ -14,8 +14,11 @@
     <link rel="stylesheet" href="./../style.css">
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
+    <script src="../../scripts/addTask.js"></script>
+    <script src="../../scripts/contacts.js"></script>
+    <script src="../../scripts/backend.js"></script>
 </head>
-<body onload="includeHTML(), main()">
+<body onload="includeHTML(); main()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
     <div class="content">
         <div class="header" w3-include-html="../../templates/header.html"></div>
@@ -30,7 +33,7 @@
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
                         <label for="contactSelection">Assigned to</label>
-                        <input name="contactSelection" id="contactSelection" placeholder="Enter contacts" tabindex="0">
+                        <select onclick="renderContactsDropdown()" name="contactSelection" id="contactSelection" placeholder="Enter contacts"></select>
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
@@ -58,9 +61,8 @@
                         </select>
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input id="subtasksInput" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
-                                type="text">
-                            <ul id="subTasksList"></ul>
+                            <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
+                                type="text" onkeydown="handleSubtaskKey(event)">
                             <div class="divider"></div>
                             <img onclick="addNewSubtask()" class="addSubtaskButton"
                                 src="../assets/icons/png/addSubtasks.png">
@@ -82,6 +84,6 @@
             </form>
         </div>
     </div>
-    <script src="../../scripts/addTask.js"></script>
+
 </body>
 </html>

@@ -1,4 +1,3 @@
-
 let ID;
 let contactsArray = [];
 
@@ -33,7 +32,7 @@ function renderContactDetails(i) {
     let [vorname, nachname] = contactsArray[i].name.split(" ");
     let initialien = vorname[0] + nachname[0];
     document.getElementById('ContactDetailed').innerHTML = "";
-    document.getElementById('ContactDetailed').innerHTML +=
+    document.getElementById('ContactDetailed').innerHTML =
         contactDetailsTemps(i, initialien);
 }
 
@@ -74,7 +73,8 @@ async function createContact() {
     console.log(name, email, phone, ID);
     pushData(name, email, phone);
     closeAddContact();
-    getContacts();
+    await getContacts();
+    renderContacts()
 }
 
 async function pushData(name, email, phone) {
@@ -96,7 +96,7 @@ async function pushData(name, email, phone) {
     return responseAsJson = response.json();
 }
 
-async function putContact(contactId, name, email, phone) {
+async function putContact(contactId, name, email, phone, i) {
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "PUT",
         headers: {
@@ -114,16 +114,17 @@ async function putContact(contactId, name, email, phone) {
     closeAddContact();
     getContacts();
     showSnackbar('Der Kontakt wurde erfolgreich geändert!');
+    renderContactDetails(i)
+
     return responseAsJson = response.json();
 }
 
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
-
 }
 
 async function getContacts() {
-    
+    contactsArray = []
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
     if(data){
@@ -150,11 +151,13 @@ async function getContacts() {
 }
 
 
+
 async function deleteContactDatabase(i) {
     contactId = contactsArray[i].id;
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "DELETE",
     })
+    document.getElementById('ContactDetailed').innerHTML = "";
     getContacts();
     closeAddContact();
     showSnackbar('Der Kontakt wurde erfolgreich gelöscht!');
@@ -179,7 +182,7 @@ function deleteContact(i){
     document.getElementById('dialogInfo').innerHTML ="Delete contact";
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
-
+     
 }
 
 
@@ -197,6 +200,7 @@ function getFromEdit(i) {
     let phone = document.getElementById('phone').value;
     let email= document.getElementById('email').value;
     let contactId = contactsArray[i].id;
+
     putContact(contactId, name, email, phone)
 }
 
@@ -215,3 +219,18 @@ function getColorHex(vorname, nachname){
     let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     return hexColor;
 }
+
+    putContact(contactId, name, email, phone, i)
+}
+
+
+function checkInput(){
+    let fullname = document.getElementById('name').value;
+
+  if (fullname.split(" ").length < 2) {
+    alert("please insert first and lastname")
+  } else {
+    createContact();
+  }
+}
+
