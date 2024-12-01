@@ -51,38 +51,29 @@ function logOut() {
 
 async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
   console.log("toggleSubtaskStatus aufgerufen mit:", { listId, taskId, subtaskId, isChecked });
-
   if (!listId || !taskId || !subtaskId) {
       console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
       return;
   }
-
   try {
-      // 1. Task von Firebase abrufen
       const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
       const response = await fetch(taskUrl);
-
       if (!response.ok) {
           console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
           return;
       }
-
       const task = await response.json();
       if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
           console.error(`Subtask mit ID '${subtaskId}' nicht gefunden (Task ID: ${taskId}, Liste: ${listId}).`);
           return;
       }
-
-      // 2. Subtask-Status aktualisieren
-      const subtask = task.subtasks[subtaskId]; // Direkt den Subtask über die ID holen
+      const subtask = task.subtasks[subtaskId]; 
       if (isChecked) {
-          subtask.done = true; // Markiere als erledigt
-          delete subtask.todo; // Entferne das `todo`-Feld
+          subtask.done = true; 
+          delete subtask.todo; 
       } else {
-          subtask.done = false; // Setze zurück auf unerledigt
+          subtask.done = false;
       }
-
-      // 3. Aktualisierten Task in Firebase speichern
       const updateResponse = await fetch(taskUrl, {
           method: "PUT",
           headers: {
@@ -90,24 +81,17 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
           },
           body: JSON.stringify(task),
       });
-
       if (!updateResponse.ok) {
           console.error(`Fehler beim Aktualisieren des Subtasks: ${updateResponse.statusText}`);
           return;
       }
-
       console.log("Subtask erfolgreich aktualisiert:", subtask);
-
-      // 4. Darstellung aktualisieren
-      await renderBoard(); // Board neu rendern
-      await openTaskPopup(taskId, listId); // Popup aktualisieren
+      await renderBoard(); 
+      await openTaskPopup(taskId, listId); 
   } catch (error) {
       console.error("Fehler beim Umschalten des Subtask-Status:", error);
   }
 }
-
-
-
 
 
 

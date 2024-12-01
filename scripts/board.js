@@ -2,29 +2,26 @@ let taskIdCounter = 1;
 let currentListId = null; 
 let tempPriority = null;
 
+
+
 function addSubtaskToList() {
     const subTaskInput = document.getElementById("newSubtaskInput");
     const subTasksList = document.getElementById("subTasksList");
-
     if (!subTaskInput || !subTasksList) {
         console.error("Subtask-Input oder -Liste nicht gefunden.");
         return;
     }
-
     const subtaskTitle = subTaskInput.value.trim();
     if (!subtaskTitle) {
         console.error("Subtask-Titel darf nicht leer sein.");
         return;
     }
-
-    const subtaskId = `subtask_${Date.now()}`; // Generiere eine eindeutige ID
+    const subtaskId = `subtask_${Date.now()}`; 
     const subtaskItem = {
         id: subtaskId,
         title: subtaskTitle,
         done: false,
     };
-
-    // Subtask im DOM hinzufügen
     const subtaskElement = document.createElement("li");
     subtaskElement.id = subtaskId;
     subtaskElement.innerHTML = `
@@ -33,16 +30,11 @@ function addSubtaskToList() {
         <button onclick="removeSubtaskFromList('${subtaskId}')">Löschen</button>
     `;
     subTasksList.appendChild(subtaskElement);
-
-    // Input-Feld zurücksetzen
     subTaskInput.value = "";
-
-    // Temporär speichern
     if (!window.localSubtasks) {
         window.localSubtasks = {};
     }
     window.localSubtasks[subtaskId] = subtaskItem;
-
     console.log(`Subtask "${subtaskTitle}" hinzugefügt.`);
 }
 
@@ -54,15 +46,13 @@ function removeSubtaskFromList(subtaskId) {
         console.error(`Subtask-Element mit ID "${subtaskId}" nicht gefunden.`);
         return;
     }
-
-    subtaskElement.remove(); // Entferne aus dem DOM
-
+    subtaskElement.remove(); 
     if (window.localSubtasks) {
-        delete window.localSubtasks[subtaskId]; // Entferne aus der temporären Liste
+        delete window.localSubtasks[subtaskId]; 
     }
-
     console.log(`Subtask mit ID "${subtaskId}" entfernt.`);
 }
+
 
 
 function getLocalSubtasks() {
@@ -70,8 +60,7 @@ function getLocalSubtasks() {
         console.warn("Keine Subtasks in der lokalen Liste gefunden.");
         return {};
     }
-
-    return { ...window.localSubtasks }; // Rückgabe der Subtasks als Objekt
+    return { ...window.localSubtasks }; 
 }
 
 
@@ -150,12 +139,12 @@ function renderBoard() {
 }
 
 
+
 async function openTaskPopup(taskId, listId) {
     if (!listId || !taskId) {
         console.error(`Ungültige Liste oder Task-ID:`, { listId, taskId });
         return;
     }
-
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
     try {
         const response = await fetch(url);
@@ -163,25 +152,19 @@ async function openTaskPopup(taskId, listId) {
             console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
             return;
         }
-
         const task = await response.json();
         if (!task) {
             console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
             return;
         }
-
         const popupOverlay = document.getElementById("viewTaskPopupOverlay");
         const popupContainer = document.getElementById("viewTaskContainer");
-
         if (!popupOverlay || !popupContainer) {
             console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
             return;
         }
-
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-
-        // Arbeiter-HTML generieren
         const workersHTML = task.workers
             ? task.workers.map(worker => `
                 <div class="workerInformation">
@@ -192,8 +175,6 @@ async function openTaskPopup(taskId, listId) {
                 </div>
             `).join('')
             : '<p>Keine zugewiesenen Arbeiter.</p>';
-
-        // Subtasks-HTML generieren
         const subtasksHTML = task.subtasks
             ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => `
                 <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
@@ -224,8 +205,6 @@ async function openTaskPopup(taskId, listId) {
                 </div>
             `).join('')
             : '<p>Keine Subtasks vorhanden.</p>';
-
-        // Setze den Popup-Inhalt
         popupContainer.innerHTML = `
             <div class="popupHeader">
                 <p class="${task.category?.class || 'defaultCategory'} taskCategory">
@@ -254,53 +233,40 @@ async function openTaskPopup(taskId, listId) {
 
 
 
-
 async function deleteSubtask(listId, taskId, subtaskId) {
     if (!listId || !taskId || !subtaskId) {
         console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
         return;
     }
-
     try {
         const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-
-        // Abrufen des Tasks
         const response = await fetch(taskUrl);
         if (!response.ok) {
             console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
             return;
         }
-
         const task = await response.json();
         if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
             console.error(`Subtask mit ID "${subtaskId}" nicht gefunden.`);
             return;
         }
-
-        // Entferne den Subtask
         delete task.subtasks[subtaskId];
-
-        // Aktualisiere den Task in Firebase
         const updateResponse = await fetch(taskUrl, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(task),
         });
-
         if (!updateResponse.ok) {
             console.error(`Fehler beim Löschen des Subtasks: ${updateResponse.statusText}`);
             return;
         }
-
         console.log(`Subtask "${subtaskId}" erfolgreich gelöscht.`);
         await renderBoard();
-        await openTaskPopup(taskId, listId); // Aktualisiere das Popup
+        await openTaskPopup(taskId, listId); 
     } catch (error) {
         console.error("Fehler beim Löschen des Subtasks:", error);
     }
 }
-
-
 
 
 
@@ -460,7 +426,6 @@ async function editTask(listId, taskId) {
         console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
         return;
     }
-
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
     try {
         const response = await fetch(url);
@@ -468,33 +433,23 @@ async function editTask(listId, taskId) {
             console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
             return;
         }
-
         const task = await response.json();
         if (!task) {
             console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
             return;
         }
-
         const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
         const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
-
         if (!editTaskPopupOverlay || !editTaskPopupContainer) {
             console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
             return;
         }
-
-        // Synchronisiere Subtasks mit localEditedSubtasks
         window.localEditedSubtasks = task.subtasks ? { ...task.subtasks } : {};
-
         console.log("Subtasks wurden in localEditedSubtasks synchronisiert:", window.localEditedSubtasks);
-
-        // Setze Task-Informationen in das Popup
         editTaskPopupOverlay.setAttribute("data-task-id", taskId);
         editTaskPopupOverlay.setAttribute("data-list-id", listId);
         editTaskPopupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-
-        // Generiere Subtasks-HTML mit IDs für <p>
         const subtasksHTML = task.subtasks
             ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => `
                 <div class="subtask-item" id="subtask-${taskId}-${subtaskId}">
@@ -518,8 +473,6 @@ async function editTask(listId, taskId) {
                 </div>
             `).join("")
             : '<p>Keine Subtasks vorhanden.</p>';
-
-        // Subtask-Input für neue Subtasks
         const addSubtaskHTML = `
             <div class="createSubtaskBar">
                 <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
@@ -530,8 +483,6 @@ async function editTask(listId, taskId) {
                     src="../assets/icons/png/addSubtasks.png">
             </div>
         `;
-
-        // Setze den Inhalt des Edit-Popups
         editTaskPopupContainer.innerHTML = `
             <div class="popupHeader">
                 <h1>Edit Task</h1>
@@ -579,18 +530,12 @@ async function editTask(listId, taskId) {
 
 
 
-
-
-
 async function saveTaskChanges(listId, taskId) {
     if (!listId || !taskId) {
         console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
         return;
     }
-
-    // Synchronisiere die Subtasks aus dem DOM
     syncSubtasksFromDOM(taskId);
-
     const updatedTask = {
         title: document.getElementById("title").value.trim(),
         description: document.getElementById("description").value.trim(),
@@ -603,11 +548,9 @@ async function saveTaskChanges(listId, taskId) {
         workers: document.getElementById("contactSelection").textContent
             .split(",")
             .map(name => ({ name: name.trim(), class: `worker-${name.trim().toLowerCase()}` })),
-        subtasks: window.localEditedSubtasks, // Aktualisierte Subtasks
+        subtasks: window.localEditedSubtasks, 
     };
-
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-
     try {
         const response = await fetch(url, {
             method: "PUT",
@@ -616,20 +559,20 @@ async function saveTaskChanges(listId, taskId) {
             },
             body: JSON.stringify(updatedTask),
         });
-
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`Fehler beim Speichern der Änderungen: ${response.status}`, errorText);
             return;
         }
-
         console.log(`Task "${taskId}" erfolgreich aktualisiert.`);
-        closeEditTaskPopup(); // Popup schließen
-        renderBoard(); // Board aktualisieren
+        closeEditTaskPopup(); 
+        renderBoard(); 
     } catch (error) {
         console.error("Fehler beim Speichern der Änderungen:", error);
     }
 }
+
+
 
 function syncSubtasksFromDOM(taskId) {
     const subTasksList = document.getElementById("subTasksList");
@@ -637,33 +580,30 @@ function syncSubtasksFromDOM(taskId) {
         console.error("Subtasks-Liste nicht gefunden.");
         return;
     }
-
     const updatedSubtasks = {};
-
     subTasksList.querySelectorAll(".subtask-item").forEach(subtaskElement => {
         const subtaskId = subtaskElement.id.replace(`subtask-${taskId}-`, "").trim(); // Extrahiere Subtask-ID
         const subtaskTextElement = subtaskElement.querySelector(".subtaskText");
         const checkbox = subtaskElement.querySelector(".subtasksCheckbox");
-
         if (!subtaskTextElement) {
             console.warn(`Subtask-Text für ${subtaskId} fehlt.`);
             return;
         }
-
         updatedSubtasks[subtaskId] = {
             title: subtaskTextElement.textContent.trim(),
             done: checkbox ? checkbox.checked : false,
         };
     });
-
-    window.localEditedSubtasks = updatedSubtasks; // Lokale Subtasks aktualisieren
+    window.localEditedSubtasks = updatedSubtasks; 
     console.log("Subtasks aus DOM synchronisiert:", updatedSubtasks);
 }
 
+
+
 function handleSubtaskKey(event) {
     if (event.key === "Enter") {
-        event.preventDefault(); // Verhindert das Absenden des Formulars
-        addNewSubtask(); // Fügt den Subtask hinzu
+        event.preventDefault(); 
+        addNewSubtask(); 
     }
 }
 
@@ -672,32 +612,24 @@ function handleSubtaskKey(event) {
 function addNewSubtask(listId, taskId) {
     const subTaskInput = document.getElementById("newSubtaskInput");
     const subTasksList = document.getElementById("subTasksList");
-
     if (!subTaskInput || !subTasksList) {
         console.error("Subtask-Input oder Subtasks-Liste nicht gefunden.");
         return;
     }
-
     const subtaskTitle = subTaskInput.value.trim();
     if (!subtaskTitle) {
         console.warn("Subtask-Titel ist leer.");
         return;
     }
-
     if (!window.localSubtasks) {
         window.localSubtasks = {};
     }
-
     const subtaskId = `subtask_${Date.now()}`;
     const subtaskItem = {
         title: subtaskTitle,
         done: false,
     };
-
-    // Speichere den Subtask lokal
     window.localSubtasks[subtaskId] = subtaskItem;
-
-    // Aktualisiere das DOM
     const subtaskHTML = `
         <div class="subtask-item" id="subtask-${taskId}-${subtaskId}">
             <input 
@@ -718,12 +650,9 @@ function addNewSubtask(listId, taskId) {
         </div>
     `;
     subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
-
-    subTaskInput.value = ""; // Input-Feld zurücksetzen
+    subTaskInput.value = ""; 
     console.log(`Subtask "${subtaskTitle}" hinzugefügt.`);
 }
-
-
 
 
 
@@ -771,13 +700,10 @@ function closeAddTaskPopup() {
 async function addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasks) {
     try {
         const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
-
-        // Prüfen, ob Subtasks ein gültiges Objekt sind
         if (typeof subtasks !== "object" || Array.isArray(subtasks)) {
             console.error("Subtasks müssen ein Objekt sein:", subtasks);
             return null;
         }
-
         const newTask = {
             title,
             description,
@@ -787,25 +713,21 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
                 ? workers.split(",").map(w => ({ name: w.trim(), class: `worker-${w.trim().toLowerCase()}` }))
                 : [],
             category: { name: category, class: `category${category.replace(" ", "")}` },
-            subtasks, // Subtasks einfügen
+            subtasks, 
         };
-
         console.log("Task-Daten, die gespeichert werden:", newTask);
-
         const postResponse = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newTask), // Task-Daten an Firebase senden
+            body: JSON.stringify(newTask), 
         });
-
         if (!postResponse.ok) {
             const errorText = await postResponse.text();
             console.error(`Fehler beim Hinzufügen des Tasks: ${postResponse.status}`, errorText);
             return null;
         }
-
         const responseData = await postResponse.json();
         console.log(`Task erfolgreich zu Liste '${listId}' hinzugefügt:`, responseData);
         return responseData;
@@ -817,32 +739,25 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
 
 
 
-
-
 async function addTaskToSpecificList(listId, event) {
     event.preventDefault();
-
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
     const dueDate = document.getElementById("date").value;
     const priority = tempPriority;
     const workers = document.getElementById("contactSelection").value;
     const category = document.getElementById("category").value;
-
     if (!priority || !listId) {
         console.warn("Fehlende Pflichtfelder oder keine Liste angegeben.");
         return;
     }
-
-    const subtasks = window.localSubtasks || {}; // Subtasks aus der lokalen Liste
+    const subtasks = window.localSubtasks || {}; 
     console.log("Subtasks, die gespeichert werden sollen:", subtasks);
-
     try {
         const result = await addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasks);
-
         if (result) {
             console.log(`Task erfolgreich in Liste "${listId}" hinzugefügt.`);
-            window.localSubtasks = {}; // Lokale Subtasks leeren
+            window.localSubtasks = {}; 
             document.getElementById("addTaskFormTask").reset();
             tempPriority = null;
             closeAddTaskPopup();
@@ -854,9 +769,6 @@ async function addTaskToSpecificList(listId, event) {
         console.error(`Fehler beim Speichern des Tasks in Liste "${listId}":`, error);
     }
 }
-
-
-
 
 
 
