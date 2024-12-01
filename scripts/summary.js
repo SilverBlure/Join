@@ -1,3 +1,23 @@
+let tasks = [];
+
+
+async function initSummary() {
+    try {
+        const tasksArray = await fetchAndPrepareTasks();
+        if (tasksArray) {
+            renderDashboard(tasksArray);
+            getNextDueDate(tasksArray);
+        } else {
+            console.error("Tasks konnten nicht geladen werden.");
+        }
+    } catch (error) {
+        console.error("Fehler beim Initialisieren:", error);
+    }
+}
+
+
+
+
 async function fetchAndPrepareTasks() {
     try {
         const sessionKey = localStorage.getItem('sessionKey');
@@ -34,53 +54,6 @@ async function fetchAndPrepareTasks() {
 
 
 
-
-async function getUserData() {
-    try {
-        const sessionKey = localStorage.getItem('sessionKey');
-        if (!sessionKey) {
-            console.error("Session Key fehlt.");
-            return null;
-        }
-
-        const response = await fetch(`${BASE_URL}data/user/${sessionKey}.json`);
-        if (!response.ok) {
-            throw new Error(`Fehler beim Abrufen der Benutzerdaten: ${response.status}`);
-        }
-
-        const userData = await response.json();
-        console.log("Benutzerdaten erfolgreich geladen:", userData);
-        return userData;
-    } catch (error) {
-        console.error(error.message);
-        return null;
-    }
-}
-
-async function init() {
-    try {
-        const userData = await getUserData();
-        if (userData && userData.user) {
-            currentUser = userData.user;
-
-            const tasksObject = userData.user.tasks;
-            const tasksArray = convertTasksToArray(tasksObject);
-
-            console.log("Tasks als Array:", tasksArray);
-
-            renderDashboard(tasksArray); // Dashboard rendern
-            getNextDueDate(tasksArray); // Fälligkeitsdatum berechnen
-        } else {
-            console.error("Benutzerdaten oder Tasks sind nicht verfügbar:", userData);
-        }
-    } catch (error) {
-        console.error("Fehler beim Initialisieren:", error);
-    }
-}
-
-
-
-
 function parseDateString(dateString) {
     if (!dateString) return null;
 
@@ -97,60 +70,67 @@ function parseDateString(dateString) {
 
 
 
-
-
-function renderDashboard(tasks) {
-    if (!Array.isArray(tasks)) {
-        console.error("Tasks ist kein gültiges Array:", tasks);
+async function renderDashboard(tasksArray) {
+    if (!Array.isArray(tasksArray)) {
+        console.error("Tasks ist kein gültiges Array:", tasksArray);
         return;
     }
 
-    // Die restlichen Rendering-Funktionen
-    renderToDoTasks(tasks);
-    renderDoneTasks(tasks);
-    renderUrgentTasks(tasks);
-    renderAllTasks(tasks);
-    renderInProgressTasks(tasks);
-    renderAwaitingFeedbackTasks(tasks);
+    // Die Rendering-Funktionen aufrufen
+    renderToDoTasks(tasksArray);
+    renderDoneTasks(tasksArray);
+    renderInProgressTasks(tasksArray);
+    renderAwaitingFeedbackTasks(tasksArray);
+    renderUrgentTasks(tasksArray);
+    renderAllTasks(tasksArray);
 }
 
-
-
-function renderToDoTasks(tasks) {
-    const toDoTasks = tasks.find(list => list.id === 'todo').tasks.length;
-    document.getElementById('toDoTasks').textContent = toDoTasks;
+function renderToDoTasks(tasksArray) {
+    const todoList = tasksArray.find(list => list.id === "todo");
+    const taskCount = todoList ? todoList.tasks.length : 0;
+    document.getElementById("toDoTasks").textContent = taskCount;
 }
 
-function renderDoneTasks(tasks) {
-    const doneTasks = tasks.find(list => list.id === 'done').tasks.length;
-    document.getElementById('doneTasks').textContent = doneTasks;
+function renderDoneTasks(tasksArray) {
+    const doneList = tasksArray.find(list => list.id === "done");
+    const taskCount = doneList ? doneList.tasks.length : 0;
+    document.getElementById("doneTasks").textContent = taskCount;
 }
 
-function renderUrgentTasks(tasks) {
-    const urgentTasks = tasks.reduce((count, list) =>
-        count + list.tasks.filter(task => task.priority === 'Urgent').length, 0);
-    document.getElementById('urgentTasks').textContent = urgentTasks;
+function renderInProgressTasks(tasksArray) {
+    const inProgressList = tasksArray.find(list => list.id === "inProgress");
+    const taskCount = inProgressList ? inProgressList.tasks.length : 0;
+    document.getElementById("inProgressTasks").textContent = taskCount;
 }
 
-function renderAllTasks(tasks) {
-    const allTasks = tasks.reduce((count, list) => count + list.tasks.length, 0);
-    document.getElementById('allTasks').textContent = allTasks;
+function renderAwaitingFeedbackTasks(tasksArray) {
+    const awaitFeedbackList = tasksArray.find(list => list.id === "awaitFeedback");
+    const taskCount = awaitFeedbackList ? awaitFeedbackList.tasks.length : 0;
+    document.getElementById("awaitFeddbackTasks").textContent = taskCount;
 }
 
-function renderInProgressTasks(tasks) {
-    const inProgressTasks = tasks.find(list => list.id === 'inProgress').tasks.length;
-    document.getElementById('inProgressTasks').textContent = inProgressTasks;
+function renderUrgentTasks(tasksArray) {
+    const urgentCount = tasksArray.reduce((total, list) => {
+        return (
+            total +
+            list.tasks.filter(task => task.priority === "Urgent").length
+        );
+    }, 0);
+
+    document.getElementById("urgentTasks").textContent = urgentCount;
 }
 
-function renderAwaitingFeedbackTasks(tasks) {
-    const awaitingFeedbackTasks = tasks.find(list => list.id === 'awaitFeedback').tasks.length;
-    document.getElementById('awaitFeddbackTasks').textContent = awaitingFeedbackTasks;
+function renderAllTasks(tasksArray) {
+    const totalCount = tasksArray.reduce((total, list) => {
+        return total + list.tasks.length;
+    }, 0);
+
+    document.getElementById("allTasks").textContent = totalCount;
 }
 
-
-function getNextDueDate(tasks) {
-    if (!Array.isArray(tasks)) {
-        console.error("Ungültige Tasks-Daten in getNextDueDate:", tasks);
+function getNextDueDate(tasksArray) {
+    if (!Array.isArray(tasksArray)) {
+        console.error("Ungültige Tasks-Daten in getNextDueDate:", tasksArray);
         document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
         return;
     }
@@ -158,8 +138,8 @@ function getNextDueDate(tasks) {
     const today = new Date();
     let closestDate = null;
 
-    tasks.forEach((list) => {
-        list.tasks.forEach((task) => {
+    tasksArray.forEach(list => {
+        list.tasks.forEach(task => {
             const taskDate = parseDateString(task.dueDate);
             if (taskDate && taskDate > today && (!closestDate || taskDate < closestDate)) {
                 closestDate = taskDate;
@@ -178,6 +158,7 @@ function getNextDueDate(tasks) {
         document.getElementById("nextDueDate").innerHTML = "Kein zukünftiges Datum gefunden";
     }
 }
+
 
 
 
@@ -200,6 +181,15 @@ function convertTasksToArray(tasksObject) {
 }
 
 
+function setUserName(userName) {
+    const userElement = document.getElementById('user');
+
+    if (userName) {
+        userElement.textContent = userName; // Name des Benutzers anzeigen
+    } else {
+        userElement.textContent = ""; // Keine Anzeige, wenn kein Name gefunden wird
+    }
+}
 
 
 
@@ -220,13 +210,37 @@ function setGreeting() {
 
 //----------------------------------------------------------------------------------------
 
-async function init(){
+async function init() {
     getUserData();
 }
 
-async function getUserData(){
-    let sessionKey = localStorage.getItem('sessionKey')
-    let response = await fetch(BASE_URL + 'data/user/' + sessionKey + '.json');
-    let responseAsJson = await response.json();
-    console.log(responseAsJson);
+
+async function getUserData() {
+    try {
+        const sessionKey = localStorage.getItem('sessionKey');
+        if (!sessionKey) {
+            console.error("Session Key fehlt.");
+            return null;
+        }
+
+        const response = await fetch(`${BASE_URL}data/user/${sessionKey}.json`);
+        if (!response.ok) {
+            throw new Error(`Fehler beim Abrufen der Benutzerdaten: ${response.status}`);
+        }
+
+        const userData = await response.json();
+        console.log("Benutzerdaten erfolgreich geladen:", userData);
+
+        // Benutzername anzeigen
+        setUserName(userData?.user?.userData?.name);
+
+        return userData;
+    } catch (error) {
+        console.error(error.message);
+
+        // Setze leeren Benutzernamen, wenn ein Fehler auftritt
+        setUserName(null);
+
+        return null;
+    }
 }
