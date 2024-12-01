@@ -660,6 +660,12 @@ function syncSubtasksFromDOM(taskId) {
     console.log("Subtasks aus DOM synchronisiert:", updatedSubtasks);
 }
 
+function handleSubtaskKey(event) {
+    if (event.key === "Enter") {
+        event.preventDefault(); // Verhindert das Absenden des Formulars
+        addNewSubtask(); // Fügt den Subtask hinzu
+    }
+}
 
 
 

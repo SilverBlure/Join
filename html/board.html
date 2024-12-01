@@ -158,7 +158,7 @@
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
                             <input id="newSubtaskInput" name="subTaskInput" class="addSubTaskInput"
-                                placeholder="Add new subtask" type="text">
+                                placeholder="Add new subtask" type="text"  onkeydown="handleSubtaskKey(event)">
                             <div class="divider"></div>
                             <img onclick="addNewSubtask('listId', 'taskId')" class="addSubtaskButton"
                                 src="../assets/icons/png/addSubtasks.png">
