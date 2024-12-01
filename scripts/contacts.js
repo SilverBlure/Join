@@ -117,7 +117,6 @@ async function putContact(contactId, name, email, phone) {
 
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
-    // document.getElementById("contactForm").reset();
 
 }
 

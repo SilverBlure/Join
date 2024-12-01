@@ -22,7 +22,10 @@ function signIn() {
     if(emailCheck(email) && passwordCheck(password_1, password_2)){
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
-    info('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
+    showSnackbar('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst gleich auf die LoginSeite weitergeleietet!');
+    setTimeout(() => {
+        location.href="./login.html";
+    }, 3000);
     }
 }
 
@@ -67,7 +70,6 @@ async function createNewMailEntry(email){
 
 //login section
 let loginArray = [];
-
 let sessionId;
 
 async function initLog(){
@@ -110,14 +112,14 @@ function login(){
         localStorage.setItem('email', emailInput);
         localStorage.setItem('pw', pwInput);
         localStorage.setItem('sessionKey', check.id);
-        alert('Login Local gesaved!')
+        showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert')
         location.href ='./summary.html';
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
-        alert('Du wirst weitergeleitet deine anmelde daten werden nicht local gespeichert!')
+        showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
         location.href ='./summary.html';
     }else{
-        alert('deine anmeldedaten sind falsch!')
+        showSnackbar('Überprüfe deine Anmeldedaten!')
     }
 }
 
@@ -133,14 +135,13 @@ function checkLogin(emailInput, pwInput){
 }
 
 
-function info(message){
-    document.getElementById('textDialogfeld').classList.toggle('none');
-document.getElementById('info').innerHTML =`<h4>Hallo</h4>`;
-
-setTimeout(() => {
-    document.getElementById('textDialogfeld').classList.toggle('none'); 
-}, 4);
-//location.href ='./login.html'
+function showSnackbar(message){
+    let snackbar= document.getElementById('snackbar');
+    snackbar.textContent = message;
+    snackbar.classList.remove('hidden');
+    snackbar.classList.add('visible');
+    setTimeout(() => {
+        snackbar.classList.remove('visible');
+        snackbar.classList.add('hidden');
+    }, 3000);
 }
-
-

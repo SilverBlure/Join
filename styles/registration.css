@@ -60,38 +60,32 @@
 }
 
 
-.textDialogfeld{
-    height: 120px;
-    width: 240px;
-    background-color: white ;
-    border: solid 4px;
-    color: #2A3647;
-    border-color: #29ABE2;
-    border-radius: 15px;
-    z-index: 100;
-    position: absolute;
-    right: 64px;
-    animation-name: passout;
-    animation-duration: 6s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@keyframes passout {
-    0%{
-        top: -150px;
-    }
-    50%{
-        top: 20px;
-        
-    }
-    100%{
-        top: -150px;
-    }
-    
-}
-
-.none{
-    display: none;
-}
+/* Snackbar-Stil */
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: visibility 0s, opacity 0.5s ease-in-out;
+    opacity: 0;
+  }
+  
+  #snackbar.visible {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  #snackbar.hidden {
+    opacity: 0;
+  }
+  
