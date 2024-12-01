@@ -92,6 +92,7 @@ async function pushData(name, email, phone) {
         })
     }
     )
+    showSnackbar('Der Kontakt wurde erfolgreich erstellt!');
     return responseAsJson = response.json();
 }
 
@@ -111,15 +112,15 @@ async function putContact(contactId, name, email, phone, i) {
     }
     )
     closeAddContact();
-    await getContacts();
+    getContacts();
+    showSnackbar('Der Kontakt wurde erfolgreich geändert!');
     renderContactDetails(i)
+
     return responseAsJson = response.json();
 }
 
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
-   
-
 }
 
 async function getContacts() {
@@ -159,6 +160,7 @@ async function deleteContactDatabase(i) {
     document.getElementById('ContactDetailed').innerHTML = "";
     getContacts();
     closeAddContact();
+    showSnackbar('Der Kontakt wurde erfolgreich gelöscht!');
 }
 
 
@@ -198,6 +200,26 @@ function getFromEdit(i) {
     let phone = document.getElementById('phone').value;
     let email= document.getElementById('email').value;
     let contactId = contactsArray[i].id;
+
+    putContact(contactId, name, email, phone)
+}
+
+function getColorHex(vorname, nachname){
+    let completeName = (vorname+nachname).toLowerCase();
+    let hash = 0;
+
+    for( let i = 0; i< completeName.length; i++){
+        hash += completeName.charCodeAt(i);
+    }
+
+    let r = (hash * 123) % 256;
+    let g = (hash * 456) % 256;
+    let b = (hash * 789) % 256;
+
+    let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return hexColor;
+}
+
     putContact(contactId, name, email, phone, i)
 }
 
@@ -211,3 +233,4 @@ function checkInput(){
     createContact();
   }
 }
+
