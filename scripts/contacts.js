@@ -92,6 +92,7 @@ async function pushData(name, email, phone) {
         })
     }
     )
+    showSnackbar('Der Kontakt wurde erfolgreich erstellt!');
     return responseAsJson = response.json();
 }
 
@@ -112,6 +113,7 @@ async function putContact(contactId, name, email, phone) {
     )
     closeAddContact();
     getContacts();
+    showSnackbar('Der Kontakt wurde erfolgreich geändert!');
     return responseAsJson = response.json();
 }
 
@@ -155,6 +157,7 @@ async function deleteContactDatabase(i) {
     })
     getContacts();
     closeAddContact();
+    showSnackbar('Der Kontakt wurde erfolgreich gelöscht!');
 }
 
 
