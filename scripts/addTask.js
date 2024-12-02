@@ -71,31 +71,34 @@ async function addTaskToToDoList(event) {
     const dueDate = document.getElementById("date").value.trim();
     const priority = tempPriority;
     const categoryName = document.getElementById("category").value.trim(); 
-    const workersInput = document.getElementById("contactSelection").value;
+
     if (!title || !dueDate || !priority || !categoryName) {
         console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
         return;
     }
+
     const subtasks = getLocalSubtasks(); 
-    const workers = workersInput
-        ? workersInput.split(",").map(worker => ({
-              name: worker.trim(),
-              class: `worker-${worker.trim().toLowerCase()}`,
-          }))
+
+    // Arbeiter aus `localContacts` extrahieren
+    const workers = window.localContacts
+        ? Object.values(window.localContacts).map(contact => contact.name)
         : [];
+
     const category = {
         name: categoryName,
         class: `category${categoryName.replace(/\s/g, "")}`,
     };
+
     const newTask = {
         title,
         description,
         dueDate,
         priority,
         category,
-        workers,
+        workers, // Enthält jetzt nur die Namen der Kontakte
         subtasks, 
     };
+
     try {
         const result = await addTaskToList(newTask);
         if (result) {
@@ -110,6 +113,15 @@ async function addTaskToToDoList(event) {
     } catch (error) {
         console.error("Fehler beim Hinzufügen des Tasks:", error);
     }
+}
+
+function clearLocalContacts() {
+    window.localContacts = {}; // Lokale Kontakte löschen
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    if (selectedContactsList) {
+        selectedContactsList.innerHTML = ""; // UI-Liste der Kontakte leeren
+    }
+    console.log("Alle Kontakte erfolgreich zurückgesetzt.");
 }
 
 
@@ -129,8 +141,11 @@ function resetForm() {
     }
     const priorityButtons = document.querySelectorAll(".priorityBtn.active");
     priorityButtons.forEach(button => button.classList.remove("active"));
+
+    clearLocalContacts(); // Kontakte zurücksetzen
     console.log("Formular zurückgesetzt, Contacts-Dropdown zurückgesetzt und Priority-Buttons deaktiviert.");
 }
+
 
 
 
@@ -247,6 +262,73 @@ function renderContactsDropdown(){
        `
      }
  }
+
+
+
+const getInitials = (fullName) => {
+    const nameParts = fullName.trim().split(" "); 
+    const firstInitial = nameParts[0]?.charAt(0).toUpperCase() || ""; 
+    const lastInitial = nameParts[1]?.charAt(0).toUpperCase() || ""; 
+    return `${firstInitial}${lastInitial}`; 
+};
+
+
+ function handleContactSelection() {
+    const contactSelection = document.getElementById("contactSelection");
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    const selectedContactName = contactSelection.value;
+    if (!selectedContactName) return; 
+    const existingContact = Object.values(window.localContacts || {}).find(
+        contact => contact.name === selectedContactName
+    );
+    if (existingContact) {
+        console.warn("Kontakt ist bereits ausgewählt.");
+        return;
+    }
+    const color = getColorHex(selectedContactName, "");
+    const initials = getInitials(selectedContactName);
+    const contactId = `contact_${Date.now()}`;
+    const newContact = { id: contactId, name: selectedContactName, color };
+    if (!window.localContacts) {
+        window.localContacts = {};
+    }
+    window.localContacts[contactId] = newContact;
+    const contactHTML = `
+ <div class="workerInformation">
+            <p id="${contactId}" class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
+            </p>
+            <p class="workerName">${selectedContactName}</p>
+            <img 
+                src="../../assets/icons/png/iconoir_cancel.png" 
+                onclick="removeContact('${contactId}')"
+                alt="Remove Contact">
+        </div>
+    `;
+    selectedContactsList.insertAdjacentHTML("beforeend", contactHTML);
+    console.log("Kontakt hinzugefügt:", newContact);
+    contactSelection.value = "";
+}
+
+
+
+function removeContact(contactId) {
+    const contactElement = document.getElementById(contactId)?.closest(".workerInformation");
+    if (contactElement) {
+        contactElement.remove(); // Entfernt das gesamte Kontakt-Element aus dem DOM
+        console.log(`Kontakt mit ID "${contactId}" aus der UI entfernt.`);
+    } else {
+        console.warn(`Kontakt mit ID "${contactId}" nicht im UI gefunden.`);
+    }
+    if (window.localContacts && window.localContacts[contactId]) {
+        delete window.localContacts[contactId];
+        console.log(`Kontakt mit ID "${contactId}" aus der lokalen Liste entfernt.`);
+    } else {
+        console.warn(`Kontakt mit ID "${contactId}" nicht in der lokalen Liste gefunden.`);
+    }
+}
+
+
 
 
 
