@@ -151,22 +151,23 @@ p{
     align-items: center;
 }
 
-.ContactUserTag{
-    border: 3px solid black;
+.contactUserTag{
+    
     border-radius: 40px;
     width: 40px;
     height: 40px;
     align-items: center;
     justify-content: center;
     display: flex;
-    color: rgb(41, 171, 226);
+    color: white;
     margin-right: 30px;
     margin-left: 30px;
     font-size: 12px;
+    background-color: white;
 }
 
 .userTagBig {
-    border: 3px solid white;
+    
     border-radius: 120px;
     width: 120px;
     height: 120px;

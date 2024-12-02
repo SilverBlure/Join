@@ -1,3 +1,4 @@
+
 const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 
 let emailArray = [];
@@ -21,10 +22,14 @@ function signIn() {
     if(emailCheck(email) && passwordCheck(password_1, password_2)){
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
-    alert('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst auf die LoginSeite weitergeleietet!');
-    window.location.href = './login.html';
+    showSnackbar('Das erstellen deines Benutzer Accounts war erfolgreich, du wirst gleich auf die LoginSeite weitergeleitet!');
+    setTimeout(() => {
+        location.href="./login.html";
+    }, 3000);
     }
 }
+
+
 
 async function createNewEntry(name, email, pw) {
     let response = await fetch(BASE_URL + "data/user"+  '.json', {
@@ -65,7 +70,6 @@ async function createNewMailEntry(email){
 
 //login section
 let loginArray = [];
-
 let sessionId;
 
 async function initLog(){
@@ -108,14 +112,14 @@ function login(){
         localStorage.setItem('email', emailInput);
         localStorage.setItem('pw', pwInput);
         localStorage.setItem('sessionKey', check.id);
-        alert('Login Local gesaved!')
+        showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert')
         location.href ='./summary.html';
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
-        alert('Du wirst weitergeleitet deine anmelde daten werden nicht local gespeichert!')
+        showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
         location.href ='./summary.html';
     }else{
-        alert('deine anmeldedaten sind falsch!')
+        showSnackbar('Überprüfe deine Anmeldedaten!')
     }
 }
 
@@ -145,8 +149,13 @@ async function setUserTag(){
 }
 
 
-
-
-
-
-
+function showSnackbar(message){
+    let snackbar= document.getElementById('snackbar');
+    snackbar.textContent = message;
+    snackbar.classList.remove('hidden');
+    snackbar.classList.add('visible');
+    setTimeout(() => {
+        snackbar.classList.remove('visible');
+        snackbar.classList.add('hidden');
+    }, 3000);
+}

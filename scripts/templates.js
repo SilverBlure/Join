@@ -8,10 +8,10 @@ function renderCurrentLetter(currentLetter) {
 
 
 function contactTemps(i, initialien) {
-    return `<div class="contact">
+    return /*html*/ `<div class="contact">
                 <div class="shortInfo" onclick="renderContactDetails(${i})">
                     <div class="tag">
-                        <p class="ContactUserTag">${initialien}</p>
+                        <p id="userTag${i}" class="contactUserTag">${initialien}</p>
                     </div>
                     <div>
                         <p>${contactsArray[i].name}</p>
@@ -23,8 +23,8 @@ function contactTemps(i, initialien) {
 
 
 function contactDetailsTemps(i, initialien) {
-    return `<div class="InfoBoxHead">
-<div><p class="userTagBig">${initialien}</p></div>
+    return /*html*/`<div class="InfoBoxHead">
+<div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
     <div>
         <div><H2>${contactsArray[i].name}</H2></div>
         <img class="pointer" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="deleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
@@ -38,7 +38,7 @@ function contactDetailsTemps(i, initialien) {
 }
 
 function addContactTemp(){
-    return `
+    return /*html*/ `
     <div>
         <img src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
@@ -78,7 +78,7 @@ function addContactTemp(){
 }
 
 function editContactTemp(i){
-    return `
+    return /*html*/ `
     <div>
         <img src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
@@ -118,7 +118,7 @@ function editContactTemp(i){
 }
 
 function deleteContactTemp(i){
-    return `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
+    return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
     <div class="deleteBtn"><button onclick="closeAddContact()">cancel</button><button onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
     `
 }
