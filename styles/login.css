@@ -6,19 +6,22 @@ body {
     flex-direction: column;
     display: flex;
     justify-content: space-between;
-    
+
 }
 
-.loginBody{
+.loginBody {
     animation: fadeInBlur 1s ease forwards;
 }
 
 @keyframes fadeInBlur {
     0% {
-        filter: blur(100px); /* Anfangsunschärfe */
+        filter: blur(100px);
+        /* Anfangsunschärfe */
     }
+
     100% {
-        filter: blur(0px); /* Schärfe wiederherstellen */
+        filter: blur(0px);
+        /* Schärfe wiederherstellen */
     }
 }
 
@@ -57,7 +60,6 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
 }
 
 
@@ -165,11 +167,91 @@ h1 {
 }
 
 .logoLogin {
+    position: absolute;
+    top: 80px;
+    left: 77px;
+    width: 100px;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+@media(max-width: 428px) {
+    .loginBackground {
+        background-color: white;
+        height: 475px;
+        width: 396px;
+        border-radius: 30px;
+        margin-bottom: 64px;
+        margin-top: 0;
+    }
+    .registrationLink {
         position: absolute;
-        top: 80px;
+        top: 608px;
+        right: -12px;
+    }
+
+    .border {
+        border: 2px;
+        border-style: solid;
+        border-color: #D1D1D1;
+        border-radius: 10px;
+        height: 48px;
+        width: 364px;
+        justify-content: center;
+        margin: 30px;
+    }
+
+    .innerInputfield {
+        width: 340px;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .saveLogin {
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 24px;
+        margin-bottom: 50px;
+        display: none;
+    }
+
+    .logoLogin {
+        position: relative;
+        top: 40px;
         left: 77px;
         width: 100px;
         display: flex;
         justify-content: start;
         align-items: start;
     }
+    
+    .buttons{
+        flex-direction: column;
+        margin: 10px;
+
+    }
+
+    .logInBtn{
+        width: 180px;
+        height: 51px;
+        margin: 10px;
+    }
+
+    .guestBtn{
+        margin: 10px;
+        width: 180px;
+        height: 51px;
+    }
+    .logoLogin{
+        height: 78px;
+        width: 64px;
+    }
+
+
+
+}
