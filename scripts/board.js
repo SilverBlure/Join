@@ -157,13 +157,12 @@ function renderBoard() {
                         <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                     </div>
                 ` : "";
-                const workersHTML = Array.isArray(task.workers)
-                    ? task.workers.map(worker => {
-                          const workerClass = worker?.class || "defaultWorker";
-                          const [vorname, nachname] = worker?.name?.split(" ") ||"?"
-                          const workerInitial = vorname[0] + nachname[0];
-                          return `<p class="${workerClass} workerEmblem">${workerInitial}</p>`;
-                      }).join("")
+                 const workersHTML = task.workers
+                 ? task.workers.map(worker => `
+                     <p class="workerEmblem" style="background-color: ${worker.color};">
+                         ${worker.initials}
+                     </p>
+                 `).join("")
                     : "";
                 content.innerHTML += /*html*/ `
                     <div id="boardCard-${taskId}" 
@@ -214,14 +213,18 @@ async function openTaskPopup(taskId, listId) {
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
         const workersHTML = task.workers
-            ? task.workers.map(worker => `
+        ? task.workers.map(workerName => {
+              const initials = getInitials(workerName); // Initialen berechnen
+              const color = getColorHex(workerName, ""); // Farbe generieren
+              return `
                 <div class="workerInformation">
-                    <p class="${worker.class || 'defaultWorker'} workerEmblem workerIcon">
-                        ${worker.name?.charAt(0) || '?'}
+                    <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                        ${initials}
                     </p>
-                    <p class="workerName">${worker.name || 'Unknown'}</p>
+                    <p class="workerName">${workerName}</p>
                 </div>
-            `).join('')
+              `;
+          }).join("")
             : '<p>Keine zugewiesenen Arbeiter.</p>';
         const subtasksHTML = task.subtasks
             ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => `
@@ -505,7 +508,6 @@ function findTask() {
 }
 
 
-
 async function editTask(listId, taskId) {
     if (!listId || !taskId) {
         console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
@@ -523,18 +525,60 @@ async function editTask(listId, taskId) {
             console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
             return;
         }
+
         const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
         const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
         if (!editTaskPopupOverlay || !editTaskPopupContainer) {
             console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
             return;
         }
+
+        // Kontakte lokal speichern
+        window.localEditedContacts = [...(task.workers || [])];
+        console.log("Lokal gespeicherte Kontakte:", window.localEditedContacts);
+
         window.localEditedSubtasks = task.subtasks ? { ...task.subtasks } : {};
-        console.log("Subtasks wurden in localEditedSubtasks synchronisiert:", window.localEditedSubtasks);
         editTaskPopupOverlay.setAttribute("data-task-id", taskId);
         editTaskPopupOverlay.setAttribute("data-list-id", listId);
         editTaskPopupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
+
+        // Render Kontakte mit Select-Dropdown
+        const renderContactsDropdownInEdit = () => {
+            const contactDropdownHTML = `
+                <select id="contactSelection" 
+                        onchange="handleContactSelectionForEdit()" 
+                        onclick="renderContactsDropdownForEdit()">
+                </select>
+            `;
+            const selectedContactsHTML = window.localEditedContacts.map(workerName => {
+                const initials = getInitials(workerName);
+                const color = getColorHex(workerName, "");
+                return `
+                    <div class="workerInformation">
+                        <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                            ${initials}
+                        </p>
+                        <p class="workerName">${workerName}</p>
+                        <img 
+                            class="hoverBtn" 
+                            src="../../assets/icons/png/iconoir_cancel.png" 
+                            onclick="removeContactFromEdit('${workerName}')"
+                            alt="Remove Worker">
+                    </div>
+                `;
+            }).join("");
+            
+
+            return `
+                <div class="createContactBar">
+                    ${contactDropdownHTML}
+                    <ul id="selectedContactsList">${selectedContactsHTML || '<p>Keine zugewiesenen Arbeiter.</p>'}</ul>
+                </div>
+            `;
+        };
+
+        // Render Subtasks
         const subtasksHTML = task.subtasks
             ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => `
                 <div class="subtask-item" id="subtask-${taskId}-${subtaskId}">
@@ -554,10 +598,10 @@ async function editTask(listId, taskId) {
                             src="../../assets/icons/png/iconoir_cancel.png" 
                             onclick="editSubtaskList('${listId}', '${taskId}', '${subtaskId}')"
                             alt="Delete Subtask">
-                    
                 </div>
             `).join("")
             : '<p>Keine Subtasks vorhanden.</p>';
+
         const addSubtaskHTML = `
             <div class="createSubtaskBar">
                 <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
@@ -568,12 +612,14 @@ async function editTask(listId, taskId) {
                     src="../assets/icons/png/addSubtasks.png">
             </div>
         `;
+
+        // Popup HTML mit dynamischen Inhalten
         editTaskPopupContainer.innerHTML = `
             <div class="popupHeader">
                 <h1>Edit Task</h1>
                 <img class="icon close" onclick="closeEditTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
             </div>
-            <form id="editTaskForm">
+            <form id="editTaskForm" onsubmit="saveTaskChanges(event, '${listId}', '${taskId}')">
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
@@ -581,7 +627,7 @@ async function editTask(listId, taskId) {
                         <label for="description">Description</label>
                         <textarea id="description" rows="5">${task.description || ''}</textarea>
                         <label for="contactSelection">Assigned to</label>
-                        <div id="contactSelection">${task.workers.map(worker => worker.name).join(", ")}</div>
+                        ${renderContactsDropdownInEdit()}
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
@@ -613,7 +659,7 @@ async function editTask(listId, taskId) {
                         </div>
                     </div>
                 </div>
-                <button type="button" onclick="saveTaskChanges('${listId}', '${taskId}')">Save Changes</button>
+                <button type="submit">Save Changes</button>
             </form>
         `;
     } catch (error) {
@@ -623,12 +669,184 @@ async function editTask(listId, taskId) {
 
 
 
+function handleContactSelection() {
+    if (!window.localEditedContacts) {
+        window.localEditedContacts = []; // Initialisieren, falls nicht vorhanden
+    }
+
+    const contactSelection = document.getElementById("contactSelection");
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    const selectedContactName = contactSelection.value;
+
+    if (!selectedContactName) return;
+
+    // Überprüfen, ob der Kontakt bereits existiert
+    if (window.localEditedContacts.includes(selectedContactName)) {
+        console.warn("Kontakt ist bereits ausgewählt.");
+        return;
+    }
+
+    // Kontakt hinzufügen
+    window.localEditedContacts.push(selectedContactName);
+
+    // Rendern der Kontakte
+    renderSelectedContacts();
+}
+
+
+function renderSelectedContacts() {
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    selectedContactsList.innerHTML = window.localEditedContacts
+        .map(workerName => {
+            const initials = getInitials(workerName);
+            const color = getColorHex(workerName, "");
+            return `
+                <div class="workerInformation">
+                    <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                        ${initials}
+                    </p>
+                    <p class="workerName">${workerName}</p>
+                    <img 
+                        class="hoverBtn" 
+                        src="../../assets/icons/png/iconoir_cancel.png" 
+                        onclick="removeContact('${workerName}')"
+                        alt="Remove Worker">
+                </div>
+            `;
+        })
+        .join("");
+}
+
+function removeContact(workerName) {
+    window.localEditedContacts = window.localEditedContacts.filter(contact => contact !== workerName);
+    renderSelectedContacts();
+}
+
+
+
+
+
+function renderContactsDropdownForEdit() {
+    const dropdown = document.getElementById("contactSelection");
+    if (dropdown.options.length > 0) return; 
+    dropdown.innerHTML = ""; // Sicherstellen, dass keine Duplikate auftreten
+    for (let contact of contactsArray) {
+        dropdown.innerHTML += `
+            <option value="${contact.name}">${contact.name}</option>
+        `;
+    }
+}
+
+
+
+
+function renderContactsDropdown(){
+    let dropDown = document.getElementById('contactSelection')
+    if (dropDown.options.length > 0) return; 
+     dropDown.innerHTML="";
+     for (let i = 0; i < contactsArray.length; i++) {
+       document.getElementById('contactSelection').innerHTML += /*html*/`
+               <option value="${contactsArray[i].name}">${contactsArray[i].name}</option>;
+       `
+     }
+ }
+
+
+
+
+function handleContactSelectionForEdit() {
+    const dropdown = document.getElementById("contactSelection");
+    const selectedContactName = dropdown.value;
+    if (!selectedContactName) return; 
+
+    if (window.localEditedContacts.includes(selectedContactName)) {
+        console.warn("Kontakt ist bereits ausgewählt.");
+        return;
+    }
+
+    window.localEditedContacts.push(selectedContactName);
+    console.log("Aktualisierte Kontakte:", window.localEditedContacts);
+
+    // Liste neu rendern
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    const initials = getInitials(selectedContactName);
+    const color = getColorHex(selectedContactName, "");
+    selectedContactsList.insertAdjacentHTML("beforeend", `
+        <div class="workerInformation">
+            <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
+            </p>
+            <p class="workerName">${selectedContactName}</p>
+            <img 
+                class="hoverBtn" 
+                src="../../assets/icons/png/iconoir_cancel.png" 
+                onclick="removeContact('${selectedContactName}')"
+                alt="Remove Worker">
+        </div>
+    `);
+}
+
+
+function removeContactFromEdit(workerName) {
+    if (!window.localEditedContacts) {
+        console.warn("Es gibt keine lokalen bearbeiteten Kontakte.");
+        return;
+    }
+
+    // Entferne den Kontakt aus der Liste
+    window.localEditedContacts = window.localEditedContacts.filter(contact => contact !== workerName);
+    console.log(`Kontakt "${workerName}" aus der Bearbeitungsliste entfernt.`, window.localEditedContacts);
+
+    // Liste der ausgewählten Kontakte aktualisieren
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    if (!selectedContactsList) {
+        console.error("Das HTML-Element für die ausgewählten Kontakte wurde nicht gefunden.");
+        return;
+    }
+
+    const updatedContactsHTML = window.localEditedContacts.map(workerName => {
+        const initials = getInitials(workerName);
+        const color = getColorHex(workerName, "");
+        return `
+            <div class="workerInformation">
+                <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                    ${initials}
+                </p>
+                <p class="workerName">${workerName}</p>
+                <img 
+                    class="hoverBtn" 
+                    src="../../assets/icons/png/iconoir_cancel.png" 
+                    onclick="removeContactFromEdit('${workerName}')"
+                    alt="Remove Worker">
+                </div>
+            `;
+    }).join("");
+
+    // Aktualisiere die UI
+    selectedContactsList.innerHTML = updatedContactsHTML || '<p>Keine zugewiesenen Arbeiter.</p>';
+}
+
+
+
+
+
+
+
 async function saveTaskChanges(listId, taskId) {
     if (!listId || !taskId) {
         console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
         return;
     }
+
     syncSubtasksFromDOM(taskId);
+
+    // Konvertiere das Kontakte-Array in ein Firebase-kompatibles Objekt
+    const workers = window.localEditedContacts.reduce((acc, contact, index) => {
+        acc[`worker_${index}`] = { name: contact }; // Arbeiter mit ID speichern
+        return acc;
+    }, {});
+
+    // Baue das aktualisierte Task-Objekt
     const updatedTask = {
         title: document.getElementById("title").value.trim(),
         description: document.getElementById("description").value.trim(),
@@ -638,12 +856,14 @@ async function saveTaskChanges(listId, taskId) {
             name: document.getElementById("category").value,
             class: `category${document.getElementById("category").value.replace(" ", "")}`,
         },
-        workers: document.getElementById("contactSelection").textContent
-            .split(",")
-            .map(name => ({ name: name.trim(), class: `worker-${name.trim().toLowerCase()}` })),
-        subtasks: window.localEditedSubtasks, 
+        workers, // Jetzt ein Objekt und kein Array
+        subtasks: window.localEditedSubtasks || {}, // Subtasks aus der globalen Liste übernehmen
     };
+
+    console.log("Speichere aktualisierten Task:", updatedTask); // Debugging
+
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+
     try {
         const response = await fetch(url, {
             method: "PUT",
@@ -652,18 +872,21 @@ async function saveTaskChanges(listId, taskId) {
             },
             body: JSON.stringify(updatedTask),
         });
+
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`Fehler beim Speichern der Änderungen: ${response.status}`, errorText);
             return;
         }
+
         console.log(`Task "${taskId}" erfolgreich aktualisiert.`);
-        closeEditTaskPopup(); 
-        renderBoard(); 
+        closeEditTaskPopup();
+        renderBoard();
     } catch (error) {
         console.error("Fehler beim Speichern der Änderungen:", error);
     }
 }
+
 
 
 
@@ -797,30 +1020,33 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
             console.error("Subtasks müssen ein Objekt sein:", subtasks);
             return null;
         }
+
         const newTask = {
             title,
             description,
             dueDate,
             priority,
-            workers: workers
-                ? workers.split(",").map(w => ({ name: w.trim(), class: `worker-${w.trim().toLowerCase()}` }))
-                : [],
+            workers: workers.map(worker => ({ name: worker })), // Kontakt als Array von Objekten formatieren
             category: { name: category, class: `category${category.replace(" ", "")}` },
-            subtasks, 
+            subtasks,
         };
+
         console.log("Task-Daten, die gespeichert werden:", newTask);
+
         const postResponse = await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(newTask), 
+            body: JSON.stringify(newTask),
         });
+
         if (!postResponse.ok) {
             const errorText = await postResponse.text();
             console.error(`Fehler beim Hinzufügen des Tasks: ${postResponse.status}`, errorText);
             return null;
         }
+
         const responseData = await postResponse.json();
         console.log(`Task erfolgreich zu Liste '${listId}' hinzugefügt:`, responseData);
         return responseData;
@@ -832,29 +1058,38 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
 
 
 
+
+
 async function addTaskToSpecificList(listId, event) {
     event.preventDefault();
-    const title = document.getElementById("title").value;
-    const description = document.getElementById("description").value;
-    const dueDate = document.getElementById("date").value;
+
+    const title = document.getElementById("title").value.trim();
+    const description = document.getElementById("description").value.trim();
+    const dueDate = document.getElementById("date").value.trim();
     const priority = tempPriority;
-    const workers = document.getElementById("contactSelection").value;
-    const category = document.getElementById("category").value;
-    if (!priority || !listId) {
+    const category = document.getElementById("category").value.trim();
+
+    if (!priority || !listId || !title || !dueDate || !category) {
         console.warn("Fehlende Pflichtfelder oder keine Liste angegeben.");
         return;
     }
-    const subtasks = window.localSubtasks || {}; 
+
+    const subtasks = window.localSubtasks || {}; // Lokale Subtasks abrufen
+    const workersArray = window.localEditedContacts || []; // Lokale Kontakte abrufen
+
     console.log("Subtasks, die gespeichert werden sollen:", subtasks);
+    console.log("Arbeiter, die gespeichert werden sollen:", workersArray);
+
     try {
-        const result = await addTaskToList(listId, title, description, dueDate, priority, workers, category, subtasks);
+        const result = await addTaskToList(listId, title, description, dueDate, priority, workersArray, category, subtasks);
         if (result) {
             console.log(`Task erfolgreich in Liste "${listId}" hinzugefügt.`);
-            window.localSubtasks = {}; 
-            document.getElementById("addTaskFormTask").reset();
-            tempPriority = null;
-            closeAddTaskPopup();
-            renderBoard();
+            window.localSubtasks = {}; // Subtasks zurücksetzen
+            window.localEditedContacts = []; // Kontakte zurücksetzen
+            document.getElementById("addTaskFormTask").reset(); // Formular zurücksetzen
+            tempPriority = null; // Priorität zurücksetzen
+            closeAddTaskPopup(); // Popup schließen
+            renderBoard(); // Board neu rendern
         } else {
             console.error(`Task konnte nicht in Liste "${listId}" gespeichert werden.`);
         }
@@ -862,6 +1097,7 @@ async function addTaskToSpecificList(listId, event) {
         console.error(`Fehler beim Speichern des Tasks in Liste "${listId}":`, error);
     }
 }
+
 
 
 

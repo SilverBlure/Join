@@ -36,14 +36,27 @@ async function getTasks() {
         const data = await response.json();
         if (!data) {
             console.warn("Keine Aufgaben gefunden.");
-            tasks = {}; 
+            tasks = {};
             return;
         }
+
         tasks = Object.entries(data).reduce((acc, [listKey, listValue]) => {
             acc[listKey] = {
                 id: listKey,
-                name: listValue.name || listKey, 
-                task: listValue.task || {}       
+                name: listValue.name || listKey,
+                task: listValue.task
+                    ? Object.entries(listValue.task).reduce((taskAcc, [taskId, taskValue]) => {
+                          taskAcc[taskId] = {
+                              ...taskValue,
+                              workers: (taskValue.workers || []).map(workerName => ({
+                                  name: workerName,
+                                  initials: getInitials(workerName), // Initialen berechnen
+                                  color: getColorHex(workerName, ""), // Farbe generieren
+                              })),
+                          };
+                          return taskAcc;
+                      }, {})
+                    : {},
             };
             return acc;
         }, {});
@@ -52,6 +65,28 @@ async function getTasks() {
     } catch (error) {
         console.error("Fehler beim Abrufen der Aufgaben:", error);
     }
+}
+
+
+
+
+function getInitials(fullName) {
+    const nameParts = fullName.trim().split(" ");
+    const firstInitial = nameParts[0]?.charAt(0).toUpperCase() || "";
+    const lastInitial = nameParts[1]?.charAt(0).toUpperCase() || "";
+    return `${firstInitial}${lastInitial}`;
+}
+
+function getColorHex(vorname, nachname) {
+    const completeName = (vorname + nachname).toLowerCase();
+    let hash = 0;
+    for (let i = 0; i < completeName.length; i++) {
+        hash += completeName.charCodeAt(i);
+    }
+    const r = (hash * 123) % 256;
+    const g = (hash * 456) % 256;
+    const b = (hash * 789) % 256;
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }
 
 
