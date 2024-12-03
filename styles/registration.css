@@ -109,3 +109,49 @@ body {
     justify-content: start;
     align-items: start;
 }
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.borderInputFields {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.innerInputfield {
+    width: 380px;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.loginBackground {
+    margin-top: 64px;
+    margin-bottom: 64px;
+    background-color: white;
+    height: 493px;
+    width: 652px;
+    border-radius: 30px;
+}
+
+.border {
+    border: 2px;
+    border-style: solid;
+    border-color: #D1D1D1;
+    border-radius: 10px;
+    height: 48px;
+    width: 422px;
+    justify-content: center;
+    margin: 30px;
+}
+
+.noBorder {
+    border: none;
+}
