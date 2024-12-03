@@ -124,8 +124,7 @@ function renderContactsDropdown(){
  }
 
 
-
-function renderBoard() {
+ function renderBoard() {
     if (!tasks || Object.keys(tasks).length === 0) {
         console.error("Keine Aufgaben gefunden!");
         return;
@@ -157,13 +156,20 @@ function renderBoard() {
                         <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
                     </div>
                 ` : "";
-                 const workersHTML = task.workers
-                 ? task.workers.map(worker => `
-                     <p class="workerEmblem" style="background-color: ${worker.color};">
-                         ${worker.initials}
-                     </p>
-                 `).join("")
+
+                // Verarbeitung der neuen Worker-Struktur
+                const workersHTML = task.workers
+                    ? task.workers.map(worker => {
+                          const initials = getInitials(worker.name); // Initialen basierend auf dem Namen generieren
+                          const color = getColorHex(worker.name, ""); // Hex-Farbe basierend auf dem Namen generieren
+                          return `
+                              <p class="workerEmblem" style="background-color: ${color};">
+                                  ${initials}
+                              </p>
+                          `;
+                      }).join("")
                     : "";
+
                 content.innerHTML += /*html*/ `
                     <div id="boardCard-${taskId}" 
                          draggable="true"
@@ -186,47 +192,56 @@ function renderBoard() {
 }
 
 
-
 async function openTaskPopup(taskId, listId) {
     if (!listId || !taskId) {
-        console.error(`Ungültige Liste oder Task-ID:`, { listId, taskId });
+        console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
         return;
     }
+
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+
     try {
         const response = await fetch(url);
         if (!response.ok) {
             console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
             return;
         }
+
         const task = await response.json();
         if (!task) {
             console.error(`Task ${taskId} nicht gefunden in Liste ${listId}.`);
             return;
         }
+
         const popupOverlay = document.getElementById("viewTaskPopupOverlay");
         const popupContainer = document.getElementById("viewTaskContainer");
+
         if (!popupOverlay || !popupContainer) {
             console.error("Popup-Overlay oder -Container konnte nicht gefunden werden.");
             return;
         }
+
         popupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
-        const workersHTML = task.workers
-        ? task.workers.map(workerName => {
-              const initials = getInitials(workerName); // Initialen berechnen
-              const color = getColorHex(workerName, ""); // Farbe generieren
-              return `
-                <div class="workerInformation">
-                    <p class="workerEmblem workerIcon" style="background-color: ${color};">
-                        ${initials}
-                    </p>
-                    <p class="workerName">${workerName}</p>
-                </div>
-              `;
-          }).join("")
+
+        // Worker rendering
+        const workersHTML = task.workers && task.workers.length > 0
+            ? task.workers.map(worker => {
+                  const initials = getInitials(worker.name); // Berechnet Initialen
+                  const color = worker.color || getColorHex(worker.name, ""); // Farbe nutzen oder generieren
+                  return `
+                    <div class="workerInformation">
+                        <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                            ${initials}
+                        </p>
+                        <p class="workerName">${worker.name}</p>
+                    </div>
+                  `;
+              }).join("")
             : '<p>Keine zugewiesenen Arbeiter.</p>';
-        const subtasksHTML = task.subtasks
+
+        // Subtask rendering
+        const subtasksHTML = task.subtasks && Object.keys(task.subtasks).length > 0
             ? Object.entries(task.subtasks).map(([subtaskId, subtask]) => `
                 <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
                     <input 
@@ -254,8 +269,10 @@ async function openTaskPopup(taskId, listId) {
                             alt="Delete Subtask">
                     </div>
                 </div>
-            `).join('')
+            `).join("")
             : '<p>Keine Subtasks vorhanden.</p>';
+
+        // Populate popup container
         popupContainer.innerHTML = `
             <div class="popupHeader">
                 <p class="${task.category?.class || 'defaultCategory'} taskCategory">
@@ -277,10 +294,18 @@ async function openTaskPopup(taskId, listId) {
                 <img onclick="deleteTask('${listId}', '${taskId}')" class="popupIcons" src="../../assets/icons/png/Delete contact.png">
             </div>
         `;
+
     } catch (error) {
         console.error("Fehler beim Öffnen des Task-Popups:", error);
     }
 }
+
+
+
+
+
+
+
 
 async function editSubtaskList(listId, taskId, subtaskId) {
     try {
@@ -508,6 +533,9 @@ function findTask() {
 }
 
 
+
+
+
 async function editTask(listId, taskId) {
     if (!listId || !taskId) {
         console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
@@ -534,7 +562,7 @@ async function editTask(listId, taskId) {
         }
 
         // Kontakte lokal speichern
-        window.localEditedContacts = [...(task.workers || [])];
+        window.localEditedContacts = task.workers || [];
         console.log("Lokal gespeicherte Kontakte:", window.localEditedContacts);
 
         window.localEditedSubtasks = task.subtasks ? { ...task.subtasks } : {};
@@ -543,32 +571,38 @@ async function editTask(listId, taskId) {
         editTaskPopupOverlay.classList.add("visible");
         document.getElementById("mainContent").classList.add("blur");
 
-        // Render Kontakte mit Select-Dropdown
+        // Render Dropdown und Kontaktliste
         const renderContactsDropdownInEdit = () => {
+            const dropdownOptions = contactsArray
+                .map(contact => `<option value="${contact.name}">${contact.name}</option>`)
+                .join("");
+
             const contactDropdownHTML = `
                 <select id="contactSelection" 
                         onchange="handleContactSelectionForEdit()" 
                         onclick="renderContactsDropdownForEdit()">
+                    <option value="" disabled selected hidden>Select Contact</option>
+                    ${dropdownOptions}
                 </select>
             `;
-            const selectedContactsHTML = window.localEditedContacts.map(workerName => {
-                const initials = getInitials(workerName);
-                const color = getColorHex(workerName, "");
+
+            const selectedContactsHTML = window.localEditedContacts.map(worker => {
+                const initials = getInitials(worker.name);
+                const color = worker.color || getColorHex(worker.name, "");
                 return `
                     <div class="workerInformation">
                         <p class="workerEmblem workerIcon" style="background-color: ${color};">
                             ${initials}
                         </p>
-                        <p class="workerName">${workerName}</p>
+                        <p class="workerName">${worker.name}</p>
                         <img 
                             class="hoverBtn" 
                             src="../../assets/icons/png/iconoir_cancel.png" 
-                            onclick="removeContactFromEdit('${workerName}')"
+                            onclick="removeContactFromEdit('${worker.name}')"
                             alt="Remove Worker">
                     </div>
                 `;
             }).join("");
-            
 
             return `
                 <div class="createContactBar">
@@ -753,21 +787,24 @@ function renderContactsDropdown(){
 
 
 
-
-function handleContactSelectionForEdit() {
+ function handleContactSelectionForEdit() {
     const dropdown = document.getElementById("contactSelection");
     const selectedContactName = dropdown.value;
     if (!selectedContactName) return; 
 
-    if (window.localEditedContacts.includes(selectedContactName)) {
+    // Prüfen, ob der Kontakt bereits existiert
+    if (window.localEditedContacts.some(contact => contact.name === selectedContactName)) {
         console.warn("Kontakt ist bereits ausgewählt.");
         return;
     }
 
-    window.localEditedContacts.push(selectedContactName);
+    // Kontakt hinzufügen
+    const newContact = { name: selectedContactName };
+    window.localEditedContacts.push(newContact);
+    console.log("Kontakt hinzugefügt:", newContact);
     console.log("Aktualisierte Kontakte:", window.localEditedContacts);
 
-    // Liste neu rendern
+    // UI aktualisieren
     const selectedContactsList = document.getElementById("selectedContactsList");
     const initials = getInitials(selectedContactName);
     const color = getColorHex(selectedContactName, "");
@@ -780,21 +817,25 @@ function handleContactSelectionForEdit() {
             <img 
                 class="hoverBtn" 
                 src="../../assets/icons/png/iconoir_cancel.png" 
-                onclick="removeContact('${selectedContactName}')"
+                onclick="removeContactFromEdit('${selectedContactName}')"
                 alt="Remove Worker">
         </div>
     `);
+
+    // Dropdown zurücksetzen
+    dropdown.value = "";
 }
 
 
+
 function removeContactFromEdit(workerName) {
-    if (!window.localEditedContacts) {
-        console.warn("Es gibt keine lokalen bearbeiteten Kontakte.");
+    if (!Array.isArray(window.localEditedContacts)) {
+        console.warn("Es gibt keine lokalen bearbeiteten Kontakte oder die Struktur ist ungültig.");
         return;
     }
 
-    // Entferne den Kontakt aus der Liste
-    window.localEditedContacts = window.localEditedContacts.filter(contact => contact !== workerName);
+    // Kontakt aus der lokalen Liste entfernen
+    window.localEditedContacts = window.localEditedContacts.filter(contact => contact.name !== workerName);
     console.log(`Kontakt "${workerName}" aus der Bearbeitungsliste entfernt.`, window.localEditedContacts);
 
     // Liste der ausgewählten Kontakte aktualisieren
@@ -804,22 +845,23 @@ function removeContactFromEdit(workerName) {
         return;
     }
 
-    const updatedContactsHTML = window.localEditedContacts.map(workerName => {
-        const initials = getInitials(workerName);
-        const color = getColorHex(workerName, "");
+    // Aktualisierte Kontakte als HTML neu rendern
+    const updatedContactsHTML = window.localEditedContacts.map(contact => {
+        const initials = getInitials(contact.name);
+        const color = getColorHex(contact.name, "");
         return `
             <div class="workerInformation">
                 <p class="workerEmblem workerIcon" style="background-color: ${color};">
                     ${initials}
                 </p>
-                <p class="workerName">${workerName}</p>
+                <p class="workerName">${contact.name}</p>
                 <img 
                     class="hoverBtn" 
                     src="../../assets/icons/png/iconoir_cancel.png" 
-                    onclick="removeContactFromEdit('${workerName}')"
+                    onclick="removeContactFromEdit('${contact.name}')"
                     alt="Remove Worker">
-                </div>
-            `;
+            </div>
+        `;
     }).join("");
 
     // Aktualisiere die UI
@@ -827,42 +869,40 @@ function removeContactFromEdit(workerName) {
 }
 
 
+async function saveTaskChanges(event, listId, taskId) {
+    event.preventDefault(); // Verhindert das Standardverhalten des Formulars
 
-
-
-
-
-async function saveTaskChanges(listId, taskId) {
     if (!listId || !taskId) {
+        alert("Ungültige Liste oder Task-ID. Änderungen können nicht gespeichert werden.");
         console.error("Ungültige Liste oder Task-ID:", { listId, taskId });
         return;
     }
 
-    syncSubtasksFromDOM(taskId);
+    syncSubtasksFromDOM(taskId); // Synchronisiert Subtasks aus der DOM mit der globalen Liste
 
-    // Konvertiere das Kontakte-Array in ein Firebase-kompatibles Objekt
-    const workers = window.localEditedContacts.reduce((acc, contact, index) => {
-        acc[`worker_${index}`] = { name: contact }; // Arbeiter mit ID speichern
-        return acc;
-    }, {});
+    // Bereite die Kontakte vor
+    const workers = (window.localEditedContacts || []).map(contact => ({
+        name: contact.name,
+    }));
 
-    // Baue das aktualisierte Task-Objekt
+    // Bereite die aktualisierten Task-Daten vor
     const updatedTask = {
         title: document.getElementById("title").value.trim(),
         description: document.getElementById("description").value.trim(),
-        dueDate: document.getElementById("dueDate").value,
-        priority: tempPriority,
+        dueDate: document.getElementById("dueDate").value || null,
+        priority: tempPriority || "Low",
         category: {
-            name: document.getElementById("category").value,
-            class: `category${document.getElementById("category").value.replace(" ", "")}`,
+            name: document.getElementById("category").value.trim(),
+            class: `category${document.getElementById("category").value.trim().replace(/\s/g, "")}`,
         },
-        workers, // Jetzt ein Objekt und kein Array
-        subtasks: window.localEditedSubtasks || {}, // Subtasks aus der globalen Liste übernehmen
+        workers,
+        subtasks: window.localEditedSubtasks || {},
     };
 
-    console.log("Speichere aktualisierten Task:", updatedTask); // Debugging
-
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+
+    console.log("URL für Firebase PUT:", url);
+    console.log("Daten, die gesendet werden:", updatedTask);
 
     try {
         const response = await fetch(url, {
@@ -876,16 +916,28 @@ async function saveTaskChanges(listId, taskId) {
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`Fehler beim Speichern der Änderungen: ${response.status}`, errorText);
+            alert(`Fehler beim Speichern der Änderungen: ${errorText}`);
             return;
         }
 
-        console.log(`Task "${taskId}" erfolgreich aktualisiert.`);
+        const responseData = await response.json();
+        console.log(`Task "${taskId}" erfolgreich aktualisiert. Antwort:`, responseData);
+
         closeEditTaskPopup();
         renderBoard();
     } catch (error) {
-        console.error("Fehler beim Speichern der Änderungen:", error);
+        console.error("Unerwarteter Fehler:", error);
+        alert("Unerwarteter Fehler: " + error.message);
     }
 }
+
+
+
+
+
+
+
+
 
 
 

@@ -29,10 +29,12 @@ async function getTasks() {
         const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
         console.log("Lade Aufgaben von:", url);
         const response = await fetch(url);
+
         if (!response.ok) {
             console.error(`Fehler beim Abrufen der Aufgaben: ${response.status} - ${response.statusText}`);
             return;
         }
+
         const data = await response.json();
         if (!data) {
             console.warn("Keine Aufgaben gefunden.");
@@ -48,11 +50,26 @@ async function getTasks() {
                     ? Object.entries(listValue.task).reduce((taskAcc, [taskId, taskValue]) => {
                           taskAcc[taskId] = {
                               ...taskValue,
-                              workers: (taskValue.workers || []).map(workerName => ({
-                                  name: workerName,
-                                  initials: getInitials(workerName), // Initialen berechnen
-                                  color: getColorHex(workerName, ""), // Farbe generieren
-                              })),
+                              workers: (taskValue.workers || []).map(worker => {
+                                  if (typeof worker === "string") {
+                                      // Falls `workers` als String-Array vorliegt
+                                      return {
+                                          name: worker,
+                                          initials: getInitials(worker), // Initialen berechnen
+                                          color: getColorHex(worker, ""), // Farbe generieren
+                                      };
+                                  } else if (worker && worker.name) {
+                                      // Falls `workers` bereits als Objekt-Array vorliegt
+                                      return {
+                                          ...worker,
+                                          initials: getInitials(worker.name), // Initialen berechnen
+                                          color: worker.color || getColorHex(worker.name, ""), // Farbe verwenden oder generieren
+                                      };
+                                  } else {
+                                      console.warn("Ungültiger Worker-Eintrag:", worker);
+                                      return null;
+                                  }
+                              }).filter(Boolean), // Ungültige Worker-Einträge entfernen
                           };
                           return taskAcc;
                       }, {})
@@ -66,6 +83,7 @@ async function getTasks() {
         console.error("Fehler beim Abrufen der Aufgaben:", error);
     }
 }
+
 
 
 
