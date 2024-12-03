@@ -322,6 +322,13 @@ async function editSubtaskList(listId, taskId, subtaskId) {
 }
 
 
+
+
+
+
+
+
+
 async function deleteSubtask(listId, taskId, subtaskId) {
     if (!listId || !taskId || !subtaskId) {
         console.error("Ungültige Parameter für deleteSubtask:", { listId, taskId, subtaskId });
@@ -332,14 +339,17 @@ async function deleteSubtask(listId, taskId, subtaskId) {
         // Task-Daten laden
         const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
         const response = await fetch(taskUrl);
+
         if (!response.ok) {
             console.error(`Fehler beim Laden des Tasks: ${response.status}`);
+            alert("Fehler beim Laden der Task-Daten. Bitte versuche es erneut.");
             return;
         }
 
         const task = await response.json();
         if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
             console.warn(`Subtask ${subtaskId} nicht gefunden.`);
+            alert("Der Subtask konnte nicht gefunden werden.");
             return;
         }
 
@@ -355,6 +365,7 @@ async function deleteSubtask(listId, taskId, subtaskId) {
 
         if (!updateResponse.ok) {
             console.error(`Fehler beim Speichern des Tasks: ${updateResponse.status}`);
+            alert("Fehler beim Speichern der aktualisierten Daten.");
             return;
         }
 
@@ -364,19 +375,22 @@ async function deleteSubtask(listId, taskId, subtaskId) {
         const currentPopup = document.querySelector(".popupOverlay.visible");
 
         if (currentPopup?.id === "viewTaskPopupOverlay") {
-            // Aktualisiere das View-Popup
-            await openTaskPopup(taskId, listId);
+            console.log("Aktualisiere das View-Popup nach Subtask-Löschung.");
+            await openTaskPopup(taskId, listId); // Aktualisiertes View-Popup öffnen
         } else if (currentPopup?.id === "editTaskPopupOverlay") {
-            // Aktualisiere das Edit-Popup
-            await editTask(listId, taskId);
-        } else {
-            // Aktualisiere das Board
-            await renderBoard();
+            console.log("Aktualisiere das Edit-Popup nach Subtask-Löschung.");
+            await editTask(listId, taskId); // Aktualisiertes Edit-Popup öffnen
         }
+
+        console.log("Rendere das Board neu.");
+        await getTasks(); // Aktualisierte Daten abrufen
+        renderBoard(); // Board neu rendern
     } catch (error) {
         console.error("Fehler beim Löschen des Subtasks:", error);
+        alert("Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut.");
     }
 }
+
 
 
 
@@ -869,6 +883,8 @@ function removeContactFromEdit(workerName) {
 }
 
 
+
+
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault(); // Verhindert das Standardverhalten des Formulars
 
@@ -923,13 +939,20 @@ async function saveTaskChanges(event, listId, taskId) {
         const responseData = await response.json();
         console.log(`Task "${taskId}" erfolgreich aktualisiert. Antwort:`, responseData);
 
+        // Aktualisiere das Board
+        await getTasks(); // Daten aus Firebase neu abrufen
+        renderBoard(); // Aktualisiere das Board mit den neuen Daten
+
+        // Schließe das Bearbeiten-Popup und öffne das Task-Popup mit den aktualisierten Daten
         closeEditTaskPopup();
-        renderBoard();
+        openTaskPopup(taskId, listId);
     } catch (error) {
         console.error("Unerwarteter Fehler:", error);
         alert("Unerwarteter Fehler: " + error.message);
     }
 }
+
+
 
 
 
@@ -1105,7 +1128,7 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
     } catch (error) {
         console.error(`Ein Fehler ist beim Hinzufügen des Tasks zu Liste '${listId}' aufgetreten:`, error);
         return null;
-    }
+    };
 }
 
 
@@ -1140,7 +1163,9 @@ async function addTaskToSpecificList(listId, event) {
             window.localEditedContacts = []; // Kontakte zurücksetzen
             document.getElementById("addTaskFormTask").reset(); // Formular zurücksetzen
             tempPriority = null; // Priorität zurücksetzen
+            resetForm();
             closeAddTaskPopup(); // Popup schließen
+            await getTasks();
             renderBoard(); // Board neu rendern
         } else {
             console.error(`Task konnte nicht in Liste "${listId}" gespeichert werden.`);
@@ -1150,6 +1175,35 @@ async function addTaskToSpecificList(listId, event) {
     }
 }
 
+
+
+function resetForm() {
+    const form = document.getElementById("addTaskFormTask");
+    if (form) {
+        form.reset(); // Setzt alle Eingabefelder zurück
+    }
+
+    // Subtasks zurücksetzen
+    window.localSubtasks = {}; 
+    const subTasksList = document.getElementById("subTasksList");
+    if (subTasksList) {
+        subTasksList.innerHTML = ""; 
+    }
+
+    // Kontakte zurücksetzen
+    window.localEditedContacts = [];
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    if (selectedContactsList) {
+        selectedContactsList.innerHTML = ""; // Entfernt alle Kontakte aus der UI
+    }
+
+    // Priority zurücksetzen
+    const priorityButtons = document.querySelectorAll(".priorityBtn.active");
+    priorityButtons.forEach(button => button.classList.remove("active"));
+    tempPriority = null; // Temporäre Priorität zurücksetzen
+
+    console.log("Formular und temporäre Daten erfolgreich zurückgesetzt.");
+}
 
 
 
