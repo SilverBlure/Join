@@ -10,7 +10,7 @@ function init() {
 
 function renderContacts() {
     contactsArray.sort((a, b) => a.name.localeCompare(b.name));
-    document.getElementById('contacts').innerHTML = '';
+    document.getElementById('contacts').innerHTML = ``;
     let currentLetter = ""; 
     for (let i = 0; i < contactsArray.length; i++) {
         let [vorname, nachname] = contactsArray[i].name.split(" ");

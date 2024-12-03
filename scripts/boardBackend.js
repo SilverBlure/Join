@@ -29,21 +29,51 @@ async function getTasks() {
         const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
         console.log("Lade Aufgaben von:", url);
         const response = await fetch(url);
+
         if (!response.ok) {
             console.error(`Fehler beim Abrufen der Aufgaben: ${response.status} - ${response.statusText}`);
             return;
         }
+
         const data = await response.json();
         if (!data) {
             console.warn("Keine Aufgaben gefunden.");
-            tasks = {}; 
+            tasks = {};
             return;
         }
+
         tasks = Object.entries(data).reduce((acc, [listKey, listValue]) => {
             acc[listKey] = {
                 id: listKey,
-                name: listValue.name || listKey, 
-                task: listValue.task || {}       
+                name: listValue.name || listKey,
+                task: listValue.task
+                    ? Object.entries(listValue.task).reduce((taskAcc, [taskId, taskValue]) => {
+                          taskAcc[taskId] = {
+                              ...taskValue,
+                              workers: (taskValue.workers || []).map(worker => {
+                                  if (typeof worker === "string") {
+                                      // Falls `workers` als String-Array vorliegt
+                                      return {
+                                          name: worker,
+                                          initials: getInitials(worker), // Initialen berechnen
+                                          color: getColorHex(worker, ""), // Farbe generieren
+                                      };
+                                  } else if (worker && worker.name) {
+                                      // Falls `workers` bereits als Objekt-Array vorliegt
+                                      return {
+                                          ...worker,
+                                          initials: getInitials(worker.name), // Initialen berechnen
+                                          color: worker.color || getColorHex(worker.name, ""), // Farbe verwenden oder generieren
+                                      };
+                                  } else {
+                                      console.warn("Ungültiger Worker-Eintrag:", worker);
+                                      return null;
+                                  }
+                              }).filter(Boolean), // Ungültige Worker-Einträge entfernen
+                          };
+                          return taskAcc;
+                      }, {})
+                    : {},
             };
             return acc;
         }, {});
@@ -52,6 +82,29 @@ async function getTasks() {
     } catch (error) {
         console.error("Fehler beim Abrufen der Aufgaben:", error);
     }
+}
+
+
+
+
+
+function getInitials(fullName) {
+    const nameParts = fullName.trim().split(" ");
+    const firstInitial = nameParts[0]?.charAt(0).toUpperCase() || "";
+    const lastInitial = nameParts[1]?.charAt(0).toUpperCase() || "";
+    return `${firstInitial}${lastInitial}`;
+}
+
+function getColorHex(vorname, nachname) {
+    const completeName = (vorname + nachname).toLowerCase();
+    let hash = 0;
+    for (let i = 0; i < completeName.length; i++) {
+        hash += completeName.charCodeAt(i);
+    }
+    const r = (hash * 123) % 256;
+    const g = (hash * 456) % 256;
+    const b = (hash * 789) % 256;
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }
 
 

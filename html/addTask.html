@@ -32,8 +32,15 @@
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
-                        <label for="contactSelection">Assigned to</label>
-                        <select onclick="renderContactsDropdown()" name="contactSelection" id="contactSelection" placeholder="Enter contacts"></select>
+                            <label for="contactSelection">Assign Contacts</label>
+                            <div class="createContactBar">
+                                <select id="contactSelection" 
+                                onchange="handleContactSelection()"
+                                onclick="renderContactsDropdown()">
+                                </select>
+                                <ul id="selectedContactsList"></ul>
+                            </div>
+                            
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
