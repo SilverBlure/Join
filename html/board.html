@@ -13,20 +13,20 @@
     <link rel="stylesheet" href="./../styles/board.css">
     <link rel="stylesheet" href="./../styles/assets.css">
     <link rel="stylesheet" href="./../style.css">
-    <script src="../../script.js"></script>
-    <script src="../../scripts/templates.js"></script>
+    <script src="./../script.js"></script>
+    <script src="./../scripts/templates.js"></script>
     <script src="./../scripts/backend.js"></script>
-    <script src="../../scripts/boardDrag&Drop.js"></script>
-    <script src="../../scripts/board.js"></script>
-    <script src="../../scripts/boardBackend.js"></script>
-    <script src="../../scripts/contacts.js"></script>
+    <script src="./../scripts/boardDrag&Drop.js"></script>
+    <script src="./../scripts/board.js"></script>
+    <script src="./../scripts/boardBackend.js"></script>
+    <script src="./../scripts/contacts.js"></script>
 </head>
 
 <body onload="includeHTML(), main()">
-    <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
+    <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
 
     <div id="mainContent" class="content">
-        <div class="header" w3-include-html="../../templates/header.html"></div>
+        <div class="header" w3-include-html="./../templates/header.html"></div>
 
         <div class="board">
 
@@ -44,7 +44,7 @@
                     </div>
 
                     <button id="addTaskBtnBoard" onclick="openAddTaskPopup('todo')" class="addTaskBtn">Add Task <img
-                            src="../assets/icons/png/add.png"></button>
+                            src="./../assets/icons/png/add.png"></button>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
                     <div class="listHeadline">
                         <h4>To-do</h4>
                         <img onclick="openAddTaskPopup('todo')" class="addIcons"
-                            src="../assets/icons/png/plusButton.png">
+                            src="./../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div>
                 </div>
@@ -67,7 +67,7 @@
 
                         <h4>in Progress</h4>
                         <img onclick="openAddTaskPopup('inProgress')" class="addIcons"
-                            src="../assets/icons/png/plusButton.png">
+                            src="./../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div>
                 </div>
@@ -78,7 +78,7 @@
                     <div class="listHeadline">
                         <h4>Await feedback</h4>
                         <img onclick="openAddTaskPopup('awaitFeedback')" class="addIcons"
-                            src="../assets/icons/png/plusButton.png">
+                            src="./../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div>
                 </div>
@@ -111,7 +111,7 @@
 
             <div class="popupHeader">
                 <h1>Add Task</h1>
-                <img class="icons close" onclick="closeAddTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+                <img class="icons close" onclick="closeAddTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
             </div>
 
             <form id="addTaskFormTask">
@@ -146,14 +146,14 @@
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
                                 class="priorityBtn">Urgent
-                                <img src="../../assets/icons/png/PrioritySymbolsUrgent.png">
+                                <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
                             </button>
                             <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
                                 class="priorityBtn">Medium
-                                <img src="../../assets/icons/png/PrioritySymbolsMiddle.png">
+                                <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
                             </button>
                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
-                                <img src="../../assets/icons/png/PrioritySymbolsLow.png">
+                                <img src="./../assets/icons/png/PrioritySymbolsLow.png">
                             </button>
                         </div>
 
@@ -170,7 +170,7 @@
                                 placeholder="Add new subtask" type="text"  onkeydown="handleSubtaskKey(event)">
                             <div class="divider"></div>
                             <img onclick="addNewSubtask('listId', 'taskId')" class="addSubtaskButton"
-                                src="../assets/icons/png/addSubtasks.png">
+                                src="./../assets/icons/png/addSubtasks.png">
                         </div>
                         <ul id="subTasksList"></ul>
                     </div>
@@ -179,10 +179,10 @@
                     <p><span class="requiredStar">*</span>This field is required</p>
                     <div class="buttonContainer">
                         <button type="submit" class="button">Create Task
-                            <img src="../assets/icons/png/check.png">
+                            <img src="./../assets/icons/png/check.png">
                         </button>
                         <button type="reset" class="button clearBtn">Clear
-                            <img src="../assets/icons/png/iconoir_cancel.png">
+                            <img src="./../assets/icons/png/iconoir_cancel.png">
                         </button>
                     </div>
                 </div>

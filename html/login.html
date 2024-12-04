@@ -19,21 +19,20 @@
 
 <body onload="initLog()">
     <div id="snackbar" class="hidden"></div>
-    <img class="logoLogin" src="../../assets/icons/svg/joinLogo.svg">
+    <img class="logoLogin" src="./../assets/icons/svg/joinLogo.svg">
 
-<div class="loginBody">
-    <div class="loginHeader">
+    <div class="loginBody">
+        <div class="loginHeader">
 
 
-        <div class="registrationLink">
-            <p class="registrationTrigger">Not a Join user?</p>
-            <a href="./registration.html"><button class="logInBtn">Sing up</button></a>
+            <div class="registrationLink">
+                <p class="registrationTrigger">Not a Join user?</p>
+                <a href="./registration.html"><button class="logInBtn">Sign up</button></a>
+            </div>
+
         </div>
-
     </div>
-
     <div class="center">
-
         <div class="center ">
             <div class="loginBackground center">
                 <h1>Log in</h1>
@@ -41,38 +40,33 @@
 
                 <div class="border borderInputFields center">
                     <innerInputfield class="innerInputfield">
-                        <input id="email" class="noBorder" placeholder="Email">
-                        <img src="../../assets/icons/svg/mail.svg">
+                        <input id="email" class="noBorder input" placeholder="Email">
+                        <img src="./../assets/icons/svg/mail.svg">
                     </innerInputfield>
                 </div>
 
                 <div class="border borderInputFields">
                     <innerInputfield class="innerInputfield">
-                        <input id="password" class="noBorder" placeholder="Passwort">
-                        <img src="../../assets/icons/svg/lock.svg">
+                        <input id="password" class="noBorder input" placeholder="Passwort">
+                        <img src="./../assets/icons/svg/lock.svg">
                     </innerInputfield>
                 </div>
 
                 <div class="saveLogin">
-                    <input id="checkbox" type="checkbox" >
+                    <input id="checkbox" type="checkbox">
                     <text class="">Remember me</text>
                 </div>
                 <div class="buttons">
                     <button onclick="login()" class="logInBtn">Log in</button>
-                    <a href="../../summary/summary.html"><button class="guestBtn">Guest Log in</button></a>
+                    <a href="./../summary/summary.html"><button class="guestBtn">Guest Log in</button></a>
                 </div>
             </div>
         </div>
-
-        <div class="loginfooter">
-
-            <a href="./privacyPolicy.html">Privacy Policy</a>
-            <a href="./legalNotice.html">Legal notice</a>
-
-        </div>
-
     </div>
-</div>
+    <div class="loginfooter">
+        <a href="./privacyPolicy.html">Privacy Policy</a>
+        <a href="./legalNotice.html">Legal notice</a>
+    </div>
 </body>
 
 </html>

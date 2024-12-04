@@ -12,16 +12,16 @@
     <link rel="stylesheet" href="./../styles/board.css">
     <link rel="stylesheet" href="./../styles/assets.css">
     <link rel="stylesheet" href="./../style.css">
-    <script src="../../script.js"></script>
-    <script src="../../scripts/templates.js"></script>
-    <script src="../../scripts/addTask.js"></script>
-    <script src="../../scripts/contacts.js"></script>
-    <script src="../../scripts/backend.js"></script>
+    <script src="./../script.js"></script>
+    <script src="./../scripts/templates.js"></script>
+    <script src="./../scripts/addTask.js"></script>
+    <script src="./../scripts/contacts.js"></script>
+    <script src="./../scripts/backend.js"></script>
 </head>
 <body onload="includeHTML(); main()">
-    <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
+    <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     <div class="content">
-        <div class="header" w3-include-html="../../templates/header.html"></div>
+        <div class="header" w3-include-html="./../templates/header.html"></div>
         <div class="addTaskContent">
             <h1>Add Task</h1>
             <form id="addTaskFormTask" onsubmit="addTaskToToDoList(event)">
@@ -50,14 +50,14 @@
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
                                 class="priorityBtn">Urgent
-                                <img src="../../assets/icons/png/PrioritySymbolsUrgent.png">
+                                <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
                             </button>
                             <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
                                 class="priorityBtn">Medium
-                                <img src="../../assets/icons/png/PrioritySymbolsMiddle.png">
+                                <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
                             </button>
                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
-                                <img src="../../assets/icons/png/PrioritySymbolsLow.png">
+                                <img src="./../assets/icons/png/PrioritySymbolsLow.png">
                             </button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
@@ -72,7 +72,7 @@
                                 type="text" onkeydown="handleSubtaskKey(event)">
                             <div class="divider"></div>
                             <img onclick="addNewSubtask()" class="addSubtaskButton"
-                                src="../assets/icons/png/addSubtasks.png">
+                                src="./../assets/icons/png/addSubtasks.png">
                         </div>
                         <ul id="subTasksList"></ul>
                     </div>
@@ -81,10 +81,10 @@
                     <p><span class="requiredStar">*</span>This field is required</p>
                     <div class="buttonContainer">
                         <button type="submit" class="button">Create Task
-                            <img src="../assets/icons/png/check.png">
+                            <img src="./../assets/icons/png/check.png">
                         </button>
                         <button type="reset" class="button clearBtn">Clear
-                            <img src="../assets/icons/png/iconoir_cancel.png">
+                            <img src="./../assets/icons/png/iconoir_cancel.png">
                         </button>
                     </div>
                 </div>

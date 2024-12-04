@@ -1,3 +1,14 @@
+
+body {
+    margin: 0;
+    max-width: 1440px;
+    height: 100vh;
+    background-color: #F6F7F8;
+    flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+}
+
 .registration {
     margin-bottom: 64px;
     background-color: white;
@@ -89,3 +100,161 @@
     opacity: 0;
   }
   
+  .logoLogin {
+    position: absolute;
+    top: 80px;
+    left: 77px;
+    width: 100px;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.borderInputFields {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+.innerInputfield {
+    width: 380px;
+    height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.loginBackground {
+    margin-top: 64px;
+    margin-bottom: 64px;
+    background-color: white;
+    height: 493px;
+    width: 652px;
+    border-radius: 30px;
+}
+
+.border {
+    border: 2px;
+    border-style: solid;
+    border-color: #D1D1D1;
+    border-radius: 10px;
+    height: 48px;
+    width: 422px;
+    justify-content: center;
+    margin: 30px;
+}
+
+.input{
+    width: 328px;
+}
+
+.noBorder {
+    border: none;
+}
+
+@media(max-width: 428px) {
+    .loginBackground {
+        margin-top: 64px;
+        margin-bottom: 64px;
+        background-color: white;
+        height: 595px;
+        width: 396px;
+        border-radius: 30px;
+    }
+    .registrationLink {
+        position: absolute;
+        top: 608px;
+        right: -12px;
+    }
+
+    .registration {
+        margin-bottom: 64px;
+        width: 396px;
+        height: 595px;
+        background-color: white;
+        /* display: flex
+; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        flex-direction: column;
+        /* border-radius: 30px; */
+        /* gap: 28px; */
+        /* padding: 20px 50px; */
+        /* margin-top: 84px; */
+        animation: fadeInBlur 1s ease forwards;
+    }
+  
+
+    .border {
+        border: 2px;
+        border-style: solid;
+        border-color: #D1D1D1;
+        border-radius: 10px;
+        height: 48px;
+        width: 364px;
+        justify-content: center;
+        margin: 30px;
+    }
+
+    .innerInputfield {
+        width: 364px;
+        height: 50px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .saveLogin {
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 24px;
+        margin-bottom: 50px;
+        display: none;
+    }
+
+    .logoLogin {
+        position: relative;
+        top: 40px;
+        left: 77px;
+        width: 100px;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+    }
+    
+    .buttons{
+        flex-direction: column;
+        margin: 10px;
+
+    }
+
+    .logInBtn{
+        width: 180px;
+        height: 51px;
+        margin: 10px;
+    }
+
+    .guestBtn{
+        margin: 10px;
+        width: 180px;
+        height: 51px;
+    }
+    .logoLogin{
+        height: 78px;
+        width: 64px;
+    }
+
+
+
+}

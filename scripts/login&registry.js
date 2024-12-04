@@ -4,10 +4,6 @@ function enableButton(){
     document.getElementById('signUpBtn').toggleAttribute('disabled');
 }
 
-// der Button sollte noch irgendwie ausgegraut werden er nicht pressbar ist!
-// die Passwort eingabefelder sollten ausgegraut werden wenn ein wert eingegeben wird!
-// die Passwort eingabefelder sollen verschwinden wenn sie angeklickt werden!
-
 function emailCheck(email){
     if(emailArray.includes(email)){
          showSnackbar('Die eingegebene Emailadresse besteht bereits, bitte geb eine andere an!');

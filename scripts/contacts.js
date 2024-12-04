@@ -68,15 +68,17 @@ function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
 }
 
-async function createContact() {
+function createContact() {
     let name = document.getElementById('name').value;
     let email = document.getElementById('email').value;
     let phone = +document.getElementById('phone').value;
-    console.log(name, email, phone, ID);
     pushData(name, email, phone);
     closeAddContact();
-    await getContacts();
-    renderContacts()
+    setTimeout(() => {
+    getContacts();
+    renderContacts();
+    }, 800);
+    
 }
 
 async function pushData(name, email, phone) {
@@ -202,7 +204,6 @@ function getFromEdit(i) {
     let phone = document.getElementById('phone').value;
     let email= document.getElementById('email').value;
     let contactId = contactsArray[i].id;
-
     putContact(contactId, name, email, phone)
 }
 
@@ -227,7 +228,7 @@ function checkInput(){
     let fullname = document.getElementById('name').value;
 
   if (fullname.split(" ").length < 2) {
-    alert("please insert first and lastname")
+    showSnackbar("Please insert first and lastname");
   } else {
     createContact();
   }

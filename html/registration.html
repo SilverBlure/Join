@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="./../styles/templates.css">
     <link rel="stylesheet" href="./../styles/assets.css">
     <link rel="stylesheet" href="./../style.css">
-    <link rel="stylesheet" href="./../styles/login.css">
     <link rel="stylesheet" href="./../styles/registration.css">
     <script src="./../scripts/backend.js"></script>
     <script src="./../scripts/login&registry.js"></script>
@@ -20,70 +19,67 @@
 
 <body onload="initReg()">
     <div id="snackbar" class="hidden"></div>
-        <img class="logoLogin" src="../../assets/icons/svg/joinLogo.svg">
+    <img class="logoLogin" src="./../assets/icons/svg/joinLogo.svg">
 
-        <div class="center ">
+    <div class="center ">
 
-            <div class="registration">
+        <div class="registration">
 
-        <div style="display: flex; justify-content: center; align-items: center;">
-            <a href="./login.html"><img style="position: relative; right: 50px;" src="../../assets/icons/png/arrow-left-line.png"></a>
-            <h1>Sign up</h1>
-        </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <a href="./login.html"><img style="position: relative; right: 50px;"
+                        src="./../assets/icons/png/arrow-left-line.png"></a>
+                <h1>Sign up</h1>
+            </div>
 
 
-                <div>
-                    <div class="border borderInputFields center">
-                        <innerInputfield class="innerInputfield">
-                            <input id="name" class="noBorder" placeholder="Name" required>
-                            <img src="../../assets/icons/png/person.png">
-                        </innerInputfield>
-                    </div>
-
-                    <div class="border borderInputFields center">
-                        <innerInputfield class="innerInputfield">
-                            <input id="email" type="email" class="noBorder" placeholder="Email" required>
-                            <img src="../../assets/icons/svg/mail.svg">
-                        </innerInputfield>
-                    </div>
-
-                    <div class="border borderInputFields center">
-                        <innerInputfield class="innerInputfield">
-                            <input id="password_1" type="password" class="noBorder" placeholder="Passwort" required>
-                            <img src="../../assets/icons/svg/lock.svg">
-                        </innerInputfield>
-                    </div>
-
-                    <div class="border borderInputFields center">
-                        <innerInputfield class="innerInputfield">
-                            <input id="password_2" type="password" class="noBorder" placeholder="Passwort wiederholen"
-                                required>
-                            <img src="../../assets/icons/svg/lock.svg">
-                        </innerInputfield>
-                    </div>
-
-                    <div class="conditionBox">
-                        <input id="checkbox" type="checkbox" onclick="enableButton()">
-                        <text class="condition">I accept the <a href="./privacyPolicy.html">Privacy policy</a></text>
-                    </div>
-                    <div class="btnContainer">
-                        <button onclick="signIn()" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
-                    </div>
+            <div>
+                <div class="border borderInputFields center">
+                    <innerInputfield class="innerInputfield">
+                        <input id="name" class="noBorder input" placeholder="Name" required>
+                        <img src="./../assets/icons/png/person.png">
+                    </innerInputfield>
                 </div>
 
+                <div class="border borderInputFields center">
+                    <innerInputfield class="innerInputfield">
+                        <input id="email" type="email" class="noBorder input" placeholder="Email" required>
+                        <img src="./../assets/icons/svg/mail.svg">
+                    </innerInputfield>
+                </div>
 
+                <div class="border borderInputFields center">
+                    <innerInputfield class="innerInputfield">
+                        <input id="password_1" type="password" class="noBorder input" placeholder="Passwort" required>
+                        <img src="./../assets/icons/svg/lock.svg">
+                    </innerInputfield>
+                </div>
+
+                <div class="border borderInputFields center">
+                    <innerInputfield class="innerInputfield">
+                        <input id="password_2" type="password" class="noBorder input" placeholder="Passwort wiederholen"
+                            required>
+                        <img src="./../assets/icons/svg/lock.svg">
+                    </innerInputfield>
+                </div>
+
+                <div class="conditionBox">
+                    <input id="checkbox" type="checkbox" onclick="enableButton()">
+                    <text class="condition">I accept the <a href="./privacyPolicy.html">Privacy policy</a></text>
+                </div>
+                <div class="btnContainer">
+                    <button onclick="signIn()" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
+                </div>
             </div>
-
-            <div class="signUpfooter">
-
-                <a href="./privacyPolicy.html">Privacy Policy</a>
-                <a href="./legalNotice.html">Legal notice</a>
-
-            </div>
-
         </div>
 
-   
+        <div class="signUpfooter">
+            <a href="./privacyPolicy.html">Privacy Policy</a>
+            <a href="./legalNotice.html">Legal notice</a>
+        </div>
+
+    </div>
+
+
 </body>
 
 </html>
