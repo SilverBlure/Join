@@ -143,7 +143,7 @@ p{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 20px;
+    margin-top: 20px;
 }
 
 .InfoBoxHead {
@@ -326,6 +326,7 @@ h4{
 
 .pointer{
     cursor: pointer;
+    
 }
 
 .close:hover{
@@ -370,4 +371,115 @@ border-radius: 10px;
 
 input{
     width: 300px;
+}
+
+@media (max-width: 1200px){
+
+    .contactsBar{
+        width: 456px;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    .mailTo{
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 1120px){
+
+h1{
+    font-size: 42px;
+}
+h3{
+    font-size: 18px;
+}
+.userTagBig{
+    width: 80px;
+    height: 80px; 
+
+}
+.contactUserTag{
+    margin-left: 0;
+}
+}
+
+@media (max-width: 980px){
+    .sidebar li{
+        padding-left: 5px;
+    }
+    .contactsBar{
+        padding-left: 5px;
+        padding-right: 0px;
+    }
+    .addContactBtn{
+        height: 46px;
+        width: 250px;
+    }
+    .contactDetails{
+        padding-left: 45px;
+    }
+
+    @media (max-width: 920px){
+        .contactsBar{
+            width: 356px;
+        }
+        .addContactBtn{
+            font-size: 16px;   
+    }
+    .contactDetails{
+        width: 70%;
+    }
+}
+}
+
+@media (max-width: 855px){
+    h1{
+        font-size: 32px;
+    }
+    h2{
+        font-size: 20px;
+    }
+    h3{
+        font-size: 16px;
+    }
+    .contactDetails{
+        width: 75%;
+    }
+    .contactHeadline{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .userTagBig{
+        width: 60px;
+        height: 60px;
+        font-size: 32px; 
+    }
+    .blueLine{
+       background-color: #29ABE2;
+        width: 80px;
+        height: 3px;
+        margin-bottom: 5px;
+    }
+    .pointer{
+        height: 20px;
+    }
+    .contactInfoBox{
+        margin-top: 40px;
+    }
+    .help{
+        width: 10px;
+    }
+    .contactsBar{
+        width: 320px;
+        
+    }
+    .contactContainer{
+justify-content: left;
+    }
+}
+@media (max-width: 760px){
+
+    .contacts{
+        height: auto;
+    }
 }
