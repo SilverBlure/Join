@@ -18,7 +18,9 @@ a:hover {
     display: flex;
     flex-direction: column;
     animation: fadeInBlur 0.25s ease forwards;
+    width: 100%;
     max-width: 1340px;
+    box-sizing: border-box;
 }
 
 .intro {
@@ -99,3 +101,14 @@ a:hover {
     opacity: 0;
   }
   
+  @media (max-width: 1024px) {
+    .content {
+        max-width: 85%; 
+    }
+}
+
+@media (max-width: 580px) {
+    .content {
+        max-width: 100%; 
+    }
+}

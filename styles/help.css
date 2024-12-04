@@ -21,11 +21,26 @@ td {
     padding-left: 100px;
     max-width: 1340px;
     overflow-y: auto;
-} 
+
+}
 
 .helpHeadline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-right: 250px;
+    padding: 0 5%;
+
+}
+
+@media (max-width: 1024px) {
+    .helpContent {
+        padding: 25px 50px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .helpContent {
+        padding: 25px 50px; 
+        height: calc(100vh - 70px); 
+    }
 }

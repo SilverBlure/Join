@@ -1,10 +1,23 @@
 <p class="headline">Kanban Project Managment Tool</p>
+<img class="headerlogo" src="/assets/icons/svg/joinLogo.svg" alt="">
 <div class="help">
     <a href="../html/help.html">
         <img class="helpImg" src="../../assets/icons/png/help.png" alt="">
     </a>
     <div class="logoutButton">
-        <p class="userTag" id="logedInUser"></p>
+        <p class="userTag" onclick="toggleShowMenu(event)" id="logedInUser"></p>
+        <div id="dropdownMenu" class="display-none" onmouseleave="toggleShowMenu(event)">
+            <a onclick="logout(event)" href="../index.html">
+                <span>Log out</span>
+            </a>
+            <a href="../html/help.html">
+                <span>Help</span>
+            </a>
+            <a href="../html/legalNotice.html">
+                <span>Legal notice</span>
+            </a>
+        </div>
         <div onclick="logOut()" class="logout">LOGOUT</div>
+
     </div>
 </div>
