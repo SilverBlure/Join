@@ -34,13 +34,6 @@ td {
 
 @media (max-width: 1024px) {
     .helpContent {
-        padding: 25px 50px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .helpContent {
         padding: 25px 50px; 
-        height: calc(100vh - 70px); 
     }
 }
