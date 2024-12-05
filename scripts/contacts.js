@@ -5,7 +5,6 @@ let contactsArray = [];
 function init() {
     loadSessionId();
     getContacts();
-
 }
 
 
@@ -69,15 +68,17 @@ function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
 }
 
-async function createContact() {
+function createContact() {
     let name = document.getElementById('name').value;
     let email = document.getElementById('email').value;
     let phone = +document.getElementById('phone').value;
-    console.log(name, email, phone, ID);
     pushData(name, email, phone);
     closeAddContact();
-    await getContacts();
-    renderContacts()
+    setTimeout(() => {
+    getContacts();
+    renderContacts();
+    }, 800);
+    
 }
 
 async function pushData(name, email, phone) {
@@ -95,6 +96,7 @@ async function pushData(name, email, phone) {
         })
     }
     )
+    showSnackbar('Der Kontakt wurde erfolgreich erstellt!');
     return responseAsJson = response.json();
 }
 
@@ -114,15 +116,15 @@ async function putContact(contactId, name, email, phone, i) {
     }
     )
     closeAddContact();
-    await getContacts();
+    getContacts();
+    showSnackbar('Der Kontakt wurde erfolgreich geändert!');
     renderContactDetails(i)
+
     return responseAsJson = response.json();
 }
 
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
-   
-
 }
 
 async function getContacts() {
@@ -162,6 +164,7 @@ async function deleteContactDatabase(i) {
     document.getElementById('ContactDetailed').innerHTML = "";
     getContacts();
     closeAddContact();
+    showSnackbar('Der Kontakt wurde erfolgreich gelöscht!');
 }
 
 
@@ -201,7 +204,23 @@ function getFromEdit(i) {
     let phone = document.getElementById('phone').value;
     let email= document.getElementById('email').value;
     let contactId = contactsArray[i].id;
-    putContact(contactId, name, email, phone, i)
+    putContact(contactId, name, email, phone)
+}
+
+function getColorHex(vorname, nachname){
+    let completeName = (vorname+nachname).toLowerCase();
+    let hash = 0;
+
+    for( let i = 0; i< completeName.length; i++){
+        hash += completeName.charCodeAt(i);
+    }
+
+    let r = (hash * 123) % 256;
+    let g = (hash * 456) % 256;
+    let b = (hash * 789) % 256;
+
+    let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return hexColor;
 }
 
 
@@ -209,7 +228,7 @@ function checkInput(){
     let fullname = document.getElementById('name').value;
 
   if (fullname.split(" ").length < 2) {
-    alert("please insert first and lastname")
+    showSnackbar("Please insert first and lastname");
   } else {
     createContact();
   }

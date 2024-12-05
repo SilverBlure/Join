@@ -58,7 +58,6 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
   }
 
   try {
-      // 1. Task von Firebase abrufen
       const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
       const response = await fetch(taskUrl);
 
@@ -73,16 +72,9 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
           return;
       }
 
-      // 2. Subtask-Status aktualisieren
-      const subtask = task.subtasks[subtaskId]; // Direkt den Subtask über die ID holen
-      if (isChecked) {
-          subtask.done = true; // Markiere als erledigt
-          delete subtask.todo; // Entferne das `todo`-Feld
-      } else {
-          subtask.done = false; // Setze zurück auf unerledigt
-      }
+      // Subtask-Status aktualisieren
+      task.subtasks[subtaskId].done = isChecked;
 
-      // 3. Aktualisierten Task in Firebase speichern
       const updateResponse = await fetch(taskUrl, {
           method: "PUT",
           headers: {
@@ -96,17 +88,74 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
           return;
       }
 
-      console.log("Subtask erfolgreich aktualisiert:", subtask);
+      console.log("Subtask erfolgreich aktualisiert:", task.subtasks[subtaskId]);
 
-      // 4. Darstellung aktualisieren
-      await renderBoard(); // Board neu rendern
-      await openTaskPopup(taskId, listId); // Popup aktualisieren
+      // Nur das betroffene Task-Element aktualisieren
+      await updateSingleTaskElement(listId, taskId, task);
+
+      // Das Pop-up erneut mit aktualisierten Daten öffnen
+      await openTaskPopup(taskId, listId);
+
   } catch (error) {
       console.error("Fehler beim Umschalten des Subtask-Status:", error);
   }
 }
 
 
+
+async function updateSingleTaskElement(listId, taskId, updatedTask) {
+  const taskElement = document.getElementById(`boardCard-${taskId}`);
+  const listContainer = document.getElementById(`${listId}List`)?.querySelector('.taskContainer');
+
+  if (!taskElement || !listContainer) {
+      console.error("Task-Element oder List-Container nicht gefunden:", { taskId, listId });
+      return;
+  }
+
+  // Neues HTML für das Task-Element generieren
+  const subtasks = updatedTask.subtasks ? Object.values(updatedTask.subtasks) : [];
+  const totalCount = subtasks.length;
+  const doneCount = subtasks.filter(st => st.done).length;
+  const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
+  const progressHTML = totalCount > 0 ? /*html*/ `
+      <div class="subtasksContainer">
+          <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar" style="width: ${progressPercent}%;"></div>
+          </div>
+          <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
+      </div>
+  ` : "";
+
+  const workersHTML = Array.isArray(updatedTask.workers)
+      ? updatedTask.workers.map(worker => {
+            const workerClass = worker?.class || "defaultWorker";
+            const workerInitial = worker?.name?.charAt(0) || "?";
+            return `<p class="${workerClass} workerEmblem">${workerInitial}</p>`;
+        }).join("")
+      : "";
+
+  const newTaskHTML = /*html*/ `
+      <div id="boardCard-${taskId}" 
+           draggable="true"
+           ondragstart="startDragging('${taskId}', '${listId}')"
+           onclick="openTaskPopup('${taskId}', '${listId}')"
+           class="boardCard">
+          <p class="${updatedTask.category?.class || 'defaultCategory'} taskCategory">
+              ${updatedTask.category?.name || "No Category"}
+          </p>
+          <p class="taskCardTitle">${updatedTask.title}</p>
+          <p class="taskCardDescription">${updatedTask.description}</p>
+          ${progressHTML}
+          <div class="BoardCardFooter">
+              <div class="worker">${workersHTML}</div>
+              <img class="priority" src="../../assets/icons/png/PrioritySymbols${updatedTask.priority || 'Low'}.png">
+          </div>
+      </div>
+  `;
+
+  // Task-Element im DOM ersetzen
+  taskElement.outerHTML = newTaskHTML;
+}
 
 
 
@@ -121,3 +170,21 @@ function setPriority(priority) {
       console.warn(`Button für Priorität "${priority}" nicht gefunden.`);
   }
 }
+
+function toggleShowMenu(event) {
+  event.stopPropagation(); // Verhindert, dass das Klicken auf das Menü andere Ereignisse auslöst
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  if (dropdownMenu.classList.contains('display-none')) {
+      dropdownMenu.classList.remove('display-none');
+  } else {
+      dropdownMenu.classList.add('display-none');
+  }
+}
+
+// Schließt das Dropdown-Menü, wenn außerhalb geklickt wird
+document.addEventListener('click', function () {
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  if (!dropdownMenu.classList.contains('display-none')) {
+      dropdownMenu.classList.add('display-none');
+  }
+});

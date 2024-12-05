@@ -15,12 +15,11 @@
     <script src="../../script.js"></script>
     <script src="../../scripts/templates.js"></script>
     <script src="../../scripts/summary.js"></script>
-    <script src="../../scripts/board.js"></script>
     <script src="./../scripts/backend.js"></script>
     <link rel="stylesheet" href="/styles/templates.css">
 </head>
 
-<body onload="includeHTML(); renderDashboard(); getNextDueDate(); setGreeting(); init()">
+<body onload="includeHTML(); fetchAndPrepareTasks(); init(); initSummary()">
     <div class="sidebar" w3-include-html="../../templates/sidebar.html"></div>
     
     <div class="content">
@@ -38,14 +37,14 @@
                     <div class="do">
                         <img class="doIcon" src="../assets/icons/png/todo.png">
                         <div class="column">
-                            <h1 id="toDoTasks" class="margin_0 taskNumber" >1</h1>
+                            <h1 id="toDoTasks" class="margin_0 taskNumber"></h1>
                             <p class="margin_0" >To-do</p>
                         </div>
                     </div>
                     <div class="do">
                         <img class="doIcon" src="../assets/icons/png/done.png">
                         <div class="column">
-                            <h1 id="doneTasks" class="margin_0 taskNumber">1</h1>
+                            <h1 id="doneTasks" class="margin_0 taskNumber"></h1>
                             <p class="margin_0">Done</p>
                         </div>
                     </div>
@@ -54,35 +53,35 @@
                 <div class="urgent">
                     <img class="doIcon" src="../assets/icons/png/urgent.png">
                     <div class="column">
-                        <h1 id="urgentTasks" class="margin_0 taskNumber">1</h1>
+                        <h1 id="urgentTasks" class="margin_0 taskNumber"></h1>
                         <p class="margin_0">Urgent</p>
                     </div>
 
                     <span class="greyLine"></span>
                     <div>
                         <h3 id="nextDueDate" style="font-weight: 700;"></h3>
-                        <p>Upcoming Deadline</p>
+                        <p id="noTaskInBoard">Upcoming Deadline</p>
                     </div>
                 </div>
 
                 <div class="tasks">
                     <div class="tasksBox">
-                        <p id="allTasks" class="taskNumber">5</p>
+                        <p id="allTasks" class="taskNumber"></p>
                         <p>Tasks in Board</p>
                     </div>
                     <div class="tasksBox">
-                        <p id="inProgressTasks" class="taskNumber">5</p>
+                        <p id="inProgressTasks" class="taskNumber"></p>
                         <p>Tasks in Progress</p>
                     </div>
                     <div class="tasksBox">
-                        <p id="awaitFeddbackTasks" class="taskNumber">5</p>
+                        <p id="awaitFeddbackTasks" class="taskNumber"></p>
                         <p>Awaiting Feedback</p>
                     </div>
                 </div>
             </div>
             <div class="userGreeting">
                 <h2 id="greeting" class="margin_0">Good Morning,</h2>
-                <h1 class="name">Stanislav</h1>
+                <h1 id="user" class="name"></h1>
             </div>
         </div>
     </div>

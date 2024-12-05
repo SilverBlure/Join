@@ -1,189 +1,190 @@
 body {
-    display: flex;
+  display: flex;
 }
 
 .sidebar {
-    background-color: #2A3647;
-    width: 232px;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    flex-direction: column;
-    position: sticky;
+  background-color: #2a3647;
+  width: 232px;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  position: sticky;
+}
+
+.headerlogo {
+  display: none;
+  width: 32px;
+  height: 39px;
 }
 
 .sidebar ul {
-    list-style: none;
-    padding: 0;
-    padding-top: 100px;
-    margin-bottom: 0px;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+  list-style: none;
+  padding: 0;
+  padding-top: 100px;
+  margin-bottom: 0px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .sidebar li {
-    gap: 16px;
-    display: flex;
-    align-items: center;
-    padding-left: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+  gap: 16px;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .sidebarNavBtn {
-    text-decoration: none;
-    color: #ffffff;
-    font-size: 16px;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 16px;
 }
 
 .sidebarNavBtn:hover {
-    text-decoration: none;
-    color: #ffffff;
+  text-decoration: none;
+  color: #ffffff;
 }
 
 .sidebar li:hover {
-    background-color: #091931;
-    cursor: pointer;
+  background-color: #091931;
+  cursor: pointer;
 }
 
 .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 96px;
-    max-width: 1920px;
-    background-color: white;
-    box-shadow: 0px 2px 8px -2px rgb(223, 224, 225);
-    
-    
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 96px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0px 2px 8px -2px rgb(223, 224, 225);
 }
 
 .headline {
-    margin-left: 100px;
-    margin-bottom: 0px;
-    width: 350px;
+  margin-left: 100px;
+  margin-bottom: 0px;
+  width: 350px;
 }
 
 .userTag {
-    border: 3px solid black;
-    border-radius: 40px;
-    width: 40px;
-    height: 40px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: rgb(41, 171, 226);
-    margin-top: unset;
-    margin-bottom: unset;
-    float: left;
+  border: 3px solid black;
+  border-radius: 40px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: rgb(41, 171, 226);
+  margin-top: unset;
+  margin-bottom: unset;
+  float: left;
 }
 
 .help {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    padding-right: 50px;
-    column-gap: 20px;
-    width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding-right: 50px;
+  column-gap: 20px;
+  width: 100%;
 }
 
 .helpImg {
-    height: 20px;
-    width: 20px;
+  height: 20px;
+  width: 20px;
 }
 
 .sidebarLogo {
-    padding-top: 64px;
+  padding-top: 64px;
 }
 
 .navBar {
-    padding-top: 200px;
+  padding-top: 200px;
 }
 
 .legalNotice {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-top: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 200px;
 }
 
 .legalNoticeBtn {
-    color: #A8A8A8;
-    padding: 6px;
+  color: #a8a8a8;
+  padding: 6px;
 }
 
 .legalNoticeBtn:hover {
-    color: #A8A8A8;
-    padding: 6px;
+  color: #a8a8a8;
+  padding: 6px;
 }
 
 .helpBtn {
-    padding-left: 650px;
-    padding-right: 50px;
+  padding-left: 650px;
+  padding-right: 50px;
 }
 
 .user {
-    color: #29ABE2;
-    border: solid black;
-    border-radius: 100%;
-    padding: 16px;
-    font-size: 20px;
-    font-weight: 800;
-    margin: 0px;
+  color: #29abe2;
+  border: solid black;
+  border-radius: 100%;
+  padding: 16px;
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0px;
 }
 
 button {
-    background-color: rgb(42, 54, 71);
-    color: white;
-    border-radius: 10px;
+  background-color: rgb(42, 54, 71);
+  color: white;
+  border-radius: 10px;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
-
-
 .logoutButton {
-    float: right;
-    margin: 15px;
-    color: white;
-    width: 150px;
-    transition: width .35s; 
-    -webkit-transition: width .35s;
-    overflow: hidden;
-    display: flex; 
-    justify-content: center;
-    align-items: center;
+  float: right;
+  padding-right: 45px;
+  margin: 15px;
+  color: white;
+  width: 150px;
+  transition: width 0.35s;
+  -webkit-transition: width 0.35s;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .logoutButton:hover {
-    width: 250px; 
+  width: 250px;
 }
 
-
-
 .logout {
-    font-size: .8em;
-    position: relative;
-    right: -18px;
-    overflow: hidden;
-    letter-spacing: 3px;
-    opacity: 0;
-    transition: opacity .45s;
-    -webkit-transition: opacity .35s;
-    color: black;
-    cursor: pointer;
+  font-size: 0.8em;
+  position: relative;
+  right: -18px;
+  overflow: hidden;
+  letter-spacing: 3px;
+  opacity: 0;
+  transition: opacity 0.45s;
+  -webkit-transition: opacity 0.35s;
+  color: black;
+  cursor: pointer;
 }
 
 .logoutButton:hover .logout {
-    opacity: .9; 
+  opacity: 0.9;
 }
 
 @media (max-width: 1010px){
@@ -205,4 +206,116 @@ a {
         padding-right: 5px;
         height: auto;
     }
+#dropdownMenu {
+  display: none;
+}
+
+.display-none {
+  display: none !important;
+}
+
+#dropdownMenu {
+  display: none;
+}
+}
+@media (max-width: 580px) {
+  .logoutButton {
+    float: none;
+    right: 10px;
+    width: auto;
+    padding: 10px;
+    justify-content: flex-end;
+    transition: none !important;
+  }
+
+  .logout {
+    display: none !important;
+  }
+
+  .logoutButton:hover .logout {
+    opacity: 0 !important;
+  }
+
+  .headline {
+    display: none;
+  }
+
+  .headerlogo {
+    display: block;
+    padding: 26px;
+    width: 40px;
+    height: 60px;
+  }
+
+  .helpImg {
+    display: none;
+  }
+
+  #dropdownMenu {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 97px;
+    background-color: #2a3647;
+    padding: 10px;
+    border: none;
+    border-radius: 20px 0 20px 20px;
+    z-index: 1;
+    text-decoration: none;
+  }
+
+  #dropdownMenu span {
+    display: flex;
+    align-items: center;
+    color: white;
+    width: 112px;
+    height: 41px;
+    gap: 1px;
+    padding: 8px;
+    cursor: pointer;
+  }
+
+  #dropdownMenu span:hover {
+    color: var(--bg-color);
+    font-weight: bold;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    order: 2;
+  }
+
+  .sidebar ul {
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 10px 0;
+  }
+
+  .sidebar li {
+    flex-direction: column;
+    width: 20%;
+    height: auto;
+    padding: 8px 10px;
+    text-align: center;
+    border-radius: 8px;
+  }
+
+  .sidebar li:hover {
+    background-color: grey;
+  }
+
+  .sidebarNavBtn {
+    font-size: 12px;
+
+    .sidebarLogo,
+    .legalNotice {
+      display: none;
+    }
+
+    body {
+      flex-direction: column;
+    }
+  }
 }
