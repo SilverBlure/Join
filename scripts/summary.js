@@ -1,26 +1,21 @@
 let tasks = [];
 
 
+
 async function initSummary() {
     try {
         const tasksArray = await fetchAndPrepareTasks();
         if (!tasksArray || !Array.isArray(tasksArray)) {
             console.warn("Keine gültigen Tasks für das Dashboard verfügbar.");
-            setDefaultDashboardValues(); // Aufruf bei fehlenden Daten
+            setDefaultDashboardValues();
             return;
         }
-
         renderDashboard(tasksArray);
-        getNextDueDate(tasksArray);
     } catch (error) {
         console.error("Fehler beim Initialisieren der Summary-Seite:", error);
-        setDefaultDashboardValues(); // Aufruf bei einem Fehler
+        setDefaultDashboardValues();
     }
 }
-
-
-    
-
 
 
 
@@ -31,26 +26,22 @@ async function fetchAndPrepareTasks() {
             console.error("Session Key fehlt.");
             return null;
         }
-
-        const response = await fetch(`${BASE_URL}data/user/${sessionKey}/user/tasks.json`);
+        const url = `${BASE_URL}data/user/${sessionKey}/user/tasks.json`;
+        const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Fehler beim Abrufen der Aufgaben: ${response.status}`);
         }
-
         const tasksData = await response.json();
-        console.log("Rohdaten der Tasks aus Firebase:", tasksData);
-
-        // Tasks in ein Array konvertieren
         const tasksArray = Object.entries(tasksData).map(([listId, listData]) => ({
             id: listId,
             name: listData.name || listId,
-            tasks: listData.task ? Object.entries(listData.task).map(([taskId, taskData]) => ({
-                id: taskId,
-                ...taskData,
-            })) : [],
+            tasks: listData.task 
+                ? Object.entries(listData.task).map(([taskId, taskData]) => ({
+                    id: taskId,
+                    ...taskData,
+                }))
+                : [],
         }));
-
-        console.log("Konvertierte Tasks in Array:", tasksArray);
         return tasksArray;
     } catch (error) {
         console.error("Fehler beim Laden und Konvertieren der Tasks:", error);
@@ -60,16 +51,13 @@ async function fetchAndPrepareTasks() {
 
 
 
+
 function parseDateString(dateString) {
     if (!dateString || typeof dateString !== "string") return null;
-
-    // Überprüfe, ob das Datum korrekt erkannt wird
     const parsedDate = new Date(dateString);
     if (isNaN(parsedDate.getTime())) {
-        console.warn("Ungültiges Datum gefunden:", dateString);
         return null;
     }
-
     return parsedDate;
 }
 
@@ -88,20 +76,14 @@ function setDefaultDashboardValues() {
 
 function renderDashboard(tasksArray) {
     if (!Array.isArray(tasksArray)) {
-        console.error("TasksArray ist kein gültiges Array:", tasksArray);
         setDefaultDashboardValues();
         return;
     }
-
-    // Prüfen, ob mindestens eine Liste Tasks enthält
     const hasTasks = tasksArray.some((list) => list.tasks && list.tasks.length > 0);
     if (!hasTasks) {
-        console.warn("Keine Tasks in den Listen gefunden. Dashboard wird zurückgesetzt.");
         setDefaultDashboardValues();
         return;
     }
-
-    // Die restlichen Rendering-Funktionen aufrufen
     renderToDoTasks(tasksArray);
     renderDoneTasks(tasksArray);
     renderUrgentTasks(tasksArray);
@@ -145,7 +127,6 @@ function renderUrgentTasks(tasksArray) {
             list.tasks.filter(task => task.priority === "Urgent").length
         );
     }, 0);
-
     document.getElementById("urgentTasks").textContent = urgentCount;
 }
 
@@ -157,54 +138,51 @@ function renderAllTasks(tasksArray) {
     document.getElementById("allTasks").textContent = totalCount;
 }
 
+
+
 function getNextDueDate(tasksArray) {
     if (!Array.isArray(tasksArray) || tasksArray.length === 0) {
-        console.warn("Keine Tasks verfügbar. Standardwert wird angezeigt.");
-        document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
+        setNoDueDateMessage();
         return;
     }
-
     const today = new Date();
     let closestDate = null;
-
-    // Iteriere durch alle Listen und deren Tasks
-    tasksArray.forEach((list) => {
-        list.tasks.forEach((task) => {
-            const taskDate = parseDateString(task.dueDate); // Konvertiere dueDate in ein gültiges Date-Objekt
+    tasksArray.forEach(list => {
+        list.tasks.forEach(task => {
+            const taskDate = parseDateString(task.dueDate);
             if (taskDate && taskDate > today && (!closestDate || taskDate < closestDate)) {
-                closestDate = taskDate; // Setze das nächste Datum
+                closestDate = taskDate;
             }
         });
     });
+    const nextDueDateElement = document.getElementById("nextDueDate");
+    if (nextDueDateElement) {
+        nextDueDateElement.innerHTML = closestDate
+            ? closestDate.toLocaleDateString("de-DE", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+              })
+            : "Keine Aufgaben verfügbar";
+    }
+}
 
-    // Ergebnis formatieren und anzeigen
-    if (closestDate) {
-        const formattedDate = closestDate.toLocaleDateString("de-DE", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-        });
-        document.getElementById("nextDueDate").innerHTML = formattedDate;
-    } else {
-        document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
+function setNoDueDateMessage() {
+    const nextDueDateElement = document.getElementById("nextDueDate");
+    if (nextDueDateElement) {
+        nextDueDateElement.innerHTML = "Keine Aufgaben verfügbar";
     }
 }
 
 
 
 
-
-
 function convertTasksToArray(tasksObject) {
-    if (!tasksObject || typeof tasksObject !== "object") {
-        console.error("Ungültige Tasks-Daten:", tasksObject);
-        return [];
-    }
-
+    if (!tasksObject || typeof tasksObject !== "object") return [];
     return Object.entries(tasksObject).map(([listId, listData]) => ({
         id: listId,
-        name: listData.name || listId,
-        tasks: listData.task
+        name: listData?.name || listId,
+        tasks: listData?.task
             ? Object.entries(listData.task).map(([taskId, taskData]) => ({
                   id: taskId,
                   ...taskData,
@@ -215,15 +193,14 @@ function convertTasksToArray(tasksObject) {
 
 
 
-function setUserName(userName) {
-    const userElement = document.getElementById('user');
 
-    if (userName) {
-        userElement.textContent = userName; // Name des Benutzers anzeigen
-    } else {
-        userElement.textContent = ""; // Keine Anzeige, wenn kein Name gefunden wird
+function setUserName(userName) {
+    const userElement = document.getElementById("user");
+    if (userElement) {
+        userElement.textContent = userName || ""; 
     }
 }
+
 
 
 
@@ -251,30 +228,16 @@ async function init() {
 
 async function getUserData() {
     try {
-        const sessionKey = localStorage.getItem('sessionKey');
-        if (!sessionKey) {
-            console.error("Session Key fehlt.");
-            return null;
-        }
-
+        const sessionKey = localStorage.getItem("sessionKey");
+        if (!sessionKey) return null; 
         const response = await fetch(`${BASE_URL}data/user/${sessionKey}.json`);
-        if (!response.ok) {
-            throw new Error(`Fehler beim Abrufen der Benutzerdaten: ${response.status}`);
-        }
-
+        if (!response.ok) return null;
         const userData = await response.json();
-        console.log("Benutzerdaten erfolgreich geladen:", userData);
-
-        // Benutzername anzeigen
-        setUserName(userData?.user?.userData?.name);
-
+        setUserName(userData?.user?.userData?.name || null);
         return userData;
-    } catch (error) {
-        console.error(error.message);
-
-        // Setze leeren Benutzernamen, wenn ein Fehler auftritt
-        setUserName(null);
-
+    } catch {
+        setUserName(null); 
         return null;
     }
 }
+
