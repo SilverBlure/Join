@@ -165,3 +165,21 @@ function setPriority(priority) {
       console.warn(`Button für Priorität "${priority}" nicht gefunden.`);
   }
 }
+
+function toggleShowMenu(event) {
+  event.stopPropagation(); // Verhindert, dass das Klicken auf das Menü andere Ereignisse auslöst
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  if (dropdownMenu.classList.contains('display-none')) {
+      dropdownMenu.classList.remove('display-none');
+  } else {
+      dropdownMenu.classList.add('display-none');
+  }
+}
+
+// Schließt das Dropdown-Menü, wenn außerhalb geklickt wird
+document.addEventListener('click', function () {
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  if (!dropdownMenu.classList.contains('display-none')) {
+      dropdownMenu.classList.add('display-none');
+  }
+});
