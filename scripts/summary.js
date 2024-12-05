@@ -6,13 +6,12 @@ async function initSummary() {
     try {
         const tasksArray = await fetchAndPrepareTasks();
         if (!tasksArray || !Array.isArray(tasksArray)) {
-            console.warn("Keine gültigen Tasks für das Dashboard verfügbar.");
             setDefaultDashboardValues();
             return;
         }
         renderDashboard(tasksArray);
+        getNextDueDate(tasksArray)
     } catch (error) {
-        console.error("Fehler beim Initialisieren der Summary-Seite:", error);
         setDefaultDashboardValues();
     }
 }
@@ -23,7 +22,6 @@ async function fetchAndPrepareTasks() {
     try {
         const sessionKey = localStorage.getItem('sessionKey');
         if (!sessionKey) {
-            console.error("Session Key fehlt.");
             return null;
         }
         const url = `${BASE_URL}data/user/${sessionKey}/user/tasks.json`;
@@ -53,13 +51,12 @@ async function fetchAndPrepareTasks() {
 
 
 function parseDateString(dateString) {
-    if (!dateString || typeof dateString !== "string") return null;
+    if (!dateString) return null;
     const parsedDate = new Date(dateString);
-    if (isNaN(parsedDate.getTime())) {
-        return null;
-    }
-    return parsedDate;
+    return isNaN(parsedDate.getTime()) ? null : parsedDate;
 }
+
+
 
 
 function setDefaultDashboardValues() {
@@ -157,15 +154,20 @@ function getNextDueDate(tasksArray) {
     });
     const nextDueDateElement = document.getElementById("nextDueDate");
     if (nextDueDateElement) {
-        nextDueDateElement.innerHTML = closestDate
-            ? closestDate.toLocaleDateString("de-DE", {
-                  day: "2-digit",
-                  month: "2-digit",
-                  year: "numeric",
-              })
-            : "Keine Aufgaben verfügbar";
+        if (closestDate) {
+            const formattedDate = closestDate.toLocaleDateString("de-DE", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+            });
+            nextDueDateElement.innerHTML = formattedDate;
+        } else {
+            setNoDueDateMessage();
+        }
     }
 }
+
+
 
 function setNoDueDateMessage() {
     const nextDueDateElement = document.getElementById("nextDueDate");
