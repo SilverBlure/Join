@@ -153,6 +153,10 @@ body {
     margin: 30px;
 }
 
+.input{
+    width: 328px;
+}
+
 .noBorder {
     border: none;
 }

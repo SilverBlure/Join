@@ -9,24 +9,31 @@ function init() {
 
 
 function renderContacts() {
+    const contactsElement = document.getElementById('contacts');
+    if (!contactsElement) {
+        return; 
+    }
     contactsArray.sort((a, b) => a.name.localeCompare(b.name));
-    document.getElementById('contacts').innerHTML = '';
-    let currentLetter = ""; 
+    contactsElement.innerHTML = ``;
+    let currentLetter = "";
     for (let i = 0; i < contactsArray.length; i++) {
         let [vorname, nachname] = contactsArray[i].name.split(" ");
         let initialien = vorname[0] + nachname[0];
-        let firstLetter = contactsArray[i].name.slice(0,1);
+        let firstLetter = contactsArray[i].name.slice(0, 1);
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            document.getElementById('contacts').innerHTML += 
-            renderCurrentLetter(currentLetter);
+            contactsElement.innerHTML += renderCurrentLetter(currentLetter);
         }
-       document.getElementById(`group-${currentLetter}`).innerHTML +=
-       contactTemps(i, initialien);
-       setUserTagColor(vorname, nachname, i); 
+        const groupElement = document.getElementById(`group-${currentLetter}`);
+        if (groupElement) {
+            groupElement.innerHTML += contactTemps(i, initialien);
+            setUserTagColor(vorname, nachname, i);
+        } else {
+            console.warn(`Gruppe mit der ID 'group-${currentLetter}' wurde nicht gefunden.`);
+        }
     }
-    
 }
+
 
 
 function renderContactDetails(i) {
