@@ -19,3 +19,7 @@ function passwordCheck(pw1, pw2){
         return true;
     }
 }
+
+function guestLogin(){
+
+}

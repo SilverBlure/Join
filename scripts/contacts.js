@@ -143,7 +143,9 @@ async function getContacts() {
             }
             contactsArray.push(contact);
         }
+        if(checkLockation()){
         renderContacts();
+    }
     }else{
         let response = await fetch(BASE_URL + '/data/user/' + ID + '/user/userData.json');
         let responseAsJson = await response.json();
@@ -154,7 +156,10 @@ async function getContacts() {
     }
 }
 
-
+function checkLockation(){
+    let data = window.location.href;
+    return data.includes('contacts');
+}
 
 async function deleteContactDatabase(i) {
     contactId = contactsArray[i].id;
