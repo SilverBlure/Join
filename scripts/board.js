@@ -520,6 +520,7 @@ async function saveTaskChanges(event, listId, taskId) {
         });
         if (!response.ok) return;
         await getTasks();
+        showSnackbar('Der Task wurde erfolgreich aktualisiert!');
         renderBoard();
         closeEditTaskPopup();
         openTaskPopup(taskId, listId);
@@ -637,6 +638,7 @@ async function addTaskToSpecificList(listId, event) {
         window.localEditedContacts = []; 
         document.getElementById("addTaskFormTask").reset(); 
         tempPriority = null; 
+        showSnackbar('Der Task wurde erfolgreich erstellt!');
         resetForm();
         closeAddTaskPopup(); 
         await getTasks();
