@@ -603,7 +603,7 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
         description,
         dueDate,
         priority,
-        workers: workers.map(worker => ({ name: worker })), // Kontakte als Objekte
+        workers: workers.map(worker => ({ name: worker })), 
         category: { name: category, class: `category${category.replace(" ", "")}` },
         subtasks,
     };
