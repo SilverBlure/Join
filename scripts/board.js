@@ -520,6 +520,7 @@ async function saveTaskChanges(event, listId, taskId) {
         });
         if (!response.ok) return;
         await getTasks();
+        showSnackbar('Der Task wurde erfolgreich aktualisiert!');
         renderBoard();
         closeEditTaskPopup();
         openTaskPopup(taskId, listId);
@@ -602,7 +603,7 @@ async function addTaskToList(listId, title, description, dueDate, priority, work
         description,
         dueDate,
         priority,
-        workers: workers.map(worker => ({ name: worker })), // Kontakte als Objekte
+        workers: workers.map(worker => ({ name: worker })), 
         category: { name: category, class: `category${category.replace(" ", "")}` },
         subtasks,
     };
@@ -637,6 +638,7 @@ async function addTaskToSpecificList(listId, event) {
         window.localEditedContacts = []; 
         document.getElementById("addTaskFormTask").reset(); 
         tempPriority = null; 
+        showSnackbar('Der Task wurde erfolgreich erstellt!');
         resetForm();
         closeAddTaskPopup(); 
         await getTasks();

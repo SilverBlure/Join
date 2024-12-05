@@ -84,7 +84,7 @@ async function addTaskToToDoList(event) {
     try {
         const result = await addTaskToList(newTask);
         if (result) {
-            console.log("Task erfolgreich hinzugefügt:", result);
+            showSnackbar('Der Task wurde erfolgreich erstellt!');
             resetForm();
             document.getElementById("addTaskFormTask").reset();
             clearLocalSubtasks();

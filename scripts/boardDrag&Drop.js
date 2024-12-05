@@ -69,19 +69,16 @@ async function findTaskSourceList(taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
     const response = await fetch(url);
     if (!response.ok) {
-        console.error(`Fehler beim Abrufen der Listen: ${response.status}`);
         return null;
     }
     const data = await response.json();
-    console.log("Datenstruktur für Aufgaben:", data);
     for (const listId in data) {
         const tasks = data[listId]?.task || {};
         if (tasks[taskId]) {
-            console.log(`Task ${taskId} gefunden in Liste ${listId}`);
+            showSnackbar('Der Task wurde erfolgreich verschoben!');
             return listId;
         }
     }
-    console.error(`Task ${taskId} nicht gefunden in irgendeiner Liste.`);
     return null;
 }
 
@@ -308,7 +305,6 @@ function handleContactSelectionForEdit() {
  
 async function deleteTask(listId, taskId) {
     if (!listId || !taskId) {
-        console.error("Invalid parameters for deletion:", { listId, taskId });
         return;
     }
     try {
@@ -317,10 +313,9 @@ async function deleteTask(listId, taskId) {
             method: "DELETE",
         });
         if (!response.ok) {
-            console.error(`Error deleting task ${taskId} from list ${listId}: ${response.status}`);
             return;
         }
-        console.log(`Task ${taskId} successfully deleted from list ${listId}.`);
+        showSnackbar('Der Task wurde erfolgreich gelöscht!');
         await getTasks(); // Reload tasks after deletion
         renderBoard();    // Refresh the board to reflect changes
         closeTaskPopup(); // Close the task details popup if open

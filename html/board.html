@@ -23,17 +23,14 @@
 </head>
 
 <body onload="includeHTML(), main()">
+    <div id="snackbar" class="hidden"></div>
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
-
     <div id="mainContent" class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
-
         <div class="board">
-
             <div class="boardHead">
                 <h1>Board</h1>
                 <div class="searchContainer">
-
                     <div class="searchBar">
                         <input id="findTask" type="text" class="formControl" placeholder="Find Task"
                             aria-label="Find Task" oninput="findTask()">
@@ -42,14 +39,11 @@
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
-
                     <button id="addTaskBtnBoard" onclick="openAddTaskPopup('todo')" class="addTaskBtn">Add Task <img
                             src="./../assets/icons/png/add.png"></button>
                 </div>
             </div>
-
             <div class="taskList">
-
                 <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)"
                     ondragenter="highlightList('todoList')" ondragleave="unhighlightList('todoList')">
                     <div class="listHeadline">
@@ -59,7 +53,6 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-
                 <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')"
                     ondragover="allowDrop(event)" ondragenter="highlightList('inProgressList')"
                     ondragleave="unhighlightList('inProgressList')">
