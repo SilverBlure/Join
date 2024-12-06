@@ -18,35 +18,49 @@ async function initSummary() {
 
 
 
+function getSessionKey() {
+    const sessionKey = localStorage.getItem('sessionKey');
+    return sessionKey || null;
+}
+
+
+
+async function fetchData(url) {
+    const response = await fetch(url);
+    if (!response.ok) {
+        throw new Error(`Fehler beim Abrufen der Daten: ${response.status}`);
+    }
+    return await response.json();
+}
+
+
+
+function convertTasksToArray(tasksData) {
+    return Object.entries(tasksData).map(([listId, listData]) => ({
+        id: listId,
+        name: listData.name || listId,
+        tasks: listData.task
+            ? Object.entries(listData.task).map(([taskId, taskData]) => ({
+                  id: taskId,
+                  ...taskData,
+              }))
+            : [],
+    }));
+}
+
+
+
 async function fetchAndPrepareTasks() {
     try {
-        const sessionKey = localStorage.getItem('sessionKey');
-        if (!sessionKey) {
-            return null;
-        }
+        const sessionKey = getSessionKey();
+        if (!sessionKey) return null;
         const url = `${BASE_URL}data/user/${sessionKey}/user/tasks.json`;
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Fehler beim Abrufen der Aufgaben: ${response.status}`);
-        }
-        const tasksData = await response.json();
-        const tasksArray = Object.entries(tasksData).map(([listId, listData]) => ({
-            id: listId,
-            name: listData.name || listId,
-            tasks: listData.task 
-                ? Object.entries(listData.task).map(([taskId, taskData]) => ({
-                    id: taskId,
-                    ...taskData,
-                }))
-                : [],
-        }));
-        return tasksArray;
+        const tasksData = await fetchData(url);
+        return convertTasksToArray(tasksData);
     } catch (error) {
-        console.error("Fehler beim Laden und Konvertieren der Tasks:", error);
         return null;
     }
 }
-
 
 
 
@@ -55,7 +69,6 @@ function parseDateString(dateString) {
     const parsedDate = new Date(dateString);
     return isNaN(parsedDate.getTime()) ? null : parsedDate;
 }
-
 
 
 
@@ -71,12 +84,9 @@ function setDefaultDashboardValues() {
 }
 
 
+
 function renderDashboard(tasksArray) {
-    if (!Array.isArray(tasksArray)) {
-        setDefaultDashboardValues();
-        return;
-    }
-    const hasTasks = tasksArray.some((list) => list.tasks && list.tasks.length > 0);
+    const hasTasks = tasksArray.some(list => list.tasks && list.tasks.length > 0);
     if (!hasTasks) {
         setDefaultDashboardValues();
         return;
@@ -91,12 +101,12 @@ function renderDashboard(tasksArray) {
 
 
 
-
 function renderToDoTasks(tasksArray) {
     const toDoList = tasksArray.find((list) => list.id === "todo");
     const taskCount = toDoList?.tasks ? toDoList.tasks.length : 0;
     document.getElementById("toDoTasks").textContent = taskCount;
 }
+
 
 
 function renderDoneTasks(tasksArray) {
@@ -105,17 +115,23 @@ function renderDoneTasks(tasksArray) {
     document.getElementById("doneTasks").textContent = taskCount;
 }
 
+
+
 function renderInProgressTasks(tasksArray) {
     const inProgressList = tasksArray.find(list => list.id === "inProgress");
     const taskCount = inProgressList ? inProgressList.tasks.length : 0;
     document.getElementById("inProgressTasks").textContent = taskCount;
 }
 
+
+
 function renderAwaitingFeedbackTasks(tasksArray) {
     const awaitFeedbackList = tasksArray.find(list => list.id === "awaitFeedback");
     const taskCount = awaitFeedbackList ? awaitFeedbackList.tasks.length : 0;
     document.getElementById("awaitFeddbackTasks").textContent = taskCount;
 }
+
+
 
 function renderUrgentTasks(tasksArray) {
     const urgentCount = tasksArray.reduce((total, list) => {
@@ -127,44 +143,45 @@ function renderUrgentTasks(tasksArray) {
     document.getElementById("urgentTasks").textContent = urgentCount;
 }
 
+
+
 function renderAllTasks(tasksArray) {
     const totalCount = tasksArray.reduce((total, list) => {
         return total + list.tasks.length;
     }, 0);
-
     document.getElementById("allTasks").textContent = totalCount;
 }
 
 
 
 function getNextDueDate(tasksArray) {
-    if (!Array.isArray(tasksArray) || tasksArray.length === 0) {
+    if (!isValidTasksArray(tasksArray)) {
         setNoDueDateMessage();
         return;
     }
-    const today = new Date();
+    const closestDate = findClosestDueDate(tasksArray, new Date());
+    updateDueDateUI(closestDate);
+}
+ 
+
+
+function isValidTasksArray(tasksArray) {
+    return tasksArray.length > 0;
+}
+
+
+
+function findClosestDueDate(tasksArray, today) {
     let closestDate = null;
     tasksArray.forEach(list => {
         list.tasks.forEach(task => {
             const taskDate = parseDateString(task.dueDate);
-            if (taskDate && taskDate > today && (!closestDate || taskDate < closestDate)) {
+            if (isValidTaskDate(taskDate, today, closestDate)) {
                 closestDate = taskDate;
             }
         });
     });
-    const nextDueDateElement = document.getElementById("nextDueDate");
-    if (nextDueDateElement) {
-        if (closestDate) {
-            const formattedDate = closestDate.toLocaleDateString("de-DE", {
-                day: "2-digit",
-                month: "2-digit",
-                year: "numeric",
-            });
-            nextDueDateElement.innerHTML = formattedDate;
-        } else {
-            setNoDueDateMessage();
-        }
-    }
+    return closestDate;
 }
 
 
@@ -172,10 +189,9 @@ function getNextDueDate(tasksArray) {
 function setNoDueDateMessage() {
     const nextDueDateElement = document.getElementById("nextDueDate");
     if (nextDueDateElement) {
-        nextDueDateElement.innerHTML = "Keine Aufgaben verfügbar";
+        nextDueDateElement.innerHTML = "No Tasks in Board";
     }
 }
-
 
 
 
@@ -195,14 +211,12 @@ function convertTasksToArray(tasksObject) {
 
 
 
-
 function setUserName(userName) {
     const userElement = document.getElementById("user");
     if (userElement) {
         userElement.textContent = userName || ""; 
     }
 }
-
 
 
 
@@ -220,12 +234,10 @@ function setGreeting() {
 
 
 
-
-//----------------------------------------------------------------------------------------
-
 async function init() {
     getUserData();
 }
+
 
 
 async function getUserData() {
