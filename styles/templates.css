@@ -3,7 +3,7 @@ body {
 }
 
 .sidebar {
-  background-color: #2a3647;
+  background-color: rgb(42, 54, 71);
   width: 232px;
   height: 100vh;
   top: 0;
@@ -50,7 +50,7 @@ body {
 }
 
 .sidebar li:hover {
-  background-color: #091931;
+  background-color: rgb(42, 54, 71);
   cursor: pointer;
 }
 
@@ -301,7 +301,7 @@ a {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    z-index: 1000 !important;
+    height: 80px;
   }
   
 
@@ -329,6 +329,7 @@ a {
   }
   
   .sidebar li {
+    gap: 5px;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -336,12 +337,8 @@ a {
     width: auto !important;
     padding: 8px 10px !important;
     text-align: center !important;
-    border-radius: 8px !important;
+    border-radius: 16px !important;
     background-color: transparent !important;
-  }
-
-  .sidebar li:hover {
-    background-color: grey !important; 
   }
 
   .sidebarNavBtn {
