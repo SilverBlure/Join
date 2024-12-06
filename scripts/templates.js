@@ -40,7 +40,7 @@ function contactDetailsTemps(i, initialien) {
 function addContactTemp(){
     return /*html*/ `
     <div>
-        <img src="../assets/icons/png/userpic_leer.png" alt="">
+        <img class="userImg" src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
     <div class="createContact">
     <div class="closeBtn">
@@ -49,29 +49,29 @@ function addContactTemp(){
     <div>
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
-                <input class="noBorder" id="name" placeholder="Firstname Lastname" required>
+            <span class="innerInputfield">
+                <input class="noBorder" name="name" type="text" id="name" placeholder="Firstname Lastname" required>
                 <img src="../../assets/icons/png/person.png">
-            </innerInputfield>
+            </span>
         </div>
     
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
-                <input id="email" type="email" class="noBorder" placeholder="Email" required>
+            <span class="innerInputfield">
+                <input id="email" name="email" type="email" class="noBorder" placeholder="Email" required>
                 <img src="../../assets/icons/svg/mail.svg">
-            </innerInputfield>
+            </span>
         </div>
     
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
-                <input id="phone" type="number" class="noBorder" placeholder="phone" required>
+            <span class="innerInputfield">
+                <input id="phone" name="phone" type="number" class="noBorder" placeholder="phone" required>
                 <img src="../assets/icons/png/call.png">
-            </innerInputfield>
+            </span>
         </div>
     </form>
     </div>
     <div class="createContactBtn">
-        <button class="addbutton" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
+        <button type="submit" class="addbutton, notOnMobile" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;

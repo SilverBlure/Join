@@ -281,34 +281,38 @@ a {
   }
 
   .sidebar {
+    position: absolute;
     width: 100%;
-    height: auto;
+    height: 80px;
     flex-direction: column;
-    order: 2;
+    bottom: 0;
+    top: unset; 
+    left: unset;
   }
 
   .sidebar ul {
     flex-direction: row;
     justify-content: space-evenly;
-    padding: 10px 0;
+    padding: 2px;
   }
 
   .sidebar li {
     flex-direction: column;
-    width: 20%;
-    height: auto;
-    padding: 8px 10px;
+    height: 80px;
     text-align: center;
-    border-radius: 8px;
+    justify-content: center;
+    border-radius: 16px;
+    width: 76px;
+    padding: 0px;
   }
 
   .sidebar li:hover {
-    background-color: grey;
+    background-color: rgba(9, 25, 49, 1);
   }
 
   .sidebarNavBtn {
     font-size: 12px;
-
+  }
     .sidebarLogo,
     .legalNotice {
       display: none;
@@ -318,4 +322,3 @@ a {
       flex-direction: column;
     }
   }
-}

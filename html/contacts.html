@@ -27,7 +27,10 @@
         <div class="newContactContainer">
             <div class="newContact">
                 <div class="addContactLogo">
-                    <img src="../assets/icons/svg/joinLogoWhite.svg" alt="">
+                    <div class="closeMobileEditContact">
+                    <img class="closeMobileEditContactBtn" onclick="closeAddContact()" src="../assets/icons/png/close.png" alt="" srcset="">
+                    </div>
+                    <img class="notOnMobile" src="../assets/icons/svg/joinLogoWhite.svg" alt="">
                     <h1 id="dialogInfo">Add contact</h1>
                     <h3>Tasks are better with a team</h3>
                     <div class="blueLineHorizontal"></div>
@@ -47,13 +50,16 @@
                 <div id="contacts"></div>
             </div>
             <div class="contactDetails">
+                <div class="topLine">
                 <div class="contactHeadline">
                     <div>
                         <h1>Contacts</h1>
                     </div>
                     <div class="blueLine"></div>
                     <h3>Better with a team</h3>
-                </div>
+                    </div>
+                <div class="backToContactsBtn"><img class="backArrow" src="./../assets/icons/png/arrow-left-line.png" alt="" srcset=""></div>
+            </div>
                 <div id="ContactDetailed" class="contactInfoBox">
                 </div>
             </div>
