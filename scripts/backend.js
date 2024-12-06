@@ -62,11 +62,8 @@ async function createNewMailEntry(email){
     console.log(responseAsJson)
 
 }
-//-----------------------------------------------------------------------------------------------------------------
 
-//login section
-let loginArray = [];
-let sessionId;
+
 
 async function initLog(){
     loadLoginData();
