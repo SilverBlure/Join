@@ -110,3 +110,130 @@
 .margin_0 {
     margin: 0px;
 }
+
+@media (max-width: 900px) {
+    .summary {
+        padding-left: 60px !important;
+        margin-right: 10px !important;
+        width: auto !important;
+    }
+
+    h1 {
+        font-size: 56px !important;
+    }
+
+    h3 {
+        font-size: 22px !important;
+    }
+
+    .do {
+        width: 240px !important;
+        height: 140px !important;
+    }
+
+    .urgent {
+        height: 160px !important;
+        width: 500px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .summary {
+        padding-left: 50px !important;
+        margin-right: 8px !important;
+        width: auto !important;
+    }
+
+    h1 {
+        font-size: 50px !important;
+    }
+
+    h3 {
+        font-size: 20px !important;
+    }
+
+    .do {
+        width: 230px !important;
+        height: 130px !important;
+    }
+
+    .urgent {
+        height: 150px !important;
+        width: 480px !important;
+    }
+}
+
+@media (max-width: 580px) {
+    .summary {
+        padding-left: 41px !important;
+        margin-right: 4px !important;
+        width: auto !important;
+    }
+
+    .userGreeting {
+        display: none;
+    }
+
+    h1 {
+        font-size: 46px !important;
+    }
+
+    h3 {
+        font-size: 19px !important;
+    }
+
+    .do {
+        width: 221px !important;
+        height: 120px !important;
+    }
+
+    .urgent {
+        height: 146px !important;
+        width: 472px !important;
+    }
+
+    .tasksBox{
+        width: 139px !important;
+        height: 130px !important;
+    }
+
+    .taskNumber {
+        font-size: 64px !important;
+    }
+
+    .text {
+        font-size: 15px !important;
+    }
+   
+}
+
+@media (max-width: 480px) {
+    .summary {
+        padding-left: 30px !important;
+        margin-right: 2px !important;
+        width: auto !important;
+    }
+
+    h1 {
+        font-size: 40px !important;
+    }
+
+    h3 {
+        font-size: 16px !important;
+    }
+
+    .do {
+        width: 200px !important;
+        height: 110px !important;
+    }
+
+    .urgent {
+        height: 130px !important;
+        width: 440px !important;
+    }
+
+    .tasksBox {
+        
+    
+    }
+}

@@ -29,8 +29,6 @@ function signIn() {
     }
 }
 
-
-
 async function createNewEntry(name, email, pw) {
     let response = await fetch(BASE_URL + "data/user"+  '.json', {
         method: "POST",
@@ -50,9 +48,6 @@ async function createNewEntry(name, email, pw) {
     return responseAsJson = await response.json();
 }
 
-//kleine notiz du kannst in firebase keine null undefined oder andere leerwerte als platzhalter übergeben das geht nicht 
-// fuer alle die das lesen es muss immer was mit angegeben werden
-
 async function createNewMailEntry(email){
     let response = await fetch(BASE_URL + 'data/signtInUsers/emails' + ".json", {
         method: "POST",
@@ -65,6 +60,7 @@ async function createNewMailEntry(email){
     })
     let responseAsJson = await response.json();
     console.log(responseAsJson)
+
 }
 //-----------------------------------------------------------------------------------------------------------------
 

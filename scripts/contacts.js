@@ -150,7 +150,9 @@ async function getContacts() {
             }
             contactsArray.push(contact);
         }
+        if(checkLockation()){
         renderContacts();
+    }
     }else{
         let response = await fetch(BASE_URL + '/data/user/' + ID + '/user/userData.json');
         let responseAsJson = await response.json();
@@ -161,7 +163,10 @@ async function getContacts() {
     }
 }
 
-
+function checkLockation(){
+    let data = window.location.href;
+    return data.includes('contacts');
+}
 
 async function deleteContactDatabase(i) {
     contactId = contactsArray[i].id;
@@ -251,21 +256,4 @@ function setUserTagBigColor(vorname, nachname, i){
     document.getElementById(`userTagBig${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
 
 }
-
-function getColorHex(vorname, nachname){
-    let completeName = (vorname+nachname).toLowerCase();
-    let hash = 0;
-
-    for( let i = 0; i< completeName.length; i++){
-        hash += completeName.charCodeAt(i);
-    }
-
-    let r = (hash * 123) % 256;
-    let g = (hash * 456) % 256;
-    let b = (hash * 789) % 256;
-
-    let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-    return hexColor;
-}
-
 
