@@ -79,9 +79,7 @@ async function getUserTag(){
     return userTag;
 }
 
-async function setUserTag(){
-    document.getElementById('logedInUser').innerHTML = `${await getUserTag()}`;
-}
+
 
 function showSnackbar(message){
     let snackbar= document.getElementById('snackbar');
