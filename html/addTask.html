@@ -14,11 +14,12 @@
     <link rel="stylesheet" href="./../style.css">
     <script src="./../script.js"></script>
     <script src="./../scripts/templates.js"></script>
-    <script src="./../scripts/addTask.js"></script>
     <script src="./../scripts/contacts.js"></script>
     <script src="./../scripts/backend.js"></script>
+    <script src="./../scripts/addTask.js"></script>
 </head>
 <body onload="includeHTML(); main()">
+    <div id="snackbar" class="hidden"></div>
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     <div class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
@@ -40,7 +41,6 @@
                                 </select>
                                 <ul id="selectedContactsList"></ul>
                             </div>
-                            
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">

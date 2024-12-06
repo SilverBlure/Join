@@ -1,25 +1,24 @@
-let tasks = {}; 
+let tasks = {};
+
 
 
 async function main() {
     loadSessionId();
     const isInitialized = await initializeTaskLists();
     if (!isInitialized) {
-        console.error("Fehler beim Initialisieren der Listenstruktur. Anwendung kann nicht fortgesetzt werden.");
+        console.error("Error initializing task lists. Application cannot proceed.");
         return;
     }
-    await getTasks(); 
+    await getTasks();
     getContacts();
-    renderBoard();   
+    renderBoard();
 }
 
 
 
 function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
-    if (!ID) {
-        console.error("Session-ID nicht gefunden. Der Benutzer ist möglicherweise nicht angemeldet.");
-    }
+    if (!ID) console.error("Session ID not found. The user might not be logged in.");
 }
 
 
@@ -27,21 +26,17 @@ function loadSessionId() {
 async function getTasks() {
     try {
         const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
-        console.log("Lade Aufgaben von:", url);
         const response = await fetch(url);
-
         if (!response.ok) {
-            console.error(`Fehler beim Abrufen der Aufgaben: ${response.status} - ${response.statusText}`);
+            console.error(`Error fetching tasks: ${response.status} - ${response.statusText}`);
             return;
         }
-
         const data = await response.json();
         if (!data) {
-            console.warn("Keine Aufgaben gefunden.");
+            console.warn("No tasks found.");
             tasks = {};
             return;
         }
-
         tasks = Object.entries(data).reduce((acc, [listKey, listValue]) => {
             acc[listKey] = {
                 id: listKey,
@@ -50,26 +45,21 @@ async function getTasks() {
                     ? Object.entries(listValue.task).reduce((taskAcc, [taskId, taskValue]) => {
                           taskAcc[taskId] = {
                               ...taskValue,
-                              workers: (taskValue.workers || []).map(worker => {
-                                  if (typeof worker === "string") {
-                                      // Falls `workers` als String-Array vorliegt
-                                      return {
-                                          name: worker,
-                                          initials: getInitials(worker), // Initialen berechnen
-                                          color: getColorHex(worker, ""), // Farbe generieren
-                                      };
-                                  } else if (worker && worker.name) {
-                                      // Falls `workers` bereits als Objekt-Array vorliegt
-                                      return {
-                                          ...worker,
-                                          initials: getInitials(worker.name), // Initialen berechnen
-                                          color: worker.color || getColorHex(worker.name, ""), // Farbe verwenden oder generieren
-                                      };
-                                  } else {
-                                      console.warn("Ungültiger Worker-Eintrag:", worker);
-                                      return null;
-                                  }
-                              }).filter(Boolean), // Ungültige Worker-Einträge entfernen
+                              workers: (taskValue.workers || []).map(worker =>
+                                  typeof worker === "string"
+                                      ? {
+                                            name: worker,
+                                            initials: getInitials(worker),
+                                            color: getColorHex(worker, ""),
+                                        }
+                                      : worker?.name
+                                      ? {
+                                            ...worker,
+                                            initials: getInitials(worker.name),
+                                            color: worker.color || getColorHex(worker.name, ""),
+                                        }
+                                      : null
+                              ).filter(Boolean),
                           };
                           return taskAcc;
                       }, {})
@@ -77,23 +67,19 @@ async function getTasks() {
             };
             return acc;
         }, {});
-
-        console.log("Aufgaben erfolgreich geladen:", tasks);
     } catch (error) {
-        console.error("Fehler beim Abrufen der Aufgaben:", error);
+        console.error("Error fetching tasks:", error);
     }
 }
 
 
 
-
-
 function getInitials(fullName) {
     const nameParts = fullName.trim().split(" ");
-    const firstInitial = nameParts[0]?.charAt(0).toUpperCase() || "";
-    const lastInitial = nameParts[1]?.charAt(0).toUpperCase() || "";
-    return `${firstInitial}${lastInitial}`;
+    return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
 }
+
+
 
 function getColorHex(vorname, nachname) {
     const completeName = (vorname + nachname).toLowerCase();
@@ -115,10 +101,7 @@ async function initializeTaskLists() {
         const response = await fetch(url);
         if (response.ok) {
             const data = await response.json();
-            if (data) {
-                console.log("Bestehende Listenstruktur gefunden:", data);
-                return true; 
-            }
+            if (data) return true; 
         }
         const defaultLists = {
             todo: { name: "To Do", task: {} },
@@ -128,21 +111,13 @@ async function initializeTaskLists() {
         };
         const initResponse = await fetch(url, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(defaultLists),
         });
-        if (initResponse.ok) {
-            console.log("Listenstruktur erfolgreich initialisiert.");
-            return true;
-        } else {
-            const errorText = await initResponse.text();
-            console.error("Fehler beim Initialisieren der Listen:", initResponse.status, errorText);
-            return false;
-        }
+        return initResponse.ok;
     } catch (error) {
-        console.error("Ein Fehler ist beim Initialisieren aufgetreten:", error);
+        console.error("Error initializing task lists:", error);
         return false;
     }
 }
+
