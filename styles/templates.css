@@ -307,6 +307,7 @@ a {
     justify-content: center !important;
     align-items: center !important;
     height: 80px;
+    
   }
   
 
@@ -343,7 +344,6 @@ a {
     padding: 8px 10px !important;
     text-align: center !important;
     border-radius: 16px !important;
-    background-color: transparent !important;
   }
 
   .sidebarNavBtn {

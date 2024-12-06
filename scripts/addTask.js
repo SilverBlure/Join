@@ -105,7 +105,6 @@ function clearLocalContacts() {
     if (selectedContactsList) {
         selectedContactsList.innerHTML = ""; 
     }
-    console.log("Alle Kontakte erfolgreich zurückgesetzt.");
 }
 
 
