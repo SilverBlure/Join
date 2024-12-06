@@ -76,10 +76,10 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
           body: JSON.stringify(task),
       });
       if (!updateResponse.ok) {
-          console.error(`Fehler beim Aktualisieren des Subtasks: ${updateResponse.statusText}`);
+          showSnackbar("Fehler beim Aktualisieren des Subtasks!");
           return;
       }
-      console.log("Subtask erfolgreich aktualisiert:", task.subtasks[subtaskId]);
+      showSnackbar("Subtask erfolgreich aktualisiert!");
       await updateSingleTaskElement(listId, taskId, task);
       await openTaskPopup(taskId, listId);
   } catch (error) {
@@ -197,3 +197,13 @@ document.addEventListener('click', function () {
   }
 });
 
+function showSnackbar(message){
+  let snackbar= document.getElementById('snackbar');
+  snackbar.textContent = message;
+  snackbar.classList.remove('hidden');
+  snackbar.classList.add('visible');
+  setTimeout(() => {
+      snackbar.classList.remove('visible');
+      snackbar.classList.add('hidden');
+  }, 3000);
+}
