@@ -17,8 +17,6 @@ body {
 
 .headerlogo {
   display: none;
-  width: 32px;
-  height: 39px;
 }
 
 .sidebar ul {
@@ -220,7 +218,7 @@ a {
 }
 @media (max-width: 580px) {
   .logoutButton {
-    float: none;
+    float: none !important;
     right: 10px;
     width: auto;
     padding: 10px;
@@ -230,21 +228,34 @@ a {
 
   .logout {
     display: none !important;
+    opacity: 0 !important;
+    right: 0 !important;
+    transition: none !important;
+  }
+
+  .logoutButton:hover {
+    width: auto !important;
+    transition: none !important;
   }
 
   .logoutButton:hover .logout {
     opacity: 0 !important;
+    display: none !important;
   }
 
   .headline {
     display: none;
   }
 
+  .help {
+    padding-right: 10px;
+  }
+
   .headerlogo {
-    display: block;
-    padding: 26px;
+    display: block !important;
+    height: 50px;
     width: 40px;
-    height: 60px;
+    margin-left: 20px !important;
   }
 
   .helpImg {
@@ -276,8 +287,26 @@ a {
   }
 
   #dropdownMenu span:hover {
-    color: var(--bg-color);
+    color: white;
     font-weight: bold;
+  }
+
+  footer {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    background-color: #2a3647 !important;
+    color: white !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 1000 !important;
+  }
+  
+
+  .sidebardesktop {
+    display: none;
   }
 
   .sidebar {
@@ -291,34 +320,48 @@ a {
   }
 
   .sidebar ul {
-    flex-direction: row;
-    justify-content: space-evenly;
-    padding: 2px;
+    display: flex !important;
+    flex-direction: row !important;
+    margin: 0 !important;
+    padding: 10px 0 !important;
+    list-style: none !important;
+    justify-content: space-evenly !important;
   }
-
+  
   .sidebar li {
-    flex-direction: column;
-    height: 80px;
-    text-align: center;
-    justify-content: center;
-    border-radius: 16px;
-    width: 76px;
-    padding: 0px;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: auto !important;
+    padding: 8px 10px !important;
+    text-align: center !important;
+    border-radius: 8px !important;
+    background-color: transparent !important;
   }
 
   .sidebar li:hover {
-    background-color: rgba(9, 25, 49, 1);
+    background-color: grey !important; 
   }
 
   .sidebarNavBtn {
-    font-size: 12px;
+    font-size: 16px;
+    display: contents;
   }
-    .sidebarLogo,
-    .legalNotice {
-      display: none;
-    }
 
-    body {
-      flex-direction: column;
-    }
+  .sidebarLogo,
+  .legalNotice {
+    display: none;
   }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: 60px;
+  }
+
+  .content {
+    flex: 1;
+  }
+}

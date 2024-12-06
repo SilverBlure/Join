@@ -159,6 +159,10 @@ h1 {
     margin-bottom: 50px;
 }
 
+.input{
+    width: 328px;
+}
+
 .loginfooter {
     display: flex;
     justify-content: center;
