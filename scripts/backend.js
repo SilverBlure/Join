@@ -66,9 +66,7 @@ async function createNewMailEntry(email){
     let responseAsJson = await response.json();
     console.log(responseAsJson)
 }
-//-----------------------------------------------------------------------------------------------------------------
 
-//login section
 let loginArray = [];
 let sessionId;
 
@@ -76,7 +74,6 @@ async function initLog(){
     loadLoginData();
     loadFromLocal();
 }
-
 
 function loadFromLocal(){
     let email = localStorage.getItem('email');
@@ -102,18 +99,22 @@ async function loadLoginData(){
     }
 }
 
-function login(){
-    let emailInput = document.getElementById('email').value;
-    let pwInput =document.getElementById('password').value;
-    let checkbox = document.getElementById('checkbox');// die kleine checkbox strapaziert meine nerven
-    let check = checkLogin(emailInput, pwInput);
+
+function login(email, pw){
+    if(!email){
+        email = document.getElementById('email').value;
+        pw =document.getElementById('password').value;
+    }
+    let checkbox = document.getElementById('checkbox');
+    let check = checkLogin(email, pw);
     let isChecked = checkbox.checked;
     if(check.match&&isChecked){
-        localStorage.setItem('email', emailInput);
-        localStorage.setItem('pw', pwInput);
+        localStorage.setItem('email', email);
+        localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
-        showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert')
+        showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
         location.href ='./summary.html';
+        
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
@@ -123,7 +124,6 @@ function login(){
     }
 }
 
-//remember me funktion wird ausgefuehrt wenn die abfrage richtig wahr dann werdern die daten in den local storrage gespeichert
 
 function checkLogin(emailInput, pwInput){
     let login = loginArray.find(user => user.email === emailInput && user.password === pwInput);
