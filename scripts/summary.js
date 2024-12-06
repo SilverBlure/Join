@@ -79,7 +79,7 @@ function setDefaultDashboardValues() {
     document.getElementById("awaitFeddbackTasks").textContent = "0";
     document.getElementById("urgentTasks").textContent = "0";
     document.getElementById("allTasks").textContent = "0";
-    document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
+    document.getElementById("nextDueDate").innerHTML = "No Tasks in Board";
     document.getElementById("noTaskInBoard").style.display = "none";
 }
 
