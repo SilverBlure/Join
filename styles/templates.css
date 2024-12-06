@@ -168,6 +168,11 @@ a {
   width: 250px;
 }
 
+
+.display-none{
+  display: none;
+}
+
 .logout {
   font-size: 0.8em;
   position: relative;

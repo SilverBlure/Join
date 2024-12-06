@@ -71,7 +71,6 @@ a:hover {
     }
 }
 
-/* Snackbar-Stil */
 #snackbar {
     visibility: hidden;
     min-width: 250px;

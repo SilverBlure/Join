@@ -72,6 +72,5 @@ async function getUserTag(){
     let data = await response.json();
     let [vorname, nachname] = data.user.userData.name.split(" ");
     userTag = vorname[0] + nachname[0];
-    console.log(userTag);
     return userTag;
 }
