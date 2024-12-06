@@ -259,8 +259,8 @@
         font-size: 56px !important;
     }
 
-    .text {
-        font-size: 12px !important;
+    .tasksBox p {
+        font-size: 12px;
     }
 }
 
