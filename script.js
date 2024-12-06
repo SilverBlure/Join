@@ -76,10 +76,10 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
           body: JSON.stringify(task),
       });
       if (!updateResponse.ok) {
-          console.error(`Fehler beim Aktualisieren des Subtasks: ${updateResponse.statusText}`);
+          showSnackbar("Fehler beim Aktualisieren des Subtasks!");
           return;
       }
-      console.log("Subtask erfolgreich aktualisiert:", task.subtasks[subtaskId]);
+      showSnackbar("Subtask erfolgreich aktualisiert!");
       await updateSingleTaskElement(listId, taskId, task);
       await openTaskPopup(taskId, listId);
   } catch (error) {
@@ -151,10 +151,6 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
   taskElement.outerHTML = newTaskHTML;
 }
 
-
-
-
-
 function setPriority(priority) {
   tempPriority = priority;
   document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active'));
@@ -164,6 +160,23 @@ function setPriority(priority) {
   } else {
       console.warn(`Button für Priorität "${priority}" nicht gefunden.`);
   }
+}
+
+
+function getColorHex(vorname, nachname){
+  let completeName = (vorname+nachname).toLowerCase();
+  let hash = 0;
+
+  for( let i = 0; i< completeName.length; i++){
+      hash += completeName.charCodeAt(i);
+  }
+
+  let r = (hash * 123) % 256;
+  let g = (hash * 456) % 256;
+  let b = (hash * 789) % 256;
+
+  let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  return hexColor;
 }
 
 function toggleShowMenu(event) {
@@ -183,3 +196,14 @@ document.addEventListener('click', function () {
       dropdownMenu.classList.add('display-none');
   }
 });
+
+function showSnackbar(message){
+  let snackbar= document.getElementById('snackbar');
+  snackbar.textContent = message;
+  snackbar.classList.remove('hidden');
+  snackbar.classList.add('visible');
+  setTimeout(() => {
+      snackbar.classList.remove('visible');
+      snackbar.classList.add('hidden');
+  }, 3000);
+}

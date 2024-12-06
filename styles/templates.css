@@ -3,7 +3,7 @@ body {
 }
 
 .sidebar {
-  background-color: #2a3647;
+  background-color: rgb(42, 54, 71);
   width: 232px;
   height: 100vh;
   top: 0;
@@ -50,7 +50,7 @@ body {
 }
 
 .sidebar li:hover {
-  background-color: #091931;
+  background-color: rgb(42, 54, 71);
   cursor: pointer;
 }
 
@@ -168,6 +168,11 @@ a {
   width: 250px;
 }
 
+
+.display-none{
+  display: none;
+}
+
 .logout {
   font-size: 0.8em;
   position: relative;
@@ -185,6 +190,25 @@ a {
   opacity: 0.9;
 }
 
+@media (max-width: 1010px){
+    .sidebar li{
+        padding-left: 5px;
+    }
+}
+
+@media (max-width: 950px){
+    .sidebar li{
+        padding-left: 5px;
+       
+    }
+    .sidebarNavBtn{
+        font-size: 14px;
+    }
+    .sidebar{
+        width: 140px;
+        padding-right: 5px;
+        height: auto;
+    }
 #dropdownMenu {
   display: none;
 }
@@ -196,11 +220,7 @@ a {
 #dropdownMenu {
   display: none;
 }
-
-footer {
-  display: none;
 }
-
 @media (max-width: 580px) {
   .logoutButton {
     float: none !important;
@@ -286,7 +306,8 @@ footer {
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
-    z-index: 1000 !important;
+    height: 80px;
+    
   }
   
 
@@ -295,10 +316,13 @@ footer {
   }
 
   .sidebar {
+    position: absolute;
     width: 100%;
-    height: auto;
+    height: 80px;
     flex-direction: column;
-    order: 2;
+    bottom: 0;
+    top: unset; 
+    left: unset;
   }
 
   .sidebar ul {
@@ -311,6 +335,7 @@ footer {
   }
   
   .sidebar li {
+    gap: 5px;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
@@ -318,11 +343,13 @@ footer {
     width: auto !important;
     padding: 8px 10px !important;
     text-align: center !important;
+
     border-radius: 8px !important;
   }
 
   .sidebar li:hover {
     background-color: grey !important; 
+
   }
 
   .sidebarNavBtn {
