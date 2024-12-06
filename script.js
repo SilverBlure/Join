@@ -151,10 +151,6 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
   taskElement.outerHTML = newTaskHTML;
 }
 
-
-
-
-
 function setPriority(priority) {
   tempPriority = priority;
   document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active'));
@@ -164,6 +160,23 @@ function setPriority(priority) {
   } else {
       console.warn(`Button für Priorität "${priority}" nicht gefunden.`);
   }
+}
+
+
+function getColorHex(vorname, nachname){
+  let completeName = (vorname+nachname).toLowerCase();
+  let hash = 0;
+
+  for( let i = 0; i< completeName.length; i++){
+      hash += completeName.charCodeAt(i);
+  }
+
+  let r = (hash * 123) % 256;
+  let g = (hash * 456) % 256;
+  let b = (hash * 789) % 256;
+
+  let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  return hexColor;
 }
 
 function toggleShowMenu(event) {
@@ -183,3 +196,4 @@ document.addEventListener('click', function () {
       dropdownMenu.classList.add('display-none');
   }
 });
+
