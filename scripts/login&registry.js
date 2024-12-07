@@ -9,7 +9,7 @@ async function initLog(){
     loadFromLocal();
 }
 
-/** */
+/**Guest Login */
 function checkGuest(){
     let guest = loginArray.find((element) => {element.email == 'Gast@join.com'});
     console.log(guest);
@@ -25,7 +25,7 @@ function loadFromLocal(){
 }
 
 
-
+/**Loading Login Data in a Array vor check with actual input to get access */
 async function loadLoginData(){
     loginArray = [];
     let response = await fetch(BASE_URL + 'data/user' + '.json');
@@ -68,7 +68,7 @@ function login(){
 
 
 
-/**this function makes the logon to ur account 
+/**this function makes the login to ur account 
  * @param {string} email
  * @param {string} pw  
 */
