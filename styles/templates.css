@@ -316,6 +316,10 @@ a {
     height: 80px;
     
   }
+
+  .sidebar {
+    z-index: 2;
+  }
   
 
   .sidebardesktop {
