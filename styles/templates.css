@@ -190,6 +190,10 @@ a {
   opacity: 0.9;
 }
 
+.display-none {
+  display: none !important;
+}
+
 @media (max-width: 1010px){
     .sidebar li{
         padding-left: 5px;

@@ -122,3 +122,32 @@ function deleteContactTemp(i){
     <div class="deleteBtn"><button onclick="closeAddContact()">cancel</button><button onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
     `
 }
+
+
+
+
+// addTask.js Templates
+
+function generateSubtaskHTML(subtaskId, title) {
+    return /*html*/`
+        <div class="subtask-item" id="${subtaskId}">
+            <input type="checkbox" onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
+            <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">${title}</p>
+            <img src="../../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
+        </div>
+    `;
+}
+
+
+
+function createContactItem(contactId, initials, name, color) {
+    return /*html*/ `
+        <div class="workerInformation">
+            <p id="${contactId}" class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
+            </p>
+            <p class="workerName">${name}</p>
+            <img src="./../assets/icons/png/iconoir_cancel.png" onclick="removeContact('${contactId}')" alt="Remove Contact">
+        </div>
+    `;
+}

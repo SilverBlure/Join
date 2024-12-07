@@ -14,14 +14,14 @@
     <link rel="stylesheet" href="/styles/summary.css">
     <link rel="stylesheet" href="/styles/assets.css">
     <link rel="stylesheet" href="/style.css">
-    <script src="../../script.js"></script>
-    <script src="../../scripts/templates.js"></script>
-    <script src="../../scripts/summary.js"></script>
+    <script src="./../script.js"></script>
+    <script src="./../scripts/templates.js"></script>
+    <script src="./../scripts/summary.js"></script>
     <script src="./../scripts/backend.js"></script>
 
 </head>
 
-<body onload="includeHTML(), fetchAndPrepareTasks(), init(), initSummary()">
+<body onload="includeHTML(), init(), initSummary()">
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     
     <div class="content">
@@ -76,7 +76,7 @@
                         <p>Tasks in Progress</p>
                     </div>
                     <div class="tasksBox">
-                        <p id="awaitFeddbackTasks" class="taskNumber"></p>
+                        <p id="awaitFeedbackTasks" class="taskNumber"></p>
                         <p class="text">Awaiting Feedback</p>
                     </div>
                 </div>
