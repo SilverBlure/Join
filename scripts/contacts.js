@@ -7,6 +7,7 @@ function init() {
     getContacts();
 }
 
+
 /**
  * This function renders all Contacts from the contactsArray and sorts them alphabetical
  * 
@@ -36,6 +37,7 @@ function renderContacts() {
     }
 }
 
+
 /**
  * This function renders a detailed view of the contacts
  * 
@@ -54,6 +56,7 @@ function renderContactDetails(i) {
         setUserTagBigColor(vorname, nachname, i); 
 }
 
+
 /**
  * This function opens the dialog to add new contacts
  * 
@@ -64,18 +67,18 @@ function openAddContact() {
 }
 
 
-
 /**
  * This function opens the dialog to edit contacts
  * 
  * @param {number} i -  the id of the contact to edit
  */
 function openEditContact(i) {
-    openAddContact();
+    document.getElementById('contactDialog').style.display = "block";
     document.getElementById('name').value=`${contactsArray[i].name}`;
     document.getElementById('email').value=`${contactsArray[i].email}`;
     document.getElementById('phone').value=`${contactsArray[i].phone}`; 
 }
+
 
 /**
  * this function opens a dialog to delete the contact
@@ -88,6 +91,7 @@ function deleteContact(i) {
     contactsArray = [];
     getContacts();
 }
+
 
 /**
  * this function loads the id of the logged in user from localstorage
@@ -142,7 +146,6 @@ async function pushData(name, email, phone) {
     showSnackbar('Der Kontakt wurde erfolgreich erstellt!');
     return responseAsJson = response.json();
 }
-
 
 
 /**
@@ -262,23 +265,10 @@ function addContact(){
  * this function renders the dialog to edit a new contact
  */
 function editContact(i){
-    openAddContact();
     document.getElementById('dialogInfo').innerHTML ="Edit contact";
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = editContactTemp(i);
-    openEditContact(i) 
-}
-
-
-/**
- * this function renders the dialog to delete a new contact
- */
-function deleteContact(i){
-    openAddContact();
-    document.getElementById('dialogInfo').innerHTML ="Delete contact";
-    document.getElementById('editContact').innerHTML ="";
-    document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
-     
+    openEditContact(i); 
 }
 
 
@@ -326,7 +316,6 @@ function checkInput() {
     let fullname = document.getElementById('name').value.trim(); 
     let email = document.getElementById('email').value.trim();
     let phone = document.getElementById('phone').value.trim();
-
     if (fullname.split(" ").length < 2) {
         showSnackbar("Please enter first and last name.");
     } else if (email === "") {
@@ -337,6 +326,7 @@ function checkInput() {
         createContact();
     }
 }
+
 
 /**
  * this function sets the color of the small usertag in the contacts list
@@ -368,5 +358,3 @@ function backToContactList(){
     document.getElementById('contactList').style.display = "flex";
     document.getElementById('details').style.display = "none";
 }
-
-

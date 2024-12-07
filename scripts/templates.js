@@ -80,7 +80,7 @@ function addContactTemp(){
 function editContactTemp(i){
     return /*html*/ `
     <div>
-        <img src="../assets/icons/png/userpic_leer.png" alt="">
+        <img class="editImg" src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
     <div class="createContact">
     <div class="closeBtn">
