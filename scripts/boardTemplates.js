@@ -64,7 +64,6 @@ function generateWorkersHTML(workers = []) {
 
 
 
-
 function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">

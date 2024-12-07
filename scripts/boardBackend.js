@@ -111,7 +111,6 @@ async function addTaskToList(listId, taskDetails) {
 
 
 
-
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault();
     if (!listId || !taskId) return;
@@ -144,13 +143,14 @@ async function saveTaskChanges(event, listId, taskId) {
             body: JSON.stringify(updatedTask),
         });
         if (!response.ok) return;
-        await getTasks();
+        await getTasks(); 
+        resetForm(); 
         showSnackbar('Der Task wurde erfolgreich aktualisiert!');
-        renderBoard();
-        closeEditTaskPopup();
+        closeEditTaskPopup(); 
         openTaskPopup(taskId, listId);
-    } catch {
-        showSnackbar('Fehler beim aktuallisieren der Daten!');
+    } catch (error) {
+        showSnackbar('Fehler beim aktualisieren der Daten!');
+        console.error(error);
     }
 }
 
