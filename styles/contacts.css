@@ -203,8 +203,6 @@ p{
 
 }
 
-
-
 .userTag {
     border: white 1px solid;
     color: white;
@@ -654,8 +652,11 @@ justify-content: left;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding-left: 0;
-        
+        padding-left: 0;  
+    }
+
+    .createContactBtn{
+        gap: 15px;
     }
 
     .closeBtn{
@@ -690,7 +691,9 @@ justify-content: left;
         cursor: pointer;
     }
 
-
+    .editImg{
+        display: none;
+    }
 
 .blueLine{
     display: none;
@@ -719,6 +722,9 @@ justify-content: left;
 @media (max-width: 385px){
     .backToContactsBtn{
         padding-left: 30px;
+    }
+    .addContactBtn{
+        width: 300px;
     }
 }
 

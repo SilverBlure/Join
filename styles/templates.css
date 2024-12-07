@@ -168,8 +168,7 @@ a {
   width: 250px;
 }
 
-
-.display-none{
+.display-none {
   display: none;
 }
 
@@ -190,42 +189,45 @@ a {
   opacity: 0.9;
 }
 
-.display-none {
-  display: none !important;
+
+@media (max-width: 1010px) {
+  .sidebar li {
+    padding-left: 5px;
+  }
+
 }
 
-@media (max-width: 1010px){
-    .sidebar li{
-        padding-left: 5px;
-    }
-}
+@media (max-width: 950px) {
+  .sidebar li {
+    padding-left: 5px;
+  }
+  .sidebarNavBtn {
+    font-size: 14px;
+  }
+  .sidebar {
+    width: 140px;
+    padding-right: 5px;
+    height: 100vh;
+  }
+  #dropdownMenu {
+    display: none;
+  }
 
-@media (max-width: 950px){
-    .sidebar li{
-        padding-left: 5px;
-       
-    }
-    .sidebarNavBtn{
-        font-size: 14px;
-    }
-    .sidebar{
-        width: 140px;
-        padding-right: 5px;
-        height: auto;
-    }
-#dropdownMenu {
-  display: none;
-}
+  .display-none {
+    display: none !important;
+  }
 
-.display-none {
-  display: none !important;
-}
-
-#dropdownMenu {
-  display: none;
-}
+  #dropdownMenu {
+    display: none;
+  }
 }
 @media (max-width: 580px) {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 60px;
+  }
   .logoutButton {
     float: none !important;
     right: 10px;
@@ -272,7 +274,7 @@ a {
   }
 
   #dropdownMenu {
-    display: block;
+    display: none;
     position: absolute;
     right: 0;
     top: 97px;
@@ -283,6 +285,10 @@ a {
     z-index: 1;
     text-decoration: none;
   }
+
+  #dropdownMenu.active {
+    display: block;
+}
 
   #dropdownMenu span {
     display: flex;
@@ -305,29 +311,22 @@ a {
     bottom: 0 !important;
     left: 0 !important;
     width: 100% !important;
+    height: 80px;
     background-color: #2a3647 !important;
     color: white !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     height: 80px;
-    
-  }
-  
-
-  .sidebardesktop {
-    display: none;
   }
 
   .sidebar {
-    position: sticky;
-    width: 100%;
-    height: 80px;
-    flex-direction: column;
-    bottom: 0;
-    top: unset; 
-    left: unset;
-    z-index: 1;
+    z-index: 2;
+    height: auto !important;
+  }
+
+  .sidebardesktop {
+    display: none;
   }
 
   .sidebar ul {
@@ -338,7 +337,7 @@ a {
     list-style: none !important;
     justify-content: space-evenly !important;
   }
-  
+
   .sidebar li {
     gap: 5px;
     display: flex !important;
@@ -346,15 +345,10 @@ a {
     justify-content: center !important;
     align-items: center !important;
     width: auto !important;
-    padding: 8px 10px !important;
+    padding: 4px 10px !important;
     text-align: center !important;
 
     border-radius: 8px !important;
-  }
-
-  .sidebar li:hover {
-    background-color: grey !important; 
-
   }
 
   .sidebarNavBtn {

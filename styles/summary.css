@@ -1,309 +1,401 @@
 .blueLine {
-    border-left: 3px solid #29ABE2;
-    height: 59px;
-    margin-left: 30px;
-    margin-right: 30px;
+  border-left: 3px solid #29abe2;
+  height: 59px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .summary {
-    padding-left: 100px;
-    width: 1340px;
+  padding-left: 100px;
+  width: 1340px;
 }
 
 .greyLine {
-    border-left: 2px solid #D1D1D1;
-    height: 102px;
-    margin-left: 30px;
-    margin-right: 30px;
+  border-left: 2px solid #d1d1d1;
+  height: 102px;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .join360 {
-    padding-top: 50px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    padding-bottom: 50px;
+  padding-top: 50px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  padding-bottom: 50px;
 }
 
 .column {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 63px;
-    height: 101px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 63px;
+  height: 101px;
 }
 
 .do {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 20px;
-    box-shadow: 0px 2px 8px rgb(223, 224, 225);
-    border-radius: 30px;
-    width: 264px;
-    height: 168px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+  box-shadow: 0px 2px 8px rgb(223, 224, 225);
+  border-radius: 30px;
+  width: 264px;
+  height: 168px;
 }
 
 .doIcon {
-   width: 69px;
+  width: 69px;
 }
 
 .urgent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 2px 8px rgb(223, 224, 225);
-    border-radius: 30px;
-    width: 560px;
-    height: 168px;
-    margin-top: 31px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px 8px rgb(223, 224, 225);
+  border-radius: 30px;
+  width: 560px;
+  height: 168px;
+  margin-top: 31px;
 }
 
 .tasksBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 2px 8px rgb(223, 224, 225);
-    border-radius: 30px;
-    width: 168px;
-    height: 168px;
-    flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 2px 8px rgb(223, 224, 225);
+  border-radius: 30px;
+  width: 168px;
+  height: 168px;
+  flex-direction: column;
 }
 
 .tasks {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    column-gap: 28px;
-    margin-top: 31px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  column-gap: 28px;
+  margin-top: 31px;
 }
 
 .userGreeting {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    padding-left: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-left: 100px;
 }
 
 .name {
-    color: #29ABE2; 
-    margin-top: 10px; 
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    text-align: center;
+  color: #29abe2;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .d_flex {
-    display: flex;
+  display: flex;
 }
 
 .taskNumber {
-    font-size: 64px; 
-    font-weight: 600; 
-    margin: 0px;
+  font-size: 64px;
+  font-weight: 600;
+  margin: 0px;
 }
 
 .margin_0 {
-    margin: 0px;
+  margin: 0px;
 }
 
 @media (max-width: 900px) {
     .summary {
-        padding-left: 60px !important;
-        margin-right: 10px !important;
-        width: auto !important;
+      padding-left: 60px;
+      margin-right: 10px;
+      width: auto;
     }
-
-    h1 {
-        font-size: 56px !important;
-    }
-
-    h3 {
-        font-size: 22px !important;
-    }
-
-    .do {
-        width: 240px !important;
-        height: 140px !important;
-    }
-
-    .urgent {
-        height: 160px !important;
-        width: 500px !important;
-    }
-}
-
-@media (max-width: 790px) {
-    .summary {
-        padding-left: 50px !important;
-        margin-right: 8px !important;
-        width: auto !important;
-    }
-
-    h1 {
-        font-size: 50px !important;
-    }
-
-    h3 {
-        font-size: 20px !important;
-    }
-
-    .do {
-        width: 230px !important;
-        height: 130px !important;
-    }
-
-    .urgent {
-        width: 480px !important;
-        height: 150px !important;
-    }
-
+  
     .tasksBox {
-        width: 143px !important;
-        height: 168px !important;
+      width: 151px;
     }
-} 
-
-@media (max-width: 710px) {
-    .summary {
-        padding-left: 31px !important;
-        margin-right: 4px !important;
-        width: auto !important;
-    }
-
-
-
+  
     h1 {
-        font-size: 46px !important;
+      font-size: 56px;
     }
-
+  
     h3 {
-        font-size: 19px !important;
+      font-size: 22px;
     }
-
+  
     .do {
-        width: 201px !important;
-        height: 110px !important;
+      width: 240px;
+      height: 140px;
     }
-
+  
     .urgent {
-        width: 438px !important;
-        height: 126px !important;
+      height: 160px;
+      width: 500px;
     }
-
+  }
+  
+  @media (max-width: 790px) {
+    .summary {
+      padding-left: 50px;
+      margin-right: 8px;
+      width: auto;
+    }
+  
+    h1 {
+      font-size: 50px;
+    }
+  
+    h3 {
+      font-size: 20px;
+    }
+  
+    .do {
+      width: 230px;
+      height: 130px;
+    }
+  
+    .urgent {
+      width: 480px;
+      height: 150px;
+    }
+  
     .tasksBox {
-        width: 130px !important;
-        height: 130px !important;
+      width: 143px;
+      height: 168px;
     }
-
+  }
+  
+  @media (max-width: 710px) {
+    .summary {
+      padding-left: 31px;
+      margin-right: 4px;
+      width: auto;
+    }
+  
+    h1 {
+      font-size: 46px;
+    }
+  
+    h3 {
+      font-size: 19px;
+    }
+  
+    .do {
+      width: 201px;
+      height: 110px;
+    }
+  
+    .urgent {
+      width: 438px;
+      height: 126px;
+    }
+  
+    .tasksBox {
+      width: 130px;
+      height: 130px;
+    }
+  
     .taskNumber {
-        font-size: 64px !important;
+      font-size: 64px;
     }
-
+  
     .text {
-        font-size: 13px !important;
+      font-size: 13px;
     }
-} 
-
-@media (max-width: 580px) {
+  }
+  
+  @media (max-width: 580px) {
     .content {
-        overflow-y: hidden; 
+      overflow-y: hidden;
     }
     .summary {
-        padding-left: 20px !important;
-        margin-right: 4px !important;
-        width: auto !important;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+  
+    .userGreeting {
+      margin-top: 96px;
+      animation-name: greeting;
+      animation-duration: 3s;
+      animation-timing-function: ease-out;
+      animation-fill-mode: forwards;
+      position: absolute;
+      top: -12px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+    }
+  
+    h1 {
+      font-size: 42px;
+    }
+  
+    h3 {
+      font-size: 18px;
+    }
+  
+    .do {
+      width: 190px;
+      height: 100px;
+    }
+  
+    .urgent {
+      width: 400px;
+      height: 120px;
+    }
+  
+    .tasksBox {
+      width: 120px;
+      height: 130px;
+    }
+  
+    .taskNumber {
+      font-size: 56px !important;
+    }
+  
+    .tasksBox p {
+      font-size: 10px;
+    }
+  }
+  
+  @media (max-width: 520px) {
+    html,
+    body {
+      overflow: hidden;
+    }
+  
+    h1 {
+      font-size: 38px;
+    }
+  
+    h3 {
+      font-size: 16px;
+    }
+  
+    .do {
+      width: 180px;
+      height: 90px;
+    }
+  
+    .urgent {
+      width: 380px;
+      height: 110px;
+    }
+  
+    .tasksBox {
+      width: 110px;
+      height: 110px;
+    }
+  
+    .taskNumber {
+      font-size: 50px !important;
+    }
+  
+    .text {
+      font-size: 11px;
+    }
+  }
+  
+  @media (max-width: 430px) {
+    html, body {
+      overflow: hidden;
+    }
+  
+    .summary img {
+      height: 34px;
+      width: 34px;
+    }
+  
+    h1 {
+      font-size: 34px;
+    }
+  
+    h3 {
+      font-size: 14px;
+    }
+  
+    .do {
+      width: 160px;
+      height: 80px;
+    }
+  
+    .urgent {
+      width: 340px;
+      height: 95px;
     }
 
-    .userGreeting {
-        margin-top: 96px;
-        animation-name: greeting;
-        animation-duration: 3s;
-        animation-timing-function: ease-out;
-        animation-fill-mode: forwards; 
-        position: absolute;
-        top: -12px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        background: #FFFFFF;
-    }     
+    .greyLine {
+        border-left: 2px solid #d1d1d1;
+        height: 47px;
+    }    
+  
+    .tasksBox {
+      width: 95px;
+      height: 95px;
+    }
+  
+    .taskNumber {
+      font-size: 45px !important;
+    }
+  
+    .text {
+      font-size: 10px;
+    }
+  }
+
+  @media (max-width: 410px) {
+    html, body {
+        overflow: hidden;
+    }
+
+    .summary img {
+        height: 30px;
+        width: 30px;
+    }
 
     h1 {
-        font-size: 42px !important;
+        font-size: 32px;
     }
 
     h3 {
-        font-size: 18px !important;
-    }
-
-    .do {
-        width: 190px !important;
-        height: 100px !important;
-    }
-
-    .urgent {
-        width: 400px !important;
-        height: 120px !important;
-    }
-
-    .tasksBox {
-        width: 120px !important;
-        height: 130px !important;
-    }
-
-    .taskNumber {
-        font-size: 56px !important;
-    }
-
-    .tasksBox p {
         font-size: 12px;
     }
-}
-
-@media (max-width: 520px) {
-    .summary {
-        padding-left: 10px !important;
-        margin-right: 2px !important;
-        width: auto !important;
-    }
-
-    h1 {
-        font-size: 38px !important;
-    }
-
-    h3 {
-        font-size: 16px !important;
-    }
 
     .do {
-        width: 180px !important;
-        height: 90px !important;
+        width: 150px;
+        height: 70px;
     }
 
     .urgent {
-        width: 380px !important;
-        height: 110px !important;
+        width: 320px;
+        height: 85px;
     }
 
     .tasksBox {
-        width: 110px !important;
-        height: 110px !important;
+        width: 90px;
+        height: 90px;
     }
 
     .taskNumber {
-        font-size: 50px !important;
+        font-size: 40px;
     }
 
     .text {
-        font-size: 11px !important;
+        font-size: 9px;
     }
 }
 
-@keyframes greeting {
+  
+  @keyframes greeting {
     0% {
       opacity: 2;
       pointer-events: auto;
@@ -312,5 +404,5 @@
       opacity: 0;
       pointer-events: none;
     }
-}
-
+  }
+  

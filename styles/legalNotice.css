@@ -1,3 +1,9 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+
 .legalNoticeContent {
     padding-left: 100px;
     overflow-y: auto;
@@ -12,4 +18,11 @@
     justify-content: space-between;
     align-items: center;
     gap: 580px;
+}
+
+
+@media (max-width: 1024px) {
+    .legalNoticeContent {
+        padding: 25px 50px; 
+    }
 }
