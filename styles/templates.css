@@ -320,13 +320,14 @@ a {
   }
 
   .sidebar {
-    position: absolute;
+    position: sticky;
     width: 100%;
     height: 80px;
     flex-direction: column;
     bottom: 0;
     top: unset; 
     left: unset;
+    z-index: 1;
   }
 
   .sidebar ul {

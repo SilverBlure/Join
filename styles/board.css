@@ -12,6 +12,11 @@
     box-shadow: none;
 }
 
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+
 .addSubtaskButton {
     padding-left: 15px;
     padding-right: 15px;
@@ -19,7 +24,7 @@
 }
 
 .board {
-    width: 1340px;
+    width: 100%;
 }
 
 .boardHead {
@@ -184,7 +189,7 @@
     align-items: center;
 }
 
-.workerName{
+.workerName {
     margin: 0px;
 }
 
@@ -213,17 +218,17 @@
 }
 
 .priorityBtn.active#prioMiddle {
-    background-color: #f5a841 !important; 
+    background-color: #f5a841 !important;
     color: white;
 }
 
 .priorityBtn.active#prioLow {
-    background-color: #90ee90 !important; 
+    background-color: #90ee90 !important;
     color: white;
 }
 
 .priorityBtn.active img {
-    filter: brightness(0) invert(1) !important; 
+    filter: brightness(0) invert(1) !important;
 }
 
 .createSubtaskBar {
@@ -292,10 +297,10 @@
 }
 
 .editSubtaskItem {
-width: unset;
-display: flex;
-justify-content: start;
-align-items: start;
+    width: unset;
+    display: flex;
+    justify-content: start;
+    align-items: start;
 
 }
 
@@ -341,10 +346,10 @@ align-items: start;
 }
 
 .popupInformation {
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding-right: 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 250px;
 }
 
 
@@ -364,10 +369,10 @@ padding-right: 250px;
 }
 
 .workerIcon {
-margin-left: 30px;
-margin-right: 16px;
-margin-top: 0px;
-margin-bottom: 0px;
+    margin-left: 30px;
+    margin-right: 16px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .tasksPopupContainer {
@@ -521,20 +526,20 @@ select:focus {
 
 
 .dragging {
-    transform: rotate(10deg); 
+    transform: rotate(10deg);
     transition: transform 0.2s ease-in-out;
 }
 
 .listBody.highlight {
-    border: 2px dashed #4b4b4b; 
-    background-color: #E7E7E7; 
-    transition: background-color 0.2s, border 0.2s; 
+    border: 2px dashed #4b4b4b;
+    background-color: #E7E7E7;
+    transition: background-color 0.2s, border 0.2s;
 }
 
 
 .subtask-item:hover .hoverBtnContainer {
-    opacity: 1; 
-    pointer-events: all; 
+    opacity: 1;
+    pointer-events: all;
 }
 
 
@@ -544,9 +549,9 @@ select:focus {
     align-items: center;
     column-gap: 16px;
     padding-left: 20px;
-    opacity: 0; 
+    opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease; 
+    transition: opacity 0.3s ease;
 }
 
 .hoverBtn {
@@ -560,3 +565,205 @@ select:focus {
     padding-left: 100px;
     padding-top: 30px;
 }
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1920px) {
+    h1 {
+        font-size: 61px;
+        font-weight: 700;
+    }
+}
+
+@media (max-width: 1500px) {
+    h1 {
+        font-size: 56px;
+    }
+
+    .searchContainer {
+        margin-left: 160px;
+    }
+
+    .listHeadline {
+        padding-right: unset;
+    }
+
+    .listBody {
+        width: 200px;
+    }
+
+    h4 {
+        font-size: 22px;
+    }
+
+    .nothingToDo {
+        width: 200px;
+    }
+
+    .boardCard {
+        width: unset;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .listBody {
+        width: 183px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+
+    .nothingToDo {
+        width: 183px;
+    }
+
+    .searchContainer {
+        margin-left: 120px;
+    }
+}
+
+
+@media (max-width: 1111px) {
+    .listBody {
+        width: 163px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+
+    .nothingToDo {
+        width: unset;
+    }
+
+    .searchContainer {
+        margin-left: 120px;
+    }
+
+    .categoryTechnicalTask {
+        font-size: 12px;
+    }
+
+    .categoryUserStory {
+        font-size: 12px;
+    }
+
+    .taskCardTitle {
+        font-size: 12px;
+    }
+
+    .taskCardDescription {
+        font-size: 12px;
+    }
+
+    .taskCardSubtasks {
+        font-size: 8px;
+    }
+
+    .progress {
+        width: 80px;
+    }
+
+    .workerEmblem {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (max-width: 1046px) {
+    h1 {
+        font-size: 42px;
+    }
+
+    .searchContainer {
+        margin-left: 20px;
+    }
+
+.listHeadline { 
+    width: 70vh;
+}
+
+.nothingToDo {
+    width: 70vh;
+}
+
+    .listBody {
+        width: max-content;
+        height: max-content;
+        padding-top: 20px;
+        padding-bottom: 50px;
+        padding-left: 20px;
+    }
+
+    .taskList {
+        flex-direction: column;
+    }
+
+    .taskContainer {
+        flex-direction: row;
+        justify-content: start;
+    }
+}
+
+@media (max-width: 985px) {
+.taskList {
+    margin-left: 24px;
+}
+.listHeadline { 
+    width: 40vh;
+}
+
+.nothingToDo {
+    width: 40vh;
+}
+.boardHead {
+    flex-direction: column;
+    align-items: start;
+}
+.searchContainer {
+    flex-direction: column;
+    margin-left: unset;
+    align-items: start;
+    gap: 20px;
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 700px) {}
+
+@media (max-width: 625px) {}
+
+@media (max-width: 580px) {}
+
+@media (max-width: 530px) {}
+
+@media (max-width: 480px) {}
+
+@media (max-width: 435px) {}
+
+@media (max-width: 385px) {}
+
+@media (max-width: 360px) {}
