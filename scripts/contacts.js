@@ -326,7 +326,6 @@ function checkInput() {
     let fullname = document.getElementById('name').value.trim(); 
     let email = document.getElementById('email').value.trim();
     let phone = document.getElementById('phone').value.trim();
-
     if (fullname.split(" ").length < 2) {
         showSnackbar("Please enter first and last name.");
     } else if (email === "") {
