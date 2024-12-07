@@ -60,7 +60,7 @@ function login(){
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./summary.html';
+        location.href ='./../summary.html';
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
@@ -81,12 +81,12 @@ function guestLogin(email, pw){
         localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
-        location.href ='./summary.html';
+        location.href ='./../summary.html';
         
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./summary.html';
+        location.href ='./../summary.html';
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
