@@ -323,7 +323,7 @@ function checkInput() {
     } else if (phone === "") {
         showSnackbar("Please enter your phone number.");
     } else {
-        getFromEdit();
+        createContact();
     }
 }
 
