@@ -99,6 +99,7 @@ async function addTaskToList(listId, taskDetails) {
 }
 
 
+
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault();
     if (!listId || !taskId) return;
@@ -142,6 +143,7 @@ async function saveTaskChanges(event, listId, taskId) {
 }
 
 
+
 async function deleteTask(listId, taskId) {
     if (!listId || !taskId) {
         console.error("Fehlende Parameter für deleteTask:", { listId, taskId });
@@ -176,7 +178,3 @@ async function deleteTask(listId, taskId) {
         console.error("Error deleting task:", error);
     }
 }
-
-
-
-

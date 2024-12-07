@@ -62,34 +62,6 @@ function getWorkers() {
 
 
 
-function getLocalSubtasks() {
-    return window.localSubtasks || {};
-}
-
-
-
-function handleSubtaskKey(event) {
-    if (event.key === "Enter") {
-        event.preventDefault(); 
-        addNewSubtask(); 
-    }
-}
-
-
-
-function deleteSubtaskFromLocal(subtaskId) {
-    if (!subtaskId) return;
-    if (window.localEditedSubtasks && window.localEditedSubtasks[subtaskId]) {
-        delete window.localEditedSubtasks[subtaskId];
-    }
-    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
-    if (subtaskElement) {
-        subtaskElement.remove();
-    }
-}
-
-
-
 function closeAddTaskPopup() {
     const popup = document.getElementById('addTaskPopupOverlay');
     const mainContent = document.getElementById('mainContent');
@@ -220,4 +192,107 @@ function getInitials(fullName) {
     }
     const nameParts = fullName.trim().split(" ");
     return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
+}
+
+
+
+function findTask() {
+    const searchTerm = document.getElementById('findTask').value.trim().toLowerCase();
+    const allTaskContainers = document.querySelectorAll('.taskContainer');
+    allTaskContainers.forEach(container => {
+        const taskCards = container.querySelectorAll('.boardCard');
+        let hasMatchingTask = false;
+        taskCards.forEach(card => {
+            const title = card.querySelector('.taskCardTitle')?.textContent.toLowerCase() || '';
+            const description = card.querySelector('.taskCardDescription')?.textContent.toLowerCase() || '';
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = ''; 
+                hasMatchingTask = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        if (!hasMatchingTask) {
+            const nothingToDo = container.querySelector('.nothingToDo');
+            if (!nothingToDo) {
+                container.innerHTML += /*html*/`
+                    <div class="nothingToDo">
+                        <p class="nothingToDoText">No matching tasks found</p>
+                    </div>
+                `;
+            }
+        } else {
+            const nothingToDo = container.querySelector('.nothingToDo');
+            if (nothingToDo) {
+                nothingToDo.remove();
+            }
+        }
+        if (searchTerm === '') {
+            taskCards.forEach(card => {
+                card.style.display = ''; 
+            });
+            container.querySelector('.nothingToDo')?.remove(); 
+        }
+    });
+}
+
+async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
+    if (!listId || !taskId || !subtaskId) {
+        console.error("Ungültige Parameter:", { listId, taskId, subtaskId });
+        return;
+    }
+
+    try {
+        const task = await fetchTask(listId, taskId);
+        if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
+            console.error(`Subtask nicht gefunden: ${subtaskId}`);
+            return;
+        }
+
+        task.subtasks[subtaskId].done = isChecked;
+        const isUpdated = await updateTask(listId, taskId, task);
+
+        if (isUpdated) {
+            showSnackbar("Subtask erfolgreich aktualisiert!");
+            await updateSingleTaskElement(listId, taskId, task);
+            await openTaskPopup(taskId, listId);
+        } else {
+            showSnackbar("Fehler beim Aktualisieren des Subtasks!");
+        }
+    } catch (error) {
+        console.error("Fehler beim Umschalten des Subtask-Status:", error);
+    }
+}
+
+async function fetchTask(listId, taskId) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    const response = await fetch(url);
+    if (response.ok) return await response.json();
+    console.error(`Fehler beim Abrufen des Tasks: ${response.status}`);
+    return null;
+}
+
+async function updateTask(listId, taskId, task) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task),
+    });
+    return response.ok;
+}
+
+
+async function updateSingleTaskElement(listId, taskId, updatedTask) {
+    const taskElement = document.getElementById(`boardCard-${taskId}`);
+    if (!taskElement) {
+        console.error("Task-Element nicht gefunden:", taskId);
+        return;
+    }
+
+    const progressHTML = generateProgressHTML(updatedTask.subtasks);
+    const workersHTML = generateWorkersHTML(updatedTask.workers);
+    const newTaskHTML = generateTaskCardHTML(taskId, updatedTask, listId, progressHTML, workersHTML);
+
+    taskElement.outerHTML = newTaskHTML;
 }
