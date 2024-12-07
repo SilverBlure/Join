@@ -240,14 +240,20 @@ function getColorHex(vorname, nachname){
 }
 
 
-function checkInput(){
-    let fullname = document.getElementById('name').value;
+function checkInput() {
+    let fullname = document.getElementById('name').value.trim(); 
+    let email = document.getElementById('email').value.trim();
+    let phone = document.getElementById('phone').value.trim();
 
-  if (fullname.split(" ").length < 2) {
-    showSnackbar("Please insert first and lastname");
-  } else {
-    createContact();
-  }
+    if (fullname.split(" ").length < 2) {
+        showSnackbar("Please enter first and last name.");
+    } else if (email === "") {
+        showSnackbar("Please enter your email.");
+    } else if (phone === "") {
+        showSnackbar("Please enter your phone number.");
+    } else {
+        createContact();
+    }
 }
 
 
