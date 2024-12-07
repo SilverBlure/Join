@@ -201,23 +201,7 @@ function renderContactsDropdown(){
 function renderSelectedContacts() {
     const selectedContactsList = document.getElementById("selectedContactsList");
     selectedContactsList.innerHTML = window.localEditedContacts
-        .map(workerName => {
-            const initials = getInitials(workerName);
-            const color = getColorHex(workerName, "");
-            return `
-                <div class="workerInformation">
-                    <p class="workerEmblem workerIcon" style="background-color: ${color};">
-                        ${initials}
-                    </p>
-                    <p class="workerName">${workerName}</p>
-                    <img 
-                        class="hoverBtn" 
-                        src="../../assets/icons/png/iconoir_cancel.png" 
-                        onclick="removeContact('${workerName}')"
-                        alt="Remove Worker">
-                </div>
-            `;
-        })
+        .map(workerName => generateWorkerHTML(workerName))
         .join("");
 }
 
@@ -249,27 +233,12 @@ function removeContactFromEdit(workerName) {
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (selectedContactsList) {
         selectedContactsList.innerHTML = window.localEditedContacts.length > 0
-            ? window.localEditedContacts.map(contact => {
-                  const initials = getInitials(contact.name);
-                  const color = getColorHex(contact.name, "");
-                  return `
-                      <div class="workerInformation">
-                          <p class="workerEmblem workerIcon" style="background-color: ${color};">
-                              ${initials}
-                          </p>
-                          <p class="workerName">${contact.name}</p>
-                          <img 
-                              class="hoverBtn" 
-                              src="../../assets/icons/png/iconoir_cancel.png" 
-                              onclick="removeContactFromEdit('${contact.name}')"
-                              alt="Remove Worker">
-                      </div>
-                  `;
-              }).join("")
+            ? window.localEditedContacts
+                  .map(contact => generateEditableWorkerHTML(contact))
+                  .join("")
             : '<p>Keine zugewiesenen Arbeiter.</p>';
     }
 }
-
 
 
 function handleContactSelectionForEdit() {
@@ -280,18 +249,6 @@ function handleContactSelectionForEdit() {
     const newContact = { name: selectedContactName };
     window.localEditedContacts.push(newContact);
     const selectedContactsList = document.getElementById("selectedContactsList");
-    const initials = getInitials(selectedContactName);
-    const color = getColorHex(selectedContactName, "");
-    selectedContactsList.insertAdjacentHTML("beforeend", `
-        <div class="workerInformation">
-            <p class="workerEmblem workerIcon" style="background-color: ${color};">${initials}</p>
-            <p class="workerName">${selectedContactName}</p>
-            <img 
-                class="hoverBtn" 
-                src="../../assets/icons/png/iconoir_cancel.png" 
-                onclick="removeContactFromEdit('${selectedContactName}')"
-                alt="Remove Worker">
-        </div>
-    `);
+    selectedContactsList.insertAdjacentHTML("beforeend", generateWorkerHTMLForEdit(selectedContactName));
     dropdown.value = "";
 }

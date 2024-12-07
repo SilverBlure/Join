@@ -23,12 +23,11 @@ function loadSessionId() {
 
 
 async function initializeTaskLists() {
-    try {
         const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
         const response = await fetch(url);
         if (response.ok) {
             const data = await response.json();
-            if (data) return true; 
+            if (data) return true;
         }
         const defaultLists = {
             todo: { name: "To Do", task: {} },
@@ -42,60 +41,46 @@ async function initializeTaskLists() {
             body: JSON.stringify(defaultLists),
         });
         return initResponse.ok;
-    } catch (error) {
-        return false;
-    }
 }
 
 
 
 async function getTasks() {
-    try {
-        const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
-        const response = await fetch(url);
-        if (!response.ok) {
-            console.error(`Error fetching tasks: ${response.status} - ${response.statusText}`);
-            return;
-        }
-        const data = await response.json();
-        console.log("Rohdaten von Firebase:", data);
-        tasks = Object.entries(data || {}).reduce((acc, [listKey, listValue]) => {
-            acc[listKey] = {
-                id: listKey,
-                name: listValue.name || listKey,
-                task: Object.entries(listValue.task || {}).reduce((taskAcc, [taskId, taskValue]) => {
-                    taskAcc[taskId] = {
-                        ...taskValue,
-                        subtasks: taskValue.subtasks || {}, // Standardisiere Subtasks
-                    };
-                    return taskAcc;
-                }, {}),
-            };
-            return acc;
-        }, {});
-        console.log("Verarbeitete Tasks:", tasks);
-    } catch (error) {
-        console.error("Error fetching tasks:", error);
+    const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        return;
     }
+    const data = await response.json();
+    tasks = Object.entries(data || {}).reduce((acc, [listKey, listValue]) => {
+        acc[listKey] = {
+            id: listKey,
+            name: listValue.name || listKey,
+            task: Object.entries(listValue.task || {}).reduce((taskAcc, [taskId, taskValue]) => {
+                taskAcc[taskId] = {
+                    ...taskValue,
+                    subtasks: taskValue.subtasks || {}, // Standardisiere Subtasks
+                };
+                return taskAcc;
+            }, {}),
+        };
+        return acc;
+    }, {});
 }
 
 
 
 async function addTaskToList(listId, taskDetails) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(taskDetails),
-        });
-        if (!response.ok) {
-            return null;
-        }
-        return await response.json();
-    } catch (error) {
+    const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(taskDetails),
+    });
+    if (!response.ok) {
         return null;
     }
+    return await response.json();
 }
 
 
@@ -145,36 +130,15 @@ async function saveTaskChanges(event, listId, taskId) {
 
 
 async function deleteTask(listId, taskId) {
-    if (!listId || !taskId) {
-        console.error("Fehlende Parameter für deleteTask:", { listId, taskId });
+    const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    const response = await fetch(taskUrl, {
+        method: "DELETE",
+    });
+    if (!response.ok) {
         return;
     }
-    try {
-        const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-        console.log("DELETE-URL:", taskUrl);
-
-        const response = await fetch(taskUrl, {
-            method: "DELETE",
-        });
-
-        if (!response.ok) {
-            console.error("Fehler beim Löschen der Aufgabe:", response.status, response.statusText);
-            return;
-        }
-
-        console.log("Task erfolgreich gelöscht:", taskId);
-        showSnackbar('Der Task wurde erfolgreich gelöscht!');
-
-        console.log("Aufgaben werden nach Löschung neu geladen...");
-        await getTasks();
-        console.log("Aufgaben erfolgreich neu geladen.");
-
-        renderBoard();
-        console.log("Board erfolgreich neu gerendert.");
-
-        closeTaskPopup();
-        console.log("Popup erfolgreich geschlossen.");
-    } catch (error) {
-        console.error("Error deleting task:", error);
-    }
+    showSnackbar('Der Task wurde erfolgreich gelöscht!');
+    await getTasks();
+    renderBoard();
+    closeTaskPopup();
 }

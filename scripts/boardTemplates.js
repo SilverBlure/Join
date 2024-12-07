@@ -370,3 +370,61 @@ function generateNoMatchingMessageHTML(message) {
         </div>
     `;
 }
+
+
+
+function generateWorkerHTML(workerName) {
+    const initials = getInitials(workerName);
+    const color = getColorHex(workerName, "");
+    return `
+        <div class="workerInformation">
+            <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
+            </p>
+            <p class="workerName">${workerName}</p>
+            <img 
+                class="hoverBtn" 
+                src="../../assets/icons/png/iconoir_cancel.png" 
+                onclick="removeContact('${workerName}')"
+                alt="Remove Worker">
+        </div>
+    `;
+}
+
+
+
+function generateEditableWorkerHTML(contact) {
+    const initials = getInitials(contact.name);
+    const color = getColorHex(contact.name, "");
+    return `
+        <div class="workerInformation">
+            <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
+            </p>
+            <p class="workerName">${contact.name}</p>
+            <img 
+                class="hoverBtn" 
+                src="./../assets/icons/png/iconoir_cancel.png" 
+                onclick="removeContactFromEdit('${contact.name}')"
+                alt="Remove Worker">
+        </div>
+    `;
+}
+
+
+
+function generateWorkerHTMLForEdit(name) {
+    const initials = getInitials(name);
+    const color = getColorHex(name, "");
+    return `
+        <div class="workerInformation">
+            <p class="workerEmblem workerIcon" style="background-color: ${color};">${initials}</p>
+            <p class="workerName">${name}</p>
+            <img 
+                class="hoverBtn" 
+                src="../../assets/icons/png/iconoir_cancel.png" 
+                onclick="removeContactFromEdit('${name}')"
+                alt="Remove Worker">
+        </div>
+    `;
+}
