@@ -70,8 +70,6 @@ body {
     animation: fadeInBlur 1s ease forwards;
 }
 
-
-/* Snackbar-Stil */
 #snackbar {
     visibility: hidden;
     min-width: 250px;
@@ -178,18 +176,16 @@ body {
 
     .registration {
         margin-bottom: 64px;
-        width: 396px;
-        height: 595px;
         background-color: white;
-        /* display: flex
-; */
-        /* justify-content: center; */
-        /* align-items: center; */
+        display: flex
+;
+        justify-content: center;
+        align-items: center;
         flex-direction: column;
-        /* border-radius: 30px; */
-        /* gap: 28px; */
-        /* padding: 20px 50px; */
-        /* margin-top: 84px; */
+        border-radius: 30px;
+        gap: 28px;
+        padding: 58px 16px;
+        margin-top: 84px;
         animation: fadeInBlur 1s ease forwards;
     }
   
@@ -254,7 +250,106 @@ body {
         height: 78px;
         width: 64px;
     }
+}
 
 
 
+@media (max-width: 700px) {
+
+    .loginBackground {
+        margin-top: 64px;
+        margin-bottom: 64px;
+        background-color: white;
+        height: 493px;
+        border-radius: 30px;
+        width: 460px;
+    }
+    .border {
+        border: 2px;
+        border-style: solid;
+        border-color: #D1D1D1;
+        border-radius: 10px;
+        height: 48px;
+        width: 360px;
+        justify-content: center;
+        margin: 30px;
+    }
+    .innerInputfield {
+        width: 338px;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+ 
+}
+
+@media (max-width: 500px) {
+    .loginBackground {
+        margin-top: 64px;
+        margin-bottom: 64px;
+        background-color: white;
+        height: 493px;
+        border-radius: 30px;
+        width: 386px;
+    }
+
+    .loginfooter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 52px;
+        margin-bottom: -72px;
+    }
+    .border {
+        border: 2px;
+        border-style: solid;
+        border-color: #D1D1D1;
+        border-radius: 10px;
+        height: 48px;
+        width: 340px;
+        justify-content: center;
+        margin: 30px;
+    }
+    .innerInputfield {
+        width: 318px;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+@media (max-width: 520px){
+
+    .border {
+        border: 2px;
+        border-style: solid;
+        border-color: #D1D1D1;
+        border-radius: 10px;
+        height: 48px;
+        width: 290px;
+        justify-content: center;
+        margin: 30px;
+    }
+    .innerInputfield {
+        width: 258px;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .registration{
+    margin-bottom: 64px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 30px;
+    gap: 28px;
+    padding: 22px 34px;
+    margin-top: 84px;
+    animation: fadeInBlur 1s ease forwards;
+}
 }
