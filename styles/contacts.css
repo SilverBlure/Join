@@ -203,8 +203,6 @@ p{
 
 }
 
-
-
 .userTag {
     border: white 1px solid;
     color: white;
@@ -719,6 +717,9 @@ justify-content: left;
 @media (max-width: 385px){
     .backToContactsBtn{
         padding-left: 30px;
+    }
+    .addContactBtn{
+        width: 300px;
     }
 }
 

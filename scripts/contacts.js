@@ -271,18 +271,6 @@ function editContact(i){
 
 
 /**
- * this function renders the dialog to delete a new contact
- */
-function deleteContact(i){
-    openAddContact();
-    document.getElementById('dialogInfo').innerHTML ="Delete contact";
-    document.getElementById('editContact').innerHTML ="";
-    document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
-     
-}
-
-
-/**
  * this function gets the contact informations to edit and hands them to the backend
  * @param {number} i - index of the contact to edit
  */
