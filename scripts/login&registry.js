@@ -80,7 +80,16 @@ async function getUserTag(){
 }
 
 
-
+function showSnackbar(message){
+    let snackbar= document.getElementById('snackbar');
+    snackbar.textContent = message;
+    snackbar.classList.remove('hidden');
+    snackbar.classList.add('visible');
+    setTimeout(() => {
+        snackbar.classList.remove('visible');
+        snackbar.classList.add('hidden');
+    }, 3000);
+  }
 
 
 function enableButton(){
