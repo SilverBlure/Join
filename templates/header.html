@@ -5,8 +5,9 @@
         <img class="helpImg" src="./../assets/icons/png/help.png" alt="">
     </a>
     <div class="logoutButton">
-        <p class="userTag" onclick="toggleShowMenu(event)" id="logedInUser"></p>
-        <div id="dropdownMenu" class="display-none" onmouseleave="toggleShowMenu(event)">
+        <div class="logoutButton">
+            <p class="userTag" id="logedInUser" onclick="toggleShowMenu()"></p>
+            <div id="dropdownMenu" class="dropdown-menu">
             <a onclick="logout(event)" href="../index.html">
                 <span>Log out</span>
             </a>

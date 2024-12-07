@@ -179,23 +179,14 @@ function getColorHex(vorname, nachname){
   return hexColor;
 }
 
-function toggleShowMenu(event) {
-  event.stopPropagation(); // Verhindert, dass das Klicken auf das Menü andere Ereignisse auslöst
+function toggleShowMenu() {
   const dropdownMenu = document.getElementById('dropdownMenu');
-  if (dropdownMenu.classList.contains('display-none')) {
-      dropdownMenu.classList.remove('display-none');
+  if (dropdownMenu.classList.contains('active')) {
+      dropdownMenu.classList.remove('active'); 
   } else {
-      dropdownMenu.classList.add('display-none');
+      dropdownMenu.classList.add('active'); 
   }
 }
-
-// Schließt das Dropdown-Menü, wenn außerhalb geklickt wird
-document.addEventListener('click', function () {
-  const dropdownMenu = document.getElementById('dropdownMenu');
-  if (!dropdownMenu.classList.contains('display-none')) {
-      dropdownMenu.classList.add('display-none');
-  }
-});
 
 function showSnackbar(message){
   let snackbar= document.getElementById('snackbar');
