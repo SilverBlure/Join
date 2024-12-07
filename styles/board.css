@@ -12,15 +12,17 @@
     box-shadow: none;
 }
 
+h1 {
+    font-size: 61px;
+    font-weight: 700;
+}
+
 .addSubtaskButton {
     padding-left: 15px;
     padding-right: 15px;
     cursor: pointer;
 }
 
-.board {
-    width: 1340px;
-}
 
 .boardHead {
     display: flex;
@@ -44,7 +46,7 @@
     display: flex;
     align-items: center;
     height: 48px;
-    width: 276px;
+    width: 262px;
     overflow: hidden;
 }
 
@@ -73,7 +75,6 @@
 }
 
 .formControl {
-    width: 210px;
     padding-left: 16px;
     font-size: 20px;
 }
@@ -94,6 +95,8 @@
     column-gap: 26px;
     margin-left: 64px;
     overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 
 }
 
@@ -715,11 +718,11 @@ select:focus {
     margin-left: 24px;
 }
 .listHeadline { 
-    width: 40vh;
+    width: 60vh;
 }
 
 .nothingToDo {
-    width: 40vh;
+    width: 60vh;
 }
 .boardHead {
     flex-direction: column;
@@ -731,6 +734,63 @@ select:focus {
     align-items: start;
     gap: 20px;
 }
+.taskContainer {
+    width: 60vh;
+    overflow-x: scroll;
+    height: max-content;
+    padding: 8px
+}
+}
+
+
+@media (max-width: 767px) {
+    .listHeadline { 
+        width: 40vh;
+    }
+    
+    .nothingToDo {
+        width: 40vh;
+    }
+
+    .taskContainer {
+        width: 40vh;
+    }
+    
+}
+
+
+@media (max-width: 467px) {
+
+    .listHeadline { 
+        width: 30vh;
+    }
+    
+    .nothingToDo {
+        width: 30vh;
+    }
+
+    .taskContainer {
+        width: 30vh;
+    }
+
+}
+
+@media (max-width: 367px) {
+    .listHeadline { 
+        width: 25vh;
+    }
+    
+    .nothingToDo {
+        width: 25vh;
+    }
+
+    .taskContainer {
+        width: 25vh;
+    }
+
+    .searchBar {
+        width: 180px;
+    }
 }
 
 
@@ -744,14 +804,6 @@ select:focus {
 
 
 
-
-
-
-@media (max-width: 700px) {}
-
-@media (max-width: 625px) {}
-
-@media (max-width: 580px) {}
 
 @media (max-width: 530px) {}
 
