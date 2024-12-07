@@ -139,9 +139,7 @@ function deleteContactTemp(i){
 
 
 
-
-
-
+// addTask Templates
 function generateSubtaskHTML(subtaskId, title) {
     return /*html*/`
         <div class="subtask-item" id="${subtaskId}">
