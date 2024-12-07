@@ -392,40 +392,7 @@ function handleContactSelectionForEdit() {
 
 
  
-async function deleteTask(listId, taskId) {
-    if (!listId || !taskId) {
-        console.error("Fehlende Parameter für deleteTask:", { listId, taskId });
-        return;
-    }
-    try {
-        const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-        console.log("DELETE-URL:", taskUrl);
 
-        const response = await fetch(taskUrl, {
-            method: "DELETE",
-        });
-
-        if (!response.ok) {
-            console.error("Fehler beim Löschen der Aufgabe:", response.status, response.statusText);
-            return;
-        }
-
-        console.log("Task erfolgreich gelöscht:", taskId);
-        showSnackbar('Der Task wurde erfolgreich gelöscht!');
-
-        console.log("Aufgaben werden nach Löschung neu geladen...");
-        await getTasks();
-        console.log("Aufgaben erfolgreich neu geladen.");
-
-        renderBoard();
-        console.log("Board erfolgreich neu gerendert.");
-
-        closeTaskPopup();
-        console.log("Popup erfolgreich geschlossen.");
-    } catch (error) {
-        console.error("Error deleting task:", error);
-    }
-}
 
 
 

@@ -40,12 +40,15 @@ function renderSubtaskProgress(subtasks) {
 
 function renderTaskWorkers(workers) {
     if (!workers || workers.length === 0) return "";
-    return workers.map(worker => `
-        <p class="workerEmblem" style="background-color: ${getColorHex(worker.name, "")};">
-            ${getInitials(worker.name)}
-        </p>
-    `).join("");
+    return workers
+        .filter(worker => worker && worker.name) // Entferne ungültige Worker-Einträge
+        .map(worker => `
+            <p class="workerEmblem" style="background-color: ${getColorHex(worker.name, "")};">
+                ${getInitials(worker.name)}
+            </p>
+        `).join("");
 }
+
 
 
 
@@ -96,7 +99,6 @@ function generateSubtasksHTML(task, taskId, listId) {
         return generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId); // Verwende hier direkt die Funktion
     }).join('');
 }
-
 
 
 

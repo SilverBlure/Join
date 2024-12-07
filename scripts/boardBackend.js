@@ -22,64 +22,6 @@ function loadSessionId() {
 
 
 
-async function getTasks() {
-    try {
-        const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
-        const response = await fetch(url);
-        if (!response.ok) {
-            console.error(`Error fetching tasks: ${response.status} - ${response.statusText}`);
-            return;
-        }
-
-        const data = await response.json();
-        console.log("Rohdaten von Firebase:", data);
-
-        tasks = Object.entries(data || {}).reduce((acc, [listKey, listValue]) => {
-            acc[listKey] = {
-                id: listKey,
-                name: listValue.name || listKey,
-                task: Object.entries(listValue.task || {}).reduce((taskAcc, [taskId, taskValue]) => {
-                    taskAcc[taskId] = {
-                        ...taskValue,
-                        subtasks: taskValue.subtasks || {}, // Standardisiere Subtasks
-                    };
-                    return taskAcc;
-                }, {}),
-            };
-            return acc;
-        }, {});
-
-        console.log("Verarbeitete Tasks:", tasks);
-    } catch (error) {
-        console.error("Error fetching tasks:", error);
-    }
-}
-
-
-
-
-
-function getInitials(fullName) {
-    const nameParts = fullName.trim().split(" ");
-    return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
-}
-
-
-
-function getColorHex(vorname, nachname) {
-    const completeName = (vorname + nachname).toLowerCase();
-    let hash = 0;
-    for (let i = 0; i < completeName.length; i++) {
-        hash += completeName.charCodeAt(i);
-    }
-    const r = (hash * 123) % 256;
-    const g = (hash * 456) % 256;
-    const b = (hash * 789) % 256;
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
-}
-
-
-
 async function initializeTaskLists() {
     try {
         const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
@@ -104,4 +46,137 @@ async function initializeTaskLists() {
         return false;
     }
 }
+
+
+
+async function getTasks() {
+    try {
+        const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.error(`Error fetching tasks: ${response.status} - ${response.statusText}`);
+            return;
+        }
+        const data = await response.json();
+        console.log("Rohdaten von Firebase:", data);
+        tasks = Object.entries(data || {}).reduce((acc, [listKey, listValue]) => {
+            acc[listKey] = {
+                id: listKey,
+                name: listValue.name || listKey,
+                task: Object.entries(listValue.task || {}).reduce((taskAcc, [taskId, taskValue]) => {
+                    taskAcc[taskId] = {
+                        ...taskValue,
+                        subtasks: taskValue.subtasks || {}, // Standardisiere Subtasks
+                    };
+                    return taskAcc;
+                }, {}),
+            };
+            return acc;
+        }, {});
+        console.log("Verarbeitete Tasks:", tasks);
+    } catch (error) {
+        console.error("Error fetching tasks:", error);
+    }
+}
+
+
+
+async function addTaskToList(listId, taskDetails) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(taskDetails),
+        });
+        if (!response.ok) {
+            return null;
+        }
+        return await response.json();
+    } catch (error) {
+        return null;
+    }
+}
+
+
+async function saveTaskChanges(event, listId, taskId) {
+    event.preventDefault();
+    if (!listId || !taskId) return;
+    if (!window.localEditedSubtasks) window.localEditedSubtasks = {};
+    Object.values(window.localEditedSubtasks).forEach(subtask => {
+        subtask.done = false;
+    });
+    const workers = (window.localEditedContacts || []).map(contact => ({
+        name: contact.name,
+    }));
+    const updatedTask = {
+        title: document.getElementById("title").value.trim(),
+        description: document.getElementById("description").value.trim() || "No description provided",
+        dueDate: document.getElementById("dueDate").value || null,
+        priority: tempPriority || "Low",
+        category: {
+            name: document.getElementById("category").value.trim() || "Uncategorized",
+            class: `category${(document.getElementById("category").value || "Uncategorized").replace(/\s/g, "")}`,
+        },
+        workers,
+        subtasks: { ...window.localEditedSubtasks },
+    };
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    try {
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedTask),
+        });
+        if (!response.ok) return;
+        await getTasks();
+        showSnackbar('Der Task wurde erfolgreich aktualisiert!');
+        renderBoard();
+        closeEditTaskPopup();
+        openTaskPopup(taskId, listId);
+    } catch {
+        showSnackbar('Fehler beim aktuallisieren der Daten!');
+    }
+}
+
+
+async function deleteTask(listId, taskId) {
+    if (!listId || !taskId) {
+        console.error("Fehlende Parameter für deleteTask:", { listId, taskId });
+        return;
+    }
+    try {
+        const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+        console.log("DELETE-URL:", taskUrl);
+
+        const response = await fetch(taskUrl, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            console.error("Fehler beim Löschen der Aufgabe:", response.status, response.statusText);
+            return;
+        }
+
+        console.log("Task erfolgreich gelöscht:", taskId);
+        showSnackbar('Der Task wurde erfolgreich gelöscht!');
+
+        console.log("Aufgaben werden nach Löschung neu geladen...");
+        await getTasks();
+        console.log("Aufgaben erfolgreich neu geladen.");
+
+        renderBoard();
+        console.log("Board erfolgreich neu gerendert.");
+
+        closeTaskPopup();
+        console.log("Popup erfolgreich geschlossen.");
+    } catch (error) {
+        console.error("Error deleting task:", error);
+    }
+}
+
+
+
 

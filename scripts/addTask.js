@@ -161,6 +161,12 @@ function getWorkers() {
 
 
 
+function getLocalSubtasks() {
+    return { ...window.localSubtasks };
+}
+
+
+
 async function saveTask(task) {
     const result = await addTaskToList(task);
     if (result) {
@@ -188,12 +194,6 @@ function clearLocalContacts() {
     window.localContacts = {};
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (selectedContactsList) selectedContactsList.innerHTML = "";
-}
-
-
-
-function getLocalSubtasks() {
-    return { ...window.localSubtasks };
 }
 
 
@@ -254,7 +254,6 @@ async function taskListsExist(url) {
         return false; 
     }
 }
-
 
 
 
