@@ -6,7 +6,6 @@ async function main() {
     loadSessionId();
     const isInitialized = await initializeTaskLists();
     if (!isInitialized) {
-        console.error("Error initializing task lists. Application cannot proceed.");
         return;
     }
     await getTasks();
@@ -31,46 +30,32 @@ async function getTasks() {
             console.error(`Error fetching tasks: ${response.status} - ${response.statusText}`);
             return;
         }
+
         const data = await response.json();
-        if (!data) {
-            console.warn("No tasks found.");
-            tasks = {};
-            return;
-        }
-        tasks = Object.entries(data).reduce((acc, [listKey, listValue]) => {
+        console.log("Rohdaten von Firebase:", data);
+
+        tasks = Object.entries(data || {}).reduce((acc, [listKey, listValue]) => {
             acc[listKey] = {
                 id: listKey,
                 name: listValue.name || listKey,
-                task: listValue.task
-                    ? Object.entries(listValue.task).reduce((taskAcc, [taskId, taskValue]) => {
-                          taskAcc[taskId] = {
-                              ...taskValue,
-                              workers: (taskValue.workers || []).map(worker =>
-                                  typeof worker === "string"
-                                      ? {
-                                            name: worker,
-                                            initials: getInitials(worker),
-                                            color: getColorHex(worker, ""),
-                                        }
-                                      : worker?.name
-                                      ? {
-                                            ...worker,
-                                            initials: getInitials(worker.name),
-                                            color: worker.color || getColorHex(worker.name, ""),
-                                        }
-                                      : null
-                              ).filter(Boolean),
-                          };
-                          return taskAcc;
-                      }, {})
-                    : {},
+                task: Object.entries(listValue.task || {}).reduce((taskAcc, [taskId, taskValue]) => {
+                    taskAcc[taskId] = {
+                        ...taskValue,
+                        subtasks: taskValue.subtasks || {}, // Standardisiere Subtasks
+                    };
+                    return taskAcc;
+                }, {}),
             };
             return acc;
         }, {});
+
+        console.log("Verarbeitete Tasks:", tasks);
     } catch (error) {
         console.error("Error fetching tasks:", error);
     }
 }
+
+
 
 
 
@@ -116,7 +101,6 @@ async function initializeTaskLists() {
         });
         return initResponse.ok;
     } catch (error) {
-        console.error("Error initializing task lists:", error);
         return false;
     }
 }
