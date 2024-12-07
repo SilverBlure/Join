@@ -361,3 +361,12 @@ function generateWorkersHTML(workers = []) {
         `;
     }).join("");
 }
+
+
+function generateNoMatchingMessageHTML(message) {
+    return `
+        <div class="nothingToDo">
+            <p class="nothingToDoText">${message}</p>
+        </div>
+    `;
+}
