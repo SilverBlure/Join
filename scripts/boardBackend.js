@@ -69,19 +69,46 @@ async function getTasks() {
 }
 
 
-
-async function addTaskToList(listId, taskDetails) {
-    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
-    const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(taskDetails),
-    });
-    if (!response.ok) {
+/**
+ * Generalized function to send a POST request.
+ * @param {string} url - The endpoint to send the request to.
+ * @param {Object} data - The data to be sent in the request body.
+ * @returns {Promise<Object|null>} - The response JSON or null if the request fails.
+ */
+async function postData(url, data) {
+    try {
+        console.log("Sending data to URL:", url);
+        console.log("Payload:", data); // Debugging log
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+            console.error("Failed POST request:", response.statusText);
+            return null;
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error during POST request:", error);
         return null;
     }
-    return await response.json();
 }
+
+/**
+ * Function to add a task to a specific list.
+ * @param {string} listId - The ID of the list to add the task to.
+ * @param {Object} taskDetails - The task details to add.
+ * @returns {Promise<Object|null>} - The response JSON or null if the operation fails.
+ */
+async function addTaskToList(listId, taskDetails) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task.json`;
+    showSnackbar("Adding task");
+    renderBoard();
+    closeAddTaskPopup();
+    return await postData(url, taskDetails);
+}
+
 
 
 

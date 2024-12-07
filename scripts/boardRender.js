@@ -30,7 +30,7 @@ function renderTask(container, taskId, task, listId) {
 function renderTaskWorkers(workers) {
     if (!workers || workers.length === 0) return "";
     return workers
-        .filter(worker => worker && worker.name) // Entferne ungültige Worker-Einträge
+        .filter(worker => worker && worker.name) 
         .map(worker => `
             <p class="workerEmblem" style="background-color: ${getColorHex(worker.name, "")};">
                 ${getInitials(worker.name)}
@@ -50,7 +50,7 @@ async function openTaskPopup(taskId, listId) {
     const popupContainer = document.getElementById("viewTaskContainer");
     if (!popupOverlay || !popupContainer) return;
     const subtasksHTML = generateSubtasksHTML(task, taskId, listId);
-    const workersHTML = generateWorkersHTML(task);
+    const workersHTML = generateWorkersHTML(task.workers || []); 
     showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workersHTML, listId, taskId);
 }
 
@@ -80,7 +80,7 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
     document.getElementById("mainContent").classList.add("blur");
     const headerHTML = generatePopupHeaderHTML(task);
     const detailsHTML = generatePopupDetailsHTML(task);
-    const workerContainerHTML = generateWorkerContainerHTML(workersHTML);
+    const workerContainerHTML = generateWorkerContainerHTML(workersHTML); // Use generated workers HTML
     const subtasksContainerHTML = generateSubtasksContainerHTML(subtasksHTML);
     const actionsHTML = generatePopupActionsHTML(listId, taskId);
     popupContainer.innerHTML = `
