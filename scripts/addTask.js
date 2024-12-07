@@ -228,14 +228,33 @@ async function addTaskToList(task) {
 
 async function initializeTaskLists() {
     try {
-        const taskUrl = createTaskUrl();
-        const defaultLists = getDefaultTaskLists();
-        return await saveDefaultTaskLists(taskUrl, defaultLists);
+        const taskUrl = createTaskUrl(); 
+        const defaultLists = getDefaultTaskLists(); 
+        if (await taskListsExist(taskUrl)) {
+            return true; 
+        }
+        return await saveDefaultTaskLists(taskUrl, defaultLists); 
     } catch (error) {
-        console.error("Fehler beim Initialisieren der Task-Listen:", error);
         return false;
     }
 }
+
+
+
+async function taskListsExist(url) {
+    try {
+        const response = await fetch(url); 
+        if (!response.ok) {
+            return false; 
+        }
+        const data = await response.json();
+        const hasData = data && Object.keys(data).length > 0;
+        return hasData;
+    } catch (error) {
+        return false; 
+    }
+}
+
 
 
 
@@ -334,7 +353,6 @@ function addNewSubtask() {
     subTasksList.innerHTML += subtaskHTML;
     subTaskInput.value = ""; 
 }
-
 
 
 
