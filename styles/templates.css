@@ -168,6 +168,11 @@ a {
   width: 250px;
 }
 
+
+.display-none{
+  display: none;
+}
+
 .logout {
   font-size: 0.8em;
   position: relative;
@@ -302,6 +307,7 @@ a {
     justify-content: center !important;
     align-items: center !important;
     height: 80px;
+    
   }
   
 
@@ -337,8 +343,13 @@ a {
     width: auto !important;
     padding: 8px 10px !important;
     text-align: center !important;
-    border-radius: 16px !important;
-    background-color: transparent !important;
+
+    border-radius: 8px !important;
+  }
+
+  .sidebar li:hover {
+    background-color: grey !important; 
+
   }
 
   .sidebarNavBtn {
