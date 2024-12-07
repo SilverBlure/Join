@@ -323,13 +323,9 @@ footer {
     justify-content: center !important;
     align-items: center !important;
     width: auto !important;
-    padding: 8px 10px !important;
+    padding: 4px 10px !important;
     text-align: center !important;
     border-radius: 8px !important;
-  }
-
-  .sidebar li:hover {
-    background-color: grey !important; 
   }
 
   .sidebarNavBtn {
