@@ -652,8 +652,11 @@ justify-content: left;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        padding-left: 0;
-        
+        padding-left: 0;  
+    }
+
+    .createContactBtn{
+        gap: 15px;
     }
 
     .closeBtn{
@@ -688,7 +691,9 @@ justify-content: left;
         cursor: pointer;
     }
 
-
+    .editImg{
+        display: none;
+    }
 
 .blueLine{
     display: none;
