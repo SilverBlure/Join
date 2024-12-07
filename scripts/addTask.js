@@ -70,7 +70,7 @@ async function addTaskToToDoList(event) {
         : [];
     const category = {
         name: categoryName,
-        class: `category${categoryName.replace(/\s/g, "")}`,
+        class: `category${categoryName.replace(/\s/g, "")}`, //Technical Task, dann wird in der mitte das leerzeichen entfernt und somit stimmt die class bezeichnung im CSS wieder
     };
     const newTask = {
         title,
@@ -105,7 +105,6 @@ function clearLocalContacts() {
     if (selectedContactsList) {
         selectedContactsList.innerHTML = ""; 
     }
-    console.log("Alle Kontakte erfolgreich zurückgesetzt.");
 }
 
 
@@ -193,7 +192,7 @@ async function initializeTaskLists() {
 function setPriority(priority) {
     tempPriority = priority;
     document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(`prio${priority}`)?.classList.add('active');
+    document.getElementById(`prio${priority}`)?.classList.add('active'); // Fragezeichen-Operator ? Verhindert, dass ein Fehler auftritt, wenn das Element nicht gefunden wird. Wenn kein Button mit der passenden ID gefunden wird, passiert einfach nichts.  
 }
 
 

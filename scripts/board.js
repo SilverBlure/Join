@@ -525,7 +525,7 @@ async function saveTaskChanges(event, listId, taskId) {
         closeEditTaskPopup();
         openTaskPopup(taskId, listId);
     } catch {
-        // Keine weitere Aktion bei Fehler
+        showSnackbar('Fehler beim aktuallisieren der Daten!');
     }
 }
 
@@ -573,7 +573,6 @@ function openAddTaskPopup(listId) {
         return;
     }
     currentListId = listId; 
-    console.log(`Liste "${listId}" wurde geöffnet.`);
     const form = document.getElementById("addTaskFormTask");
     const newForm = form.cloneNode(true); 
     form.parentNode.replaceChild(newForm, form); 
@@ -695,7 +694,5 @@ function addTaskToAwaitFeedback() {
 }
 
 function deleteWorkerFromTask(){
-    let worker = document.getElementsByClassName(`worker-kevin fischer workerEmblem} workerEmblem`).innerHTML;
-     console.log(worker);
-     
+    let worker = document.getElementsByClassName(`worker-kevin fischer workerEmblem} workerEmblem`).innerHTML;     
  }
