@@ -44,12 +44,12 @@
     <div class="contacts">
         <div class="header" w3-include-html="./../templates/header.html"></div>
         <div class="contactContainer">
-            <div class="contactsBar">
+            <div class="contactsBar" id="contactList">
                 <div class="btnContainer"><button class="addContactBtn" onclick="openAddContact()">Add new contact <img
                             src="./assets/icons/png/person_add.png" alt=""></button></div>
                 <div id="contacts"></div>
             </div>
-            <div class="contactDetails">
+            <div class="contactDetails" id="details">
                 <div class="topLine">
                 <div class="contactHeadline">
                     <div>
@@ -57,8 +57,9 @@
                     </div>
                     <div class="blueLine"></div>
                     <h3>Better with a team</h3>
+                    <div class="blueLineMobile"></div>
                     </div>
-                <div class="backToContactsBtn"><img class="backArrow" src="./../assets/icons/png/arrow-left-line.png" alt="" srcset=""></div>
+                <div class="backToContactsBtn" onclick="backToContactList()"><img class="backArrow" src="./../assets/icons/png/arrow-left-line.png" alt="" srcset=""></div>
             </div>
                 <div id="ContactDetailed" class="contactInfoBox">
                 </div>

@@ -39,6 +39,10 @@ function renderContacts() {
 function renderContactDetails(i) {
     let [vorname, nachname] = contactsArray[i].name.split(" ");
     let initialien = vorname[0] + nachname[0];
+    if (window.innerWidth < 560){
+        document.getElementById('contactList').style.display = "none";
+        document.getElementById('details').style.display = "flex";
+    }
     document.getElementById('ContactDetailed').innerHTML = "";
     document.getElementById('ContactDetailed').innerHTML =
         contactDetailsTemps(i, initialien);
@@ -256,4 +260,10 @@ function setUserTagBigColor(vorname, nachname, i){
     document.getElementById(`userTagBig${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
 
 }
+
+function backToContactList(){
+    document.getElementById('contactList').style.display = "flex";
+    document.getElementById('details').style.display = "none";
+}
+
 

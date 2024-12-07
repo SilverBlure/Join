@@ -199,8 +199,11 @@ p{
 .blueLineHorizontal {
     border: 2px solid #29ABE2;
     width: 85px;
+    
 
 }
+
+
 
 .userTag {
     border: white 1px solid;
@@ -374,8 +377,11 @@ input{
 }
 
 .backToContactsBtn{
+    display: flex;
+    justify-content: end;
+    align-items: end;
     display: none;
-    padding-left: 100px;
+    width: 100%;
     padding-right: 20px;
 }
 
@@ -460,6 +466,11 @@ h3{
 }
 
 @media (max-width: 855px){
+    .blueLineMobile{
+        display: block;
+        border: 2px solid #29ABE2;
+        width: 85px;
+    }
     h1{
         font-size: 32px;
     }
@@ -482,10 +493,7 @@ h3{
         font-size: 32px; 
     }
     .blueLine{
-       background-color: #29ABE2;
-        width: 80px;
-        height: 3px;
-        margin-bottom: 5px;
+        display: none;
     }
     .pointer{
         height: 20px;
@@ -572,7 +580,33 @@ justify-content: left;
 
     .contactDetails{
         display: none;
+        width: 100%;
+        padding-left: 30px;
     }
+
+    .backToContactsBtn{
+        
+    }
+
+    h1{
+        font-size: 51px;
+    }
+    h2{
+        font-size: 42px;
+    }
+    h3{
+        font-size: px;
+    }
+
+    h4{
+        padding: 30px 0 20px 0
+    }
+
+    .userTagBig{
+        width: 80px;
+        height: 80px;
+    }
+
     .contactsBar{
         width: 100vw;
         align-items: center;
@@ -662,6 +696,19 @@ justify-content: left;
 
     .closeMobileEditContactBtn:hover{
         cursor: pointer;
+    }
+
+
+
+.blueLine{
+    display: none;
+}
+
+}
+
+@media (max-width: 530px){
+    .backToContactsBtn{
+        
     }
 }
 
