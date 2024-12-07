@@ -73,7 +73,7 @@ function openAddContact() {
  * @param {number} i -  the id of the contact to edit
  */
 function openEditContact(i) {
-    openAddContact();
+    document.getElementById('contactDialog').style.display = "block";
     document.getElementById('name').value=`${contactsArray[i].name}`;
     document.getElementById('email').value=`${contactsArray[i].email}`;
     document.getElementById('phone').value=`${contactsArray[i].phone}`; 
@@ -265,11 +265,10 @@ function addContact(){
  * this function renders the dialog to edit a new contact
  */
 function editContact(i){
-    openAddContact();
     document.getElementById('dialogInfo').innerHTML ="Edit contact";
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = editContactTemp(i);
-    openEditContact(i) 
+    openEditContact(i); 
 }
 
 
@@ -324,7 +323,7 @@ function checkInput() {
     } else if (phone === "") {
         showSnackbar("Please enter your phone number.");
     } else {
-        createContact();
+        getFromEdit();
     }
 }
 
