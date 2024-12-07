@@ -199,8 +199,11 @@ p{
 .blueLineHorizontal {
     border: 2px solid #29ABE2;
     width: 85px;
+    
 
 }
+
+
 
 .userTag {
     border: white 1px solid;
@@ -374,9 +377,7 @@ input{
 }
 
 .backToContactsBtn{
-    display: none;
-    padding-left: 100px;
-    padding-right: 20px;
+    display: none;  
 }
 
 .backArrow:hover{
@@ -460,6 +461,11 @@ h3{
 }
 
 @media (max-width: 855px){
+    .blueLineMobile{
+        display: block;
+        border: 2px solid #29ABE2;
+        width: 85px;
+    }
     h1{
         font-size: 32px;
     }
@@ -482,10 +488,7 @@ h3{
         font-size: 32px; 
     }
     .blueLine{
-       background-color: #29ABE2;
-        width: 80px;
-        height: 3px;
-        margin-bottom: 5px;
+        display: none;
     }
     .pointer{
         height: 20px;
@@ -568,11 +571,34 @@ justify-content: left;
 @media (max-width: 580px){
     .backToContactsBtn{
         display: block;
+        padding-left: 250px;
     }
 
     .contactDetails{
         display: none;
+        width: 100%;
+        padding-left: 30px;
     }
+
+    h1{
+        font-size: 51px;
+    }
+    h2{
+        font-size: 42px;
+    }
+    h3{
+        font-size: px;
+    }
+
+    h4{
+        padding: 30px 0 20px 0
+    }
+
+    .userTagBig{
+        width: 80px;
+        height: 80px;
+    }
+
     .contactsBar{
         width: 100vw;
         align-items: center;
@@ -663,6 +689,37 @@ justify-content: left;
     .closeMobileEditContactBtn:hover{
         cursor: pointer;
     }
+
+
+
+.blueLine{
+    display: none;
+}
+
+}
+
+@media (max-width: 530px){
+    .backToContactsBtn{
+        padding-left: 200px;
+    }
+}
+
+@media (max-width: 480px){
+    .backToContactsBtn{
+        padding-left: 150px;
+    }
+}
+
+@media (max-width: 435px){
+    .backToContactsBtn{
+        padding-left: 100px;
+    }
+}
+
+@media (max-width: 385px){
+    .backToContactsBtn{
+        padding-left: 30px;
+    }
 }
 
 @media (max-width: 360px){
@@ -674,4 +731,7 @@ justify-content: left;
         margin-bottom: 50px;
     }
 
+    .sidebar li{
+        font-size: 14px;
+    }
 }

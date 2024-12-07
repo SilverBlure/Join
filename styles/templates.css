@@ -347,7 +347,13 @@ a {
     width: auto !important;
     padding: 8px 10px !important;
     text-align: center !important;
-    border-radius: 16px !important;
+
+    border-radius: 8px !important;
+  }
+
+  .sidebar li:hover {
+    background-color: grey !important; 
+
   }
 
   .sidebarNavBtn {

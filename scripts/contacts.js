@@ -7,12 +7,14 @@ function init() {
     getContacts();
 }
 
-
+/**
+ * This function renders all Contacts from the contactsArray and sorts them alphabetical
+ * 
+ * 
+ */
 function renderContacts() {
     const contactsElement = document.getElementById('contacts');
-    if (!contactsElement) {
-        return; 
-    }
+    if (!contactsElement) {return;}
     contactsArray.sort((a, b) => a.name.localeCompare(b.name));
     contactsElement.innerHTML = ``;
     let currentLetter = "";
@@ -34,35 +36,52 @@ function renderContacts() {
     }
 }
 
-
-
+/**
+ * This function renders a detailed view of the contacts
+ * 
+ * @param {number} i - index of contact in contactsArray
+ */
 function renderContactDetails(i) {
     let [vorname, nachname] = contactsArray[i].name.split(" ");
     let initialien = vorname[0] + nachname[0];
+    if (window.innerWidth < 560){
+        document.getElementById('contactList').style.display = "none";
+        document.getElementById('details').style.display = "flex";
+    }
     document.getElementById('ContactDetailed').innerHTML = "";
     document.getElementById('ContactDetailed').innerHTML =
         contactDetailsTemps(i, initialien);
         setUserTagBigColor(vorname, nachname, i); 
 }
 
-
+/**
+ * This function opens the dialog to add new contacts
+ * 
+ */
 function openAddContact() {
     document.getElementById('contactDialog').style.display = "block";
     addContact();
 }
 
+
+
+/**
+ * This function opens the dialog to edit contacts
+ * 
+ * @param {number} i -  the id of the contact to edit
+ */
 function openEditContact(i) {
-    console.log('edit', i);
     openAddContact();
     document.getElementById('name').value=`${contactsArray[i].name}`;
     document.getElementById('email').value=`${contactsArray[i].email}`;
-    document.getElementById('phone').value=`${contactsArray[i].phone}`; // hier werden die daten nochmal 
-    //aus dem array eintrag abgerufen und im Formular aufge zeigt
-    // die daten muessen genommenwerden und in das json hochgeladen 
-    //danach muss der inhalt neu geladen werden
+    document.getElementById('phone').value=`${contactsArray[i].phone}`; 
 }
 
-
+/**
+ * this function opens a dialog to delete the contact
+ * 
+ * @param {number} i - id of the contact to delete
+ */
 function deleteContact(i) {
     console.log(contactsArray[i].id);
     deleteContactDatabase(contactsArray[i].id);
@@ -70,11 +89,19 @@ function deleteContact(i) {
     getContacts();
 }
 
-
+/**
+ * this function loads the id of the logged in user from localstorage
+ * 
+ */
 function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
 }
 
+
+/**
+ * this function gets data from inputfields an hands it to the function to push into backend
+ * 
+ */
 function createContact() {
     let name = document.getElementById('name').value;
     let email = document.getElementById('email').value;
@@ -88,6 +115,15 @@ function createContact() {
     
 }
 
+
+/**
+ * this function pushes the data of a new added contact into the backend
+ * 
+ * @param {string} name - name of the new added contact
+ * @param {string} email - email of the new added contact
+ * @param {number} phone - phonenumber of the new added contact
+ * 
+ */
 async function pushData(name, email, phone) {
     let response = await fetch(BASE_URL + "data/user/" + ID + "/user/contacts/" + ".json", {
         method: "POST",
@@ -107,6 +143,18 @@ async function pushData(name, email, phone) {
     return responseAsJson = response.json();
 }
 
+
+
+/**
+ * this function updates contact information in the backend
+ * 
+ * @param {*} contactId - id of the loged in user
+ * @param {*} name  - name of the edited contact
+ * @param {*} email - email of the edited contact
+ * @param {*} phone - phone of the edited contact
+ * @param {*} i - id of the edited contact
+ * 
+ */
 async function putContact(contactId, name, email, phone, i) {
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "PUT",
@@ -126,14 +174,23 @@ async function putContact(contactId, name, email, phone, i) {
     getContacts();
     showSnackbar('Der Kontakt wurde erfolgreich geändert!');
     renderContactDetails(i)
-
     return responseAsJson = response.json();
 }
 
+
+/**
+ * this function closes the dialog to add a new contact
+ * 
+ */
 function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
 }
 
+
+/**
+ * this function gets the contacts from the backend and push them into contactsArray
+ * 
+ */
 async function getContacts() {
     contactsArray = []
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
@@ -163,11 +220,23 @@ async function getContacts() {
     }
 }
 
+
+/**
+ * this function checks if the user is on the contacts.html
+ * 
+ * @returns true or false
+ */
 function checkLockation(){
     let data = window.location.href;
     return data.includes('contacts');
 }
 
+
+/**
+ * this function deletes contact from the backend
+ * 
+ * @param {number} i - index of the contact to delete
+ */
 async function deleteContactDatabase(i) {
     contactId = contactsArray[i].id;
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
@@ -180,11 +249,18 @@ async function deleteContactDatabase(i) {
 }
 
 
+/**
+ * this function renders the dialog to add a new contact
+ */
 function addContact(){
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = addContactTemp();
 }
 
+
+/**
+ * this function renders the dialog to edit a new contact
+ */
 function editContact(i){
     openAddContact();
     document.getElementById('dialogInfo').innerHTML ="Edit contact";
@@ -193,6 +269,10 @@ function editContact(i){
     openEditContact(i) 
 }
 
+
+/**
+ * this function renders the dialog to delete a new contact
+ */
 function deleteContact(i){
     openAddContact();
     document.getElementById('dialogInfo').innerHTML ="Delete contact";
@@ -202,15 +282,10 @@ function deleteContact(i){
 }
 
 
-function openEditContact(i) {
-    console.log('edit', i);
-    document.getElementById('name').value=`${contactsArray[i].name}`;
-    document.getElementById('email').value=`${contactsArray[i].email}`;
-    document.getElementById('phone').value=`${contactsArray[i].phone}`; 
-    
-}
-
-
+/**
+ * this function gets the contact informations to edit and hands them to the backend
+ * @param {number} i - index of the contact to edit
+ */
 function getFromEdit(i) {
     let name = document.getElementById('name').value;
     let phone = document.getElementById('phone').value;
@@ -219,6 +294,14 @@ function getFromEdit(i) {
     putContact(contactId, name, email, phone)
 }
 
+
+/**
+ * this function creates for every contact a random color for the usertag
+ * 
+ * @param {*} vorname - firstname of the contact
+ * @param {*} nachname - lastname of the contact
+ * @returns a hexcolorcode 
+ */
 function getColorHex(vorname, nachname){
     let completeName = (vorname+nachname).toLowerCase();
     let hash = 0;
@@ -236,24 +319,54 @@ function getColorHex(vorname, nachname){
 }
 
 
-function checkInput(){
-    let fullname = document.getElementById('name').value;
+/**
+ * this function validates the input for creating a new contact
+ */
+function checkInput() {
+    let fullname = document.getElementById('name').value.trim(); 
+    let email = document.getElementById('email').value.trim();
+    let phone = document.getElementById('phone').value.trim();
 
-  if (fullname.split(" ").length < 2) {
-    showSnackbar("Please insert first and lastname");
-  } else {
-    createContact();
-  }
+    if (fullname.split(" ").length < 2) {
+        showSnackbar("Please enter first and last name.");
+    } else if (email === "") {
+        showSnackbar("Please enter your email.");
+    } else if (phone === "") {
+        showSnackbar("Please enter your phone number.");
+    } else {
+        createContact();
+    }
 }
 
-
+/**
+ * this function sets the color of the small usertag in the contacts list
+ * @param {*} vorname - firstname of the contact
+ * @param {*} nachname - lastname of the contact
+ * @param {*} i - index of the contact
+ */
 function setUserTagColor(vorname, nachname, i){
     document.getElementById(`userTag${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
-
 }
 
+
+/**
+ * this function sets the color of the big usertag in the detailed contact view
+ * @param {*} vorname - firstname of the contact
+ * @param {*} nachname - lastname of the contact
+ * @param {*} i - index of the contact
+ */
 function setUserTagBigColor(vorname, nachname, i){
     document.getElementById(`userTagBig${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
 
 }
+
+
+/**
+ * this function is to go back from detailed contact view to the contacts list (only in mobile)
+ */
+function backToContactList(){
+    document.getElementById('contactList').style.display = "flex";
+    document.getElementById('details').style.display = "none";
+}
+
 
