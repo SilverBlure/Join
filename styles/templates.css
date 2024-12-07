@@ -222,6 +222,12 @@ a {
 }
 }
 @media (max-width: 580px) {
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        padding-bottom: 60px;
+    }
   .logoutButton {
     float: none !important;
     right: 10px;
@@ -301,6 +307,7 @@ a {
     bottom: 0 !important;
     left: 0 !important;
     width: 100% !important;
+    height: 80px;
     background-color: #2a3647 !important;
     color: white !important;
     display: flex !important;
