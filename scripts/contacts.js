@@ -7,6 +7,7 @@ function init() {
     getContacts();
 }
 
+
 /**
  * This function renders all Contacts from the contactsArray and sorts them alphabetical
  * 
@@ -36,6 +37,7 @@ function renderContacts() {
     }
 }
 
+
 /**
  * This function renders a detailed view of the contacts
  * 
@@ -54,6 +56,7 @@ function renderContactDetails(i) {
         setUserTagBigColor(vorname, nachname, i); 
 }
 
+
 /**
  * This function opens the dialog to add new contacts
  * 
@@ -62,7 +65,6 @@ function openAddContact() {
     document.getElementById('contactDialog').style.display = "block";
     addContact();
 }
-
 
 
 /**
@@ -77,6 +79,7 @@ function openEditContact(i) {
     document.getElementById('phone').value=`${contactsArray[i].phone}`; 
 }
 
+
 /**
  * this function opens a dialog to delete the contact
  * 
@@ -88,6 +91,7 @@ function deleteContact(i) {
     contactsArray = [];
     getContacts();
 }
+
 
 /**
  * this function loads the id of the logged in user from localstorage
@@ -142,7 +146,6 @@ async function pushData(name, email, phone) {
     showSnackbar('Der Kontakt wurde erfolgreich erstellt!');
     return responseAsJson = response.json();
 }
-
 
 
 /**
@@ -324,6 +327,7 @@ function checkInput() {
         createContact();
     }
 }
+
 
 /**
  * this function sets the color of the small usertag in the contacts list
