@@ -359,5 +359,3 @@ function backToContactList(){
     document.getElementById('contactList').style.display = "flex";
     document.getElementById('details').style.display = "none";
 }
-
-
