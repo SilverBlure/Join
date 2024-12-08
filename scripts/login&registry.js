@@ -11,8 +11,10 @@ async function initLog(){
 
 /**Guest Login */
 function checkGuest(){
-    let guest = loginArray.find((element) => {element.email == 'Gast@join.com'});
-    console.log(guest);
+    let checkGuestMail  = loginArray.some(element => element.user.userData.email === 'Gast@join.com');
+    console.log(checkGuestMail)
+    
+
 }
 
 /**Load userdata from localStorage for faster entrance */
@@ -56,11 +58,11 @@ function login(){
         localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
-        location.href ='./summary.html';
+        location.href ='./../html/summary.html';
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./../summary.html';
+        location.href ='./../html/summary.html';
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
@@ -81,12 +83,12 @@ function guestLogin(email, pw){
         localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
-        location.href ='./../summary.html';
+        location.href ='./../html/summary.html';
         
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./../summary.html';
+        location.href ='./../html/summary.html';
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
