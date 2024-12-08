@@ -110,7 +110,26 @@
   margin: 0px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
+  .summary {
+    padding: 2px 9px;
+  }
+
+  h1 {
+    font-size: 45px;
+  }
+
+  .dashboard {
+    margin-right: 40px;
+  }
+
+    .userGreeting {
+      padding-left: 41px 
+  }
+  
+}
+
+@media (max-width: 1100px) {
     .summary {
       padding-left: 60px;
       margin-right: 10px;
@@ -138,6 +157,20 @@
       height: 160px;
       width: 500px;
     }
+
+    .userGreeting {
+      margin-top: 96px;
+      animation-name: greeting;
+      animation-duration: 3s;
+      animation-timing-function: ease-out;
+      animation-fill-mode: forwards;
+      position: absolute;
+      top: -12px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+    }
   }
   
   @media (max-width: 790px) {
@@ -152,7 +185,7 @@
     }
   
     h3 {
-      font-size: 20px;
+      font-size: 21px !important;
     }
   
     .do {
@@ -181,6 +214,14 @@
     h1 {
       font-size: 46px;
     }
+
+    .join360 h3 {
+      font-size: 18px;
+    }
+
+    .join360 h1 {
+      font-size: 40px !important;
+    }
   
     h3 {
       font-size: 19px;
@@ -202,7 +243,7 @@
     }
   
     .taskNumber {
-      font-size: 64px;
+      font-size: 50px !important;
     }
   
     .text {
@@ -211,8 +252,8 @@
   }
   
   @media (max-width: 580px) {
-    .content {
-      overflow-y: hidden;
+    body {
+      overflow-y: hidden !important;
     }
     .summary {
       justify-content: center;
@@ -221,19 +262,9 @@
       flex-direction: column;
     }
   
-    .userGreeting {
-      margin-top: 96px;
-      animation-name: greeting;
-      animation-duration: 3s;
-      animation-timing-function: ease-out;
-      animation-fill-mode: forwards;
-      position: absolute;
-      top: -12px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      background: #ffffff;
-    }
+    .doIcon {
+      width: 45px;
+  }    
   
     h1 {
       font-size: 42px;
@@ -256,10 +287,6 @@
     .tasksBox {
       width: 120px;
       height: 130px;
-    }
-  
-    .taskNumber {
-      font-size: 56px !important;
     }
   
     .tasksBox p {
@@ -295,11 +322,7 @@
       width: 110px;
       height: 110px;
     }
-  
-    .taskNumber {
-      font-size: 50px !important;
-    }
-  
+
     .text {
       font-size: 11px;
     }
@@ -316,9 +339,9 @@
     }
   
     h1 {
-      font-size: 34px;
+      font-size: 34px 
     }
-  
+
     h3 {
       font-size: 14px;
     }
@@ -341,10 +364,6 @@
     .tasksBox {
       width: 95px;
       height: 95px;
-    }
-  
-    .taskNumber {
-      font-size: 45px !important;
     }
   
     .text {
@@ -385,13 +404,15 @@
         height: 90px;
     }
 
-    .taskNumber {
-        font-size: 40px;
-    }
-
     .text {
         font-size: 9px;
     }
+}
+
+@media (max-width: 340px) {
+  .dashboard {
+      margin-right: 20px;
+  }
 }
 
   

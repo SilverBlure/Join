@@ -82,6 +82,7 @@ function toggleShowMenu() {
   } else {
       dropdownMenu.classList.add('active'); 
   }
+  
 }
 
 function showSnackbar(message){
