@@ -1,5 +1,3 @@
-let currentDraggedElement = null;
-
 /**
  * Setzt den aktuellen Task für Dragging.
  * @param {string} taskId - Die ID des zu ziehenden Tasks.
@@ -46,8 +44,8 @@ function highlightList(listId) {
 
 
 /**
- * Handhabt die Bewegung des Tasks (nur für Touch).
- * @param {Event} event - Das Bewegungsevent (mousemove oder touchmove).
+ * Entfernt die Hervorhebung von der Liste.
+ * @param {string} listId - Die ID der Liste, die nicht mehr hervorgehoben werden soll.
  */
 function unhighlightList(listId) {
     const list = document.getElementById(listId);
@@ -64,7 +62,6 @@ function unhighlightList(listId) {
 async function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
-
     const sourceListId = await findTaskSourceList(currentDraggedElement);
     if (!sourceListId) {
         stopDragging();
