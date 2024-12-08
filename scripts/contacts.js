@@ -86,8 +86,7 @@ function openEditContact(i) {
  * @param {number} i - id of the contact to delete
  */
 function deleteContact(i) {
-    console.log(contactsArray[i].id);
-    deleteContactDatabase(contactsArray[i].id);
+    deleteContactDatabase(i);
     contactsArray = [];
     getContacts();
 }
@@ -241,7 +240,7 @@ function checkLockation(){
  * @param {number} i - index of the contact to delete
  */
 async function deleteContactDatabase(i) {
-    contactId = contactsArray[i].id;
+   contactId = contactsArray[i].id;
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "DELETE",
     })
