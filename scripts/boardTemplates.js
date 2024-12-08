@@ -257,7 +257,7 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
                         <div class="createSubtaskBar">
                             <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
                             <div class="divider"></div>
-                            <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="./assets/icons/png/addSubtasks.png">
+                            <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="./../assets/icons/png/addSubtasks.png">
                         </div>
                     </div>
                 </div>
