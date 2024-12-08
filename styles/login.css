@@ -181,14 +181,16 @@ h1 {
 }
 
 @media(max-width: 428px) {
+  
     .loginBackground {
-        background-color: white;
-        height: 475px;
-        width: 396px;
-        border-radius: 30px;
+        margin-top: 64px;
         margin-bottom: 64px;
-        margin-top: 0;
+        background-color: white;
+        height: 493px;
+        border-radius: 30px;
+        width: 386px;
     }
+
     .registrationLink {
         position: absolute;
         top: 608px;
@@ -255,7 +257,80 @@ h1 {
         height: 78px;
         width: 64px;
     }
+    .center {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        flex-direction: column;
+        margin-top: -46px;
+    }
 
 
+}
+
+@media (max-width: 700px) {
+
+    .loginBackground {
+        margin-top: 64px;
+        margin-bottom: 64px;
+        background-color: white;
+        height: 493px;
+        border-radius: 30px;
+        width: 460px;
+    }
+    .border {
+        border: 2px;
+        border-style: solid;
+        border-color: #D1D1D1;
+        border-radius: 10px;
+        height: 48px;
+        width: 360px;
+        justify-content: center;
+        margin: 30px;
+    }
+    .innerInputfield {
+        width: 338px;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+ 
+}
+
+@media (max-width: 500px) {
+    .loginBackground {
+        margin-top: 64px;
+        margin-bottom: 64px;
+        background-color: white;
+        height: 493px;
+        border-radius: 30px;
+        width: 386px;
+    }
+
+    .loginfooter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 52px;
+        margin-bottom: -72px;
+    }
+    .border {
+        border: 2px;
+        border-style: solid;
+        border-color: #D1D1D1;
+        border-radius: 10px;
+        height: 48px;
+        width: 340px;
+        justify-content: center;
+        margin: 30px;
+    }
+    .innerInputfield {
+        width: 318px;
+        height: 24px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
 }

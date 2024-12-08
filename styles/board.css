@@ -1,250 +1,292 @@
-html {
-    font-size: 16px;
-    box-sizing: border-box;
+.addTaskBtn {
+    background-color: #2A3647;
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 211px;
+    height: 48px;
+    font-size: 21px;
+    font-weight: 700;
+    box-shadow: none;
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
+h1 {
+    font-size: 61px;
+    font-weight: 700;
 }
 
-/* Container/Layout-Anpassungen */
-.board {
-    width: 100%;
-    max-width: 1340px;
-    margin: 0 auto;
-    padding: 0 20px;
+.addSubtaskButton {
+    padding-left: 15px;
+    padding-right: 15px;
+    cursor: pointer;
 }
 
-/* Kopfbereich responsiv ausrichten */
+
 .boardHead {
     display: flex;
     justify-content: start;
     align-items: center;
-    margin-top: 3rem;
-    /* Entfernen der fixen margin-left, stattdessen mit Padding im Container arbeiten */
+    margin-top: 50px;
+    margin-left: 64px;
 }
 
-/* Suchcontainer kann ebenfalls flexibel sein */
 .searchContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 1.75rem;
-    margin-left: auto; /* Statt fester Margin kann hier Flex genutzt werden */
-    flex-wrap: wrap;
-    margin-top: 1rem;
+    column-gap: 28px;
+    margin-left: 320px;
 }
 
 .searchBar {
-    border-radius: 0.625rem;
+    border-radius: 10px;
     border: 1px solid #ccc;
     display: flex;
     align-items: center;
-    height: 3rem;
-    width: 100%;
-    max-width: 276px;
+    height: 48px;
+    width: 262px;
     overflow: hidden;
 }
 
 .searchBar input {
     border: none;
-    width: 100%;
-    padding: 0 0.5rem;
-    font-size: 1rem;
+}
+
+.searchBar input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
 }
 
 .divider {
     width: 1px;
     height: 60%;
     background-color: #ccc;
-    margin: 0;
+    margin: 0px;
 }
 
 .searchBar .btn {
     border: none;
     background: none;
     color: #333;
-    padding: 0 1rem;
-    cursor: pointer;
+    padding: 0 15px;
 }
 
-/* Task-Listen Container */
+.formControl {
+    padding-left: 16px;
+    font-size: 20px;
+}
+
+.listHeadline {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 16px;
+
+}
+
 .taskList {
     display: flex;
-    flex-wrap: wrap;
     justify-content: start;
     align-items: start;
-    margin-top: 3.75rem;
-    column-gap: 1.625rem;
-    /* Entfernen der festen linken Margin, stattdessen Padding im Parent (.board) nutzen */
-    overflow-y: auto;
+    margin-top: 60px;
+    column-gap: 26px;
+    margin-left: 64px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
 }
 
-/* Einzelne Listen-Spalte */
 .listBody {
-    width: 100%;
-    max-width: 280px;
-    gap: 1.25rem;
+    width: 280px;
+    gap: 20px;
     display: flex;
     flex-direction: column;
-    height: 100vh; 
-    box-sizing: border-box;
+    height: 100vh;
 }
 
-/* Buttons, Schriften, etc. */
-.addTaskBtn {
-    background-color: #2A3647;
-    color: white;
-    border-radius: 0.625rem;
+.nothingToDo {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    max-width: 211px;
-    height: 3rem;
-    font-size: 1.3125rem;
-    font-weight: 700;
-    box-shadow: none;
-    cursor: pointer;
+    border: 1px dotted #A8A8A8;
+    border-radius: 10px;
+    background-color: #E7E7E7;
+    color: #A8A8A8;
+    width: 246px;
 }
 
-.addSubtaskButton {
-    padding: 0 0.9375rem;
-    cursor: pointer;
+.nothingToDoText {
+    margin: 10px;
 }
 
-/* Karten und Aufgaben */
+.progress {
+    width: 120px;
+    height: 8px;
+}
+
 .boardCard {
     box-shadow: 0px 2px 8px rgb(223, 224, 225);
-    border-radius: 1.875rem;
-    padding: 1rem;
-    width: 100%;
-    max-width: 252px;
-    box-sizing: border-box;
+    border-radius: 30px;
+    padding: 16px;
+    max-width: -webkit-fill-available;
 }
 
 .taskCardTitle {
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 700;
     color: #2A3647;
     overflow-wrap: break-word;
 }
 
 .taskCardDescription {
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 400;
     color: #A8A8A8;
     overflow-wrap: break-word;
 }
 
 .taskCardSubtasks {
-    font-size: 0.75rem;
+    font-size: 12px;
     font-weight: 400;
-    margin: 0;
+    margin: 0px;
 }
+
 
 .taskContainer {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 1.3125rem;
+    gap: 21px;
 }
 
 .BoardCardFooter {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 1.5rem;
+    padding-top: 24px;
 }
 
 .worker {
     display: flex;
-    align-items: center;
 }
 
 .workerEmblem {
     border: white 1px solid;
     color: white;
-    padding: 1rem;
+    padding: 16px;
     border-radius: 100%;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 20px;
+    height: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .workerName {
-    margin: 0;
-    font-size: 1rem;
+    margin: 0px;
+    padding: 16px;
+    margin-bottom: 8px;
 }
+
+
+#selectedContactsList {
+margin: 0px;
+margin-top: 20px;
+margin-bottom: 20px;
+padding: 0px;
+position: relative;
+left: 200px;
+}
+
 
 .priorityBtn {
     background-color: white;
     color: black;
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: 400;
-    border-radius: 0.625rem;
+    border-radius: 10px;
     border: 1px solid #D1D1D1;
     box-sizing: border-box;
-    width: 100%;
-    max-width: 136px;
-    height: 3.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 136px;
+    height: 56px;
 }
 
 .priorityBtnContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 0.5rem;
+    column-gap: 8px;
 }
 
-/* Active Priority Buttons */
 .priorityBtn.active#prioUrgent {
     background-color: red !important;
     color: white;
 }
 
 .priorityBtn.active#prioMiddle {
-    background-color: #f5a841 !important; 
+    background-color: #f5a841 !important;
     color: white;
 }
 
 .priorityBtn.active#prioLow {
-    background-color: #90ee90 !important; 
+    background-color: #90ee90 !important;
     color: white;
 }
 
 .priorityBtn.active img {
-    filter: brightness(0) invert(1) !important; 
+    filter: brightness(0) invert(1) !important;
 }
 
-/* Subtask-Bar */
 .createSubtaskBar {
-    border-radius: 0.625rem;
+    border-radius: 10px;
     border: 1px solid #ccc;
     display: flex;
     align-items: center;
-    height: 3rem;
-    width: 100%;
+    height: 48px;
+    width: 276px;
     overflow: hidden;
-    box-sizing: border-box;
+    width: 100%;
 }
+
 
 .createSubtaskBar input {
     border: none;
-    width: 100%;
-    padding: 0 0.5rem;
+}
+
+.createSubtaskBar input:focus {
+    outline: none;
+    box-shadow: none;
+    border: none;
+}
+
+.taskCategory {
+    border: solid 1px;
+    width: fit-content;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 1px 25px 1px 25px;
+}
+
+
+.categoryTechnicalTask {
+    background-color: #1FD7C1;
+}
+
+.categoryUserStory {
+    background-color: #0038FF;
 }
 
 .popupDescription {
-    font-size: 1.25rem;
+    font-size: 20px;
     overflow-wrap: break-word;
     font-weight: 400;
 }
@@ -257,8 +299,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .subtask-item {
@@ -269,10 +310,10 @@ body {
 }
 
 .editSubtaskItem {
-width: unset;
-display: flex;
-justify-content: start;
-align-items: start;
+    width: unset;
+    display: flex;
+    justify-content: start;
+    align-items: start;
 
 }
 
@@ -287,8 +328,6 @@ align-items: start;
     overflow-wrap: break-word;
 }
 
-
-/* Popup Overlay */
 .popupOverlay {
     position: fixed;
     top: 0;
@@ -312,22 +351,20 @@ align-items: start;
 
 .popupContainer {
     background-color: white;
-    padding: 1.875rem;
-    border-radius: 0.5rem;
+    padding: 30px;
+    border-radius: 8px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 1116px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-sizing: border-box;
+    height: 870px;
+    width: 1116px;
 }
 
 .popupInformation {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-right: 250px; /* Diese Angabe kann optional entfernt oder angepasst werden */
+    padding-right: 250px;
 }
+
 
 .workerInformation {
     display: flex;
@@ -340,24 +377,21 @@ align-items: start;
     justify-content: center;
     align-items: start;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 12px;
+    padding-bottom: 1rem;
 }
 
 .workerIcon {
-    margin-left: 1.875rem;
-    margin-right: 1rem;
-    margin-top: 0;
-    margin-bottom: 0;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
 
 .tasksPopupContainer {
     background-color: white;
-    padding: 1.875rem;
-    border-radius: 0.5rem;
+    padding: 30px;
+    border-radius: 8px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 525px;
-    box-sizing: border-box;
+    width: 525px;
 }
 
 .popupHeader {
@@ -370,65 +404,61 @@ align-items: start;
     display: flex;
     justify-content: end;
     align-items: center;
-    gap: 1.875rem;
+    gap: 30px;
 }
 
 .icons {
     cursor: pointer;
-    width: 2rem;
+    width: 32px;
 }
 
 .formParts {
     display: flex;
     justify-content: start;
-    align-items: flex-start;
-    gap: 2rem;
+    align-items: center;
 }
 
 .formPart {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 440px;
-    gap: 1.25rem;
+    width: 440px;
+    gap: 20px;
 }
 
 .separator {
     width: 2px;
     background-color: #D1D1D1;
     height: 424px;
-    margin: 0 3.125rem;
+    margin: 0px 50px 0px 50px;
 }
 
 .addTaskContent {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 1340px;
+    width: 1340px;
     height: 100vh;
-    box-sizing: border-box;
-    margin: 0 auto;
-    padding: 2rem;
 }
+
 
 .addIcons {
     cursor: pointer;
 }
 
+
 input,
 textarea,
 select {
     width: 100%;
-    padding: 0.75rem;
-    border-radius: 0.625rem;
+    padding: 12px;
+    border-radius: 10px;
     border: 1px solid #D1D1D1;
     box-sizing: border-box;
-    font-size: 1rem;
+    font-size: 16px;
 }
 
 textarea {
     resize: none;
-    min-height: 8.75rem;
+    min-height: 140px;
 }
 
 input:focus,
@@ -446,6 +476,7 @@ select:focus {
     color: #FF8190;
 }
 
+
 .prioMediumActive {
     background: #FFA800;
     color: white;
@@ -456,34 +487,34 @@ select:focus {
     color: white;
 }
 
+
 .taskFormButtons {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 3.5rem;
-    flex-wrap: wrap;
+    padding-top: 136px;
 }
+
 
 .buttonContainer {
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    gap: 16px;
 }
 
 .button {
     display: flex;
     align-items: center;
-    padding: 0.625rem 1rem;
-    border-radius: 0.625rem;
+    padding: 10px 16px;
+    border-radius: 10px;
     border: none;
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 20px;
     cursor: pointer;
 }
 
 .close {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 24px;
+    height: 24px;
 }
 
 .clearBtn {
@@ -492,79 +523,433 @@ select:focus {
     border: 1px solid #2A3647;
 }
 
-.editSubtaskInput {
-    width: 100%;
-    max-width: 400px;
-    margin: 1.25rem 0;
+.saveChangesButton {
+    margin-top: 8px;
 }
 
+.editSubtaskInput {
+    width: 200px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
 .dragging {
-    transform: rotate(10deg); 
+    transform: rotate(10deg);
     transition: transform 0.2s ease-in-out;
 }
 
 .listBody.highlight {
-    border: 2px dashed #4b4b4b; 
-    background-color: #E7E7E7; 
-    transition: background-color 0.2s, border 0.2s; 
+    border: 2px dashed #4b4b4b;
+    background-color: #E7E7E7;
+    transition: background-color 0.2s, border 0.2s;
 }
 
+
 .subtask-item:hover .hoverBtnContainer {
-    opacity: 1; 
-    pointer-events: all; 
+    opacity: 1;
+    pointer-events: all;
 }
+
 
 .hoverBtnContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    column-gap: 1rem;
-    padding-left: 1.25rem;
-    opacity: 0; 
+    column-gap: 16px;
+    padding-left: 20px;
+    opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease; 
+    transition: opacity 0.3s ease;
 }
 
 .hoverBtn {
-    width: 1rem;
-    height: 1rem;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
 }
 
-/* Mobile-spezifische Änderungen */
-.buttonContainerMobile {
-    display: none;
+
+.addTaskContent {
+    padding-left: 100px;
+    padding-top: 30px;
 }
 
-@media (min-width: 580px) and (max-width: 880px) {
-    /* Hier nur die responsiven Anpassungen zwischen 580px und 880px */
-    
-    .board {
-        padding: 0 10px;
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1920px) {
+    h1 {
+        font-size: 61px;
+        font-weight: 700;
+    }
+}
+
+@media (max-width: 1500px) {
+    h1 {
+        font-size: 56px;
     }
 
-    .taskList {
-        column-gap: 1rem;
-        margin-top: 2rem;
+    .searchContainer {
+        margin-left: 160px;
+    }
+
+    .listHeadline {
+        padding-right: unset;
     }
 
     .listBody {
-        max-width: 240px;
+        width: 200px;
+    }
+
+    h4 {
+        font-size: 22px;
+    }
+
+    .nothingToDo {
+        width: 200px;
     }
 
     .boardCard {
-        max-width: 220px;
+        padding: 10px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1200px) {
+    .listBody {
+        width: 183px;
+        margin-left: 8px;
     }
 
-    .addTaskBtn {
-        max-width: 180px;
+    h4 {
+        font-size: 18px;
     }
 
-    .searchBar {
-        max-width: 220px;
+    .nothingToDo {
+        width: 183px;
+    }
+
+    .searchContainer {
+        margin-left: 120px;
+    }
+
+    .taskCategory {
+        font-size: 12px;
+    }
+
+    .popupContainer {
+        width: unset;
+        overflow-y: scroll;
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
+    #addTaskFormTask {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .formParts {
+        flex-direction: column;
+    }
+
+    .separator {
+        width: 424px;
+        height: 2px;
+        margin: 50px 0px 50px 0px;
+    }
+
+    .taskFormButtons {
+        padding-top: 20px;
+        flex-direction: column;
+    }
+
+    .progress {
+        width: 100px;
+    }
+
+    #selectedContactsList {
+        position:unset;
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 1111px) {
+    .listBody {
+        width: 163px;
+    }
+
+    h4 {
+        font-size: 18px;
+    }
+
+    .nothingToDo {
+        width: unset;
+    }
+
+    .searchContainer {
+        margin-left: 120px;
+    }
+
+    .categoryTechnicalTask {
+        font-size: 12px;
+    }
+
+    .categoryUserStory {
+        font-size: 12px;
+    }
+
+    .taskCardTitle {
+        font-size: 12px;
+    }
+
+    .taskCardDescription {
+        font-size: 12px;
+    }
+
+    .taskCardSubtasks {
+        font-size: 8px;
+    }
+
+    .progress {
+        width: 80px;
+    }
+
+    .workerEmblem {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+
+
+
+
+
+@media (max-width: 1046px) {
+    h1 {
+        font-size: 42px;
+    }
+
+    .searchContainer {
+        margin-left: 20px;
+    }
+
+    .listHeadline {
+        width: 70vh;
+    }
+
+    .nothingToDo {
+        width: 70vh;
+    }
+
+    .listBody {
+        width: auto;
+        height: max-content;
+        padding-top: 20px;
+        padding-bottom: 50px;
+        padding-left: 20px;
+    }
+
+    .taskList {
+        flex-direction: column;
+    }
+
+    .taskContainer {
+        flex-direction: row;
+        justify-content: start;
+        width: 656px;
+        overflow: auto;
+    }
+}
+
+
+
+
+
+
+
+@media (max-width: 985px) {
+    .taskList {
+        margin-left: 24px;
+    }
+
+    .listHeadline {
+        width: 60vh;
+    }
+
+    .nothingToDo {
+        width: 60vh;
+    }
+
+    .boardHead {
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .searchContainer {
+        flex-direction: column;
+        margin-left: unset;
+        align-items: start;
+        gap: 20px;
+    }
+
+    .taskContainer {
+        width: 576px;
+        overflow-x: scroll;
+        height: max-content;
+        padding: 8px
+    }
+}
+
+
+
+
+
+@media (max-width: 767px) {
+    .listHeadline {
+        width: 40vh;
+    }
+
+    .nothingToDo {
+        width: 40vh;
+    }
+
+    .tasksPopupContainer {
+        width: unset;
+    }
+    .taskContainer {
+        width: 376px;
+    }
+}
+
+
+@media (max-width: 580px) {
+    .formPart {
+        width: unset;
+    }
+
+    .separator {
+        width: 200px;
+    }
+
+    .priorityBtnContainer {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .priorityBtn {
+        width: 220px;
     }
 
     .formPart {
-        max-width: 380px;
+        width: 100%;
+    }
+}
+
+
+
+@media (max-width: 530px) {
+    .popupInformation {
+        padding-right: 130px;
+    }
+
+    .popupContainer {
+        height: -webkit-fill-available;
+        margin-top: 48px;
+        margin-bottom: 48px;
+    }
+}
+
+
+
+@media (max-width: 467px) {
+
+    .listHeadline {
+        width: 32vh;
+    }
+
+    .nothingToDo {
+        width: 32vh;
+    }
+
+    .popupInformation {
+        padding-right: unset;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    .buttonContainer {
+        flex-direction: column;
+    }
+    .taskContainer {
+        width: 276px;
+    }
+}
+
+@media (max-width: 367px) {
+    .listHeadline {
+        width: 25vh;
+    }
+
+    .nothingToDo {
+        width: 25vh;
+    }
+
+
+    .searchBar {
+        width: 180px;
+    }
+
+    .popupOverlay {
+        align-items: start;
+    }
+    .taskContainer {
+        width: 216px;
+    }
+}
+
+@media (max-width: 385px) {
+    .popupOverlay {
+        display: unset;
+    }
+
+    .tasksPopupContainer {
+        margin-top: 20px;
     }
 }

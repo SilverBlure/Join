@@ -5,23 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <link rel="stylesheet" href="/styles/fonts.css">
-    <link rel="stylesheet" href="/styles/templates.css">
-    <link rel="stylesheet" href="/styles/summary.css">
-    <link rel="stylesheet" href="/styles/assets.css">
-    <link rel="stylesheet" href="/style.css">
-    <script src="../../script.js"></script>
-    <script src="../../scripts/templates.js"></script>
-    <script src="../../scripts/summary.js"></script>
+    <script src="./../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="./../styles/fonts.css">
+    <link rel="stylesheet" href="./../styles/templates.css">
+    <link rel="stylesheet" href="./../styles/summary.css">
+    <link rel="stylesheet" href="./../styles/assets.css">
+    <link rel="stylesheet" href="./../style.css">
+    <script src="./../script.js"></script>
+    <script src="./../scripts/templates.js"></script>
+    <script src="./../scripts/summary.js"></script>
     <script src="./../scripts/backend.js"></script>
 
 </head>
 
-<body onload="includeHTML(), fetchAndPrepareTasks(), init(), initSummary()">
+<body onload="includeHTML(), init(), initSummary()">
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     
     <div class="content">
@@ -76,7 +75,7 @@
                         <p>Tasks in Progress</p>
                     </div>
                     <div class="tasksBox">
-                        <p id="awaitFeddbackTasks" class="taskNumber"></p>
+                        <p id="awaitFeedbackTasks" class="taskNumber"></p>
                         <p class="text">Awaiting Feedback</p>
                     </div>
                 </div>
