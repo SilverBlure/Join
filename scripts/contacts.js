@@ -80,6 +80,15 @@ function openEditContact(i) {
 }
 
 
+function openDeleteContact(i){
+    openAddContact();
+    document.getElementById('dialogInfo').innerHTML ="Delete contact";
+    document.getElementById('editContact').innerHTML ="";
+    document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
+     
+}
+
+
 /**
  * this function opens a dialog to delete the contact
  * 
