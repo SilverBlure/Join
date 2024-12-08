@@ -181,9 +181,11 @@ async function putContact(contactId, name, email, phone, i) {
         })
     }
     )
+    
+    
     closeAddContact();
     showSnackbar('Der Kontakt wurde erfolgreich geändert!');
-        getContacts();
+       await getContacts();
         renderContactDetails(i);
     return responseAsJson = response.json();
 }
@@ -289,7 +291,7 @@ function getFromEdit(i) {
     let phone = document.getElementById('phone').value;
     let email= document.getElementById('email').value;
     let contactId = contactsArray[i].id;
-    putContact(contactId, name, email, phone)
+  putContact(contactId, name, email, phone, i)
 }
 
 
@@ -318,7 +320,6 @@ function getColorHex(vorname, nachname){
  * this function validates the input for creating or editing a new contact
  */
 function checkInput(createEdit, i) {
-    
     let fullname = document.getElementById('name').value.trim(); 
     let email = document.getElementById('email').value.trim();
     let phone = document.getElementById('phone').value.trim();
