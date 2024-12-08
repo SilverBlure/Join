@@ -378,10 +378,6 @@ align-items: start;
     width: 2rem;
 }
 
-.active {
-    background-color: #A8A8A8 !important;
-}
-
 .formParts {
     display: flex;
     justify-content: start;
