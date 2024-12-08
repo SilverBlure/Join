@@ -1,22 +1,13 @@
 let currentDraggedElement = null;
 
 /**
- * Startet den Dragging-Prozess.
- * @param {Event} event - Das Dragging-Event.
+ * Setzt den aktuellen Task für Dragging.
  * @param {string} taskId - Die ID des zu ziehenden Tasks.
  */
-function startDragging(event, taskId) {
-    if (!event || typeof event.preventDefault !== "function") {
-        console.error("Ungültiges Event-Objekt übergeben:", event);
-        return;
-    }
-    event.preventDefault(); // Verhindert das Standard-Drag-Verhalten.
+function startDragging(taskId) {
     currentDraggedElement = taskId;
     const card = document.getElementById(`boardCard-${taskId}`);
-    if (card) {
-        card.classList.add("dragging");
-    }
-    console.log("Dragging gestartet für Task:", taskId);
+    if (card) card.classList.add("dragging");
 }
 
 
@@ -26,13 +17,31 @@ function startDragging(event, taskId) {
  */
 function stopDragging() {
     const card = document.getElementById(`boardCard-${currentDraggedElement}`);
-    if (card) {
-        card.classList.remove("dragging");
-    }
+    if (card) card.classList.remove("dragging");
     currentDraggedElement = null;
 }
 
 
+
+/**
+ * Erlaubt das Ablegen eines Elements auf dem Ziel.
+ * @param {Event} event - Das Dragging-Event.
+ */
+function allowDrop(event) {
+    event.preventDefault();
+    event.stopPropagation();
+}
+
+
+
+/**
+ * Hebt die Ziel-Liste hervor, um zu zeigen, dass ein Drop möglich ist.
+ * @param {string} listId - Die ID der Liste, die hervorgehoben werden soll.
+ */
+function highlightList(listId) {
+    const list = document.getElementById(listId);
+    if (list) list.classList.add("highlight");
+}
 
 
 
@@ -40,10 +49,12 @@ function stopDragging() {
  * Handhabt die Bewegung des Tasks (nur für Touch).
  * @param {Event} event - Das Bewegungsevent (mousemove oder touchmove).
  */
-function onDragMove(event) {
-    event.preventDefault();
-    // Optional: Bewegungslogik oder visuelle Rückmeldungen hier einfügen.
+function unhighlightList(listId) {
+    const list = document.getElementById(listId);
+    if (list) list.classList.remove("highlight");
 }
+
+
 
 /**
  * Handhabt das Ablegen eines Tasks auf eine neue Liste.
@@ -75,32 +86,7 @@ async function handleDrop(event, targetListId) {
     }
 }
 
-/**
- * Erlaubt das Ablegen eines Elements auf dem Ziel.
- * @param {Event} event - Das Dragging-Event.
- */
-function allowDrop(event) {
-    event.preventDefault();
-    event.stopPropagation();
-}
 
-/**
- * Hebt die Ziel-Liste hervor, um zu zeigen, dass ein Drop möglich ist.
- * @param {string} listId - Die ID der Liste, die hervorgehoben werden soll.
- */
-function highlightList(listId) {
-    const list = document.getElementById(listId);
-    if (list) list.classList.add("highlight");
-}
-
-/**
- * Entfernt die Hervorhebung von der Liste.
- * @param {string} listId - Die ID der Liste, die nicht mehr hervorgehoben werden soll.
- */
-function unhighlightList(listId) {
-    const list = document.getElementById(listId);
-    if (list) list.classList.remove("highlight");
-}
 
 /**
  * Findet die Ursprungs-Liste eines Tasks.
@@ -117,12 +103,14 @@ async function findTaskSourceList(taskId) {
     for (const listId in data) {
         const tasks = data[listId]?.task || {};
         if (tasks[taskId]) {
-            showSnackbar("Der Task wurde erfolgreich verschoben!");
+            showSnackbar('Der Task wurde erfolgreich verschoben!');
             return listId;
         }
     }
     return null;
 }
+
+
 
 /**
  * Ruft einen Task aus Firebase ab.
@@ -136,6 +124,8 @@ async function fetchTaskFromFirebase(listId, taskId) {
     return response.ok ? await response.json() : null;
 }
 
+
+
 /**
  * Löscht einen Task aus Firebase.
  * @param {string} listId - Die ID der Liste, aus der der Task gelöscht werden soll.
@@ -145,6 +135,8 @@ async function deleteTaskFromFirebase(listId, taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
     await fetch(url, { method: "DELETE" });
 }
+
+
 
 /**
  * Fügt einen Task in Firebase hinzu.
