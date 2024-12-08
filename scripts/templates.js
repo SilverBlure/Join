@@ -91,14 +91,14 @@ function editContactTemp(i){
         <div class="inputBorder">
             <innerInputfield class="innerInputfield">
                 <input class="noBorder" id="name" placeholder="Name" required>
-                <img src="../../assets/icons/png/person.png">
+                <img src="./../assets/icons/png/person.png">
             </innerInputfield>
         </div>
     
         <div class="inputBorder">
             <innerInputfield class="innerInputfield">
                 <input id="email" type="email" class="noBorder" placeholder="Email" required>
-                <img src="../../assets/icons/svg/mail.svg">
+                <img src="./../assets/icons/svg/mail.svg">
             </innerInputfield>
         </div>
     

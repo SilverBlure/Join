@@ -189,10 +189,12 @@ a {
   opacity: 0.9;
 }
 
+
 @media (max-width: 1010px) {
   .sidebar li {
     padding-left: 5px;
   }
+
 }
 
 @media (max-width: 950px) {
@@ -215,9 +217,6 @@ a {
     display: none !important;
   }
 
-  #dropdownMenu {
-    display: none;
-  }
 }
 @media (max-width: 580px) {
   html,
@@ -274,7 +273,7 @@ a {
   #dropdownMenu {
     display: none;
     position: absolute;
-    right: 0;
+    right: 0px;
     top: 97px;
     background-color: #2a3647;
     padding: 10px;
@@ -352,6 +351,10 @@ a {
   .sidebarNavBtn {
     font-size: 16px;
     display: contents;
+  }
+
+  .sidebar ul :hover {
+    background-color: #091931;
   }
 
   .sidebarLogo,
