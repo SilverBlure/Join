@@ -89,24 +89,24 @@ function editContactTemp(i){
     <div>
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
+            <span class="innerInputfield">
                 <input class="noBorder" id="name" placeholder="Name" required>
                 <img src="../../assets/icons/png/person.png">
-            </innerInputfield>
+            </span>
         </div>
     
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
+            <span class="innerInputfield">
                 <input id="email" type="email" class="noBorder" placeholder="Email" required>
                 <img src="../../assets/icons/svg/mail.svg">
-            </innerInputfield>
+            </span>
         </div>
     
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
+            <span class="innerInputfield">
                 <input id="phone" type="number" class="noBorder" placeholder="phone" required>
                 <img src="../assets/icons/png/call.png">
-            </innerInputfield>
+            </span>
         </div>
     </form>
     </div>
