@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
-    <link rel="icon" href="./assets/icons/svg/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./../assets/icons/svg/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="./../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -44,12 +44,12 @@
     <div class="contacts">
         <div class="header" w3-include-html="./../templates/header.html"></div>
         <div class="contactContainer">
-            <div class="contactsBar">
+            <div class="contactsBar" id="contactList">
                 <div class="btnContainer"><button class="addContactBtn" onclick="openAddContact()">Add new contact <img
                             src="./../assets/icons/png/person_add.png" alt=""></button></div>
                 <div id="contacts"></div>
             </div>
-            <div class="contactDetails">
+            <div class="contactDetails" id="details">
                 <div class="topLine">
                 <div class="contactHeadline">
                     <div>
@@ -57,8 +57,9 @@
                     </div>
                     <div class="blueLine"></div>
                     <h3>Better with a team</h3>
+                    <div class="blueLineMobile"></div>
                     </div>
-                <div class="backToContactsBtn"><img class="backArrow" src="./../assets/icons/png/arrow-left-line.png" alt="" srcset=""></div>
+                <div class="backToContactsBtn" onclick="backToContactList()"><img class="backArrow" src="./../assets/icons/png/arrow-left-line.png" alt="" srcset=""></div>
             </div>
                 <div id="ContactDetailed" class="contactInfoBox">
                 </div>

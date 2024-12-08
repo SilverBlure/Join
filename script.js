@@ -47,110 +47,6 @@ function logOut() {
 
 
 
-
-
-async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
-  console.log("toggleSubtaskStatus aufgerufen mit:", { listId, taskId, subtaskId, isChecked });
-  if (!listId || !taskId || !subtaskId) {
-      console.error("Ungültige Parameter übergeben:", { listId, taskId, subtaskId });
-      return;
-  }
-  try {
-      const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-      const response = await fetch(taskUrl);
-      if (!response.ok) {
-          console.error(`Fehler beim Abrufen des Tasks ${taskId} aus Liste ${listId}: ${response.status}`);
-          return;
-      }
-      const task = await response.json();
-      if (!task || !task.subtasks || !task.subtasks[subtaskId]) {
-          console.error(`Subtask mit ID '${subtaskId}' nicht gefunden (Task ID: ${taskId}, Liste: ${listId}).`);
-          return;
-      }
-      task.subtasks[subtaskId].done = isChecked;
-      const updateResponse = await fetch(taskUrl, {
-          method: "PUT",
-          headers: {
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify(task),
-      });
-      if (!updateResponse.ok) {
-          showSnackbar("Fehler beim Aktualisieren des Subtasks!");
-          return;
-      }
-      showSnackbar("Subtask erfolgreich aktualisiert!");
-      await updateSingleTaskElement(listId, taskId, task);
-      await openTaskPopup(taskId, listId);
-  } catch (error) {
-      console.error("Fehler beim Umschalten des Subtask-Status:", error);
-  }
-}
-
-
-
-async function updateSingleTaskElement(listId, taskId, updatedTask) {
-  const taskElement = document.getElementById(`boardCard-${taskId}`);
-  const listContainer = document.getElementById(`${listId}List`)?.querySelector('.taskContainer');
-
-  if (!taskElement || !listContainer) {
-      console.error("Task-Element oder List-Container nicht gefunden:", { taskId, listId });
-      return;
-  }
-
-  // Subtasks-Informationen berechnen
-  const subtasks = updatedTask.subtasks ? Object.values(updatedTask.subtasks) : [];
-  const totalCount = subtasks.length;
-  const doneCount = subtasks.filter(st => st.done).length;
-  const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-
-  // Fortschrittsanzeige
-  const progressHTML = totalCount > 0 ? /*html*/ `
-      <div class="subtasksContainer">
-          <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar" style="width: ${progressPercent}%;"></div>
-          </div>
-          <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
-      </div>
-  ` : "";
-
-  // Arbeiter-Daten verarbeiten
-  const workersHTML = Array.isArray(updatedTask.workers) && updatedTask.workers.length > 0
-      ? updatedTask.workers.map(worker => {
-            const initials = worker.name ? getInitials(worker.name) : "?"; // Initialen extrahieren
-            const color = worker.color || getColorHex(worker.name, "default"); // Standardfarbe nutzen, wenn keine vorhanden
-            return `
-                <p class="workerEmblem" style="background-color: ${color};">
-                    ${initials}
-                </p>
-            `;
-        }).join("")
-      : "";
-
-  // Neues HTML für die Task-Card generieren
-  const newTaskHTML = /*html*/ `
-      <div id="boardCard-${taskId}" 
-           draggable="true"
-           ondragstart="startDragging('${taskId}', '${listId}')"
-           onclick="openTaskPopup('${taskId}', '${listId}')"
-           class="boardCard">
-          <p class="${updatedTask.category?.class || 'defaultCategory'} taskCategory">
-              ${updatedTask.category?.name || "No Category"}
-          </p>
-          <p class="taskCardTitle">${updatedTask.title}</p>
-          <p class="taskCardDescription">${updatedTask.description}</p>
-          ${progressHTML}
-          <div class="BoardCardFooter">
-              <div class="worker">${workersHTML}</div>
-              <img class="priority" src="../../assets/icons/png/PrioritySymbols${updatedTask.priority || 'Low'}.png">
-          </div>
-      </div>
-  `;
-
-  // Task-Element im DOM ersetzen
-  taskElement.outerHTML = newTaskHTML;
-}
-
 function setPriority(priority) {
   tempPriority = priority;
   document.querySelectorAll('.priorityBtn').forEach(btn => btn.classList.remove('active'));
@@ -186,6 +82,7 @@ function toggleShowMenu() {
   } else {
       dropdownMenu.classList.add('active'); 
   }
+  
 }
 
 function showSnackbar(message){

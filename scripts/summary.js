@@ -5,12 +5,8 @@ let tasks = [];
 async function initSummary() {
     try {
         const tasksArray = await fetchAndPrepareTasks();
-        if (!tasksArray || !Array.isArray(tasksArray)) {
-            setDefaultDashboardValues();
-            return;
-        }
         renderDashboard(tasksArray);
-        getNextDueDate(tasksArray)
+        getNextDueDate(tasksArray);
     } catch (error) {
         setDefaultDashboardValues();
     }
@@ -30,21 +26,25 @@ async function fetchData(url) {
     if (!response.ok) {
         throw new Error(`Fehler beim Abrufen der Daten: ${response.status}`);
     }
-    return await response.json();
+    const data = await response.json();
+    return data;
 }
 
 
 
 function convertTasksToArray(tasksData) {
+    if (!tasksData || typeof tasksData !== "object") {
+        return [];
+    }
     return Object.entries(tasksData).map(([listId, listData]) => ({
         id: listId,
-        name: listData.name || listId,
-        tasks: listData.task
+        name: listData?.name || listId,
+        tasks: listData?.task
             ? Object.entries(listData.task).map(([taskId, taskData]) => ({
                   id: taskId,
                   ...taskData,
               }))
-            : [],
+            : [], 
     }));
 }
 
@@ -53,10 +53,13 @@ function convertTasksToArray(tasksData) {
 async function fetchAndPrepareTasks() {
     try {
         const sessionKey = getSessionKey();
-        if (!sessionKey) return null;
+        if (!sessionKey) {
+            return null;
+        }
         const url = `${BASE_URL}data/user/${sessionKey}/user/tasks.json`;
         const tasksData = await fetchData(url);
-        return convertTasksToArray(tasksData);
+        const tasksArray = convertTasksToArray(tasksData);
+        return tasksArray;
     } catch (error) {
         return null;
     }
@@ -73,19 +76,33 @@ function parseDateString(dateString) {
 
 
 function setDefaultDashboardValues() {
-    document.getElementById("toDoTasks").textContent = "0";
-    document.getElementById("doneTasks").textContent = "0";
-    document.getElementById("inProgressTasks").textContent = "0";
-    document.getElementById("awaitFeddbackTasks").textContent = "0";
-    document.getElementById("urgentTasks").textContent = "0";
-    document.getElementById("allTasks").textContent = "0";
-    document.getElementById("nextDueDate").innerHTML = "Keine Aufgaben verfügbar";
-    document.getElementById("noTaskInBoard").style.display = "none";
+    const elements = {
+        toDo: document.getElementById("toDoTasks"),
+        done: document.getElementById("doneTasks"),
+        inProgress: document.getElementById("inProgressTasks"),
+        awaitFeedback: document.getElementById("awaitFeedbackTasks"),
+        urgent: document.getElementById("urgentTasks"),
+        all: document.getElementById("allTasks"),
+        nextDueDate: document.getElementById("nextDueDate"),
+    };
+    Object.entries(elements).forEach(([key, element]) => {
+        if (element) {
+            element.textContent = key === "nextDueDate" ? "No Tasks in Board" : "0";
+        } 
+    });
+    const noTaskInBoardElement = document.getElementById("noTaskInBoard");
+    if (noTaskInBoardElement) {
+        noTaskInBoardElement.style.display = "none";
+    } 
 }
 
 
 
 function renderDashboard(tasksArray) {
+    if (!tasksArray) {
+        setDefaultDashboardValues();
+        return;
+    }
     const hasTasks = tasksArray.some(list => list.tasks && list.tasks.length > 0);
     if (!hasTasks) {
         setDefaultDashboardValues();
@@ -102,9 +119,11 @@ function renderDashboard(tasksArray) {
 
 
 function renderToDoTasks(tasksArray) {
-    const toDoList = tasksArray.find((list) => list.id === "todo");
+    const toDoList = tasksArray.find(list => list.id === "todo");
     const taskCount = toDoList?.tasks ? toDoList.tasks.length : 0;
-    document.getElementById("toDoTasks").textContent = taskCount;
+    const toDoTasksElement = document.getElementById("toDoTasks");
+    toDoTasksElement.textContent = taskCount;
+
 }
 
 
@@ -128,7 +147,7 @@ function renderInProgressTasks(tasksArray) {
 function renderAwaitingFeedbackTasks(tasksArray) {
     const awaitFeedbackList = tasksArray.find(list => list.id === "awaitFeedback");
     const taskCount = awaitFeedbackList ? awaitFeedbackList.tasks.length : 0;
-    document.getElementById("awaitFeddbackTasks").textContent = taskCount;
+    document.getElementById("awaitFeedbackTasks").textContent = taskCount;
 }
 
 
@@ -171,6 +190,12 @@ function isValidTasksArray(tasksArray) {
 
 
 
+function isValidTaskDate(taskDate, today, closestDate) {
+    return taskDate && taskDate > today && (!closestDate || taskDate < closestDate);
+}
+
+
+
 function findClosestDueDate(tasksArray, today) {
     let closestDate = null;
     tasksArray.forEach(list => {
@@ -186,27 +211,29 @@ function findClosestDueDate(tasksArray, today) {
 
 
 
+function updateDueDateUI(closestDate) {
+    const nextDueDateElement = document.getElementById("nextDueDate");
+    const noTaskInBoardElement = document.getElementById("noTaskInBoard");
+    if (!nextDueDateElement) {
+        return;
+    }
+    if (closestDate) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = closestDate.toLocaleDateString('de-DE', options);
+        nextDueDateElement.textContent = formattedDate;
+        if (noTaskInBoardElement) {
+            noTaskInBoardElement.style.display = "block"; 
+        }
+}
+}
+
+
+
 function setNoDueDateMessage() {
     const nextDueDateElement = document.getElementById("nextDueDate");
     if (nextDueDateElement) {
         nextDueDateElement.innerHTML = "No Tasks in Board";
     }
-}
-
-
-
-function convertTasksToArray(tasksObject) {
-    if (!tasksObject || typeof tasksObject !== "object") return [];
-    return Object.entries(tasksObject).map(([listId, listData]) => ({
-        id: listId,
-        name: listData?.name || listId,
-        tasks: listData?.task
-            ? Object.entries(listData.task).map(([taskId, taskData]) => ({
-                  id: taskId,
-                  ...taskData,
-              }))
-            : [],
-    }));
 }
 
 

@@ -27,7 +27,7 @@ function contactDetailsTemps(i, initialien) {
 <div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
     <div>
         <div><H2>${contactsArray[i].name}</H2></div>
-        <img class="pointer" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="deleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
+        <img class="pointer" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="openDeleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
     </div>
     </div>
     <h4>Contact Information</h4>
@@ -51,14 +51,14 @@ function addContactTemp(){
         <div class="inputBorder">
             <span class="innerInputfield">
                 <input class="noBorder" name="name" type="text" id="name" placeholder="Firstname Lastname" required>
-                <img src="../../assets/icons/png/person.png">
+                <img src="./../assets/icons/png/person.png">
             </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
                 <input id="email" name="email" type="email" class="noBorder" placeholder="Email" required>
-                <img src="../../assets/icons/svg/mail.svg">
+                <img src="./../assets/icons/svg/mail.svg">
             </span>
         </div>
     
@@ -71,7 +71,7 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button type="submit" class="addbutton, notOnMobile" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
+        <button type="submit" class="addbutton, notOnMobile" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput(createContact)">create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -80,7 +80,7 @@ function addContactTemp(){
 function editContactTemp(i){
     return /*html*/ `
     <div>
-        <img src="../assets/icons/png/userpic_leer.png" alt="">
+        <img class="editImg" src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
     <div class="createContact">
     <div class="closeBtn">
@@ -89,31 +89,32 @@ function editContactTemp(i){
     <div>
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
+            <span class="innerInputfield">
                 <input class="noBorder" id="name" placeholder="Name" required>
+
                 <img src="./../assets/icons/png/person.png">
             </innerInputfield>
         </div>
     
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
+            <span class="innerInputfield">
                 <input id="email" type="email" class="noBorder" placeholder="Email" required>
                 <img src="./../assets/icons/svg/mail.svg">
             </innerInputfield>
         </div>
     
         <div class="inputBorder">
-            <innerInputfield class="innerInputfield">
+            <span class="innerInputfield">
                 <input id="phone" type="number" class="noBorder" placeholder="phone" required>
                 <img src="../assets/icons/png/call.png">
-            </innerInputfield>
+            </span>
         </div>
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="getFromEdit(${i})">edit contact <img src="../assets/icons/png/check.png"></button>
+        <button onclick="closeAddContact()">cancel</button><button onclick="checkInput(getFromEdit, ${i})">edit contact <img src="../assets/icons/png/check.png"></button>
     </div>
-</div>
+</div>                      
 `;
 }
 
@@ -121,4 +122,33 @@ function deleteContactTemp(i){
     return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
     <div class="deleteBtn"><button onclick="closeAddContact()">cancel</button><button onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
     `
+}
+
+
+
+
+// addTask.js Templates
+
+function generateSubtaskHTML(subtaskId, title) {
+    return /*html*/`
+        <div class="subtask-item" id="${subtaskId}">
+            <input type="checkbox" onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
+            <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">${title}</p>
+            <img src="../../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
+        </div>
+    `;
+}
+
+
+
+function createContactItem(contactId, initials, name, color) {
+    return /*html*/ `
+        <div class="workerInformation">
+            <p id="${contactId}" class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
+            </p>
+            <p class="workerName">${name}</p>
+            <img src="./../assets/icons/png/iconoir_cancel.png" onclick="removeContact('${contactId}')" alt="Remove Contact">
+        </div>
+    `;
 }
