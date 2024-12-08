@@ -20,8 +20,9 @@ function startDragging(event, taskId) {
 }
 
 
+
 /**
- * Beendet den Dragging-Prozess.
+ * Beendet das Dragging und entfernt die Hervorhebung.
  */
 function stopDragging() {
     const card = document.getElementById(`boardCard-${currentDraggedElement}`);
@@ -58,7 +59,6 @@ async function handleDrop(event, targetListId) {
         stopDragging();
         return;
     }
-
     try {
         const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
         if (!task) {

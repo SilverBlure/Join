@@ -12,7 +12,7 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
     return `
         <div id="boardCard-${taskId}" 
              draggable="true"
-             ondragstart="(event) => startDragging(event, '${taskId}')"
+             ondragstart="startDragging('${taskId}', '${listId}')"
              onclick="openTaskPopup('${taskId}', '${listId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || "No Category"}</p>
@@ -26,7 +26,6 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
         </div>
     `;
 }
-
 
 
 
@@ -322,15 +321,12 @@ function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
 }
 
 
+
 function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     return /*html*/ `
         <div id="boardCard-${taskId}" 
              draggable="true"
-             ondragstart="(event) => startDragging(event, '${taskId}')"
-             onmousedown="(event) => startDragging(event, '${taskId}')"
-             ontouchstart="(event) => startDragging(event, '${taskId}')"
-             onmouseup="stopDragging()"
-             ontouchend="stopDragging()"
+             ondragstart="startDragging('${taskId}', '${listId}')"
              onclick="openTaskPopup('${taskId}', '${listId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">
@@ -341,7 +337,7 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
             ${progressHTML}
             <div class="BoardCardFooter">
                 <div class="worker">${workersHTML}</div>
-                <img class="priority" src="./../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png" alt="Priority Symbol">
+                <img class="priority" src="./../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
             </div>
         </div>
     `;
