@@ -6,6 +6,8 @@ function getLocalSubtasks() {
     return window.localSubtasks || {};
 }
 
+
+
 /**
  * Fügt einen neuen Subtask hinzu, wenn die Eingabetaste gedrückt wird.
  * @param {Event} event - Das Event des Tastendrucks.
@@ -16,6 +18,8 @@ function handleSubtaskKey(event) {
         addNewSubtask();
     }
 }
+
+
 
 /**
  * Entfernt einen Subtask aus den lokalen Daten und dem DOM.
@@ -32,6 +36,8 @@ function deleteSubtaskFromLocal(subtaskId) {
     }
 }
 
+
+
 /**
  * Rendert den Fortschritt der Subtasks als HTML.
  * @param {Object} subtasks - Die Subtasks des Tasks.
@@ -45,6 +51,8 @@ function renderSubtaskProgress(subtasks) {
     const progressPercent = (doneCount / totalCount) * 100;
     return generateSubtasksProgressHTML(progressPercent, doneCount, totalCount);
 }
+
+
 
 /**
  * Generiert HTML für die Subtasks eines Tasks.
@@ -66,6 +74,8 @@ function generateSubtasksHTML(task, taskId, listId) {
     }).join('');
 }
 
+
+
 /**
  * Generiert HTML für das Bearbeiten von Subtasks.
  * @param {Object} subtasks - Die Subtasks des Tasks.
@@ -79,6 +89,8 @@ function generateEditSubtasksHTML(subtasks = {}) {
         generateEditSingleSubtaskHTML(subtaskId, subtask)
     ).join('');
 }
+
+
 
 /**
  * Initialisiert den lokalen Zustand eines Tasks mit seinen Arbeitern und Subtasks.
@@ -96,6 +108,8 @@ function initializeLocalTaskState(task) {
         subtasks: window.localEditedSubtasks,
     });
 }
+
+
 
 /**
  * Fügt einen neuen Subtask hinzu und aktualisiert das DOM.
@@ -115,6 +129,8 @@ function addNewSubtask() {
     subTaskInput.value = "";
 }
 
+
+
 /**
  * Ermöglicht das Bearbeiten eines Subtasks im Formular.
  * @param {string} taskId - Die ID des Tasks, zu dem der Subtask gehört.
@@ -129,6 +145,8 @@ async function editSubtask(taskId, subtaskId) {
     const editSubtaskHTML = generateEditSubtaskHTML(taskId, subtaskId, currentTitle);
     subtaskTextElement.outerHTML = editSubtaskHTML;
 }
+
+
 
 /**
  * Speichert die Änderungen eines Subtasks lokal.
@@ -151,6 +169,8 @@ function saveLocalSubtaskEdit(subtaskId, newTitle) {
     }
 }
 
+
+
 /**
  * Fügt einen neuen Subtask zur lokalen Liste hinzu und aktualisiert das DOM.
  */
@@ -169,6 +189,8 @@ function addSubtaskToLocalList() {
     subTaskInput.value = "";
 }
 
+
+
 /**
  * Generiert das HTML für das Dropdown-Menü der Kontakte.
  * @returns {string} - Das generierte HTML für das Dropdown-Menü.
@@ -182,6 +204,8 @@ function generateContactsDropdownHTML() {
         .join("") || '<p>Keine zugewiesenen Arbeiter.</p>';
     return generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML);
 }
+
+
 
 /**
  * Rendert das Dropdown-Menü für Kontakte.
@@ -197,6 +221,8 @@ function renderContactsDropdown() {
     }
 }
 
+
+
 /**
  * Handhabt die Auswahl eines Kontakts aus dem Dropdown-Menü.
  */
@@ -211,6 +237,8 @@ function handleContactSelection() {
     contactSelection.value = "";
 }
 
+
+
 /**
  * Rendert die ausgewählten Kontakte im DOM.
  */
@@ -221,6 +249,8 @@ function renderSelectedContacts() {
         .join("");
 }
 
+
+
 /**
  * Entfernt einen Kontakt aus der lokalen Bearbeitung und aktualisiert das DOM.
  * @param {string} workerName - Der Name des Kontakts, der entfernt werden soll.
@@ -229,6 +259,8 @@ function removeContact(workerName) {
     window.localEditedContacts = window.localEditedContacts.filter(contact => contact !== workerName);
     renderSelectedContacts();
 }
+
+
 
 /**
  * Rendert das Dropdown-Menü für Kontakte im Bearbeitungsmodus.
@@ -243,6 +275,8 @@ function renderContactsDropdownForEdit() {
         `;
     }
 }
+
+
 
 /**
  * Entfernt einen Kontakt aus dem Bearbeitungsformular und aktualisiert das DOM.
@@ -260,6 +294,8 @@ function removeContactFromEdit(workerName) {
             : '<p>Keine zugewiesenen Arbeiter.</p>';
     }
 }
+
+
 
 /**
  * Handhabt die Auswahl eines Kontakts im Bearbeitungsmodus.

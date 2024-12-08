@@ -93,12 +93,12 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
             <div class="hoverBtnContainer">
                 <img 
                     class="hoverBtn" 
-                    src="../../assets/icons/png/editIcon.png" 
+                    src="./../assets/icons/png/editIcon.png" 
                     onclick="editSubtaskInLocal('${subtaskId}')"
                     alt="Edit Subtask">
                 <img 
                     class="hoverBtn" 
-                    src="../../assets/icons/png/iconoir_cancel.png" 
+                    src="./../assets/icons/png/iconoir_cancel.png" 
                     onclick="deleteSubtaskFromLocal('${subtaskId}')"
                     alt="Delete Subtask">
             </div>
@@ -114,7 +114,7 @@ function generatePopupHeaderHTML(task) {
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">
                 ${task.category?.name || 'No Category'}
             </p>
-            <img class="popupIcons" onclick="closeTaskPopup()" src="../../assets/icons/png/iconoir_cancel.png">
+            <img class="popupIcons" onclick="closeTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
         </div>
     `;
 }
@@ -166,18 +166,26 @@ function generatePopupActionsHTML(listId, taskId) {
 
 
 
-function generatePriorityButtonHTML(priority, selectedPriority) {
-    return `
-        <button 
-            type="button" 
-            class="priorityBtn ${priority.name === selectedPriority ? 'active' : ''}" 
-            id="prio${priority.name}"
-            onclick="setPriority('${priority.name}')">
-            <img src="${priority.src}" alt="${priority.name} Priority Icon">
-            ${priority.name}
-        </button>
-    `;
+function generatePriorityButtonsHTML(selectedPriority) {
+    const priorities = [
+        { name: "Urgent", src: "./../assets/icons/png/PrioritySymbolsUrgent.png" },
+        { name: "Middle", src: "./../assets/icons/png/PrioritySymbolsMiddle.png" },
+        { name: "Low", src: "./../assets/icons/png/PrioritySymbolsLow.png" },
+    ];
+    return priorities
+        .map(priority => `
+            <button 
+                type="button" 
+                class="priorityBtn ${priority.name === selectedPriority ? 'active' : ''}" 
+                id="prio${priority.name}"
+                onclick="setPriority('${priority.name}')">
+                <img src="${priority.src}" alt="${priority.name} Priority Icon">
+                ${priority.name}
+            </button>
+        `)
+        .join("");
 }
+
 
 
 
@@ -205,7 +213,7 @@ function generateSingleWorkerHTML(worker) {
             <p class="workerName">${worker.name}</p>
             <img 
                 class="hoverBtn" 
-                src="../../assets/icons/png/iconoir_cancel.png" 
+                src="./../assets/icons/png/iconoir_cancel.png" 
                 onclick="removeContactFromEdit('${worker.name}')"
                 alt="Remove Worker">
         </div>
@@ -249,7 +257,7 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
                         <div class="createSubtaskBar">
                             <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
                             <div class="divider"></div>
-                            <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="../assets/icons/png/addSubtasks.png">
+                            <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="./../assets/icons/png/addSubtasks.png">
                         </div>
                     </div>
                 </div>
@@ -267,7 +275,7 @@ function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
             <p class="subtaskText">${subtaskTitle}</p>
             <img 
                 class="hoverBtn" 
-                src="../../assets/icons/png/iconoir_cancel.png" 
+                src="./../assets/icons/png/iconoir_cancel.png" 
                 onclick="removeSubtaskFromList('${subtaskId}')"
                 alt="Delete Subtask">
         </div>
@@ -304,7 +312,7 @@ function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
             <div class="hoverBtnContainer">
                 <img 
                     class="hoverBtn" 
-                    src="../../assets/icons/png/iconoir_cancel.png" 
+                    src="./../assets/icons/png/iconoir_cancel.png" 
                     onclick="deleteSubtaskFromLocal('${subtaskId}')"
                     alt="Delete Subtask">
             </div>
@@ -329,7 +337,7 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
             ${progressHTML}
             <div class="BoardCardFooter">
                 <div class="worker">${workersHTML}</div>
-                <img class="priority" src="../../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
+                <img class="priority" src="./../assets/icons/png/PrioritySymbols${task.priority || 'Low'}.png">
             </div>
         </div>
     `;
@@ -376,7 +384,7 @@ function generateWorkerHTML(workerName) {
             <p class="workerName">${workerName}</p>
             <img 
                 class="hoverBtn" 
-                src="../../assets/icons/png/iconoir_cancel.png" 
+                src="./../assets/icons/png/iconoir_cancel.png" 
                 onclick="removeContact('${workerName}')"
                 alt="Remove Worker">
         </div>
@@ -414,7 +422,7 @@ function generateWorkerHTMLForEdit(name) {
             <p class="workerName">${name}</p>
             <img 
                 class="hoverBtn" 
-                src="../../assets/icons/png/iconoir_cancel.png" 
+                src="./../assets/icons/png/iconoir_cancel.png" 
                 onclick="removeContactFromEdit('${name}')"
                 alt="Remove Worker">
         </div>

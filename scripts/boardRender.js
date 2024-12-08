@@ -6,6 +6,8 @@ function renderBoard() {
     Object.values(tasks).forEach(list => renderTaskList(list)); // Jede Liste rendern
 }
 
+
+
 /**
  * Rendert eine spezifische Aufgabenliste.
  * @param {Object} list - Die zu rendernde Liste.
@@ -21,6 +23,8 @@ function renderTaskList(list) {
     }
 }
 
+
+
 /**
  * Rendert eine einzelne Aufgabe innerhalb eines Containers.
  * @param {HTMLElement} container - Der Container, in dem die Aufgabe gerendert wird.
@@ -34,6 +38,8 @@ function renderTask(container, taskId, task, listId) {
     const taskHTML = generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML); // HTML für die Aufgabe generieren
     container.innerHTML += taskHTML; // HTML in den Container einfügen
 }
+
+
 
 /**
  * Generiert HTML für die Arbeiter einer Aufgabe.
@@ -51,6 +57,8 @@ function renderTaskWorkers(workers) {
         `).join(""); // HTML für jeden Arbeiter generieren
 }
 
+
+
 /**
  * Öffnet ein Popup für eine spezifische Aufgabe.
  * @param {string} taskId - Die ID der Aufgabe.
@@ -60,6 +68,8 @@ async function openTaskPopup(taskId, listId) {
     if (!listId || !taskId) return; // Wenn IDs fehlen, abbrechen
     const task = await fetchTaskData(taskId, listId); // Aufgabendaten abrufen
     if (!task) return;
+    console.log("Task Data in Popup:", task); // Überprüfen der Task-Daten
+
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
     if (!popupOverlay || !popupContainer) return; // Wenn Popup-Elemente fehlen, abbrechen
@@ -67,6 +77,8 @@ async function openTaskPopup(taskId, listId) {
     const workersHTML = generateWorkersHTML(task.workers || []); // Arbeiter generieren
     showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workersHTML, listId, taskId); // Popup anzeigen
 }
+
+
 
 /**
  * Ruft Aufgabendaten aus Firebase ab.
@@ -88,6 +100,8 @@ async function fetchTaskData(taskId, listId) {
         return null; // Bei Fehler null zurückgeben
     }
 }
+
+
 
 /**
  * Zeigt ein Popup mit den Details einer Aufgabe an.
@@ -116,6 +130,8 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
     `;
 }
 
+
+
 /**
  * Öffnet ein Bearbeitungspopup für eine Aufgabe.
  * @param {string} listId - Die ID der Liste.
@@ -132,6 +148,8 @@ async function editTask(listId, taskId) {
         console.error("Fehler beim Bearbeiten des Tasks:", error);
     }
 }
+
+
 
 /**
  * Rendert das Bearbeitungspopup für eine Aufgabe.
@@ -152,6 +170,8 @@ function renderEditTaskPopup(listId, taskId, task) {
     editTaskPopupContainer.innerHTML = generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, taskId); // Formular rendern
 }
 
+
+
 /**
  * Ruft eine Aufgabe aus Firebase für die Bearbeitung ab.
  * @param {string} listId - Die ID der Liste.
@@ -168,7 +188,3 @@ async function fetchTaskForEditing(listId, taskId) {
         return null; // Bei Fehler null zurückgeben
     }
 }
-
-
-
-

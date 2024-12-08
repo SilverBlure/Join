@@ -8,6 +8,8 @@ function startDragging(taskId) {
     if (card) card.classList.add("dragging");
 }
 
+
+
 /**
  * Beendet das Dragging und entfernt die Hervorhebung.
  */
@@ -16,6 +18,8 @@ function stopDragging() {
     if (card) card.classList.remove("dragging");
     currentDraggedElement = null;
 }
+
+
 
 /**
  * Erlaubt das Ablegen eines Elements auf dem Ziel.
@@ -26,6 +30,8 @@ function allowDrop(event) {
     event.stopPropagation();
 }
 
+
+
 /**
  * Hebt die Ziel-Liste hervor, um zu zeigen, dass ein Drop möglich ist.
  * @param {string} listId - Die ID der Liste, die hervorgehoben werden soll.
@@ -35,6 +41,8 @@ function highlightList(listId) {
     if (list) list.classList.add("highlight");
 }
 
+
+
 /**
  * Entfernt die Hervorhebung von der Liste.
  * @param {string} listId - Die ID der Liste, die nicht mehr hervorgehoben werden soll.
@@ -43,6 +51,8 @@ function unhighlightList(listId) {
     const list = document.getElementById(listId);
     if (list) list.classList.remove("highlight");
 }
+
+
 
 /**
  * Handhabt das Ablegen eines Tasks auf eine neue Liste.
@@ -73,6 +83,8 @@ async function handleDrop(event, targetListId) {
     }
 }
 
+
+
 /**
  * Findet die Ursprungs-Liste eines Tasks.
  * @param {string} taskId - Die ID des zu suchenden Tasks.
@@ -95,6 +107,8 @@ async function findTaskSourceList(taskId) {
     return null;
 }
 
+
+
 /**
  * Ruft einen Task aus Firebase ab.
  * @param {string} listId - Die ID der Liste, aus der der Task abgerufen werden soll.
@@ -107,6 +121,8 @@ async function fetchTaskFromFirebase(listId, taskId) {
     return response.ok ? await response.json() : null;
 }
 
+
+
 /**
  * Löscht einen Task aus Firebase.
  * @param {string} listId - Die ID der Liste, aus der der Task gelöscht werden soll.
@@ -116,6 +132,8 @@ async function deleteTaskFromFirebase(listId, taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
     await fetch(url, { method: "DELETE" });
 }
+
+
 
 /**
  * Fügt einen Task in Firebase hinzu.
