@@ -166,7 +166,7 @@ function generatePopupActionsHTML(listId, taskId) {
 
 
 
-function generatePriorityButtonHTML(priority, selectedPriority) {
+function generatePriorityButtonsHTML(priority, selectedPriority) {
     return `
         <button 
             type="button" 
