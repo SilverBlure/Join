@@ -71,7 +71,7 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button type="submit" class="addbutton, notOnMobile" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput()">create contact <img src="../assets/icons/png/check.png"></button>
+        <button type="submit" class="addbutton, notOnMobile" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput(createContact)">create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -111,9 +111,9 @@ function editContactTemp(i){
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="getFromEdit(${i})">edit contact <img src="../assets/icons/png/check.png"></button>
+        <button onclick="closeAddContact()">cancel</button><button onclick="checkInput(getFromEdit, ${i})">edit contact <img src="../assets/icons/png/check.png"></button>
     </div>
-</div>
+</div>                      
 `;
 }
 

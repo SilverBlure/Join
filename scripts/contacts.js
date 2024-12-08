@@ -182,9 +182,9 @@ async function putContact(contactId, name, email, phone, i) {
     }
     )
     closeAddContact();
-    getContacts();
     showSnackbar('Der Kontakt wurde erfolgreich geändert!');
-    renderContactDetails(i)
+        getContacts();
+        renderContactDetails(i);
     return responseAsJson = response.json();
 }
 
@@ -303,24 +303,22 @@ function getFromEdit(i) {
 function getColorHex(vorname, nachname){
     let completeName = (vorname+nachname).toLowerCase();
     let hash = 0;
-
     for( let i = 0; i< completeName.length; i++){
         hash += completeName.charCodeAt(i);
     }
-
     let r = (hash * 123) % 256;
     let g = (hash * 456) % 256;
     let b = (hash * 789) % 256;
-
     let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     return hexColor;
 }
 
 
 /**
- * this function validates the input for creating a new contact
+ * this function validates the input for creating or editing a new contact
  */
-function checkInput() {
+function checkInput(createEdit, i) {
+    
     let fullname = document.getElementById('name').value.trim(); 
     let email = document.getElementById('email').value.trim();
     let phone = document.getElementById('phone').value.trim();
@@ -331,7 +329,7 @@ function checkInput() {
     } else if (phone === "") {
         showSnackbar("Please enter your phone number.");
     } else {
-        createContact();
+        createEdit(i);
     }
 }
 
