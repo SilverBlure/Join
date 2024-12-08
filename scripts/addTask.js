@@ -1,7 +1,14 @@
+/**
+ * Temporäre Priorität, die für die Task-Bearbeitung verwendet wird.
+ * @type {string | null}
+ */
 let tempPriority = null;
 
 
-
+/**
+ * Initialisiert die Anwendung, lädt Session-ID, Task-Listen und Kontakte.
+ * @async
+ */
 async function main() {
     loadSessionId();
     if (!(await initializeTaskLists())) return;
@@ -10,13 +17,18 @@ async function main() {
 }
 
 
-
+/**
+ * Lädt die Session-ID aus dem lokalen Speicher.
+ */
 function loadSessionId() {
     ID = localStorage.getItem("sessionKey");
 }
 
 
-
+/**
+ * Lädt alle Tasks von der API und transformiert die Daten.
+ * @async
+ */
 async function getTasks() {
     try {
         const url = createTasksUrl();
@@ -29,13 +41,21 @@ async function getTasks() {
 }
 
 
-
+/**
+ * Erstellt die URL für die Task-Daten.
+ * @returns {string} URL für die Task-Daten.
+ */
 function createTasksUrl() {
     return `${BASE_URL}data/user/${ID}/user/tasks.json`;
 }
 
 
-
+/**
+ * Ruft die Task-Daten von der API ab.
+ * @async
+ * @param {string} url - Die URL, von der die Task-Daten abgerufen werden.
+ * @returns {Object|null} Die abgerufenen Daten oder null bei Fehler.
+ */
 async function fetchTasksData(url) {
     const response = await fetch(url);
     if (!response.ok) return null;
@@ -43,7 +63,11 @@ async function fetchTasksData(url) {
 }
 
 
-
+/**
+ * Transformiert die erhaltenen Task-Daten in das gewünschte Format.
+ * @param {Object} data - Die rohen Task-Daten.
+ * @returns {Object} Die transformierten Task-Daten.
+ */
 function transformTasksData(data) {
     return Object.entries(data || {}).reduce((acc, [listKey, listValue]) => {
         acc[listKey] = transformTaskList(listKey, listValue);
@@ -52,7 +76,12 @@ function transformTasksData(data) {
 }
 
 
-
+/**
+ * Transformiert eine einzelne Task-Liste.
+ * @param {string} listKey - Der Schlüssel der Task-Liste.
+ * @param {Object} listValue - Die Werte der Task-Liste.
+ * @returns {Object} Die transformierte Task-Liste.
+ */
 function transformTaskList(listKey, listValue) {
     return {
         id: listKey,
@@ -62,7 +91,11 @@ function transformTaskList(listKey, listValue) {
 }
 
 
-
+/**
+ * Transformiert die Task-Einträge einer Liste.
+ * @param {Object} taskEntries - Die Task-Einträge.
+ * @returns {Object} Die transformierten Tasks.
+ */
 function transformTaskEntries(taskEntries) {
     return Object.entries(taskEntries).reduce((taskAcc, [taskId, taskValue]) => {
         taskAcc[taskId] = transformTask(taskValue);
@@ -71,7 +104,11 @@ function transformTaskEntries(taskEntries) {
 }
 
 
-
+/**
+ * Transformiert eine einzelne Task.
+ * @param {Object} taskValue - Die rohen Task-Daten.
+ * @returns {Object} Die transformierte Task.
+ */
 function transformTask(taskValue) {
     return {
         ...taskValue,
@@ -80,7 +117,11 @@ function transformTask(taskValue) {
 }
 
 
-
+/**
+ * Transformiert die Worker-Daten einer Task.
+ * @param {Array} workers - Die Worker-Daten.
+ * @returns {Array} Die transformierten Worker-Daten.
+ */
 function transformWorkers(workers) {
     return workers.map(worker => ({
         name: worker.name,
@@ -90,7 +131,11 @@ function transformWorkers(workers) {
 }
 
 
-
+/**
+ * Fügt eine neue Aufgabe zur "To Do"-Liste hinzu.
+ * @async
+ * @param {Event} event - Das Form-Submit-Event.
+ */
 async function addTaskToToDoList(event) {
     event.preventDefault();
     if (!validateTaskInputs()) return;
@@ -106,7 +151,10 @@ async function addTaskToToDoList(event) {
 }
 
 
-
+/**
+ * Validiert die Eingaben im Task-Formular.
+ * @returns {boolean} Gibt true zurück, wenn die Eingaben gültig sind, ansonsten false.
+ */
 function validateTaskInputs() {
     const title = document.getElementById("title").value.trim();
     const dueDate = document.getElementById("date").value.trim();
@@ -120,7 +168,10 @@ function validateTaskInputs() {
 }
 
 
-
+/**
+ * Erstellt ein neues Task-Objekt basierend auf den Formulareingaben.
+ * @returns {Object} Das neue Task-Objekt.
+ */
 function buildNewTask() {
     const title = document.getElementById("title").value.trim();
     const description = document.getElementById("description").value.trim();
@@ -139,7 +190,11 @@ function buildNewTask() {
 }
 
 
-
+/**
+ * Erstellt die Kategorie-Daten einer Task.
+ * @param {string} categoryName - Der Name der Kategorie.
+ * @returns {Object} Die Kategorie-Daten.
+ */
 function buildCategory(categoryName) {
     return {
         name: categoryName,
@@ -148,7 +203,10 @@ function buildCategory(categoryName) {
 }
 
 
-
+/**
+ * Ruft die aktuellen Worker-Daten aus dem lokalen Zustand ab.
+ * @returns {Array} Die Worker-Daten.
+ */
 function getWorkers() {
     return window.localContacts
         ? Object.values(window.localContacts).map(contact => ({
@@ -160,13 +218,21 @@ function getWorkers() {
 }
 
 
-
+/**
+ * Ruft die aktuellen Subtask-Daten aus dem lokalen Zustand ab.
+ * @returns {Object} Die Subtask-Daten.
+ */
 function getLocalSubtasks() {
     return { ...window.localSubtasks };
 }
 
 
-
+/**
+ * Speichert eine neue Task in der Datenbank.
+ * @async
+ * @param {Object} task - Das zu speichernde Task-Objekt.
+ * @returns {boolean} Gibt true zurück, wenn das Speichern erfolgreich war, ansonsten false.
+ */
 async function saveTask(task) {
     const result = await addTaskToList(task);
     if (result) {
@@ -178,6 +244,9 @@ async function saveTask(task) {
 
 
 
+/**
+ * Setzt das Task-Formular zurück und leert den lokalen Zustand.
+ */
 function resetTaskForm() {
     document.getElementById("addTaskFormTask").reset();
     clearLocalContacts();
@@ -189,7 +258,9 @@ function resetTaskForm() {
 }
 
 
-
+/**
+ * Löscht die lokalen Kontakte aus dem Zustand und leert die Kontaktanzeige.
+ */
 function clearLocalContacts() {
     window.localContacts = {};
     const selectedContactsList = document.getElementById("selectedContactsList");
@@ -197,7 +268,9 @@ function clearLocalContacts() {
 }
 
 
-
+/**
+ * Löscht die lokalen Subtasks aus dem Zustand und leert die Subtask-Anzeige.
+ */
 function clearLocalSubtasks() {
     window.localSubtasks = {};
     const subTasksList = document.getElementById("subTasksList");
@@ -205,7 +278,12 @@ function clearLocalSubtasks() {
 }
 
 
-
+/**
+ * Fügt eine neue Task in die "To Do"-Liste hinzu.
+ * @async
+ * @param {Object} task - Das zu speichernde Task-Objekt.
+ * @returns {Object|null} Gibt die Antwortdaten zurück oder null bei Fehler.
+ */
 async function addTaskToList(task) {
     try {
         const taskUrl = `${BASE_URL}data/user/${ID}/user/tasks/todo/task.json`;
@@ -225,7 +303,11 @@ async function addTaskToList(task) {
 }
 
 
-
+/**
+ * Initialisiert die Standard-Task-Listen, falls diese noch nicht existieren.
+ * @async
+ * @returns {boolean} Gibt true zurück, wenn die Initialisierung erfolgreich war, ansonsten false.
+ */
 async function initializeTaskLists() {
     try {
         const taskUrl = createTaskUrl(); 
@@ -240,7 +322,12 @@ async function initializeTaskLists() {
 }
 
 
-
+/**
+ * Überprüft, ob die Task-Listen bereits existieren.
+ * @async
+ * @param {string} url - Die URL zur Überprüfung der Task-Listen.
+ * @returns {boolean} Gibt true zurück, wenn die Listen existieren, ansonsten false.
+ */
 async function taskListsExist(url) {
     try {
         const response = await fetch(url); 
@@ -256,13 +343,19 @@ async function taskListsExist(url) {
 }
 
 
-
+/**
+ * Erstellt die URL für die Task-Listen.
+ * @returns {string} Die URL für die Task-Listen.
+ */
 function createTaskUrl() {
     return `${BASE_URL}data/user/${ID}/user/tasks.json`;
 }
 
 
-
+/**
+ * Gibt die Standard-Task-Listen zurück.
+ * @returns {Object} Die Standard-Task-Listen.
+ */
 function getDefaultTaskLists() {
     return {
         todo: { name: "To Do", task: {} },
@@ -273,7 +366,13 @@ function getDefaultTaskLists() {
 }
 
 
-
+/**
+ * Speichert die Standard-Task-Listen in der Datenbank.
+ * @async
+ * @param {string} url - Die URL für die Task-Listen.
+ * @param {Object} defaultLists - Die Standard-Task-Listen.
+ * @returns {boolean} Gibt true zurück, wenn die Listen erfolgreich gespeichert wurden, ansonsten false.
+ */
 async function saveDefaultTaskLists(url, defaultLists) {
     const response = await fetch(url, {
         method: "PUT",
@@ -287,7 +386,10 @@ async function saveDefaultTaskLists(url, defaultLists) {
 }
 
 
-
+/**
+ * Setzt die Priorität für eine Task.
+ * @param {string} priority - Die Priorität, die gesetzt werden soll.
+ */
 function setPriority(priority) {
     tempPriority = priority;
     document.querySelectorAll(".priorityBtn").forEach(btn => btn.classList.remove("active"));
@@ -295,7 +397,9 @@ function setPriority(priority) {
 }
 
 
-
+/**
+ * Rendert das Kontakt-Dropdown-Menü.
+ */
 function renderContactsDropdown() {
     const dropDown = document.getElementById('contactSelection');
     if (!dropDown) return;
@@ -309,7 +413,9 @@ function renderContactsDropdown() {
 
 
 
-
+/**
+ * Behandelt die Auswahl eines Kontakts und fügt ihn zur Anzeige hinzu.
+ */
 function handleContactSelection() {
     const contactSelection = document.getElementById("contactSelection");
     const selectedContactsList = document.getElementById("selectedContactsList");
@@ -326,20 +432,29 @@ function handleContactSelection() {
 }
 
 
-
+/**
+ * Überprüft, ob ein Kontakt bereits ausgewählt wurde.
+ * @param {string} contactName - Der Name des Kontakts.
+ * @returns {boolean} Gibt true zurück, wenn der Kontakt bereits ausgewählt ist, ansonsten false.
+ */
 function isContactSelected(contactName) {
     return Object.values(window.localContacts || {}).some(contact => contact.name === contactName);
 }
 
 
-
+/**
+ * Entfernt einen Kontakt aus der Anzeige und dem lokalen Zustand.
+ * @param {string} contactId - Die ID des zu entfernenden Kontakts.
+ */
 function removeContact(contactId) {
     document.getElementById(contactId)?.closest(".workerInformation")?.remove();
     delete window.localContacts[contactId];
 }
 
 
-
+/**
+ * Fügt eine neue Subtask hinzu.
+ */
 function addNewSubtask() {
     const subTaskInput = document.getElementById("subTaskInputAddTask");
     const subTasksList = document.getElementById("subTasksList");
@@ -354,7 +469,10 @@ function addNewSubtask() {
 }
 
 
-
+/**
+ * Behandelt den Enter-Key-Ereignis für das Subtask-Eingabefeld.
+ * @param {Event} event - Das Key-Ereignis.
+ */
 function handleSubtaskKey(event) {
     if (event.key === "Enter") {
         event.preventDefault();
@@ -363,7 +481,11 @@ function handleSubtaskKey(event) {
 }
 
 
-
+/**
+ * Generiert die Initialen eines vollständigen Namens.
+ * @param {string} fullName - Der vollständige Name.
+ * @returns {string} Die Initialen des Namens.
+ */
 function getInitials(fullName) {
     const nameParts = fullName.trim().split(" ");
     return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
