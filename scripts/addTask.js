@@ -457,14 +457,33 @@ function removeContact(contactId) {
 function addNewSubtask() {
     const subTaskInput = document.getElementById("subTaskInputAddTask");
     const subTasksList = document.getElementById("subTasksList");
-    if (!subTaskInput || !subTaskInput.value.trim()) return;
-    const title = subTaskInput.value.trim(); 
-    const subtaskId = `subtask_${Date.now()}`; 
-    const subtaskItem = { title, done: false };
-    window.localSubtasks = { ...window.localSubtasks, [subtaskId]: subtaskItem };
-    const subtaskHTML = generateSubtaskHTML(subtaskId, title); 
-    subTasksList.innerHTML += subtaskHTML;
-    subTaskInput.value = ""; 
+    if (!subTaskInput || !subTasksList) return;
+    const subtaskTitle = subTaskInput.value.trim();
+    if (!subtaskTitle) return;
+    if (!window.localSubtasks) window.localSubtasks = {};
+    const subtaskId = `subtask_${Date.now()}`;
+    const subtaskItem = {
+        title: subtaskTitle,
+        done: false,
+    };
+    window.localSubtasks[subtaskId] = subtaskItem;
+    const subtaskHTML = `
+        <div class="subtask-item" id="${subtaskId}">
+            <input 
+                type="checkbox" 
+                onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
+            <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">
+                ${subtaskTitle}
+            </p>
+            <img 
+                class="hoverBtn" 
+                src="./../assets/icons/png/iconoir_cancel.png" 
+                onclick="removeSubtaskFromList('${subtaskId}')"
+                alt="Remove Subtask">
+        </div>
+    `;
+    subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
+    subTaskInput.value = "";
 }
 
 

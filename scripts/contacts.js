@@ -80,14 +80,22 @@ function openEditContact(i) {
 }
 
 
+function openDeleteContact(i){
+    openAddContact();
+    document.getElementById('dialogInfo').innerHTML ="Delete contact";
+    document.getElementById('editContact').innerHTML ="";
+    document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
+     
+}
+
+
 /**
  * this function opens a dialog to delete the contact
  * 
  * @param {number} i - id of the contact to delete
  */
 function deleteContact(i) {
-    console.log(contactsArray[i].id);
-    deleteContactDatabase(contactsArray[i].id);
+    deleteContactDatabase(i);
     contactsArray = [];
     getContacts();
 }
@@ -173,10 +181,12 @@ async function putContact(contactId, name, email, phone, i) {
         })
     }
     )
+    
+    
     closeAddContact();
-    getContacts();
     showSnackbar('Der Kontakt wurde erfolgreich geändert!');
-    renderContactDetails(i)
+       await getContacts();
+        renderContactDetails(i);
     return responseAsJson = response.json();
 }
 
@@ -241,7 +251,7 @@ function checkLockation(){
  * @param {number} i - index of the contact to delete
  */
 async function deleteContactDatabase(i) {
-    contactId = contactsArray[i].id;
+   contactId = contactsArray[i].id;
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "DELETE",
     })
@@ -281,7 +291,7 @@ function getFromEdit(i) {
     let phone = document.getElementById('phone').value;
     let email= document.getElementById('email').value;
     let contactId = contactsArray[i].id;
-    putContact(contactId, name, email, phone)
+  putContact(contactId, name, email, phone, i)
 }
 
 
@@ -295,24 +305,21 @@ function getFromEdit(i) {
 function getColorHex(vorname, nachname){
     let completeName = (vorname+nachname).toLowerCase();
     let hash = 0;
-
     for( let i = 0; i< completeName.length; i++){
         hash += completeName.charCodeAt(i);
     }
-
     let r = (hash * 123) % 256;
     let g = (hash * 456) % 256;
     let b = (hash * 789) % 256;
-
     let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     return hexColor;
 }
 
 
 /**
- * this function validates the input for creating a new contact
+ * this function validates the input for creating or editing a new contact
  */
-function checkInput() {
+function checkInput(createEdit, i) {
     let fullname = document.getElementById('name').value.trim(); 
     let email = document.getElementById('email').value.trim();
     let phone = document.getElementById('phone').value.trim();
@@ -323,7 +330,7 @@ function checkInput() {
     } else if (phone === "") {
         showSnackbar("Please enter your phone number.");
     } else {
-        createContact();
+        createEdit(i);
     }
 }
 

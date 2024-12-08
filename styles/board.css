@@ -412,11 +412,6 @@ left: 200px;
     width: 32px;
 }
 
-.active {
-    background-color: #A8A8A8 !important;
-}
-
-
 .formParts {
     display: flex;
     justify-content: start;

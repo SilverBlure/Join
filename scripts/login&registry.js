@@ -5,23 +5,7 @@ let sessionId;
 /**initialize moor funktions */
 async function initLog(){
     loadLoginData();
-    checkGuest();
-    loadFromLocal();
-}
-
-/**Guest Login */
-function checkGuest(){
-    let guest = loginArray.find((element) => {element.email == 'Gast@join.com'});
-    console.log(guest);
-}
-
-/**Load userdata from localStorage for faster entrance */
-function loadFromLocal(){
-    let email = localStorage.getItem('email');
-    let pw = localStorage.getItem('pw');
-    if(email&&pw){
-        document.getElementById('email').value =`${email}`;
-        document.getElementById('password').value=`${pw}`;}
+    
 }
 
 
@@ -39,6 +23,7 @@ async function loadLoginData(){
          };
          loginArray.push(user);
     }
+    checkGuest();
 }
 
 /**this function makes the logon to ur account 
@@ -56,17 +41,15 @@ function login(){
         localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
-        location.href ='./summary.html';
+        location.href ='./../html/summary.html';
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./../summary.html';
+        location.href ='./../html/summary.html';
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
 }
-
-
 
 /**this function makes the login to ur account 
  * @param {string} email
@@ -81,21 +64,16 @@ function guestLogin(email, pw){
         localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
-        location.href ='./../summary.html';
+        location.href ='./../html/summary.html';
         
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./../summary.html';
+        location.href ='./../html/summary.html';
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
 }
-
-
-
-
-
 
 /**this funktion searches for email an pw in the login array 
  * @param {string} emailInput 
