@@ -51,14 +51,14 @@ function addContactTemp(){
         <div class="inputBorder">
             <span class="innerInputfield">
                 <input class="noBorder" name="name" type="text" id="name" placeholder="Firstname Lastname" required>
-                <img src="../../assets/icons/png/person.png">
+                <img src="./../assets/icons/png/person.png">
             </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
                 <input id="email" name="email" type="email" class="noBorder" placeholder="Email" required>
-                <img src="../../assets/icons/svg/mail.svg">
+                <img src="./../assets/icons/svg/mail.svg">
             </span>
         </div>
     

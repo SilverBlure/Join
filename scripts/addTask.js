@@ -287,7 +287,7 @@ function addNewSubtask() {
             </p>
             <img 
                 class="hoverBtn" 
-                src="../../assets/icons/png/iconoir_cancel.png" 
+                src="./../assets/icons/png/iconoir_cancel.png" 
                 onclick="removeSubtaskFromList('${subtaskId}')"
                 alt="Remove Subtask">
         </div>

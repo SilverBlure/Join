@@ -24,5 +24,6 @@ html, body {
 @media (max-width: 1024px) {
     .legalNoticeContent {
         padding: 25px 50px; 
+        overflow-x: hidden;
     }
 }
