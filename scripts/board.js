@@ -4,17 +4,23 @@
  */
 let taskIdCounter = 1;
 
+
+
 /**
  * ID der aktuell fokussierten Liste.
  * @type {string|null}
  */
 let currentListId = null;
 
+
+
 /**
  * Temporäre Speicherung der Priorität für den zu bearbeitenden oder zu erstellenden Task.
  * @type {string|null}
  */
 let tempPriority = null;
+
+
 
 /**
  * Öffnet das "Task hinzufügen"-Popup für eine spezifische Liste.
@@ -36,6 +42,8 @@ function openAddTaskPopup(listId) {
     popup.classList.remove('hidden');
 }
 
+
+
 /**
  * Erstellt ein neues Task-Objekt aus den Formulareingaben.
  * @returns {Object} - Das erstellte Task-Objekt.
@@ -53,6 +61,8 @@ function buildNewTask() {
     return task;
 }
 
+
+
 /**
  * Erstellt ein Kategorie-Objekt mit einem Namen und einer zugehörigen CSS-Klasse.
  * @param {string} categoryName - Der Name der Kategorie.
@@ -64,6 +74,8 @@ function buildCategory(categoryName) {
         class: `category${categoryName.replace(/\s/g, "")}`,
     };
 }
+
+
 
 /**
  * Holt Worker-Daten aus den lokal gespeicherten bearbeiteten Kontakten.
@@ -85,6 +97,8 @@ function getWorkers() {
         .filter(Boolean);
 }
 
+
+
 /**
  * Schließt das "Task hinzufügen"-Popup und entfernt den Blur-Effekt vom Hauptinhalt.
  */
@@ -98,6 +112,8 @@ function closeAddTaskPopup() {
         mainContent.classList.remove('blur');
     }
 }
+
+
 
 /**
  * Fügt einen Task zu einer spezifischen Liste hinzu, nachdem Eingaben validiert und das Task-Objekt erstellt wurden.
@@ -120,6 +136,8 @@ async function addTaskToSpecificList(listId, event) {
     }
 }
 
+
+
 /**
  * Validiert die erforderlichen Eingaben im Formular für das Hinzufügen von Tasks.
  * @returns {boolean} - Ob die Eingaben gültig sind.
@@ -136,6 +154,8 @@ function validateTaskInputs() {
     return true;
 }
 
+
+
 /**
  * Setzt die Formularfelder und den lokalen Zustand für die Task-Erstellung oder -Bearbeitung zurück.
  */
@@ -143,6 +163,8 @@ function resetForm() {
     resetTaskFormFields();
     resetLocalState();
 }
+
+
 
 /**
  * Setzt die Formularfelder für die Task-Erstellung zurück.
@@ -164,6 +186,8 @@ function resetTaskFormFields() {
     priorityButtons.forEach(button => button.classList.remove('active'));
 }
 
+
+
 /**
  * Setzt den lokalen Zustand für Subtasks, Kontakte und Priorität zurück.
  */
@@ -172,6 +196,8 @@ function resetLocalState() {
     window.localEditedContacts = [];
     tempPriority = null;
 }
+
+
 
 /**
  * Schließt das "Task bearbeiten"-Popup und setzt Formular und UI-Zustand zurück.
@@ -186,6 +212,8 @@ function closeEditTaskPopup() {
     refreshUIAfterPopupClose();
 }
 
+
+
 /**
  * Aktualisiert das Task-Board, indem Tasks neu geladen und die UI neu gerendert wird.
  */
@@ -193,6 +221,8 @@ async function refreshBoard() {
     await getTasks();
     renderBoard();
 }
+
+
 
 /**
  * Schließt das Task-Details-Popup und aktualisiert die UI.
@@ -205,12 +235,16 @@ function closeTaskPopup() {
 }
 
 
+
+
 /**
  * Öffnet das "Task hinzufügen"-Popup für die "To-Do"-Liste.
  */
 function addTaskToTodo() {
     openAddTaskPopup('todo');
 }
+
+
 
 /**
  * Öffnet das "Task hinzufügen"-Popup für die "In Progress"-Liste.
@@ -219,12 +253,16 @@ function addTaskToInProgress() {
     openAddTaskPopup('inProgress');
 }
 
+
+
 /**
  * Öffnet das "Task hinzufügen"-Popup für die "Await Feedback"-Liste.
  */
 function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback');
 }
+
+
 
 /**
  * Generiert eine Hex-Farbe basierend auf den Buchstaben des Namens.
@@ -244,6 +282,8 @@ function getColorHex(vorname, nachname) {
     return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
 }
 
+
+
 /**
  * Erzeugt Initialen basierend auf einem vollständigen Namen.
  * @param {string} fullName - Der vollständige Name.
@@ -258,6 +298,8 @@ function getInitials(fullName) {
     return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
 }
 
+
+
 /**
  * Sucht nach Tasks basierend auf einem Suchbegriff.
  */
@@ -267,6 +309,8 @@ function findTask() {
     allTaskContainers.forEach(container => processTaskContainer(container, searchTerm));
     restoreEmptyListHints(allTaskContainers, searchTerm);
 }
+
+
 
 /**
  * Stellt leere Liste-Hinweise wieder her, falls keine Tasks vorhanden sind.
@@ -291,6 +335,8 @@ function restoreEmptyListHints(allTaskContainers, searchTerm) {
     });
 }
 
+
+
 /**
  * Wechselt die Anzeige einer "Keine passenden Aufgaben"-Nachricht basierend auf der Suchergebnis-Logik.
  * @param {HTMLElement} container - Der Container der Task-Elemente.
@@ -312,6 +358,8 @@ function toggleNoMatchingMessage(container, hasMatchingTask, searchTerm) {
     }
 }
 
+
+
 /**
  * Holt den aktuellen Suchbegriff aus dem Suchfeld.
  * @returns {string} - Der Suchbegriff in Kleinbuchstaben.
@@ -319,6 +367,8 @@ function toggleNoMatchingMessage(container, hasMatchingTask, searchTerm) {
 function getSearchTerm() {
     return document.getElementById('findTask').value.trim().toLowerCase();
 }
+
+
 
 /**
  * Verarbeitet einen Task-Container und filtert Tasks basierend auf einem Suchbegriff.
@@ -340,6 +390,8 @@ function processTaskContainer(container, searchTerm) {
     });
     toggleNoMatchingMessage(container, hasMatchingTask, searchTerm);
 }
+
+
 
 /**
  * Schaltet den Status eines Subtasks um und aktualisiert die entsprechenden Daten.
@@ -365,6 +417,8 @@ async function toggleSubtaskStatus(listId, taskId, subtaskId, isChecked) {
     }
 }
 
+
+
 /**
  * Lädt die Daten eines spezifischen Tasks.
  * @param {string} listId - Die ID der Liste, in der sich der Task befindet.
@@ -377,6 +431,8 @@ async function fetchTask(listId, taskId) {
     if (response.ok) return await response.json();
     return null;
 }
+
+
 
 /**
  * Aktualisiert die Daten eines Tasks auf dem Server.
@@ -395,6 +451,8 @@ async function updateTask(listId, taskId, task) {
     return response.ok;
 }
 
+
+
 /**
  * Aktualisiert ein spezifisches Task-Element auf dem Board mit neuen Daten.
  * @param {string} listId - Die ID der Liste, in der sich der Task befindet.
@@ -411,6 +469,8 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
     const newTaskHTML = generateTaskCardHTML(taskId, updatedTask, listId, progressHTML, workersHTML);
     taskElement.outerHTML = newTaskHTML;
 }
+
+
 
 /**
  * Aktualisiert die Benutzeroberfläche, nachdem ein Popup geschlossen wurde.
