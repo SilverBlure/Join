@@ -168,9 +168,9 @@ function generatePopupActionsHTML(listId, taskId) {
 
 function generatePriorityButtonsHTML(selectedPriority) {
     const priorities = [
-        { name: "Urgent", src: "./assets/icons/png/PrioritySymbolsUrgent.png" },
-        { name: "Middle", src: "./assets/icons/png/PrioritySymbolsMiddle.png" },
-        { name: "Low", src: "./assets/icons/png/PrioritySymbolsLow.png" },
+        { name: "Urgent", src: "./../assets/icons/png/PrioritySymbolsUrgent.png" },
+        { name: "Middle", src: "./../assets/icons/png/PrioritySymbolsMiddle.png" },
+        { name: "Low", src: "./../assets/icons/png/PrioritySymbolsLow.png" },
     ];
     return priorities
         .map(priority => `
