@@ -166,18 +166,26 @@ function generatePopupActionsHTML(listId, taskId) {
 
 
 
-function generatePriorityButtonsHTML(priority, selectedPriority) {
-    return `
-        <button 
-            type="button" 
-            class="priorityBtn ${priority.name === selectedPriority ? 'active' : ''}" 
-            id="prio${priority.name}"
-            onclick="setPriority('${priority.name}')">
-            <img src="${priority.src}" alt="${priority.name} Priority Icon">
-            ${priority.name}
-        </button>
-    `;
+function generatePriorityButtonsHTML(selectedPriority) {
+    const priorities = [
+        { name: "Urgent", src: "./assets/icons/png/PrioritySymbolsUrgent.png" },
+        { name: "Middle", src: "./assets/icons/png/PrioritySymbolsMiddle.png" },
+        { name: "Low", src: "./assets/icons/png/PrioritySymbolsLow.png" },
+    ];
+    return priorities
+        .map(priority => `
+            <button 
+                type="button" 
+                class="priorityBtn ${priority.name === selectedPriority ? 'active' : ''}" 
+                id="prio${priority.name}"
+                onclick="setPriority('${priority.name}')">
+                <img src="${priority.src}" alt="${priority.name} Priority Icon">
+                ${priority.name}
+            </button>
+        `)
+        .join("");
 }
+
 
 
 
