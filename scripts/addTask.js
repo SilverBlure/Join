@@ -189,7 +189,6 @@ function buildNewTask() {
     };
 }
 
-
 /**
  * Erstellt die Kategorie-Daten einer Task.
  * @param {string} categoryName - Der Name der Kategorie.
