@@ -5,25 +5,7 @@ let sessionId;
 /**initialize moor funktions */
 async function initLog(){
     loadLoginData();
-    checkGuest();
-    loadFromLocal();
-}
-
-/**Guest Login */
-function checkGuest(){
-    let checkGuestMail  = loginArray.some(element => element.user.userData.email === 'Gast@join.com');
-    console.log(checkGuestMail)
     
-
-}
-
-/**Load userdata from localStorage for faster entrance */
-function loadFromLocal(){
-    let email = localStorage.getItem('email');
-    let pw = localStorage.getItem('pw');
-    if(email&&pw){
-        document.getElementById('email').value =`${email}`;
-        document.getElementById('password').value=`${pw}`;}
 }
 
 
@@ -41,6 +23,7 @@ async function loadLoginData(){
          };
          loginArray.push(user);
     }
+    checkGuest();
 }
 
 /**this function makes the logon to ur account 
@@ -68,8 +51,6 @@ function login(){
     }
 }
 
-
-
 /**this function makes the login to ur account 
  * @param {string} email
  * @param {string} pw  
@@ -93,11 +74,6 @@ function guestLogin(email, pw){
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
 }
-
-
-
-
-
 
 /**this funktion searches for email an pw in the login array 
  * @param {string} emailInput 

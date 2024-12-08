@@ -183,7 +183,7 @@ async function putContact(contactId, name, email, phone, i) {
     )
     closeAddContact();
     showSnackbar('Der Kontakt wurde erfolgreich geändert!');
-        getContacts();
+       await getContacts();
         renderContactDetails(i);
     return responseAsJson = response.json();
 }
