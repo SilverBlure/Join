@@ -254,7 +254,7 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
                     </div>
                 </div>
             </div>
-            <button type="submit">Save Changes</button>
+            <button class="saveChangesButton" type="submit">Save Changes</button>
         </form>
     `;
 }
