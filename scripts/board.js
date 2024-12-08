@@ -5,11 +5,13 @@ let tempPriority = null;
 
 
 function openAddTaskPopup(listId) {
+    refreshUIAfterPopupClose();
     const popup = document.getElementById('addTaskPopupOverlay');
     if (!popup) {
         console.error("Popup konnte nicht gefunden werden.");
         return;
     }
+    resetForm();
     currentListId = listId; 
     const form = document.getElementById("addTaskFormTask");
     const newForm = form.cloneNode(true); 
@@ -142,11 +144,13 @@ function resetLocalState() {
 
 
 function closeEditTaskPopup() {
+    resetForm();
     const overlay = document.getElementById("editTaskPopupOverlay");
     const mainContent = document.getElementById("mainContent");
     if (overlay) overlay.classList.remove("visible");
     if (mainContent) mainContent.classList.remove("blur");
     tempPriority = null;
+    refreshUIAfterPopupClose();
 }
 
 
@@ -161,6 +165,8 @@ async function refreshBoard() {
 function closeTaskPopup() {
     document.getElementById("viewTaskPopupOverlay").classList.remove("visible");
     document.getElementById("mainContent").classList.remove("blur");
+    refreshUIAfterPopupClose();
+    location.reload();
 }
 
 
@@ -327,4 +333,11 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
     const workersHTML = generateWorkersHTML(updatedTask.workers);
     const newTaskHTML = generateTaskCardHTML(taskId, updatedTask, listId, progressHTML, workersHTML);
     taskElement.outerHTML = newTaskHTML;
+}
+
+
+
+function refreshUIAfterPopupClose() {
+    resetForm(); // Setzt das Formular und die lokalen Zustände zurück
+    renderBoard(); // Rendert die Board-Ansicht neu
 }

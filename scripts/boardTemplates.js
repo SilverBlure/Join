@@ -42,18 +42,24 @@ function generateSubtasksProgressHTML(progressPercent, doneCount, totalCount) {
 
 
 
-function generateWorkersHTML(task) {
-    if (!task.workers || task.workers.length === 0) {
+function generateWorkersHTML(workers = []) {
+    workers = Array.isArray(workers) ? workers : [];
+    if (workers.length === 0) {
         return '<p>No selected Contacts.</p>';
     }
-    return task.workers.map(worker => `
-        <div class="workerInformation">
-            <p class="workerEmblem" style="background-color: ${worker.color || getColorHex(worker.name, "")};">
-                ${getInitials(worker.name)}
-            </p>
-            <p class="workerName">${worker.name}</p>
-        </div>
-    `).join("");
+    return workers
+        .filter(worker => worker && worker.name) 
+        .map(worker => {
+            const initials = getInitials(worker.name);
+            const color = worker.color || getColorHex(worker.name, "");
+            return `
+                <div class="workerInformation">
+                    <p class="workerEmblem" style="background-color: ${color};">${initials}</p>
+                    <p class="workerName">${worker.name}</p>
+                </div>
+            `;
+        })
+        .join("");
 }
 
 
@@ -248,7 +254,7 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
                     </div>
                 </div>
             </div>
-            <button type="submit">Save Changes</button>
+            <button class="saveChangesButton" type="submit">Save Changes</button>
         </form>
     `;
 }
@@ -347,20 +353,6 @@ function generateProgressHTML(subtasks = {}) {
     `;
 }
 
-
-
-function generateWorkersHTML(workers = []) {
-    if (!Array.isArray(workers) || workers.length === 0) return "";
-    return workers.map(worker => {
-        const initials = getInitials(worker.name);
-        const color = worker.color || getColorHex(worker.name, "default");
-        return /*html*/ `
-            <p class="workerEmblem" style="background-color: ${color};">
-                ${initials}
-            </p>
-        `;
-    }).join("");
-}
 
 
 function generateNoMatchingMessageHTML(message) {

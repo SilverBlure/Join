@@ -19,7 +19,6 @@ a:hover {
     flex-direction: column;
     animation: fadeInBlur 0.25s ease forwards;
     width: 100%;
-    max-width: 1340px;
     box-sizing: border-box;
 }
 
