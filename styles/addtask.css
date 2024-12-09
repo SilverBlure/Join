@@ -260,6 +260,7 @@ border: none;
 
   .subTasksList {
     position: relative;
+    padding-left: 0px;
   }
 
 .separatorSubtask {
@@ -517,9 +518,6 @@ select:focus {
     border: 1px solid #2A3647;
 }
 
-.subTasksList {
-    padding-left: 0px;
-}
 
 .editSubtaskBar {
     display: flex;
