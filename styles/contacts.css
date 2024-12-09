@@ -129,9 +129,8 @@ p{
     justify-content: flex-start;
     flex-direction: row;
     width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
     border-radius: 10px;
+    padding: 15px;
 }
 
 .shortInfo:hover {
@@ -190,7 +189,6 @@ p{
 }
 
 .contactUserTag{
-    
     border-radius: 40px;
     width: 40px;
     height: 40px;
@@ -199,7 +197,6 @@ p{
     display: flex;
     color: white;
     margin-right: 30px;
-    margin-left: 30px;
     font-size: 12px;
     background-color: white;
 }
@@ -458,9 +455,6 @@ h3{
     height: 80px; 
 
 }
-.contactUserTag{
-    margin-left: 0;
-}
 
 .addbutton{
     font-size: 16px;
@@ -544,8 +538,13 @@ h3{
         
     }
     .contactContainer{
-justify-content: left;
+    justify-content: left;
     }
+
+    .contactUserTag{
+        margin-right: 15px;
+    }
+
 }
 @media (max-width: 760px){
 
@@ -561,8 +560,8 @@ justify-content: left;
     margin-right: 15px;
 }
 .shortInfo{
-    padding-left: 5px;
-    padding-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .createContact{
