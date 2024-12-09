@@ -71,7 +71,7 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button type="submit" class="addbutton, notOnMobile" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput(createContact)">create contact <img src="../assets/icons/png/check.png"></button>
+        <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="checkInput(createContact)">Create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -93,14 +93,14 @@ function editContactTemp(i){
                 <input class="noBorder" id="name" placeholder="Name" required>
 
                 <img src="./../assets/icons/png/person.png">
-            </innerInputfield>
+            </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
                 <input id="email" type="email" class="noBorder" placeholder="Email" required>
                 <img src="./../assets/icons/svg/mail.svg">
-            </innerInputfield>
+            </span>
         </div>
     
         <div class="inputBorder">
@@ -112,7 +112,7 @@ function editContactTemp(i){
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="checkInput(getFromEdit, ${i})">edit contact <img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn"  onclick="checkInput(getFromEdit, ${i})">Save<img src="../assets/icons/png/check.png"></button>
     </div>
 </div>                      
 `;
@@ -120,7 +120,7 @@ function editContactTemp(i){
 
 function deleteContactTemp(i){
     return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
-    <div class="deleteBtn"><button onclick="closeAddContact()">cancel</button><button onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
+    <div class="deleteBtn"><button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
     `
 }
 
