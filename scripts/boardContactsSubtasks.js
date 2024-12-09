@@ -85,7 +85,7 @@ function generateEditSubtasksHTML(subtasks = {}) {
     if (Object.keys(subtasks).length === 0) {
         return '<p>No subtask in Task.</p>';
     }
-    return Object.entries(subtasks).map(([subtaskId, subtask]) => 
+    return Object.entries(subtasks).map(([subtaskId, subtask]) =>
         generateEditSingleSubtaskHTML(subtaskId, subtask)
     ).join('');
 }
@@ -112,14 +112,12 @@ function initializeLocalTaskState(task) {
 
 
 /**
- * Fügt einen neuen Subtask hinzu und aktualisiert das DOM.
+ * Fügt einen neuen Subtask hinzu und aktualisiert die Subtask-Liste im DOM.
  */
 function addNewSubtask() {
-    const subTaskInput = document.getElementById("newSubtaskInput");
+    const subTaskInput = document.getElementById("newSubtaskInput") || document.getElementById("subTaskInputAddTask");
     const subTasksList = document.getElementById("subTasksList");
-    if (!subTaskInput || !subTasksList) return;
     const subtaskTitle = subTaskInput.value.trim();
-    if (!subtaskTitle) return;
     const subtaskId = `subtask_${Date.now()}`;
     const subtaskItem = { title: subtaskTitle, done: false };
     window.localSubtasks = window.localSubtasks || {};
@@ -127,47 +125,115 @@ function addNewSubtask() {
     const subtaskHTML = generateNewSubtaskHTML(subtaskId, subtaskTitle);
     subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
     subTaskInput.value = "";
+    toggleSubtaskButtons();
 }
 
-
-
 /**
- * Ermöglicht das Bearbeiten eines Subtasks im Formular.
- * @param {string} taskId - Die ID des Tasks, zu dem der Subtask gehört.
- * @param {string} subtaskId - Die ID des Subtasks, der bearbeitet werden soll.
+ * Entfernt einen Subtask aus der Liste und aus dem lokalen Zustand.
+ * @param {string} subtaskId - Die ID des zu entfernenden Subtasks.
  */
-async function editSubtask(taskId, subtaskId) {
-    const subtaskElement = document.getElementById(`subtask-${taskId}-${subtaskId}`);
-    if (!subtaskElement) return;
-    const subtaskTextElement = subtaskElement.querySelector(".subtaskText");
-    if (!subtaskTextElement) return;
-    const currentTitle = subtaskTextElement.textContent.trim();
-    const editSubtaskHTML = generateEditSubtaskHTML(taskId, subtaskId, currentTitle);
-    subtaskTextElement.outerHTML = editSubtaskHTML;
-}
+function removeSubtaskFromList(subtaskId) {
+    if (!subtaskId) {
+        console.error("Fehler: Keine gültige Subtask-ID angegeben.");
+        return;
+    }
 
-
-
-/**
- * Speichert die Änderungen eines Subtasks lokal.
- * @param {string} subtaskId - Die ID des Subtasks.
- * @param {string} newTitle - Der neue Titel des Subtasks.
- */
-function saveLocalSubtaskEdit(subtaskId, newTitle) {
-    if (!newTitle.trim() || !window.localEditedSubtasks || !window.localEditedSubtasks[subtaskId]) return;
-    window.localEditedSubtasks[subtaskId].title = newTitle.trim();
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
     if (subtaskElement) {
-        subtaskElement.querySelector(".editSubtaskInput").outerHTML = `
-            <p 
-                id="subtask-p-${subtaskId}" 
-                class="subtaskText" 
-                onclick="editSubtaskInLocal('${subtaskId}')">
-                ${newTitle.trim()}
-            </p>
-        `;
+        subtaskElement.remove(); // Entferne das Element aus dem DOM
+    } else {
+        console.warn("Subtask-Element nicht gefunden:", subtaskId);
+    }
+
+    if (window.localSubtasks && window.localSubtasks[subtaskId]) {
+        delete window.localSubtasks[subtaskId]; // Entferne den Subtask aus dem lokalen Zustand
     }
 }
+
+
+
+
+async function editSubtask(subtaskId) {
+    // Suche nach dem Subtask-Element
+    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+    if (!subtaskElement) return;
+
+    // Suche nach dem Subtask-Text
+    const subtaskTextElement = subtaskElement.querySelector(".subtaskText");
+    if (!subtaskTextElement) {
+        console.error("Subtask-Text-Element nicht gefunden.");
+        return;
+    }
+
+    // Hole den aktuellen Titel aus dem Text-Element
+    const currentTitle = subtaskTextElement.textContent.trim();
+    if (!currentTitle) {
+        console.error("Subtask-Text ist leer.");
+        return;
+    }
+
+    // Generiere das Bearbeitungsfeld
+    const editSubtaskHTML = generateEditSubtaskHTML(subtaskId, currentTitle);
+
+    // Setze den HTML-Inhalt des Subtasks auf das Bearbeitungsfeld
+    subtaskElement.innerHTML = editSubtaskHTML;
+}
+
+
+
+/**
+ * Speichert die Änderungen eines Subtasks.
+ * @param {string} subtaskId - Die ID des Subtasks.
+ */
+function saveSubtaskEdit(subtaskId) {
+    // Abrufen des Eingabefelds basierend auf der Subtask-ID
+    const inputElement = document.getElementById(`edit-input-${subtaskId}`);
+    if (!inputElement) {
+        console.error(`Eingabefeld für Subtask ${subtaskId} nicht gefunden.`);
+        return;
+    }
+
+    // Abrufen des neuen Titels
+    const newTitle = inputElement.value;
+    console.log("saveSubtaskEdit aufgerufen mit:", { subtaskId, newTitle });
+
+    // Überprüfen, ob der neue Titel definiert ist
+    if (!newTitle || newTitle.trim() === "") {
+        console.error("Fehler: newTitle ist undefined oder leer.");
+        return;
+    }
+
+    // Sicherstellen, dass der neue Titel gültig ist
+    const trimmedTitle = newTitle.trim();
+
+    // Aktualisierung des lokalen Zustands
+    if (window.localSubtasks && window.localSubtasks[subtaskId]) {
+        window.localSubtasks[subtaskId].title = trimmedTitle;
+        console.log("Subtask aktualisiert:", subtaskId, "mit neuem Titel:", trimmedTitle);
+    } else {
+        console.error("Subtask mit der ID nicht im lokalen Zustand gefunden:", subtaskId);
+        return;
+    }
+
+    // Aktualisierung im DOM
+    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+    if (subtaskElement) {
+        subtaskElement.innerHTML = `
+            <p class="subtaskText">${trimmedTitle}</p>
+            <div class="subtaskButtons">
+                <img src="./../assets/icons/png/editIcon.png" class="subtask-btn" onclick="editSubtask('${subtaskId}')">
+                <div class="separatorSubtask"></div>
+                <img src="./../assets/icons/png/D.png" class="subtask-btn" onclick="deleteSubtaskFromLocal('${subtaskId}')">
+            </div>
+        `;
+    } else {
+        console.error("Subtask-Element nicht gefunden im DOM:", subtaskId);
+    }
+}
+
+
+
+
 
 
 
@@ -289,8 +355,8 @@ function removeContactFromEdit(workerName) {
     if (selectedContactsList) {
         selectedContactsList.innerHTML = window.localEditedContacts.length > 0
             ? window.localEditedContacts
-                  .map(contact => generateEditableWorkerHTML(contact))
-                  .join("")
+                .map(contact => generateEditableWorkerHTML(contact))
+                .join("")
             : '<p>Keine zugewiesenen Arbeiter.</p>';
     }
 }
@@ -312,3 +378,27 @@ function handleContactSelectionForEdit() {
     dropdown.value = "";
 }
 
+function toggleSubtaskButtons() {
+    const input = document.getElementById("subTaskInputAddTask");
+    const saveBtn = document.getElementById("saveSubtaskBtn");
+    const clearBtn = document.getElementById("clearSubtaskBtn");
+    const separator = document.getElementById("separatorSubtask")
+    const subtaskImg = document.getElementById("subtaskImg");
+    if (input.value.trim() !== "") {
+        saveBtn.classList.remove("hidden");
+        clearBtn.classList.remove("hidden");
+        subtaskImg.classList.add("hidden");
+        separator.classList.remove("hidden")
+    } else {
+        saveBtn.classList.add("hidden");
+        clearBtn.classList.add("hidden");
+        subtaskImg.classList.remove("hidden");
+        separator.classList.add("hidden");
+
+    }
+}
+
+function clearSubtaskInput() {
+    const input = document.getElementById("subTaskInputAddTask");
+    input.value = "";
+}
