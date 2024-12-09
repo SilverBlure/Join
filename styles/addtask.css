@@ -237,10 +237,36 @@ body {
     box-sizing: border-box;
 }
 
-.createSubtaskBar input {
+
+.addSubTaskInput {
+border: none;
+}
+
+.addSubTaskInput:focus {
     border: none;
-    width: 100%;
-    padding: 0 0.5rem;
+    }
+
+#subtaskImg {
+    padding-right: 16px;
+  }
+
+  .subtaskButtons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    left: 24px;
+  }
+
+  .subTasksList {
+    position: relative;
+  }
+
+.separatorSubtask {
+    width: 1px;
+    height: 24px;
+    background-color: #A8A8A8;
+    margin: 16px;
 }
 
 .popupDescription {
@@ -264,8 +290,8 @@ body {
 .subtask-item {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-    width: min-content;
 }
 
 .editSubtaskItem {
@@ -281,8 +307,7 @@ align-items: start;
 }
 
 .subtaskText {
-    width: max-content;
-    max-width: 300px;
+    width: 100%;
     margin: 8px;
     overflow-wrap: break-word;
 }
@@ -492,10 +517,26 @@ select:focus {
     border: 1px solid #2A3647;
 }
 
-.editSubtaskInput {
+.subTasksList {
+    padding-left: 0px;
+}
+
+.editSubtaskBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
     width: 100%;
-    max-width: 400px;
-    margin: 1.25rem 0;
+}
+
+.editSubtaskInput {
+    border-radius: 0.625rem;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .dragging {

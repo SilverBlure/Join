@@ -134,7 +134,7 @@ function generateSubtaskHTML(subtaskId, title) {
         <div class="subtask-item" id="${subtaskId}">
             <input type="checkbox" onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
             <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">${title}</p>
-            <img src="../../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
+            <img src="./../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
         </div>
     `;
 }

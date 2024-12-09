@@ -245,24 +245,17 @@ left: 200px;
 }
 
 .createSubtaskBar {
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    height: 48px;
-    width: 276px;
-    overflow: hidden;
-    width: 100%;
+
+        position: relative;
+        display: flex;
+        align-items: center;
 }
 
-
-.createSubtaskBar input {
+.addSubTaskInput {
     border: none;
 }
 
-.createSubtaskBar input:focus {
-    outline: none;
-    box-shadow: none;
+.addSubTaskInput:focus {
     border: none;
 }
 
@@ -527,11 +520,6 @@ select:focus {
     margin-top: 8px;
 }
 
-.editSubtaskInput {
-    width: 200px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
 
 
 .dragging {
