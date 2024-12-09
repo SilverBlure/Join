@@ -2,6 +2,13 @@ body {
   display: flex;
 }
 
+footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 232px;
+}
+
 .sidebar {
   background-color: rgb(42, 54, 71);
   width: 232px;
@@ -21,21 +28,23 @@ body {
 
 .sidebar ul {
   list-style: none;
-  padding: 0;
   padding-top: 100px;
   margin-bottom: 0px;
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-left:0px;
+ 
 }
 
 .sidebar li {
   gap: 16px;
   display: flex;
   align-items: center;
-  padding-left: 40px;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 50px;
+  
 }
 
 .sidebarNavBtn {
@@ -50,7 +59,7 @@ body {
 }
 
 .sidebar li:hover {
-  background-color: rgb(42, 54, 71);
+  background-color: rgba(9, 25, 49, 1);
   cursor: pointer;
 }
 
@@ -100,6 +109,7 @@ body {
 }
 
 .sidebarLogo {
+  width: 100px;
   padding-top: 64px;
 }
 
@@ -121,7 +131,7 @@ body {
 }
 
 .legalNoticeBtn:hover {
-  color: #a8a8a8;
+  color: rgba(41, 171, 226, 1);
   padding: 6px;
 }
 
@@ -189,23 +199,13 @@ a {
 }
 
 
-@media (max-width: 1010px) {
-  .sidebar li {
-    padding-left: 5px;
-  }
-
-}
 
 @media (max-width: 950px) {
-  .sidebar li {
-    padding-left: 5px;
-  }
-  .sidebarNavBtn {
+.sidebarNavBtn {
     font-size: 14px;
   }
   .sidebar {
-    width: 140px;
-    padding-right: 5px;
+    width: 180px;
     height: 100vh;
   }
   #dropdownMenu {
@@ -215,6 +215,13 @@ a {
   .display-none {
     display: none !important;
   }
+  footer{
+  width: 180px;
+  }
+
+  .sidebar li {
+    padding-left: 35px;
+}
 
 }
 @media (max-width: 580px) {
