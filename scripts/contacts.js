@@ -266,6 +266,7 @@ async function deleteContactDatabase(i) {
  * this function renders the dialog to add a new contact
  */
 function addContact(){
+    document.getElementById('dialogInfo').innerHTML ="Add contact";
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = addContactTemp();
 }

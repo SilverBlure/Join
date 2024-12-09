@@ -2,6 +2,13 @@ body {
   display: flex;
 }
 
+footer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 232px;
+}
+
 .sidebar {
   background-color: rgb(42, 54, 71);
   width: 232px;
@@ -21,21 +28,23 @@ body {
 
 .sidebar ul {
   list-style: none;
-  padding: 0;
   padding-top: 100px;
   margin-bottom: 0px;
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-left:0px;
+ 
 }
 
 .sidebar li {
   gap: 16px;
   display: flex;
   align-items: center;
-  padding-left: 40px;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 50px;
+  
 }
 
 .sidebarNavBtn {
@@ -50,7 +59,7 @@ body {
 }
 
 .sidebar li:hover {
-  background-color: rgb(42, 54, 71);
+  background-color: rgba(9, 25, 49, 1);
   cursor: pointer;
 }
 
@@ -72,6 +81,7 @@ body {
 }
 
 .userTag {
+  user-select: none;  
   border: 3px solid black;
   border-radius: 40px;
   width: 40px;
@@ -100,6 +110,7 @@ body {
 }
 
 .sidebarLogo {
+  width: 100px;
   padding-top: 64px;
 }
 
@@ -121,7 +132,7 @@ body {
 }
 
 .legalNoticeBtn:hover {
-  color: #a8a8a8;
+  color: rgba(41, 171, 226, 1);
   padding: 6px;
 }
 
@@ -151,21 +162,16 @@ a {
 }
 
 .logoutButton {
-  float: right;
-  padding-right: 45px;
-  margin: 15px;
+
+  cursor: pointer;
   color: white;
-  width: 150px;
+  width: auto;
   transition: width 0.35s;
   -webkit-transition: width 0.35s;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.logoutButton:hover {
-  width: 250px;
 }
 
 .display-none {
@@ -185,37 +191,59 @@ a {
   cursor: pointer;
 }
 
-.logoutButton:hover .logout {
-  opacity: 0.9;
+#dropdownMenu {
+  user-select: none;  
+  display: none;
+  position: absolute;
+  top: 97px;
+  background-color: #2a3647;
+  padding: 10px;
+  border: none;
+  border-radius: 20px 0 20px 20px;
+  z-index: 1;
+  text-decoration: none;
 }
 
-
-@media (max-width: 1010px) {
-  .sidebar li {
-    padding-left: 5px;
-  }
-
+#dropdownMenu.active {
+  display: block;
 }
+
+#dropdownMenu span {
+  display: flex;
+  align-items: center;
+  color: white;
+  width: 112px;
+  height: 41px;
+  gap: 1px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+#dropdownMenu span:hover {
+  color: white;
+  font-weight: bold;
+}
+
 
 @media (max-width: 950px) {
-  .sidebar li {
-    padding-left: 5px;
-  }
-  .sidebarNavBtn {
+.sidebarNavBtn {
     font-size: 14px;
   }
   .sidebar {
-    width: 140px;
-    padding-right: 5px;
+    width: 180px;
     height: 100vh;
-  }
-  #dropdownMenu {
-    display: none;
   }
 
   .display-none {
     display: none !important;
   }
+  footer{
+  width: 180px;
+  }
+
+  .sidebar li {
+    padding-left: 35px;
+}
 
 }
 @media (max-width: 580px) {
@@ -232,6 +260,10 @@ a {
     padding: 10px;
     justify-content: flex-end;
     transition: none !important;
+  }
+
+  #dropdownMenu {
+  right: 0;
   }
 
   .logout {
@@ -268,39 +300,6 @@ a {
 
   .helpImg {
     display: none;
-  }
-
-  #dropdownMenu {
-    display: none;
-    position: absolute;
-    right: 0px;
-    top: 97px;
-    background-color: #2a3647;
-    padding: 10px;
-    border: none;
-    border-radius: 20px 0 20px 20px;
-    z-index: 1;
-    text-decoration: none;
-  }
-
-  #dropdownMenu.active {
-    display: block;
-}
-
-  #dropdownMenu span {
-    display: flex;
-    align-items: center;
-    color: white;
-    width: 112px;
-    height: 41px;
-    gap: 1px;
-    padding: 8px;
-    cursor: pointer;
-  }
-
-  #dropdownMenu span:hover {
-    color: white;
-    font-weight: bold;
   }
 
   footer {
