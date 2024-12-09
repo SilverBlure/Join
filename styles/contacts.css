@@ -2,6 +2,44 @@ body{
     overflow: hidden;
 }
 
+.dialogBtn{
+    height: 57px;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 10px;
+}
+
+.dialogBtn:hover{
+    background-color:#29ABE2;
+    border-color: #29ABE2;
+}
+
+.dialogBtn:active{
+    background-color:rgba(9, 25, 49, 1);
+    border-color: rgba(9, 25, 49, 1);
+}
+
+.dialogBtnWhite{
+    height: 57px;
+    font-size: 18px;
+    font-weight: 700;
+    padding: 10px;
+    background-color: white;
+    color: black;
+    font-weight: 400;
+}
+
+.dialogBtnWhite:hover{
+    color:#29ABE2;
+    border-color: #29ABE2;
+}
+
+.dialogBtnWhite:active{
+    color:black;
+    border-color: black;
+}
+
+
 .mailTo{
     color: rgb(103, 176, 245)!important;
     font-size: 16px;
@@ -336,7 +374,9 @@ h4{
 
 .createContactBtn{
 display: flex;
-justify-content: space-between;
+gap: 20px;
+align-items: flex-start;
+width: 320px;
 }
 
 .addbutton{
@@ -351,6 +391,8 @@ border: solid rgba(0, 0, 0, 0.144) 1px;
 height: 50px;
 width: 350px;
 border-radius: 10px;
+display: flex;
+align-items: center;
 }
 
 .deleteDialog{
@@ -657,6 +699,9 @@ justify-content: left;
 
     .createContactBtn{
         gap: 15px;
+        align-items: center;
+        justify-content: center;
+
     }
 
     .closeBtn{
