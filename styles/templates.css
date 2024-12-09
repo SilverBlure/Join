@@ -324,8 +324,8 @@ footer{
     background-color: #2a3647 !important;
     color: white !important;
     display: flex !important;
-    justify-content: center !important;
-    align-items: space-around !important;
+    justify-content: space-evenly!important;
+    align-items: center !important;
   }
 
   .sidebar {
