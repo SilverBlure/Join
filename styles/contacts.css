@@ -545,6 +545,10 @@ h3{
         margin-right: 15px;
     }
 
+    .shortInfo{
+        padding: 10px;
+    }
+
 }
 @media (max-width: 760px){
 
@@ -560,8 +564,7 @@ h3{
     margin-right: 15px;
 }
 .shortInfo{
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 5px;
 }
 
 .createContact{
