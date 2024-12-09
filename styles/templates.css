@@ -81,6 +81,7 @@ footer{
 }
 
 .userTag {
+  user-select: none;  
   border: 3px solid black;
   border-radius: 40px;
   width: 40px;
@@ -161,20 +162,16 @@ a {
 }
 
 .logoutButton {
-  float: right;
-  margin: 15px;
+
+  cursor: pointer;
   color: white;
-  width: 150px;
+  width: auto;
   transition: width 0.35s;
   -webkit-transition: width 0.35s;
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.logoutButton:hover {
-  width: 250px;
 }
 
 .display-none {
@@ -194,10 +191,38 @@ a {
   cursor: pointer;
 }
 
-.logoutButton:hover .logout {
-  opacity: 0.9;
+#dropdownMenu {
+  user-select: none;  
+  display: none;
+  position: absolute;
+  top: 97px;
+  background-color: #2a3647;
+  padding: 10px;
+  border: none;
+  border-radius: 20px 0 20px 20px;
+  z-index: 1;
+  text-decoration: none;
 }
 
+#dropdownMenu.active {
+  display: block;
+}
+
+#dropdownMenu span {
+  display: flex;
+  align-items: center;
+  color: white;
+  width: 112px;
+  height: 41px;
+  gap: 1px;
+  padding: 8px;
+  cursor: pointer;
+}
+
+#dropdownMenu span:hover {
+  color: white;
+  font-weight: bold;
+}
 
 
 @media (max-width: 950px) {
@@ -207,9 +232,6 @@ a {
   .sidebar {
     width: 180px;
     height: 100vh;
-  }
-  #dropdownMenu {
-    display: none;
   }
 
   .display-none {
@@ -238,6 +260,10 @@ a {
     padding: 10px;
     justify-content: flex-end;
     transition: none !important;
+  }
+
+  #dropdownMenu {
+  right: 0;
   }
 
   .logout {
@@ -274,39 +300,6 @@ a {
 
   .helpImg {
     display: none;
-  }
-
-  #dropdownMenu {
-    display: none;
-    position: absolute;
-    right: 0px;
-    top: 97px;
-    background-color: #2a3647;
-    padding: 10px;
-    border: none;
-    border-radius: 20px 0 20px 20px;
-    z-index: 1;
-    text-decoration: none;
-  }
-
-  #dropdownMenu.active {
-    display: block;
-}
-
-  #dropdownMenu span {
-    display: flex;
-    align-items: center;
-    color: white;
-    width: 112px;
-    height: 41px;
-    gap: 1px;
-    padding: 8px;
-    cursor: pointer;
-  }
-
-  #dropdownMenu span:hover {
-    color: white;
-    font-weight: bold;
   }
 
   footer {
