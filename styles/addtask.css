@@ -515,8 +515,9 @@ select:focus {
 }
 
 .clearBtn:hover {
-  background-color: white;
-  border: 1px solid #29ABE2;
+  background-color: white !important;
+  border-color: #29ABE2 !important;
+  border-width: 2px; 
 }
 
 
@@ -598,6 +599,10 @@ select:focus {
     max-width: 240px;
   }
 
+  .formParts {
+    margin-right: 160px;
+  }
+
   .boardCard {
     max-width: 220px;
   }
@@ -621,7 +626,7 @@ select:focus {
   }
 }
 
-@media (max-width: 815px) {
+@media (max-width: 880Px) {
   body {
     background-color: #f6f7f8;
     position: relative;
