@@ -144,6 +144,7 @@ async function addTaskToToDoList(event) {
         const result = await saveTask(newTask);
         if (result) {
             showSnackbar("Der Task wurde erfolgreich erstellt!");
+            document.getElementById("prioMiddle").classList.add("active");
         }
     } catch (error) {
         console.error("Fehler beim Hinzufügen des Tasks:", error);
@@ -507,4 +508,31 @@ function handleSubtaskKey(event) {
 function getInitials(fullName) {
     const nameParts = fullName.trim().split(" ");
     return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
+}
+
+
+
+/**
+ * Setzt das Formular zurück und leert die definierten Listen.
+ */
+function resetFormAndLists() {
+    // Formular zurücksetzen
+    const form = document.getElementById("addTaskFormTask"); // Ersetze 'myForm' mit der ID deines Formulars
+    if (form) {
+        form.reset(); // Setzt alle Formularfelder zurück
+    }
+
+    // Listen leeren
+    const listsToClear = ["subTasksList", "selectedContactsList"]; // IDs der Listen, die geleert werden sollen
+    listsToClear.forEach(listId => {
+        const list = document.getElementById(listId);
+        if (list) {
+            list.innerHTML = ""; // Entfernt alle Listeneinträge
+        }
+    });
+
+    // Optional: Leere lokale Zustände
+    window.localSubtasks = {};
+    window.localEditedContacts = [];
+    console.log("Formular und Listen erfolgreich zurückgesetzt.");
 }
