@@ -23,7 +23,6 @@ async function loadLoginData(){
          };
          loginArray.push(user);
     }
-    checkGuest();
 }
 
 /**this function makes the logon to ur account 
@@ -64,8 +63,7 @@ function guestLogin(email, pw){
         localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
-        location.href ='./../html/summary.html';
-        
+        location.href ='./../html/summary.html'; 
     }else if(check.match){
         localStorage.setItem('sessionKey', check.id);
         showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
