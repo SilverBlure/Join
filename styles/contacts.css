@@ -85,6 +85,7 @@ p{
     display: flex;
     flex-direction: column;
     width: 100vw;
+    animation: fadeInBlur 0.25s ease forwards;
 }
 
 .contactsBar {
