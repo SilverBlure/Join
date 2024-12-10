@@ -27,7 +27,9 @@
         <div class="header" w3-include-html="./../templates/header.html"></div>
         <div class="addTaskContent">
             <h1>Add Task</h1>
-            <form id="addTaskFormTask" onsubmit="addTaskToToDoList(event)">
+            <form id="addTaskFormTask" 
+            onsubmit="addTaskToToDoList(event)"
+            onreset="resetFormAndLists()">
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
