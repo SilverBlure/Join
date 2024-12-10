@@ -71,7 +71,8 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="checkInput(createContact)">Create contact <img src="../assets/icons/png/check.png"></button>
+        <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img src="../assets/icons/png/iconoir_cancel.png"></button>
+        <button class="dialogBtn" type="submit" form="contactForm">Create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -112,7 +113,8 @@ function editContactTemp(i){
     </form>
     </div>
     <div class="createContactBtn">
-        <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn"  onclick="checkInput(getFromEdit, ${i})">Save<img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img src="../assets/icons/png/iconoir_cancel.png"></button>
+        <button class="dialogBtn" type="submit" form="contactForm">Save<img src="../assets/icons/png/check.png"></button>
     </div>
 </div>                      
 `;
