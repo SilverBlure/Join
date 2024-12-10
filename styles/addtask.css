@@ -9,6 +9,12 @@ body {
   font-family: sans-serif;
 }
 
+h1 {
+  font-family: 'Inter', sans-serif; 
+  font-weight: 700; 
+  font-size: 42px; 
+}
+
 /* Container/Layout-Anpassungen */
 .board {
   width: 100%;
@@ -46,6 +52,81 @@ body {
   max-width: 276px;
   overflow: hidden;
 }
+
+.customDropdown {
+  position: relative;
+  width: 200px; 
+}
+
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+  max-height: 200px; 
+  overflow-y: auto; 
+  user-select: none;  
+}
+
+.dropdownList.open {
+  display: block;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 4px; 
+}
+
+
+.dropdownList li {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+  position: relative;
+}
+
+.dropdownList li:hover {
+  background: #29ABE2; 
+  color: #ffffff; 
+}
+
+.dropdownList li + li {
+  border-top: 1px solid #eee;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-name {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 10px;
+}
+
+.dropdownList li input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
 
 .searchBar input {
   border: none;
@@ -413,13 +494,15 @@ body {
 
 input,
 textarea,
-select {
+select, .createContactBar {
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.625rem;
   border: 1px solid #d1d1d1;
   box-sizing: border-box;
   font-size: 1rem;
+  display: flex;
+  user-select: none;  
 }
 
 textarea {

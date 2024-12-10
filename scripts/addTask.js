@@ -395,61 +395,131 @@ function setPriority(priority) {
     document.getElementById(`prio${priority}`)?.classList.add("active");
 }
 
+let dropdownOpen = false;
 
-/**
- * Rendert das Kontakt-Dropdown-Menü.
- */
-function renderContactsDropdown() {
-    const dropDown = document.getElementById('contactSelection');
-    if (!dropDown) return;
-    dropDown.innerHTML = `<option value="" disabled selected hidden>Wähle einen Kontakt aus</option>`; 
-    for (let i = 0; i < contactsArray.length; i++) {
-        dropDown.innerHTML += `
-            <option value="${contactsArray[i].name}">${contactsArray[i].name}</option>
-        `;
+let selectedContacts = []; // Array, um ausgewählte Kontakte zu speichern
+
+function toggleContactsDropdown() {
+    const dropdownList = document.getElementById("contactsDropdownList");
+    dropdownOpen = !dropdownOpen;
+
+    if (dropdownOpen) {
+        renderContactsDropdown();
+        dropdownList.classList.add("open");
+    } else {
+        dropdownList.classList.remove("open");
     }
 }
 
+function renderContactsDropdown() {
+    const dropdownList = document.getElementById("contactsDropdownList");
+
+    // Liste leeren
+    dropdownList.innerHTML = "";
+
+    if (!contactsArray || contactsArray.length === 0) {
+        console.error("No contacts available to render");
+        dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
+        return;
+    }
+
+    contactsArray.forEach(contact => {
+
+        const li = document.createElement("li");
+        li.classList.add("dropdown-item");
+
+        const circle = document.createElement("div");
+
+        const nameSpan = document.createElement("span");
+        nameSpan.classList.add("contact-name");
+        nameSpan.textContent = contact.name;
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.value = contact.name;
+        checkbox.checked = isContactSelected(contact.name);
+        checkbox.addEventListener("change", (event) => {
+            handleContactSelection(contact, event.target.checked);
+        });
+
+        li.appendChild(circle);
+        li.appendChild(nameSpan);
+        li.appendChild(checkbox);
+
+        dropdownList.appendChild(li);
+
+    });
+
+}
 
 
-/**
- * Behandelt die Auswahl eines Kontakts und fügt ihn zur Anzeige hinzu.
- */
-function handleContactSelection() {
-    const contactSelection = document.getElementById("contactSelection");
+function handleContactSelection(contact, isChecked) {
+    // Initialisiere localContacts, falls es nicht definiert ist
+    if (!window.localContacts) {
+        window.localContacts = {}; // Initialisierung
+    }
+
     const selectedContactsList = document.getElementById("selectedContactsList");
-    const selectedContactName = contactSelection.value;
-    const selectedContact = contactsArray.find(contact => contact.name === selectedContactName);
-    if (!selectedContact || isContactSelected(selectedContactName)) return;
-    const color = getColorHex(selectedContact.name, "");
-    const initials = getInitials(selectedContact.name);
-    const contactId = `contact_${Date.now()}`;
-    const newContact = { id: contactId, ...selectedContact, color };
-    window.localContacts = { ...window.localContacts, [contactId]: newContact };
-    selectedContactsList.innerHTML += createContactItem(contactId, initials, selectedContact.name, color);
-    contactSelection.value = "";
+
+    if (isChecked) {
+        // Kontakt hinzufügen
+        if (!isContactSelected(contact.name)) {
+            selectedContacts.push(contact);
+            window.localContacts[contact.id] = contact; // Synchronisierung
+            const li = document.createElement("li");
+            li.id = `selected_${contact.id}`;
+            li.textContent = contact.name; // Nur den Kontakt-Namen anzeigen
+            selectedContactsList.appendChild(li);
+        }
+    } else {
+        // Kontakt entfernen
+        removeContact(contact);
+    }
+    updateDropdownLabel();
 }
 
 
-/**
- * Überprüft, ob ein Kontakt bereits ausgewählt wurde.
- * @param {string} contactName - Der Name des Kontakts.
- * @returns {boolean} Gibt true zurück, wenn der Kontakt bereits ausgewählt ist, ansonsten false.
- */
+
+function removeContact(contact) {
+    selectedContacts = selectedContacts.filter(selected => selected.id !== contact.id);
+
+    delete window.localContacts[contact.id];
+
+    const selectedContactItem = document.getElementById(`selected_${contact.id}`);
+    if (selectedContactItem) {
+        selectedContactItem.remove();
+    }
+
+    updateDropdownLabel();
+}
+
+
 function isContactSelected(contactName) {
-    return Object.values(window.localContacts || {}).some(contact => contact.name === contactName);
+    return selectedContacts.some(contact => contact.name === contactName);
 }
 
-
-/**
- * Entfernt einen Kontakt aus der Anzeige und dem lokalen Zustand.
- * @param {string} contactId - Die ID des zu entfernenden Kontakts.
- */
-function removeContact(contactId) {
-    document.getElementById(contactId)?.closest(".workerInformation")?.remove();
-    delete window.localContacts[contactId];
+function updateDropdownLabel() {
+    const dropdownLabel = document.getElementById("dropdownLabel");
+    if (selectedContacts.length === 0) {
+        dropdownLabel.textContent = "Wähle einen Kontakt aus";
+    } else {
+        dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
+    }
 }
 
+document.addEventListener("click", function (event) {
+    const dropdownList = document.getElementById("contactsDropdownList");
+    const createContactBar = document.querySelector(".createContactBar");
+
+    if (
+        dropdownOpen && 
+        !dropdownList.contains(event.target) && 
+        !createContactBar.contains(event.target)
+    ) {
+        dropdownList.classList.remove("open");
+        dropdownOpen = false;
+    }
+});
 
 /**
  * Fügt eine neue Subtask hinzu.

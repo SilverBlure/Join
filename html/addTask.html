@@ -33,14 +33,15 @@
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
-                            <label for="contactSelection">Assign Contacts</label>
-                            <div class="createContactBar">
-                                <select id="contactSelection" 
-                                onchange="handleContactSelection()"
-                                onclick="renderContactsDropdown()">
-                                </select>
-                                <ul id="selectedContactsList"></ul>
-                            </div>
+                        <label for="contactSelection">Assign Contacts</label>
+                        <div class="createContactBar" onclick="toggleContactsDropdown()">
+                            <span id="dropdownLabel">Wähle einen Kontakt aus</span>
+                        </div>
+                        <div class="customDropdown">
+                            <ul class="dropdownList open" id="contactsDropdownList"></ul>
+                        </div>
+                       
+                        <ul id="selectedContactsList"></ul>
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
@@ -48,17 +49,9 @@
                         <input name="date" type="date" id="date" required>
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
-                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
-                                class="priorityBtn">Urgent
-                                <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
-                            </button>
-                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
-                                class="priorityBtn active">Medium
-                                <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
-                            </button>
-                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
-                                <img src="./../assets/icons/png/PrioritySymbolsLow.png">
-                            </button>
+                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn">Urgent</button>
+                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button" class="priorityBtn active">Medium</button>
+                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low</button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <select name="category" id="category" required>
@@ -68,30 +61,20 @@
                         </select>
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask"
-                                type="text" onkeydown="handleSubtaskKey(event)">
+                            <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask" type="text">
                             <div class="divider"></div>
-                            <img onclick="addNewSubtask()" class="addSubtaskButton"
-                                src="./../assets/icons/png/addSubtasks.png">
                         </div>
                         <ul id="subTasksList"></ul>
                     </div>
                 </div>
                 <div class="taskFormButtons">
                     <p><span class="requiredStar">*</span>This field is required</p>
-                    <div class="taskFormButtonsMobile"> 
                     <div class="buttonContainer">
-                        <button type="submit" class="button">Create Task
-                            <img src="./../assets/icons/png/check.png">
-                        </button>
-                        <button type="reset" class="button clearBtn">Clear
-                            <img src="./../assets/icons/png/iconoir_cancel.png">
-                        </button>
+                        <button type="submit" class="button">Create Task</button>
+                        <button type="reset" class="button clearBtn">Clear</button>
                     </div>
                 </div>
-                </div>
             </form>
-            
         </div>
     </div>
 
