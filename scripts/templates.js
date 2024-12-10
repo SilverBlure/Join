@@ -27,7 +27,9 @@ function contactDetailsTemps(i, initialien) {
 <div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
     <div>
         <div><H2>${contactsArray[i].name}</H2></div>
-        <img class="pointer" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="openDeleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
+       <div class="detailsBtn"><img class="pointer edit" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt="">
+       <img class="pointer delete" onclick="openDeleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
+       </div>
     </div>
     </div>
     <h4>Contact Information</h4>
@@ -71,7 +73,8 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="checkInput(createContact)">Create contact <img src="../assets/icons/png/check.png"></button>
+        <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
+        <button class="dialogBtn" type="submit" form="contactForm">Create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -112,7 +115,8 @@ function editContactTemp(i){
     </form>
     </div>
     <div class="createContactBtn">
-        <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn"  onclick="checkInput(getFromEdit, ${i})">Save<img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
+        <button class="dialogBtn" type="submit" form="contactForm">Save<img src="../assets/icons/png/check.png"></button>
     </div>
 </div>                      
 `;
@@ -120,7 +124,7 @@ function editContactTemp(i){
 
 function deleteContactTemp(i){
     return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
-    <div class="deleteBtn"><button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
+    <div class="deleteBtn"><button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
     `
 }
 
@@ -134,7 +138,7 @@ function generateSubtaskHTML(subtaskId, title) {
         <div class="subtask-item" id="${subtaskId}">
             <input type="checkbox" onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
             <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">${title}</p>
-            <img src="../../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
+            <img src="./../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
         </div>
     `;
 }

@@ -272,33 +272,45 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
 
 function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
     return `
-        <div class="subtask-item" id="subtask-${subtaskId}">
+        <li class="subtask-item" id="subtask-${subtaskId}">
             <p class="subtaskText">${subtaskTitle}</p>
-            <img 
-                class="hoverBtn" 
-                src="./../assets/icons/png/iconoir_cancel.png" 
-                onclick="removeSubtaskFromList('${subtaskId}')"
-                alt="Delete Subtask">
-        </div>
+            <div class="subtaskButtons">
+                <img 
+                    src="./../assets/icons/png/editIcon.png" 
+                    class="subtask-btn" 
+                    onclick="editSubtask('${subtaskId}')"> 
+                <div class="separatorSubtask"></div>
+                <img 
+                    src="./../assets/icons/png/D.png" 
+                    class="subtask-btn" 
+                    onclick="deleteSubtaskFromLocal('${subtaskId}')"> 
+            </div>
+        </li>
     `;
 }
 
 
 
-function generateEditSubtaskHTML(taskId, subtaskId, currentTitle) {
+function generateEditSubtaskHTML(subtaskId, currentTitle) {
     return `
+    <div class="editSubtaskBar">
         <input 
             type="text" 
             class="editSubtaskInput" 
             id="edit-input-${subtaskId}" 
             value="${currentTitle}">
-        <button 
-            onclick="saveSubtaskEdit('${taskId}', '${subtaskId}', document.getElementById('edit-input-${subtaskId}').value)">
-            Save
-        </button>
-    `;
+            <div class="subtaskButtons">
+        <img src="./../assets/icons/png/D.png"
+            class="subtask-btn" 
+            onclick="deleteSubtaskFromLocal('${subtaskId}', '${currentTitle}')">           
+            <div id="separatorSubtask" class="separatorSubtask"></div>
+        <img src="./../assets/icons/png/Subtasks icons11.png"
+            class="subtask-btn"
+            onclick="saveSubtaskEdit('${subtaskId}')">
+    </div>
+    </div>
+            `;
 }
-
 
 
 function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
