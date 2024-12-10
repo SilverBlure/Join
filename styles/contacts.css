@@ -2,6 +2,11 @@ body{
     overflow: hidden;
 }
 
+button{
+    border: none;
+    background: none;
+}
+
 .dialogBtn{
     height: 57px;
     font-size: 18px;
@@ -12,6 +17,7 @@ body{
 .dialogBtn:hover{
     background-color:#29ABE2;
     border-color: #29ABE2;
+    
 }
 
 .dialogBtn:active{
@@ -27,11 +33,19 @@ body{
     background-color: white;
     color: black;
     font-weight: 400;
+    border: solid 1px black;
 }
 
 .dialogBtnWhite:hover{
     color:#29ABE2;
     border-color: #29ABE2;
+
+}
+
+.dialogBtnWhite:hover .cancel{
+    color:#29ABE2;
+    border-color: #29ABE2;
+    content: url('../assets/icons/png/iconoir_cancel_blue.png');
 }
 
 .dialogBtnWhite:active{
@@ -39,6 +53,16 @@ body{
     border-color: black;
 }
 
+.dialogBtnWhite:active .cancel{
+    color:black;
+    border-color: black;
+    content: url('../assets/icons/png/iconoir_cancel.png');
+}
+
+.detailsBtn{
+display: flex;
+gap: 10px;
+}
 
 .mailTo{
     color: rgb(103, 176, 245)!important;
@@ -112,6 +136,16 @@ p{
     margin-bottom: 20px;
 }
 
+.addContactBtn:hover{
+    background-color:#29ABE2;
+    border-color: #29ABE2;  
+}
+
+.addContactBtn:active{
+    background-color:rgba(9, 25, 49, 1);
+    border-color: rgba(9, 25, 49, 1);
+}
+
 .contact {
     display: flex;
     flex-direction: column;
@@ -137,8 +171,6 @@ p{
     cursor: pointer;
     background-color: rgb(42, 54, 71);
     color: white;
-    
-
 }
 
 .contact-group{
@@ -362,11 +394,23 @@ h4{
 
 .pointer{
     cursor: pointer;
-    
+}
+
+.edit:hover{
+    content: url('../assets/icons/png/edit_blue.png');
+}
+
+.delete:hover{
+    content: url('../assets/icons/png/Delete_blue.png');
 }
 
 .close:hover{
     cursor: pointer;
+    content: url('../assets/icons/png/iconoir_cancel_blue.png');
+}
+
+.close:active{
+    content: url('../assets/icons/png/iconoir_cancel.png');
 }
 
 .createContactBtn{
