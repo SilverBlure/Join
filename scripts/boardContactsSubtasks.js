@@ -275,21 +275,6 @@ function generateContactsDropdownHTML() {
 
 
 
-/**
- * Handhabt die Auswahl eines Kontakts aus dem Dropdown-Menü.
- */
-function handleContactSelection() {
-    if (!Array.isArray(window.localEditedContacts)) window.localEditedContacts = [];
-    const contactSelection = document.getElementById("contactSelection");
-    const selectedContactName = contactSelection?.value;
-    if (!selectedContactName) return;
-    if (window.localEditedContacts.includes(selectedContactName)) return;
-    window.localEditedContacts.push(selectedContactName);
-    renderSelectedContacts();
-    contactSelection.value = "";
-}
-
-
 
 /**
  * Rendert die ausgewählten Kontakte im DOM.

@@ -463,6 +463,7 @@ function handleContactSelection(contact, isChecked) {
     if (!window.localContacts) {
         window.localContacts = {}; // Initialisierung
     }
+
     const selectedContactsList = document.getElementById("selectedContactsList");
 
     if (isChecked) {
@@ -483,7 +484,6 @@ function handleContactSelection(contact, isChecked) {
 }
 
 
-
 function removeContact(contact) {
     selectedContacts = selectedContacts.filter(selected => selected.id !== contact.id);
 
@@ -501,6 +501,8 @@ function removeContact(contact) {
 function isContactSelected(contactName) {
     return selectedContacts.some(contact => contact.name === contactName);
 }
+
+
 
 function updateDropdownLabel() {
     const dropdownLabel = document.getElementById("dropdownLabel");

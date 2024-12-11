@@ -38,9 +38,6 @@
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
-
-
-
                         <label for="contactSelection">Assign Contacts</label>
                         <div class="createContactBar" onclick="toggleContactsDropdown()">
                             <span id="dropdownLabel">Wähle einen Kontakt aus</span>
@@ -52,17 +49,22 @@
                         <ul id="selectedContactsList"></ul>
                     </div>
                     <div class="separator"></div>
-
-
-                    
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
                         <input name="date" type="date" id="date" required>
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
-                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button" class="priorityBtn">Urgent</button>
-                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button" class="priorityBtn active">Medium</button>
-                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low</button>
+                           <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
+                                class="priorityBtn">Urgent
+                                <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
+                            </button>
+                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
+                                class="priorityBtn active">Medium
+                                <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
+                            </button>
+                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
+                                <img src="./../assets/icons/png/PrioritySymbolsLow.png">
+                            </button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <select name="category" id="category" required>
