@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
+    <link rel="icon" href="./../assets/icons/svg/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="./../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -17,6 +18,8 @@
     <script src="./../scripts/contacts.js"></script>
     <script src="./../scripts/backend.js"></script>
     <script src="./../scripts/addTask.js"></script>
+    <script src="./../scripts/boardContactsSubtasks.js"></script>
+    <script src="./../scripts/boardTemplates.js"></script>
 </head>
 <body onload="includeHTML(); main()">
     <div id="snackbar" class="hidden"></div>
@@ -25,7 +28,9 @@
         <div class="header" w3-include-html="./../templates/header.html"></div>
         <div class="addTaskContent">
             <h1>Add Task</h1>
-            <form id="addTaskFormTask" onsubmit="addTaskToToDoList(event)">
+            <form id="addTaskFormTask" 
+            onsubmit="addTaskToToDoList(event)"
+            onreset="resetFormAndLists()">
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
@@ -68,8 +73,10 @@
                         <div class="createSubtaskBar">
                             <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask" type="text">
                             <div class="divider"></div>
+
                         </div>
-                        <ul id="subTasksList"></ul>
+                        <ul class="subTasksList" id="subTasksList"></ul>
+                        
                     </div>
                 </div>
                 <div class="taskFormButtons">
