@@ -38,6 +38,9 @@
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
+
+
+
                         <label for="contactSelection">Assign Contacts</label>
                         <div class="createContactBar" onclick="toggleContactsDropdown()">
                             <span id="dropdownLabel">Wähle einen Kontakt aus</span>
@@ -49,6 +52,9 @@
                         <ul id="selectedContactsList"></ul>
                     </div>
                     <div class="separator"></div>
+
+
+                    
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
                         <input name="date" type="date" id="date" required>
@@ -66,12 +72,20 @@
                         </select>
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask" type="text">
-                            <div class="divider"></div>
-
+                            <input id="subTaskInputAddTask" 
+                            name="subTaskInput" 
+                            class="addSubTaskInput" 
+                            placeholder="Add new subtask" 
+                            type="text" 
+                            oninput="toggleSubtaskButtons()">
+                            <div class="subtaskButtons">
+                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
+                                <div id="separatorSubtask" class="separatorSubtask hidden"></div>
+                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                            </div>
+                            <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
                         <ul class="subTasksList" id="subTasksList"></ul>
-                        
                     </div>
                 </div>
                 <div class="taskFormButtons">
