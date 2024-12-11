@@ -41,7 +41,7 @@
                             <ul class="dropdownList open" id="contactsDropdownList"></ul>
                         </div>
                        
-                        <ul id="selectedContactsList"></ul>
+                        <div id="selectedContactsList"></div>
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
@@ -54,11 +54,16 @@
                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low</button>
                         </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
-                        <select name="category" id="category" required>
-                            <option value="" disabled selected hidden>Select Task Category</option>
-                            <option value="Technical Task">Technical Task</option>
-                            <option value="User Story">User Story</option>
-                        </select>
+                        <div id="categoryDropdown" class="dropdown">
+                            <div id="selectedCategory" class="selected-category">Select Task Category</div>
+                            <div id="categoryList" class="category-list hidden">
+                                <div class="category-item" data-value="Technical Task">Technical Task</div>
+                                <div class="category-item " data-value="User Story">User Story</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="category" name="category" required>
+                        
+
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
                             <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput" placeholder="Add new subtask" type="text">
