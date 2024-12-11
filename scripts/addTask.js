@@ -512,35 +512,17 @@ document.addEventListener("click", function (event) {
  * Fügt eine neue Subtask hinzu.
  */
 function addNewSubtask() {
-    const subTaskInput = document.getElementById("subTaskInputAddTask");
+    const subTaskInput = document.getElementById("newSubtaskInput") || document.getElementById("subTaskInputAddTask");
     const subTasksList = document.getElementById("subTasksList");
-    if (!subTaskInput || !subTasksList) return;
     const subtaskTitle = subTaskInput.value.trim();
-    if (!subtaskTitle) return;
-    if (!window.localSubtasks) window.localSubtasks = {};
     const subtaskId = `subtask_${Date.now()}`;
-    const subtaskItem = {
-        title: subtaskTitle,
-        done: false,
-    };
+    const subtaskItem = { title: subtaskTitle, done: false };
+    window.localSubtasks = window.localSubtasks || {};
     window.localSubtasks[subtaskId] = subtaskItem;
-    const subtaskHTML = `
-        <div class="subtask-item" id="${subtaskId}">
-            <input 
-                type="checkbox" 
-                onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
-            <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">
-                ${subtaskTitle}
-            </p>
-            <img 
-                class="hoverBtn" 
-                src="./../assets/icons/png/iconoir_cancel.png" 
-                onclick="removeSubtaskFromList('${subtaskId}')"
-                alt="Remove Subtask">
-        </div>
-    `;
+    const subtaskHTML = generateNewSubtaskHTML(subtaskId, subtaskTitle);
     subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
     subTaskInput.value = "";
+    toggleSubtaskButtons();
 }
 
 

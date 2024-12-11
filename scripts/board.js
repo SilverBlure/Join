@@ -61,7 +61,7 @@ function buildNewTask() {
         dueDate: document.getElementById("date").value.trim(),
         priority: tempPriority,
         category: buildCategory(document.getElementById("category").value.trim()),
-        workers: getWorkers(),
+        workers: getWorkersFromSelectedContactsList(),
         subtasks: getLocalSubtasks(),
     };
     return task;
@@ -84,24 +84,28 @@ function buildCategory(categoryName) {
 
 
 /**
- * Holt Worker-Daten aus den lokal gespeicherten bearbeiteten Kontakten.
- * @returns {Array<Object>} - Eine Liste von Worker-Objekten.
+ * Holt die ausgewählten Kontakte aus der Liste und erstellt ein Array von Objekten.
+ * @returns {Array<Object>} - Eine Liste von Objekten mit den ausgewählten Kontakten.
  */
-function getWorkers() {
-    if (!window.localEditedContacts || !Array.isArray(window.localEditedContacts)) {
+function getWorkersFromSelectedContactsList() {
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    if (!selectedContactsList) {
+        console.error("Die Liste der ausgewählten Kontakte wurde nicht gefunden.");
         return [];
     }
-    return window.localEditedContacts
-        .filter(contact => contact && typeof contact === "string")
-        .map(contact => {
-            try {
-                return { name: contact.trim() };
-            } catch (error) {
-                return null;
-            }
-        })
-        .filter(Boolean);
+
+    const workers = [];
+    // Iteriere über die Elemente der Liste
+    Array.from(selectedContactsList.children).forEach(listItem => {
+        const contactName = listItem.textContent.trim(); // Textinhalt des <li>-Elements
+        if (contactName) {
+            workers.push({ name: contactName });
+        }
+    });
+
+    return workers;
 }
+
 
 
 
@@ -133,7 +137,8 @@ async function addTaskToSpecificList(listId, event) {
     try {
         const result = await addTaskToList(listId, newTask);
         if (result) {
-            resetForm();
+            location.reload();
+            handleTaskSubmit(event);
             showSnackbar("Der Task wurde erfolgreich erstellt!");
             await refreshBoard();
         }
@@ -179,7 +184,7 @@ function resetLocalState() {
  * Schließt das "Task bearbeiten"-Popup und setzt Formular und UI-Zustand zurück.
  */
 function closeEditTaskPopup() {
-    resetForm();
+    refreshUIAfterPopupClose();
     const overlay = document.getElementById("editTaskPopupOverlay");
     const mainContent = document.getElementById("mainContent");
     if (overlay) overlay.classList.remove('visible');
@@ -241,12 +246,12 @@ function addTaskToAwaitFeedback() {
 
 
 /**
- * Generiert eine Hex-Farbe basierend auf den Buchstaben des Namens.
+ * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
  * @param {string} vorname - Der Vorname.
  * @param {string} nachname - Der Nachname.
- * @returns {string} - Die generierte Hex-Farbe.
+ * @returns {string} - Die generierte RGB-Farbe im Format "rgb(r, g, b)".
  */
-function getColorHex(vorname, nachname) {
+function getColorRGB(vorname, nachname) {
     const completeName = (vorname + nachname).toLowerCase();
     let hash = 0;
     for (let i = 0; i < completeName.length; i++) {
@@ -255,24 +260,27 @@ function getColorHex(vorname, nachname) {
     const r = (hash * 123) % 256;
     const g = (hash * 456) % 256;
     const b = (hash * 789) % 256;
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return `rgb(${r}, ${g}, ${b})`;
 }
 
 
 
 /**
- * Erzeugt Initialen basierend auf einem vollständigen Namen.
- * @param {string} fullName - Der vollständige Name.
- * @returns {string} - Die generierten Initialen.
+ * Generiert die Initialen eines Namens.
+ * @param {string} fullName - Der vollständige Name der Person (Vorname Nachname).
+ * @returns {string} - Die generierten Initialen (z.B. "AB").
  */
 function getInitials(fullName) {
     if (!fullName || typeof fullName !== "string") {
         console.warn("Ungültiger Name für Initialen:", fullName);
-        return ""; 
+        return ""; // Fallback bei ungültigen Eingaben
     }
-    const nameParts = fullName.trim().split(" ");
-    return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
+
+    const [vorname, nachname] = fullName.trim().split(" ");
+    const initialen = `${vorname?.charAt(0)?.toUpperCase() || ""}${nachname?.charAt(0)?.toUpperCase() || ""}`;
+    return initialen;
 }
+
 
 
 
@@ -441,7 +449,7 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
         return;
     }
     const progressHTML = generateProgressHTML(updatedTask.subtasks);
-    const workersHTML = generateWorkersHTML(updatedTask.workers);
+    const workersHTML = generateWorkersHTML(updatedTask.workers, false); // Name wird nicht angezeigt
     const newTaskHTML = generateTaskCardHTML(taskId, updatedTask, listId, progressHTML, workersHTML);
     taskElement.outerHTML = newTaskHTML;
 }
@@ -452,6 +460,28 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
  * Aktualisiert die Benutzeroberfläche, nachdem ein Popup geschlossen wurde.
  */
 function refreshUIAfterPopupClose() {
-    resetForm();
+    refreshLists();
+    const form = document.getElementById("addTaskFormTask");
+    if (form) form.reset();
     renderBoard();
+}
+
+
+
+function refreshLists() {
+    const subTasksList = document.getElementById("subTasksList");
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    if (subTasksList) {
+        subTasksList.innerHTML = ""; // Sicherstellen, dass die Liste leer ist
+    }
+    if (selectedContactsList) {
+        selectedContactsList.innerHTML = ""; // Sicherstellen, dass die Liste leer ist
+    }
+    const priorityButtons = document.querySelectorAll(".priorityBtn");
+    priorityButtons.forEach(button => button.classList.remove("active"));
+    const middleButton = document.getElementById("prioMiddle"); // Passe die ID an, falls sie anders lautet
+    if (middleButton) {
+        middleButton.classList.add("active");
+    }
+    tempPriority = "Middle";
 }

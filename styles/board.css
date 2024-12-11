@@ -134,7 +134,8 @@ h1 {
     box-shadow: 0px 2px 8px rgb(223, 224, 225);
     border-radius: 30px;
     padding: 16px;
-    max-width: -webkit-fill-available;
+    width: 252px;
+    height: 263px;
 }
 
 .taskCardTitle {
@@ -190,9 +191,7 @@ h1 {
 }
 
 .workerName {
-    margin: 0px;
     padding: 16px;
-    margin-bottom: 8px;
 }
 
 
@@ -205,6 +204,9 @@ position: relative;
 left: 200px;
 }
 
+.priority {
+    position: relative;
+}
 
 .priorityBtn {
     background-color: white;
@@ -611,7 +613,11 @@ select:focus {
 }
 
 .saveChangesButton {
-    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 130px;
 }
 
 .createSubtaskBar {

@@ -51,7 +51,7 @@ function renderTaskWorkers(workers) {
     return workers
         .filter(worker => worker && worker.name) // Ungültige Einträge filtern
         .map(worker => `
-            <p class="workerEmblem" style="background-color: ${getColorHex(worker.name, "")};">
+            <p class="workerEmblem" style="background-color: ${getColorRGB(worker.name, "")};">
                 ${getInitials(worker.name)}
             </p>
         `).join(""); // HTML für jeden Arbeiter generieren
@@ -118,9 +118,13 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
     document.getElementById("mainContent").classList.add("blur");
     const headerHTML = generatePopupHeaderHTML(task);
     const detailsHTML = generatePopupDetailsHTML(task);
-    const workerContainerHTML = generateWorkerContainerHTML(workersHTML); // Arbeiter-Container generieren
-    const subtasksContainerHTML = generateSubtasksContainerHTML(subtasksHTML); // Subtask-Container generieren
-    const actionsHTML = generatePopupActionsHTML(listId, taskId); // Aktionen generieren
+    
+    // Hier wird der false-Wert explizit übergeben
+    const workerContainerHTML = generateWorkersHTML(task.workers || [], true); 
+
+    const subtasksContainerHTML = generateSubtasksContainerHTML(subtasksHTML);
+    const actionsHTML = generatePopupActionsHTML(listId, taskId);
+
     popupContainer.innerHTML = `
         ${headerHTML}
         ${detailsHTML}
@@ -129,6 +133,7 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
         ${actionsHTML}
     `;
 }
+
 
 
 
@@ -160,15 +165,30 @@ async function editTask(listId, taskId) {
 function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
-    if (!editTaskPopupOverlay || !editTaskPopupContainer) return; // Wenn Popup-Elemente fehlen, abbrechen
+    if (!editTaskPopupOverlay || !editTaskPopupContainer) return;
+    initializeLocalContacts(task);
+
     editTaskPopupOverlay.setAttribute("data-task-id", taskId);
     editTaskPopupOverlay.setAttribute("data-list-id", listId);
     editTaskPopupOverlay.classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
-    const subtasksHTML = generateEditSubtasksHTML(window.localEditedSubtasks); // Subtasks generieren
-    const contactsDropdownHTML = generateContactsDropdownHTML(); // Dropdown für Kontakte generieren
-    editTaskPopupContainer.innerHTML = generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, taskId); // Formular rendern
+
+    // Subtasks und ausgewählte Kontakte vorbereiten
+    const subtasksHTML = generateEditSubtasksHTML(window.localEditedSubtasks);
+
+    // Lokale Kontakte initialisieren, basierend auf den Arbeitern der Aufgabe
+    window.localContacts = {};
+    (task.workers || []).forEach(worker => {
+        // Die ID des Kontakts wird aus den Arbeiterdaten übernommen
+        window.localContacts[worker.id] = { ...worker }; 
+    });
+
+    // HTML generieren
+    editTaskPopupContainer.innerHTML = generateEditTaskForm(task, subtasksHTML, listId, taskId);
+    renderContactsDropdown(); // Kontakte-Dropdown aktualisieren
 }
+
+
 
 
 
