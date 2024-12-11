@@ -104,8 +104,34 @@ function emailCheck(email){
 /**checks if boath password are the same */
 function passwordCheck(pw1, pw2){
     if(pw1!=pw2){
-       showSnackbar('Die beiden Passworter stimmen nicht überein, Bitte kontrolliere diese noch einmal!')
+       
     }else{
+        document.getElementById('pwWarning').classList.toggle('none');
         return true;
+    }
+}
+
+
+function pwcheck(){
+    let pw1 = document.getElementById('pw_1').value;
+    let pw2 = document.getElementById('pw_2').value;
+    if(pw1 != pw2){
+        document.getElementById('pwWarning').classList.add('visible-text');
+        document.getElementById('pwWarning').classList.remove('hidden-text');
+    }else{
+        document.getElementById('pwWarning').classList.add('hidden-text');
+        document.getElementById('pwWarning').classList.remove('visible-text');
+    }
+}
+
+function emailCheck(){
+    let email = document.getElementById('email').value;
+    let found = emailArray.find((element) => element === email)
+    if(found){
+        document.getElementById('emailWarning').classList.add('visible-text');
+        document.getElementById('emailWarning').classList.remove('hidden-text');
+    }else{
+        document.getElementById('emailWarning').classList.add('hidden-text');
+        document.getElementById('emailWarning').classList.remove('visible-text');
     }
 }

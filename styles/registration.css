@@ -9,18 +9,25 @@ body {
     justify-content: space-between;
 }
 
+.none{
+    display: none !important;
+}
+
 .registration {
-    margin-bottom: 64px;
+    height: 630px;
+    width: 598px;
     background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     border-radius: 30px;
-    gap: 28px;
-    padding: 20px 50px;
-    margin-top: 84px;
     animation: fadeInBlur 1s ease forwards;
+}
+
+.failtureText{
+    color: red;
+    font-size: 12px;
 }
 
 .condition {
@@ -108,12 +115,43 @@ body {
     align-items: start;
 }
 
+.signUp{
+    font-weight: 700;
+    font-size: 61px;
+}
+
+.seperator{
+    background-color: #29ABE2;
+    height: 3px;
+    width: 150px;
+}
+
+
+
+.hidden-text {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+ }
+
+.visible-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.left{
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    flex-direction: column;
+}
+
 .center {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
 }
 
 .borderInputFields {
@@ -140,6 +178,10 @@ body {
     border-radius: 30px;
 }
 
+.marBo30{
+    margin-bottom: 30px;
+}
+
 .border {
     border: 2px;
     border-style: solid;
@@ -148,7 +190,6 @@ body {
     height: 48px;
     width: 422px;
     justify-content: center;
-    margin: 30px;
 }
 
 .input{
@@ -253,7 +294,6 @@ body {
 }
 
 
-
 @media (max-width: 700px) {
 
     .loginBackground {
@@ -283,6 +323,7 @@ body {
     }
  
 }
+
 
 @media (max-width: 500px) {
     .loginBackground {
