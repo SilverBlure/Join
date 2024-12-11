@@ -271,11 +271,24 @@ function addContact(){
     document.getElementById('editContact').innerHTML = addContactTemp();
 
     document.getElementById('contactForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Verhindert das Neuladen der Seite
+        event.preventDefault();
         if (this.checkValidity()) {
-            createContact();
+            checkInput(createContact);
         }
     });
+}
+
+
+/**
+ * this function validates the input for creating or editing a new contact
+ */
+function checkInput(createEdit, i) {
+    let fullname = document.getElementById('name').value.trim(); 
+    if (fullname.split(" ").length < 2) {
+        showSnackbar("Please enter first and last name.");
+    }else{
+        createEdit(i)
+    } 
 }
 
 
@@ -291,7 +304,7 @@ function editContact(i){
     document.getElementById('contactForm').addEventListener('submit', function(event) {
         event.preventDefault(); // Verhindert das Neuladen der Seite
         if (this.checkValidity()) {
-            getFromEdit(i);
+            checkInput(getFromEdit, i);;
         }
     });
 }
