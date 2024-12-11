@@ -39,12 +39,11 @@
                             placeholder="Enter a Description"></textarea>
                             <label for="contactSelection">Assign Contacts</label>
                             <div class="createContactBar">
-                                <select id="contactSelection" 
-                                onchange="handleContactSelection()"
-                                onclick="renderContactsDropdown()">
-                                </select>
+                                <div onclick="renderContactsDropdown()" id="contactDropdown" class="customDropdown"></div>
                                 <ul id="selectedContactsList"></ul>
                             </div>
+                            
+
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
