@@ -134,7 +134,8 @@ h1 {
     box-shadow: 0px 2px 8px rgb(223, 224, 225);
     border-radius: 30px;
     padding: 16px;
-    max-width: -webkit-fill-available;
+    width: 252px;
+    height: 263px;
 }
 
 .taskCardTitle {
@@ -190,9 +191,7 @@ h1 {
 }
 
 .workerName {
-    margin: 0px;
     padding: 16px;
-    margin-bottom: 8px;
 }
 
 
@@ -205,6 +204,9 @@ position: relative;
 left: 200px;
 }
 
+.priority {
+    position: relative;
+}
 
 .priorityBtn {
     background-color: white;
@@ -327,6 +329,82 @@ left: 200px;
     align-items: start;
 
 }
+
+.customDropdown {
+    position: relative;
+    width: 200px; 
+  }
+  
+  .dropdownList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 1000;
+    max-height: 200px; 
+    overflow-y: auto; 
+    user-select: none;  
+  }
+  
+  .dropdownList.open {
+    display: block;
+  }
+  
+  .dropdownList::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 4px; 
+  }
+  
+  
+  .dropdownList li {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    transition: background 0.3s, color 0.3s;
+    position: relative;
+  }
+  
+  .dropdownList li:hover {
+    background: #29ABE2; 
+    color: #ffffff; 
+  }
+  
+  .dropdownList li + li {
+    border-top: 1px solid #eee;
+  }
+  
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .contact-name {
+    flex-grow: 1;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 10px;
+  }
+  
+  .dropdownList li input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    cursor: pointer;
+  }
+  
+
 
 .subtasksCheckbox {
     width: max-content;
@@ -535,7 +613,11 @@ select:focus {
 }
 
 .saveChangesButton {
-    margin-top: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    top: 130px;
 }
 
 .createSubtaskBar {

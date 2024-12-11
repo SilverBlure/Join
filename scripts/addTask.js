@@ -403,12 +403,11 @@ function setPriority(priority) {
 
 let dropdownOpen = false;
 
-let selectedContacts = []; // Array, um ausgewählte Kontakte zu speichern
+let selectedContacts = []; 
 
 function toggleContactsDropdown() {
     const dropdownList = document.getElementById("contactsDropdownList");
     dropdownOpen = !dropdownOpen;
-
     if (dropdownOpen) {
         renderContactsDropdown();
         dropdownList.classList.add("open");
@@ -417,29 +416,22 @@ function toggleContactsDropdown() {
     }
 }
 
+
 function renderContactsDropdown() {
     const dropdownList = document.getElementById("contactsDropdownList");
-
-    // Liste leeren
     dropdownList.innerHTML = "";
-
     if (!contactsArray || contactsArray.length === 0) {
         console.error("No contacts available to render");
         dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
         return;
     }
-
     contactsArray.forEach(contact => {
-
         const li = document.createElement("li");
         li.classList.add("dropdown-item");
-
         const circle = document.createElement("div");
-
         const nameSpan = document.createElement("span");
         nameSpan.classList.add("contact-name");
         nameSpan.textContent = contact.name;
-
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.value = contact.name;
@@ -447,53 +439,42 @@ function renderContactsDropdown() {
         checkbox.addEventListener("change", (event) => {
             handleContactSelection(contact, event.target.checked);
         });
-
         li.appendChild(circle);
         li.appendChild(nameSpan);
         li.appendChild(checkbox);
-
         dropdownList.appendChild(li);
-
     });
 }
 
 
 function handleContactSelection(contact, isChecked) {
-    // Initialisiere localContacts, falls es nicht definiert ist
     if (!window.localContacts) {
-        window.localContacts = {}; // Initialisierung
+        window.localContacts = {}; 
     }
     const selectedContactsList = document.getElementById("selectedContactsList");
-
     if (isChecked) {
-        // Kontakt hinzufügen
         if (!isContactSelected(contact.name)) {
             selectedContacts.push(contact);
-            window.localContacts[contact.id] = contact; // Synchronisierung
+            window.localContacts[contact.id] = contact; 
             const li = document.createElement("li");
             li.id = `selected_${contact.id}`;
-            li.textContent = contact.name; // Nur den Kontakt-Namen anzeigen
+            li.textContent = contact.name; 
             selectedContactsList.appendChild(li);
         }
     } else {
-        // Kontakt entfernen
         removeContact(contact);
     }
     updateDropdownLabel();
 }
 
 
-
 function removeContact(contact) {
     selectedContacts = selectedContacts.filter(selected => selected.id !== contact.id);
-
     delete window.localContacts[contact.id];
-
     const selectedContactItem = document.getElementById(`selected_${contact.id}`);
     if (selectedContactItem) {
         selectedContactItem.remove();
     }
-
     updateDropdownLabel();
 }
 
@@ -501,6 +482,7 @@ function removeContact(contact) {
 function isContactSelected(contactName) {
     return selectedContacts.some(contact => contact.name === contactName);
 }
+
 
 function updateDropdownLabel() {
     const dropdownLabel = document.getElementById("dropdownLabel");
@@ -511,10 +493,10 @@ function updateDropdownLabel() {
     }
 }
 
+
 document.addEventListener("click", function (event) {
     const dropdownList = document.getElementById("contactsDropdownList");
     const createContactBar = document.querySelector(".createContactBar");
-
     if (
         dropdownOpen && 
         !dropdownList.contains(event.target) && 
@@ -525,39 +507,22 @@ document.addEventListener("click", function (event) {
     }
 });
 
+
 /**
  * Fügt eine neue Subtask hinzu.
  */
 function addNewSubtask() {
-    const subTaskInput = document.getElementById("subTaskInputAddTask");
+    const subTaskInput = document.getElementById("newSubtaskInput") || document.getElementById("subTaskInputAddTask");
     const subTasksList = document.getElementById("subTasksList");
-    if (!subTaskInput || !subTasksList) return;
     const subtaskTitle = subTaskInput.value.trim();
-    if (!subtaskTitle) return;
-    if (!window.localSubtasks) window.localSubtasks = {};
     const subtaskId = `subtask_${Date.now()}`;
-    const subtaskItem = {
-        title: subtaskTitle,
-        done: false,
-    };
+    const subtaskItem = { title: subtaskTitle, done: false };
+    window.localSubtasks = window.localSubtasks || {};
     window.localSubtasks[subtaskId] = subtaskItem;
-    const subtaskHTML = `
-        <div class="subtask-item" id="${subtaskId}">
-            <input 
-                type="checkbox" 
-                onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
-            <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">
-                ${subtaskTitle}
-            </p>
-            <img 
-                class="hoverBtn" 
-                src="./../assets/icons/png/iconoir_cancel.png" 
-                onclick="removeSubtaskFromList('${subtaskId}')"
-                alt="Remove Subtask">
-        </div>
-    `;
+    const subtaskHTML = generateNewSubtaskHTML(subtaskId, subtaskTitle);
     subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
     subTaskInput.value = "";
+    toggleSubtaskButtons();
 }
 
 
@@ -573,6 +538,27 @@ function handleSubtaskKey(event) {
 }
 
 
+function toggleSubtaskButtons() {
+    const input = document.getElementById("subTaskInputAddTask");
+    const saveBtn = document.getElementById("saveSubtaskBtn");
+    const clearBtn = document.getElementById("clearSubtaskBtn");
+    const separator = document.getElementById("separatorSubtask")
+    const subtaskImg = document.getElementById("subtaskImg");
+    if (input.value.trim() !== "") {
+        saveBtn.classList.remove("hidden");
+        clearBtn.classList.remove("hidden");
+        subtaskImg.classList.add("hidden");
+        separator.classList.remove("hidden")
+    } else {
+        saveBtn.classList.add("hidden");
+        clearBtn.classList.add("hidden");
+        subtaskImg.classList.remove("hidden");
+        separator.classList.add("hidden");
+
+    }
+}
+
+
 /**
  * Generiert die Initialen eines vollständigen Namens.
  * @param {string} fullName - Der vollständige Name.
@@ -582,7 +568,6 @@ function getInitials(fullName) {
     const nameParts = fullName.trim().split(" ");
     return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
 }
-
 
 
 /**

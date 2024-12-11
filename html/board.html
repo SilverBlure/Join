@@ -123,13 +123,14 @@
 
 
                             <label for="contactSelection">Assign Contacts</label>
-                            <div class="createContactBar">
-                                <select id="contactSelection" 
-                                onchange="handleContactSelection()"
-                                onclick="renderContactsDropdown()">
-                                </select>
-                                <ul id="selectedContactsList"></ul>
+                            <div class="createContactBar" onclick="toggleContactsDropdown()">
+                                <span id="dropdownLabel">Wähle einen Kontakt aus</span>
                             </div>
+                            <div class="customDropdown">
+                                <ul class="dropdownList open" id="contactsDropdownList"></ul>
+                            </div>
+                           
+                            <ul id="selectedContactsList"></ul>
 
 
 
@@ -146,7 +147,7 @@
                                 <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
                             </button>
                             <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
-                                class="priorityBtn">Medium
+                                class="priorityBtn active">Medium
                                 <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
                             </button>
                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
@@ -168,7 +169,8 @@
                             class="addSubTaskInput" 
                             placeholder="Add new subtask" 
                             type="text" 
-                            oninput="toggleSubtaskButtons()">
+                            oninput="toggleSubtaskButtons()"
+                            onkeydown="handleSubtaskKey(event)">
                             <div class="subtaskButtons">
                                 <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
                                 <div id="separatorSubtask" class="separatorSubtask hidden"></div>
@@ -185,7 +187,7 @@
                         <button type="submit" class="button">Create Task
                             <img src="./../assets/icons/png/check.png">
                         </button>
-                        <button type="reset" class="button clearBtn">Clear
+                        <button type="reset" onclick="refreshLists()" class="button clearBtn">Clear
                             <img src="./../assets/icons/png/iconoir_cancel.png">
                         </button>
                     </div>
