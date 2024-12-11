@@ -5,6 +5,13 @@ let emailArray = [];
 /**This is a on load funktion */
 async function initReg() {
     loadEmails();
+    document.getElementById('input').addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (this.checkValidity()) {
+            console.log('ich funktioniere!');
+            signIn();
+        }
+    });
 }
 /**This is an function to fetch all used email Adresses from server
  * @param {string} [path='data/signtInUsers/emails'] 
@@ -19,8 +26,8 @@ async function loadEmails(path = 'data/signtInUsers/emails') {
 function signIn() {
     let name = document.getElementById('name').value;
     let email = document.getElementById('email').value;
-    let password_1 = document.getElementById('password_1').value;
-    let password_2 = document.getElementById('password_2').value;
+    let password_1 = document.getElementById('pw_1').value;
+    let password_2 = document.getElementById('pw_2').value;
     if(emailCheck(email) && passwordCheck(password_1, password_2)){
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
@@ -82,4 +89,28 @@ async function getUserTag(){
     let [vorname, nachname] = data.user.userData.name.split(" ");
     userTag = vorname[0] + nachname[0];
     return userTag;
+}
+
+function pw_check(){
+    let pw1 = document.getElementById('pw_1').value;
+    let pw2 = document.getElementById('pw_2').value;
+    if(pw1 != pw2){
+        document.getElementById('pwWarning').classList.add('visible-text');
+        document.getElementById('pwWarning').classList.remove('hidden-text');
+    }else{
+        document.getElementById('pwWarning').classList.add('hidden-text');
+        document.getElementById('pwWarning').classList.remove('visible-text');
+    }
+}
+
+function email_Check(){
+    let email = document.getElementById('email').value;
+    let found = emailArray.find((element) => element === email)
+    if(found){
+        document.getElementById('emailWarning').classList.add('visible-text');
+        document.getElementById('emailWarning').classList.remove('hidden-text');
+    }else{
+        document.getElementById('emailWarning').classList.add('hidden-text');
+        document.getElementById('emailWarning').classList.remove('visible-text');
+    }
 }

@@ -5,7 +5,7 @@ let sessionId;
 /**initialize moor funktions */
 async function initLog(){
     loadLoginData();
-    
+   
 }
 
 
@@ -112,26 +112,5 @@ function passwordCheck(pw1, pw2){
 }
 
 
-function pwcheck(){
-    let pw1 = document.getElementById('pw_1').value;
-    let pw2 = document.getElementById('pw_2').value;
-    if(pw1 != pw2){
-        document.getElementById('pwWarning').classList.add('visible-text');
-        document.getElementById('pwWarning').classList.remove('hidden-text');
-    }else{
-        document.getElementById('pwWarning').classList.add('hidden-text');
-        document.getElementById('pwWarning').classList.remove('visible-text');
-    }
-}
 
-function emailCheck(){
-    let email = document.getElementById('email').value;
-    let found = emailArray.find((element) => element === email)
-    if(found){
-        document.getElementById('emailWarning').classList.add('visible-text');
-        document.getElementById('emailWarning').classList.remove('hidden-text');
-    }else{
-        document.getElementById('emailWarning').classList.add('hidden-text');
-        document.getElementById('emailWarning').classList.remove('visible-text');
-    }
-}
+

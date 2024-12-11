@@ -36,23 +36,24 @@
             <div class="seperator center marBo30"></div>
 
             <inputBlock>
+                <form id="input">
+                    <div class="border borderInputFields center marBo30">
+                        <innerInputfield class="innerInputfield">
+                            <input id="name" class="noBorder input" placeholder="Name" required>
+                            <img src="./../assets/icons/png/person.png">
+                        </innerInputfield>
+                    </div>
 
-
-                <div class="border borderInputFields center marBo30">
-                    <innerInputfield class="innerInputfield">
-                        <input id="name" class="noBorder input" placeholder="Name" required>
-                        <img src="./../assets/icons/png/person.png">
-                    </innerInputfield>
-                </div>
-
-                <div class="border borderInputFields center">
-                    <innerInputfield class="innerInputfield">
-                        <input id="email" type="email" class="noBorder input" placeholder="Email" oninput="emailCheck()" required>
-                        <img src="./../assets/icons/svg/mail.svg">
-                    </innerInputfield>
-                </div>
+                    <div class="border borderInputFields center">
+                        <innerInputfield class="innerInputfield">
+                            <input id="email" type="email" class="noBorder input" pattern="([a-zA-Z]{1,})(\.)([a-zA-Z]{1,})@([a-zA-Z]{1,})(\.)([a-z]{2,3})" oninput="email_Check()" placeholder="Email" required>
+                            <img src="./../assets/icons/svg/mail.svg">
+                        </innerInputfield>
+                    </div>
+               
                 <div>
-                    <p id="emailWarning" class="failtureText left hidden-text">*The email address you want to use is registered </p>
+                    <p id="emailWarning" class="failtureText left hidden-text">*The email address you want to use is
+                        registered </p>
                 </div>
 
                 <div class="border borderInputFields center marBo30">
@@ -66,13 +67,14 @@
                 <div class="border borderInputFields center">
                     <innerInputfield class="innerInputfield">
                         <input id="pw_2" type="password" name="password2" class="noBorder input"
-                            placeholder="Confirm Password" oninput="pwcheck()" required>
+                            placeholder="Confirm Password" oninput="pw_check()" required>
                         <img src="./../assets/icons/svg/lock.svg">
                     </innerInputfield>
                 </div>
-
+            </form>
                 <div>
-                    <p name="passwordEqueal" id="pwWarning" class="failtureText left hidden-text">*Ups! your password dont match</p>
+                    <p name="passwordEqueal" id="pwWarning" class="failtureText left hidden-text">*Ups! your password
+                        dont match</p>
                 </div>
 
                 <div class="conditionBox">
@@ -80,7 +82,7 @@
                     <text class="condition">I accept the <a href="./privacyPolicy.html">Privacy policy</a></text>
                 </div>
                 <div class="btnContainer">
-                    <button onclick="signIn()" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
+                    <button form="input"  class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
                 </div>
 
             </inputBlock>
