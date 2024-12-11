@@ -27,13 +27,11 @@ let tempPriority = null;
  * @param {string} listId - Die ID der Liste, zu der der Task hinzugefügt werden soll.
  */
 function openAddTaskPopup(listId) {
-    refreshUIAfterPopupClose();
     const popup = document.getElementById('addTaskPopupOverlay');
     if (!popup) {
         console.error("Das Popup konnte nicht gefunden werden.");
         return;
     }
-    resetForm();
     currentListId = listId;
     const form = document.getElementById("addTaskFormTask");
     const newForm = form.cloneNode(true);
@@ -42,7 +40,15 @@ function openAddTaskPopup(listId) {
     popup.classList.remove('hidden');
 }
 
-
+/**
+ * Setzt die Priorität für eine Task.
+ * @param {string} priority - Die Priorität, die gesetzt werden soll.
+ */
+function setPriority(priority) {
+    tempPriority = priority;
+    document.querySelectorAll(".priorityBtn").forEach(btn => btn.classList.remove("active"));
+    document.getElementById(`prio${priority}`)?.classList.add("active");
+}
 
 /**
  * Erstellt ein neues Task-Objekt aus den Formulareingaben.
@@ -155,36 +161,6 @@ function validateTaskInputs() {
 }
 
 
-
-/**
- * Setzt die Formularfelder und den lokalen Zustand für die Task-Erstellung oder -Bearbeitung zurück.
- */
-function resetForm() {
-    resetTaskFormFields();
-    resetLocalState();
-}
-
-
-
-/**
- * Setzt die Formularfelder für die Task-Erstellung zurück.
- */
-function resetTaskFormFields() {
-    const form = document.getElementById("addTaskFormTask");
-    if (form) {
-        form.reset();
-    }
-    const subTasksList = document.getElementById("subTasksList");
-    if (subTasksList) {
-        subTasksList.innerHTML = "";
-    }
-    const selectedContactsList = document.getElementById("selectedContactsList");
-    if (selectedContactsList) {
-        selectedContactsList.innerHTML = "";
-    }
-    const priorityButtons = document.querySelectorAll(".priorityBtn.active");
-    priorityButtons.forEach(button => button.classList.remove('active'));
-}
 
 
 
