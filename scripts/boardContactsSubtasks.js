@@ -273,20 +273,6 @@ function generateContactsDropdownHTML() {
 
 
 
-/**
- * Rendert das Dropdown-Menü für Kontakte.
- */
-function renderContactsDropdown() {
-    let dropDown = document.getElementById('contactSelection');
-    if (dropDown.options.length > 0) return;
-    dropDown.innerHTML = "";
-    for (let i = 0; i < contactsArray.length; i++) {
-        dropDown.innerHTML += `
-            <option value="${contactsArray[i].name}">${contactsArray[i].name}</option>
-        `;
-    }
-}
-
 
 
 /**

@@ -137,6 +137,7 @@ function transformWorkers(workers) {
  * @param {Event} event - Das Form-Submit-Event.
  */
 async function addTaskToToDoList(event) {
+    addNewSubtask();
     event.preventDefault();
     if (!validateTaskInputs()) return;
     const newTask = buildNewTask();
@@ -159,14 +160,14 @@ async function addTaskToToDoList(event) {
 function validateTaskInputs() {
     const title = document.getElementById("title").value.trim();
     const dueDate = document.getElementById("date").value.trim();
-    const priority = tempPriority;
+    let priority = tempPriority || "Middle";
     const categoryName = document.getElementById("category").value.trim();
     if (!title || !dueDate || !priority || !categoryName) {
-        console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
         return false;
     }
     return true;
 }
+
 
 
 /**
@@ -177,7 +178,10 @@ function buildNewTask() {
     const title = document.getElementById("title").value.trim();
     const description = document.getElementById("description").value.trim();
     const dueDate = document.getElementById("date").value.trim();
-    const priority = tempPriority;
+
+    // Überprüfen, ob tempPriority gesetzt ist, und einen Standardwert verwenden, falls nicht
+    const priority = tempPriority || "Middle";
+
     const categoryName = document.getElementById("category").value.trim();
     return {
         title,
@@ -189,6 +193,7 @@ function buildNewTask() {
         subtasks: getLocalSubtasks(),
     };
 }
+
 
 /**
  * Erstellt die Kategorie-Daten einer Task.
@@ -450,7 +455,6 @@ function renderContactsDropdown() {
         dropdownList.appendChild(li);
 
     });
-
 }
 
 
@@ -459,7 +463,6 @@ function handleContactSelection(contact, isChecked) {
     if (!window.localContacts) {
         window.localContacts = {}; // Initialisierung
     }
-
     const selectedContactsList = document.getElementById("selectedContactsList");
 
     if (isChecked) {
