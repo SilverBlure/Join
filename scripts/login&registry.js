@@ -73,6 +73,7 @@ function guestLogin(email, pw){
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
+    deleteGuestContacts();
 }
 
 /**this funktion searches for email an pw in the login array 
