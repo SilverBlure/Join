@@ -8,7 +8,6 @@ async function initReg() {
     document.getElementById('input').addEventListener('submit', function(event) {
         event.preventDefault();
         if (this.checkValidity()) {
-            console.log('ich funktioniere!');
             signIn();
         }
     });
@@ -28,6 +27,8 @@ function signIn() {
     let email = document.getElementById('email').value;
     let password_1 = document.getElementById('pw_1').value;
     let password_2 = document.getElementById('pw_2').value;
+    let check = document.getElementById('checkboxSvg').value;
+    console.log(check);
     if(emailCheck(email) && passwordCheck(password_1, password_2)){
     createNewEntry(name, email, password_1);
     createNewMailEntry(email);
@@ -117,16 +118,20 @@ function email_Check(){
 
 function changeSvgToOn(){
     let doc = document.getElementById('checkboxSvg');
+    let btn = document.getElementById('signUpBtn')
     doc.src = `./../assets/icons/svg/vollCheckbox.svg`;
     doc.setAttribute('value','true');
     doc.setAttribute('class', 'checkboxFull');
     doc.setAttribute('onclick','changeSvgToOff()');
+    btn.removeAttribute('disabled');
 }
 
 function changeSvgToOff(){
     let doc = document.getElementById('checkboxSvg');
+    let btn = document.getElementById('signUpBtn')
     doc.src = `./../assets/icons/svg/leereCheckbox.svg`;
     doc.setAttribute('value','');
     doc.setAttribute('class', 'checkboxEmpty');
     doc.setAttribute('onclick','changeSvgToOn()');
+    btn.setAttribute('disabled', 'true');
 }
