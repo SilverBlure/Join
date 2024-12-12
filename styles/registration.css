@@ -37,6 +37,15 @@ body {
     align-items: center;
 }
 
+.textColor{
+    color: rgba(209, 209, 209, 1);
+}
+
+
+.textColor:hover{
+    color:  #29ABE2;
+}
+
 input::placeholder{
     color: rgba(209, 209, 209, 1);
 
@@ -82,6 +91,11 @@ input::placeholder{
 #signUpBtn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
+}
+
+.signUpBtn:hover{
+    background-color:  #29ABE2;
+    border-color: none;
 }
 
 .btnContainer {
