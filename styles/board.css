@@ -12,6 +12,19 @@
     box-shadow: none;
 }
 
+.custom-checkbox {
+    border: 1px solid grey; 
+    width: 16px;
+}
+
+.custom-checkbox:checked {
+    border: 1px solid grey; 
+    background-color: #2A3647;
+}
+
+
+
+
 h1 {
     font-size: 61px;
     font-weight: 700;

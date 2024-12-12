@@ -72,7 +72,7 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
             <input 
-                class="subtasksCheckbox popupIcons" 
+                class="form-check-input custom-checkbox" 
                 type="checkbox" 
                 ${subtask.done ? 'checked' : ''} 
                 onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
@@ -94,8 +94,7 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
         <div class="subtask-item" id="subtask-${subtaskId}">
             <p 
                 id="subtask-p-${subtaskId}" 
-                class="subtaskText" 
-                onclick="editSubtaskInLocal('${subtaskId}')">
+                class="subtaskText">
                 ${subtask.title}
             </p>
         <li class="subtask-item" id="subtask-${subtaskId}">
@@ -158,7 +157,6 @@ function generateWorkerContainerHTML(initials, color, name, showName) {
         </div>
     `;
 }
-
 
 
 
@@ -334,6 +332,8 @@ function generateEditSubtaskHTML(subtaskId, currentTitle) {
     <div class="editSubtaskBar">
         <input 
             type="text" 
+            onkeydown="handleSubtaskEditKey(event)"
+            onblur="handleSubtaskBlur(event)" 
             class="editSubtaskInput" 
             id="edit-input-${subtaskId}" 
             value="${currentTitle}">
