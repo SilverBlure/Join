@@ -1,3 +1,4 @@
+
 function renderEmptyMessage(container) {
     container.innerHTML += `
         <div class="nothingToDo">
@@ -42,25 +43,28 @@ function generateSubtasksProgressHTML(progressPercent, doneCount, totalCount) {
 
 
 
-function generateWorkersHTML(workers = []) {
+/**
+ * Generiert HTML für die Arbeiter einer Aufgabe.
+ * @param {Array<Object>} workers - Die Arbeiter der Aufgabe.
+ * @param {boolean} showNames - Wenn true, werden die Namen angezeigt.
+ * @returns {string} - Das generierte HTML.
+ */
+function generateWorkersHTML(workers = [], showNames = false) {
     workers = Array.isArray(workers) ? workers : [];
     if (workers.length === 0) {
         return '<p>No selected Contacts.</p>';
     }
     return workers
-        .filter(worker => worker && worker.name) 
+        .filter(worker => worker && worker.name)
         .map(worker => {
             const initials = getInitials(worker.name);
             const color = worker.color || getColorHex(worker.name, "");
-            return `
-                <div class="workerInformation">
-                    <p class="workerEmblem" style="background-color: ${color};">${initials}</p>
-                    <p class="workerName">${worker.name}</p>
-                </div>
-            `;
+            return generateWorkerContainerHTML(initials, color, worker.name, showNames);
         })
         .join("");
 }
+
+
 
 
 
@@ -134,13 +138,18 @@ function generatePopupDetailsHTML(task) {
 
 
 
-function generateWorkerContainerHTML(workersHTML) {
+function generateWorkerContainerHTML(initials, color, name, showName) {
     return `
         <div class="workerContainer">
-            ${workersHTML}
+            <div class="workerInformation">
+                <p class="workerEmblem" style="background-color: ${color};">${initials}</p>
+                            ${showName ? `<p class="workerName">${name}</p>` : ""} 
+            </div>
         </div>
     `;
 }
+
+
 
 
 
@@ -222,8 +231,8 @@ function generateSingleWorkerHTML(worker) {
 
 
 
-function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, taskId) {
-    return `
+function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
+    return /*html*/`
         <div class="popupHeader">
             <h1>Edit Task</h1>
             <img class="icon close" onclick="closeEditTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
@@ -235,9 +244,18 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
                     <input type="text" id="title" value="${task.title || ''}" required>
                     <label for="description">Description</label>
                     <textarea id="description" rows="5">${task.description || ''}</textarea>
-                    <label for="contactSelection">Assigned to</label>
-                    ${contactsDropdownHTML}
-                </div>
+                   
+                    <label for="contactSelection">Assign Contacts</label>
+                            <div class="createContactBar" onclick="toggleContactsDropdown()">
+                                <span id="dropdownLabel">Wähle einen Kontakt aus</span>
+                            </div>
+                            <div class="customDropdown">
+                                <ul class="dropdownList open" id="contactsDropdownList"></ul>
+                            </div>                            
+                            <ul id="selectedContactsList"></ul>
+                
+
+                            </div>
                 <div class="separator"></div>
                 <div class="formPart">
                     <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
@@ -255,7 +273,7 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
                     <div id="subTasksList">
                         ${subtasksHTML}
                         <div class="createSubtaskBar">
-                            <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text">
+                            <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text" onkeydown="handleSubtaskKey(event)">
                             <div class="divider"></div>
                             <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="./../assets/icons/png/addSubtasks.png">
                         </div>
@@ -269,35 +287,48 @@ function generateEditTaskForm(task, subtasksHTML, contactsDropdownHTML, listId, 
 
 
 
+
 function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
     return `
-        <div class="subtask-item" id="subtask-${subtaskId}">
+        <li class="subtask-item" id="subtask-${subtaskId}">
             <p class="subtaskText">${subtaskTitle}</p>
-            <img 
-                class="hoverBtn" 
-                src="./../assets/icons/png/iconoir_cancel.png" 
-                onclick="removeSubtaskFromList('${subtaskId}')"
-                alt="Delete Subtask">
-        </div>
+            <div class="subtaskButtons">
+                <img 
+                    src="./../assets/icons/png/editIcon.png" 
+                    class="subtask-btn" 
+                    onclick="editSubtask('${subtaskId}')"> 
+                <div class="separatorSubtask"></div>
+                <img 
+                    src="./../assets/icons/png/D.png" 
+                    class="subtask-btn" 
+                    onclick="deleteSubtaskFromLocal('${subtaskId}')"> 
+            </div>
+        </li>
     `;
 }
 
 
 
-function generateEditSubtaskHTML(taskId, subtaskId, currentTitle) {
+function generateEditSubtaskHTML(subtaskId, currentTitle) {
     return `
+    <div class="editSubtaskBar">
         <input 
             type="text" 
             class="editSubtaskInput" 
             id="edit-input-${subtaskId}" 
             value="${currentTitle}">
-        <button 
-            onclick="saveSubtaskEdit('${taskId}', '${subtaskId}', document.getElementById('edit-input-${subtaskId}').value)">
-            Save
-        </button>
-    `;
+            <div class="subtaskButtons">
+        <img src="./../assets/icons/png/D.png"
+            class="subtask-btn" 
+            onclick="deleteSubtask('${subtaskId}', '${currentTitle}')">           
+            <div id="separatorSubtask" class="separatorSubtask"></div>
+        <img src="./../assets/icons/png/Subtasks icons11.png"
+            class="subtask-btn"
+            onclick="saveSubtaskEdit('${subtaskId}')">
+    </div>
+    </div>
+            `;
 }
-
 
 
 function generateSubtaskItemHTML(subtaskId, subtaskTitle) {

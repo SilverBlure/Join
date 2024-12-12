@@ -127,14 +127,19 @@ function transformWorkers(workers) {
  * @param {Event} event - Das Form-Submit-Event.
  */
 async function addTaskToToDoList(event) {
-  event.preventDefault();
-  if (!validateTaskInputs()) return;
-  const newTask = buildNewTask();
-  try {
-    const result = await saveTask(newTask);
-    if (result) {
-      showSnackbar("Der Task wurde erfolgreich erstellt!");
-      window.location.reload();
+    addNewSubtask();
+    event.preventDefault();
+    if (!validateTaskInputs()) return;
+    const newTask = buildNewTask();
+    try {
+        const result = await saveTask(newTask);
+        if (result) {
+            showSnackbar("Der Task wurde erfolgreich erstellt!");
+            document.getElementById("prioMiddle").classList.add("active");
+        }
+    } catch (error) {
+        console.error("Fehler beim Hinzufügen des Tasks:", error);
+
     }
   } catch (error) {
     console.error("Fehler beim Hinzufügen des Tasks:", error);
@@ -200,6 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+
 /**
  * Erstellt ein neues Task-Objekt basierend auf den Formulareingaben.
  * @returns {Object} Das neue Task-Objekt.
@@ -220,7 +226,9 @@ function buildNewTask() {
     workers: getWorkers(),
     subtasks: getLocalSubtasks(),
   };
+
 }
+
 
 /**
  * Erstellt die Kategorie-Daten einer Task.
@@ -469,6 +477,7 @@ function renderContactsDropdown() {
 
     dropdownList.appendChild(li);
   });
+
 }
 
 function handleContactSelection(contact, isChecked) {
@@ -476,6 +485,7 @@ function handleContactSelection(contact, isChecked) {
   if (!window.localContacts) {
     window.localContacts = {}; // Initialisierung
   }
+
 
   const selectedContactsList = document.getElementById("selectedContactsList");
 
@@ -521,6 +531,7 @@ function removeContact(contact) {
     (selected) => selected.id !== contact.id
   );
 
+
   delete window.localContacts[contact.id];
 
   const selectedContactItem = document.getElementById(`selected_${contact.id}`);
@@ -529,6 +540,7 @@ function removeContact(contact) {
   }
 
   updateDropdownLabel();
+
 }
 
 function isContactSelected(contactName) {
@@ -536,12 +548,14 @@ function isContactSelected(contactName) {
 }
 
 function updateDropdownLabel() {
+
   const dropdownLabel = document.getElementById("dropdownLabel");
   if (selectedContacts.length === 0) {
     dropdownLabel.textContent = "Wähle einen Kontakt aus";
   } else {
     dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
   }
+
 }
 
 document.addEventListener("click", function (event) {
@@ -558,39 +572,36 @@ document.addEventListener("click", function (event) {
   }
 });
 
+document.addEventListener("click", function (event) {
+    const dropdownList = document.getElementById("contactsDropdownList");
+    const createContactBar = document.querySelector(".createContactBar");
+    if (
+        dropdownOpen && 
+        !dropdownList.contains(event.target) && 
+        !createContactBar.contains(event.target)
+    ) {
+        dropdownList.classList.remove("open");
+        dropdownOpen = false;
+    }
+});
+
+
 /**
  * Fügt eine neue Subtask hinzu.
  */
 function addNewSubtask() {
-  const subTaskInput = document.getElementById("subTaskInputAddTask");
-  const subTasksList = document.getElementById("subTasksList");
-  if (!subTaskInput || !subTasksList) return;
-  const subtaskTitle = subTaskInput.value.trim();
-  if (!subtaskTitle) return;
-  if (!window.localSubtasks) window.localSubtasks = {};
-  const subtaskId = `subtask_${Date.now()}`;
-  const subtaskItem = {
-    title: subtaskTitle,
-    done: false,
-  };
-  window.localSubtasks[subtaskId] = subtaskItem;
-  const subtaskHTML = `
-        <div class="subtask-item" id="${subtaskId}">
-            <input 
-                type="checkbox" 
-                onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
-            <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">
-                ${subtaskTitle}
-            </p>
-            <img 
-                class="hoverBtn" 
-                src="./../assets/icons/png/iconoir_cancel.png" 
-                onclick="removeSubtaskFromList('${subtaskId}')"
-                alt="Remove Subtask">
-        </div>
-    `;
-  subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
-  subTaskInput.value = "";
+    const subTaskInput = document.getElementById("newSubtaskInput") || document.getElementById("subTaskInputAddTask");
+    const subTasksList = document.getElementById("subTasksList");
+    const subtaskTitle = subTaskInput.value.trim();
+    const subtaskId = `subtask_${Date.now()}`;
+    const subtaskItem = { title: subtaskTitle, done: false };
+    window.localSubtasks = window.localSubtasks || {};
+    window.localSubtasks[subtaskId] = subtaskItem;
+    const subtaskHTML = generateNewSubtaskHTML(subtaskId, subtaskTitle);
+    subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
+    subTaskInput.value = "";
+    toggleSubtaskButtons();
+
 }
 
 /**
@@ -604,14 +615,61 @@ function handleSubtaskKey(event) {
   }
 }
 
+function toggleSubtaskButtons() {
+    const input = document.getElementById("subTaskInputAddTask");
+    const saveBtn = document.getElementById("saveSubtaskBtn");
+    const clearBtn = document.getElementById("clearSubtaskBtn");
+    const separator = document.getElementById("separatorSubtask")
+    const subtaskImg = document.getElementById("subtaskImg");
+    if (input.value.trim() !== "") {
+        saveBtn.classList.remove("hidden");
+        clearBtn.classList.remove("hidden");
+        subtaskImg.classList.add("hidden");
+        separator.classList.remove("hidden")
+    } else {
+        saveBtn.classList.add("hidden");
+        clearBtn.classList.add("hidden");
+        subtaskImg.classList.remove("hidden");
+        separator.classList.add("hidden");
+
+    }
+}
+
+
 /**
  * Generiert die Initialen eines vollständigen Namens.
  * @param {string} fullName - Der vollständige Name.
  * @returns {string} Die Initialen des Namens.
  */
 function getInitials(fullName) {
-  const nameParts = fullName.trim().split(" ");
-  return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${
-    nameParts[1]?.charAt(0).toUpperCase() || ""
-  }`;
+
+    const nameParts = fullName.trim().split(" ");
+    return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
 }
+
+
+/**
+ * Setzt das Formular zurück und leert die definierten Listen.
+ */
+function resetFormAndLists() {
+    // Formular zurücksetzen
+    const form = document.getElementById("addTaskFormTask"); // Ersetze 'myForm' mit der ID deines Formulars
+    if (form) {
+        form.reset(); // Setzt alle Formularfelder zurück
+    }
+
+    // Listen leeren
+    const listsToClear = ["subTasksList", "selectedContactsList"]; // IDs der Listen, die geleert werden sollen
+    listsToClear.forEach(listId => {
+        const list = document.getElementById(listId);
+        if (list) {
+            list.innerHTML = ""; // Entfernt alle Listeneinträge
+        }
+    });
+
+    // Optional: Leere lokale Zustände
+    window.localSubtasks = {};
+    window.localEditedContacts = [];
+    console.log("Formular und Listen erfolgreich zurückgesetzt.");
+}
+

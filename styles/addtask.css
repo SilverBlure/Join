@@ -55,6 +55,7 @@ h1 {
 
 .customDropdown {
   position: relative;
+
 }
 
 .dropdownList {
@@ -160,6 +161,7 @@ h1 {
   /* Entfernen der festen linken Margin, stattdessen Padding im Parent (.board) nutzen */
   overflow-y: auto;
 }
+
 
 /* Einzelne Listen-Spalte */
 .listBody {
@@ -424,6 +426,7 @@ border: none;
   max-height: 90vh;
   overflow-y: auto;
   box-sizing: border-box;
+
 }
 
 .popupInformation {

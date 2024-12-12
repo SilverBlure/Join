@@ -266,8 +266,29 @@ async function deleteContactDatabase(i) {
  * this function renders the dialog to add a new contact
  */
 function addContact(){
+    document.getElementById('dialogInfo').innerHTML ="Add contact";
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = addContactTemp();
+
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (this.checkValidity()) {
+            checkInput(createContact);
+        }
+    });
+}
+
+
+/**
+ * this function validates the input for creating or editing a new contact
+ */
+function checkInput(createEdit, i) {
+    let fullname = document.getElementById('name').value.trim(); 
+    if (fullname.split(" ").length < 2) {
+        showSnackbar("Please enter first and last name.");
+    }else{
+        createEdit(i)
+    } 
 }
 
 
@@ -279,7 +300,15 @@ function editContact(i){
     document.getElementById('editContact').innerHTML ="";
     document.getElementById('editContact').innerHTML = editContactTemp(i);
     openEditContact(i); 
+
+    document.getElementById('contactForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (this.checkValidity()) {
+            checkInput(getFromEdit, i);
+        }
+    });
 }
+
 
 
 /**
@@ -313,25 +342,6 @@ function getColorHex(vorname, nachname){
     let b = (hash * 789) % 256;
     let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     return hexColor;
-}
-
-
-/**
- * this function validates the input for creating or editing a new contact
- */
-function checkInput(createEdit, i) {
-    let fullname = document.getElementById('name').value.trim(); 
-    let email = document.getElementById('email').value.trim();
-    let phone = document.getElementById('phone').value.trim();
-    if (fullname.split(" ").length < 2) {
-        showSnackbar("Please enter first and last name.");
-    } else if (email === "") {
-        showSnackbar("Please enter your email.");
-    } else if (phone === "") {
-        showSnackbar("Please enter your phone number.");
-    } else {
-        createEdit(i);
-    }
 }
 
 

@@ -27,7 +27,9 @@ function contactDetailsTemps(i, initialien) {
 <div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
     <div>
         <div><H2>${contactsArray[i].name}</H2></div>
-        <img class="pointer" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt=""><img class="pointer" onclick="openDeleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
+       <div class="detailsBtn"><img class="pointer edit" onclick="editContact(${i})" src="../assets/icons/png/edit.png" alt="">
+       <img class="pointer delete" onclick="openDeleteContact(${i})" src="../assets/icons/png/Delete contact.png" alt="">
+       </div>
     </div>
     </div>
     <h4>Contact Information</h4>
@@ -57,7 +59,7 @@ function addContactTemp(){
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" name="email" type="email" class="noBorder" placeholder="Email" required>
+                <input id="email" name="email" type="email" class="noBorder" placeholder="Email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
                 <img src="./../assets/icons/svg/mail.svg">
             </span>
         </div>
@@ -71,7 +73,8 @@ function addContactTemp(){
     </form>
     </div>
     <div class="createContactBtn">
-        <button type="submit" class="addbutton, notOnMobile" onclick="closeAddContact()">cancel</button><button class="addbutton" onclick="checkInput(createContact)">create contact <img src="../assets/icons/png/check.png"></button>
+        <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
+        <button class="dialogBtn" type="submit" form="contactForm">Create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -91,14 +94,15 @@ function editContactTemp(i){
         <div class="inputBorder">
             <span class="innerInputfield">
                 <input class="noBorder" id="name" placeholder="Name" required>
-                <img src="../../assets/icons/png/person.png">
+
+                <img src="./../assets/icons/png/person.png">
             </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" type="email" class="noBorder" placeholder="Email" required>
-                <img src="../../assets/icons/svg/mail.svg">
+                <input id="email" type="email" class="noBorder" placeholder="Email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
+                <img src="./../assets/icons/svg/mail.svg">
             </span>
         </div>
     
@@ -111,7 +115,8 @@ function editContactTemp(i){
     </form>
     </div>
     <div class="createContactBtn">
-        <button onclick="closeAddContact()">cancel</button><button onclick="checkInput(getFromEdit, ${i})">edit contact <img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
+        <button class="dialogBtn" type="submit" form="contactForm">Save<img src="../assets/icons/png/check.png"></button>
     </div>
 </div>                      
 `;
@@ -119,7 +124,7 @@ function editContactTemp(i){
 
 function deleteContactTemp(i){
     return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
-    <div class="deleteBtn"><button onclick="closeAddContact()">cancel</button><button onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
+    <div class="deleteBtn"><button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
     `
 }
 
@@ -133,7 +138,7 @@ function generateSubtaskHTML(subtaskId, title) {
         <div class="subtask-item" id="${subtaskId}">
             <input type="checkbox" onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
             <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">${title}</p>
-            <img src="../../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
+            <img src="./../assets/icons/png/iconoir_cancel.png" onclick="removeSubtaskFromList('${subtaskId}')" alt="Remove Subtask">
         </div>
     `;
 }

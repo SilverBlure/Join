@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
+    <link rel="icon" href="./../assets/icons/svg/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="./../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -122,13 +123,14 @@
 
 
                             <label for="contactSelection">Assign Contacts</label>
-                            <div class="createContactBar">
-                                <select id="contactSelection" 
-                                onchange="handleContactSelection()"
-                                onclick="renderContactsDropdown()">
-                                </select>
-                                <ul id="selectedContactsList"></ul>
+                            <div class="createContactBar" onclick="toggleContactsDropdown()">
+                                <span id="dropdownLabel">Wähle einen Kontakt aus</span>
                             </div>
+                            <div class="customDropdown">
+                                <ul class="dropdownList open" id="contactsDropdownList"></ul>
+                            </div>
+                           
+                            <ul id="selectedContactsList"></ul>
 
 
 
@@ -145,7 +147,7 @@
                                 <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
                             </button>
                             <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
-                                class="priorityBtn">Medium
+                                class="priorityBtn active">Medium
                                 <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
                             </button>
                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
@@ -162,13 +164,21 @@
 
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input id="newSubtaskInput" name="subTaskInput" class="addSubTaskInput"
-                                placeholder="Add new subtask" type="text"  onkeydown="handleSubtaskKey(event)">
-                            <div class="divider"></div>
-                            <img onclick="addNewSubtask('listId', 'taskId')" class="addSubtaskButton"
-                                src="./../assets/icons/png/addSubtasks.png">
+                            <input id="subTaskInputAddTask" 
+                            name="subTaskInput" 
+                            class="addSubTaskInput" 
+                            placeholder="Add new subtask" 
+                            type="text" 
+                            oninput="toggleSubtaskButtons()"
+                            onkeydown="handleSubtaskKey(event)">
+                            <div class="subtaskButtons">
+                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
+                                <div id="separatorSubtask" class="separatorSubtask hidden"></div>
+                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                            </div>
+                            <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
-                        <ul id="subTasksList"></ul>
+                        <ul class="subTasksList" id="subTasksList"></ul>
                     </div>
                 </div>
                 <div class="taskFormButtons">
@@ -177,7 +187,7 @@
                         <button type="submit" class="button">Create Task
                             <img src="./../assets/icons/png/check.png">
                         </button>
-                        <button type="reset" class="button clearBtn">Clear
+                        <button type="reset" onclick="refreshLists()" class="button clearBtn">Clear
                             <img src="./../assets/icons/png/iconoir_cancel.png">
                         </button>
                     </div>
