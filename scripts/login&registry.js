@@ -32,10 +32,8 @@ async function loadLoginData(){
 function login(){
     let email = document.getElementById('email').value;
     let pw =document.getElementById('password').value;
-    let checkbox = document.getElementById('checkbox');
-    let check = checkLogin(email, pw);
-    let isChecked = checkbox.checked;
-    if(check.match&&isChecked){
+    let check = document.getElementById('checkSvg').getAttribute('value');
+    if(check.match&&check){
         localStorage.setItem('email', email);
         localStorage.setItem('pw', pw);
         localStorage.setItem('sessionKey', check.id);
@@ -129,5 +127,19 @@ function checkName(){
     },500);
 }
 
+function changeToChecked(){
+    let doc = document.getElementById('checkSvg');
+    doc.src = './../assets/icons/svg/vollCheckbox.svg';
+    doc.setAttribute('class','unCeck');
+    doc.setAttribute('onclick','changeToUncheck()');
+    doc.setAttribute('value','true');
+}
+
+function changeToUncheck(){
+    let doc = document.getElementById('checkSvg');
+    doc.src = `./../assets/icons/svg/leereCheckbox.svg`;
+    doc.setAttribute('class','checkSvg');
+    doc.setAttribute('onclick','changeToChecked()');
+}
 
 

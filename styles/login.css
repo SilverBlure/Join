@@ -13,6 +13,25 @@ body {
     animation: fadeInBlur 1s ease forwards;
 }
 
+.logInBtn:hover{
+    background-color:  #29ABE2;
+    border: none;
+}
+
+.guestBtn:hover{
+    color: #29ABE2;
+    border-color: #29ABE2;
+}
+
+.checkSvg:hover{
+    content: url('./../assets/icons/svg/leereCheckboxHover.svg');
+}
+
+.unCheck:hover{
+    content: url('./../assets/icons/svg/vollCheckboxMitHoverEffect.svg')
+}
+
+
 @keyframes fadeInBlur {
     0% {
         filter: blur(100px);
@@ -23,6 +42,18 @@ body {
         filter: blur(0px);
         /* Schärfe wiederherstellen */
     }
+}
+
+input::placeholder{
+    color: rgba(209, 209, 209, 1);
+}
+
+.text{
+    color: rgba(209, 209, 209, 1);
+}
+
+.text:hover{
+    color: #29ABE2;
 }
 
 .loginBackground {
