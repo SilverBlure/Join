@@ -283,9 +283,19 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                     <div id="subTasksList">
                         ${subtasksHTML}
                         <div class="createSubtaskBar">
-                            <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text" onkeydown="handleSubtaskKey(event)">
-                            <div class="divider"></div>
-                            <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="./../assets/icons/png/addSubtasks.png">
+                        <input id="subTaskInputAddTask" 
+                            name="subTaskInput" 
+                            class="addSubTaskInput" 
+                            placeholder="Add new subtask" 
+                            type="text" 
+                            oninput="toggleSubtaskButtons()"
+                            onkeydown="handleSubtaskKey(event)">
+                            <div class="subtaskButtons">
+                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
+                                <div id="separatorSubtask" class="separatorSubtask hidden"></div>
+                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                            </div>
+                            <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
                     </div>
                 </div>

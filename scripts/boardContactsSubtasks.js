@@ -342,24 +342,6 @@ function saveSubtaskEdit(subtaskId) {
 }
 
 
-/**
- * Fügt einen neuen Subtask zur lokalen Liste hinzu und aktualisiert das DOM.
- */
-function addSubtaskToLocalList() {
-    const subTaskInput = document.getElementById("newSubtaskInput");
-    const subTasksList = document.getElementById("subTasksList");
-    if (!subTaskInput || !subTasksList) return;
-    const subtaskTitle = subTaskInput.value.trim();
-    if (!subtaskTitle) return;
-    const subtaskId = `subtask_${Date.now()}`;
-    const subtaskItem = { title: subtaskTitle, done: false };
-    if (!window.localEditedSubtasks) window.localEditedSubtasks = {};
-    window.localEditedSubtasks[subtaskId] = subtaskItem;
-    const subtaskHTML = generateSubtaskItemHTML(subtaskId, subtaskTitle);
-    subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
-    subTaskInput.value = "";
-}
-
 
 let dropdownOpen = false;
 
