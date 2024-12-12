@@ -92,36 +92,22 @@ function generateEditSubtasksHTML(subtasks = {}) {
 
 
 
-/**
- * Initialisiert den lokalen Zustand eines Tasks mit Arbeitern und Subtasks.
- * @param {Object} task - Der Task, dessen Zustand initialisiert werden soll.
- */
 function initializeLocalTaskState(task) {
-    // Initialisiere lokale Kontakte (Arbeiter)
-    if (Array.isArray(task.workers) && task.workers.length > 0) {
-        window.localEditedContacts = task.workers.reduce((acc, worker) => {
-            if (worker && worker.name) {
-                acc[worker.name] = worker; // Speichere jeden Arbeiter mit seinem Namen als Schlüssel
-            }
-            return acc;
-        }, {});
-    } else {
-        window.localEditedContacts = {};
-    }
+    // Initialisiere `window.localEditedContacts` als Array
+    window.localEditedContacts = Array.isArray(task.workers) ? task.workers : [];
 
-    // Initialisiere lokale Subtasks
-    if (task.subtasks && typeof task.subtasks === "object") {
-        window.localEditedSubtasks = { ...task.subtasks }; // Kopiere vorhandene Subtasks
-    } else {
-        window.localEditedSubtasks = {}; // Setze leeren Subtask-Zustand
-    }
+    // Initialisiere `window.localEditedSubtasks` als leeres Objekt oder kopiere Subtasks
+    window.localEditedSubtasks = task.subtasks && typeof task.subtasks === "object" 
+        ? { ...task.subtasks } 
+        : {};
 
-    // Debugging-Log, um den initialisierten Zustand zu überprüfen
-    console.log("Lokaler Zustand initialisiert:", {
-        contacts: window.localEditedContacts,
+    console.log("Initialized local state:", {
+        workers: window.localEditedContacts,
         subtasks: window.localEditedSubtasks,
     });
 }
+
+
 
 
 
@@ -335,8 +321,57 @@ function renderContactsDropdown() {
         li.appendChild(checkbox);
         dropdownList.appendChild(li);
     });
+    synchronizeContactCheckboxes();
 }
 
+function synchronizeContactCheckboxes() {
+    if (!contactsArray || !Array.isArray(contactsArray)) {
+        console.error("Fehlende oder ungültige Daten für Kontakte.");
+        return;
+    }
+    if (!window.localContacts) {
+        console.error("`window.localContacts` ist nicht initialisiert. Initialisiere als leeres Objekt.");
+        window.localContacts = {};
+    }
+    contactsArray.forEach(contact => {
+        const checkbox = document.querySelector(`#contactsDropdownList input[value="${contact.name}"]`);
+        if (checkbox) {
+            checkbox.checked = Object.values(window.localContacts).some(
+                localContact => localContact.name === contact.name
+            );
+        }
+    });
+    console.log("Checkboxen erfolgreich synchronisiert.");
+}
+
+
+/**
+ * Synchronisiert die ausgewählten Kontakte aus den Checkboxen mit `window.localContacts`.
+ */
+function updateLocalContactsFromCheckboxes() {
+    const checkboxes = document.querySelectorAll('#contactsDropdownList input[type="checkbox"]');
+    if (!window.localContacts) {
+        window.localContacts = {};
+    }
+
+    checkboxes.forEach(checkbox => {
+        const contactName = checkbox.value;
+        if (checkbox.checked) {
+            // Füge den Kontakt hinzu, falls nicht vorhanden
+            if (!Object.values(window.localContacts).some(contact => contact.name === contactName)) {
+                window.localContacts[`contact_${Date.now()}`] = { name: contactName };
+            }
+        } else {
+            // Entferne den Kontakt, falls vorhanden
+            const contactKey = Object.keys(window.localContacts).find(
+                key => window.localContacts[key].name === contactName
+            );
+            if (contactKey) {
+                delete window.localContacts[contactKey];
+            }
+        }
+    });
+}
 
 
 function handleContactSelection(contact, isChecked) {
