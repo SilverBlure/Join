@@ -59,7 +59,7 @@ function addContactTemp(){
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" name="email" type="email" class="noBorder" placeholder="Email" required>
+                <input id="email" name="email" type="email" class="noBorder" placeholder="Email" pattern="([a-zA-Z]{1,})(.)([a-zA-Z]{1,})@([a-zA-Z]{1,})(.)([a-z]{2,3})" required>
                 <img src="./../assets/icons/svg/mail.svg">
             </span>
         </div>
@@ -101,7 +101,7 @@ function editContactTemp(i){
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" type="email" class="noBorder" placeholder="Email" required>
+                <input id="email" type="email" class="noBorder" placeholder="Email" pattern="([a-zA-Z]{1,})(.)([a-zA-Z]{1,})@([a-zA-Z]{1,})(.)([a-z]{2,3})" required>
                 <img src="./../assets/icons/svg/mail.svg">
             </span>
         </div>

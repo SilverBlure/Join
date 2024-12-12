@@ -302,9 +302,9 @@ function editContact(i){
     openEditContact(i); 
 
     document.getElementById('contactForm').addEventListener('submit', function(event) {
-        event.preventDefault(); // Verhindert das Neuladen der Seite
+        event.preventDefault();
         if (this.checkValidity()) {
-            checkInput(getFromEdit, i);;
+            checkInput(getFromEdit, i);
         }
     });
 }
