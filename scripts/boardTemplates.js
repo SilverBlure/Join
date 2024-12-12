@@ -85,6 +85,10 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
 
 
 
+
+
+
+
 function generateEditSingleSubtaskHTML(subtaskId, subtask) {
     return `
         <div class="subtask-item" id="subtask-${subtaskId}">
@@ -92,23 +96,29 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
                 id="subtask-p-${subtaskId}" 
                 class="subtaskText" 
                 onclick="editSubtaskInLocal('${subtaskId}')">
-                ${subtask.title || "Unnamed Subtask"}
+                ${subtask.title}
             </p>
-            <div class="hoverBtnContainer">
+        <li class="subtask-item" id="subtask-${subtaskId}">
+            <div class="subtaskButtons">
                 <img 
-                    class="hoverBtn" 
                     src="./../assets/icons/png/editIcon.png" 
-                    onclick="editSubtaskInLocal('${subtaskId}')"
-                    alt="Edit Subtask">
+                    class="subtask-btn" 
+                    onclick="editSubtask('${subtaskId}')"> 
+                <div class="separatorSubtask"></div>
                 <img 
-                    class="hoverBtn" 
-                    src="./../assets/icons/png/iconoir_cancel.png" 
-                    onclick="deleteSubtaskFromLocal('${subtaskId}')"
-                    alt="Delete Subtask">
+                    src="./../assets/icons/png/D.png" 
+                    class="subtask-btn" 
+                    onclick="deleteSubtaskFromLocal('${subtaskId}')"> 
             </div>
+        </li>
         </div>
     `;
 }
+
+
+
+
+
 
 
 
@@ -320,11 +330,11 @@ function generateEditSubtaskHTML(subtaskId, currentTitle) {
             <div class="subtaskButtons">
         <img src="./../assets/icons/png/D.png"
             class="subtask-btn" 
-            onclick="deleteSubtask('${subtaskId}', '${currentTitle}')">           
+            onclick="deleteSubtaskFromLocal('${subtaskId}')"> 
             <div id="separatorSubtask" class="separatorSubtask"></div>
         <img src="./../assets/icons/png/Subtasks icons11.png"
             class="subtask-btn"
-            onclick="saveSubtaskEdit('${subtaskId}')">
+            onclick="saveEditedSubtask('${subtaskId}')">
     </div>
     </div>
             `;

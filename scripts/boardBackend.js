@@ -122,29 +122,23 @@ async function addTaskToList(listId, taskDetails) {
 }
 
 
-
-/**
- * Speichert die Änderungen einer bestehenden Aufgabe.
- * @param {Event} event - Das Formular-Event.
- * @param {string} listId - Die ID der Liste, zu der die Aufgabe gehört.
- * @param {string} taskId - Die ID der zu ändernden Aufgabe.
- */
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault();
     if (!listId || !taskId) return;
 
-    // Initialisiere Subtasks, falls nicht vorhanden
-    if (!window.localEditedSubtasks) window.localEditedSubtasks = {};
+    // Synchronisiere lokale Kontakte mit Checkbox-Werten
+    updateLocalContactsFromCheckboxes();
 
-    // Setze alle Subtasks auf "nicht erledigt" als Standard
+    // Synchronisiere Subtasks aus der DOM-Struktur
+    window.localEditedSubtasks = collectSubtasksFromDOM();
+
+    // Standardwerte für Subtasks setzen
     Object.values(window.localEditedSubtasks).forEach(subtask => {
         subtask.done = subtask.done || false;
     });
 
-    // Generiere die Worker-Objekte im gewünschten Format
-    const workers = Object.values(window.localContacts || {}).map(contact => ({
-        name: contact.name,
-    }));
+    // Kontakte abrufen
+    const workers = Object.values(window.localContacts || {});
 
     // Aktualisierte Task-Daten
     const updatedTask = {
@@ -156,14 +150,15 @@ async function saveTaskChanges(event, listId, taskId) {
             name: document.getElementById("category").value.trim() || "Uncategorized",
             class: `category${(document.getElementById("category").value || "Uncategorized").replace(/\s/g, "")}`,
         },
-        workers, // Hier werden die aktualisierten Kontakte hinzugefügt
-        subtasks: { ...window.localEditedSubtasks }, // Subtasks
+        workers, // Aktualisierte Kontakte
+        subtasks: { ...window.localEditedSubtasks }, // Aktualisierte Subtasks
     };
 
-    console.log("Speichere aktualisierte Aufgabe:", updatedTask); // Debugging-Ausgabe
+    console.log("Speichere aktualisierte Aufgabe:", updatedTask);
 
-    // Sende die aktualisierten Task-Daten an Firebase
+    // URL für das Speichern der Aufgabe
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+
     try {
         const response = await fetch(url, {
             method: "PUT",
@@ -178,7 +173,9 @@ async function saveTaskChanges(event, listId, taskId) {
             return;
         }
 
-        // Erfolgreiche Aktualisierung
+        // Erfolgreiches Speichern
+        console.log("Aufgabe erfolgreich aktualisiert in der Datenbank:", updatedTask);
+
         await getTasks(); // Aktualisiere die lokale Aufgabenübersicht
         showSnackbar('Der Task wurde erfolgreich aktualisiert!');
         closeEditTaskPopup(); // Schließe das Bearbeitungs-Popup
@@ -188,6 +185,7 @@ async function saveTaskChanges(event, listId, taskId) {
         showSnackbar('Fehler beim Aktualisieren der Daten!');
     }
 }
+
 
 
 

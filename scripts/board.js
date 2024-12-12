@@ -62,7 +62,7 @@ function buildNewTask() {
         priority: tempPriority,
         category: buildCategory(document.getElementById("category").value.trim()),
         workers: getWorkersFromSelectedContactsList(),
-        subtasks: getLocalSubtasks(),
+        subtasks: collectSubtasksFromDOM(), // Ersetzt getLocalSubtasks()
     };
     return task;
 }
