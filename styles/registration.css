@@ -23,6 +23,28 @@ body {
     flex-direction: column;
     border-radius: 30px;
     animation: fadeInBlur 1s ease forwards;
+    margin-bottom: 192px;
+}
+
+.privacylink{
+    color:  #29ABE2;
+}
+
+.regHead{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+input::placeholder{
+    color: rgba(209, 209, 209, 1);
+
+}
+ 
+#empty{
+    width: 32px;
+    height: 32px;
 }
 
 .failtureText{
@@ -75,6 +97,7 @@ body {
     align-items: center;
     column-gap: 50px;
     animation: fadeInBlur 1s ease forwards;
+    margin-bottom: 64px;
 }
 
 #snackbar {
@@ -106,13 +129,9 @@ body {
   }
   
   .logoLogin {
-    position: absolute;
-    top: 80px;
-    left: 77px;
-    width: 100px;
-    display: flex;
-    justify-content: start;
-    align-items: start;
+    padding-top: 80px;
+    padding-left: 75px;
+    scale: 1.2;
 }
 
 .signUp{
@@ -126,6 +145,9 @@ body {
     width: 150px;
 }
 
+.alignCenter{
+    align-items: center;
+}
 
 .hidden-text {
     opacity: 0;
@@ -138,6 +160,13 @@ body {
     visibility: visible;
 }
 
+.page{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 .left{
     display: flex;
