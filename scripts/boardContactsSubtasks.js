@@ -1,10 +1,4 @@
-/**
- * Gibt die lokalen Subtasks zurück, oder ein leeres Objekt, falls keine vorhanden sind.
- * @returns {Object} - Die lokalen Subtasks.
- */
-function getLocalSubtasks() {
-    return window.localSubtasks || {};
-}
+
 
 
 
@@ -52,6 +46,35 @@ function renderSubtaskProgress(subtasks) {
     return generateSubtasksProgressHTML(progressPercent, doneCount, totalCount);
 }
 
+/**
+ * Sammelt Subtasks aus der DOM-Subtask-Liste und erstellt ein Objekt.
+ * @returns {Object} - Ein Objekt mit Subtasks im Format { subtaskId: { title, done } }.
+ */
+function collectSubtasksFromDOM() {
+    const subTasksList = document.getElementById("subTasksList");
+    if (!subTasksList) {
+        console.warn("Subtask-Liste nicht gefunden.");
+        return {};
+    }
+
+    const subtasks = {};
+    const subtaskItems = subTasksList.querySelectorAll(".subtask-item");
+
+    subtaskItems.forEach(item => {
+        const subtaskId = item.id.replace("subtask-", "");
+        const titleInput = item.querySelector(".subtaskText, .editSubtaskInput");
+        const doneCheckbox = item.querySelector(".subtask-checkbox");
+
+        if (titleInput) {
+            subtasks[subtaskId] = {
+                title: titleInput.value || titleInput.textContent.trim(),
+                done: doneCheckbox ? doneCheckbox.checked : false,
+            };
+        }
+    });
+
+    return subtasks;
+}
 
 
 /**
@@ -91,40 +114,110 @@ function generateEditSubtasksHTML(subtasks = {}) {
 }
 
 
+/**
+ * Ermöglicht die Bearbeitung eines Subtasks direkt im DOM.
+ * @param {string} subtaskId - Die ID des Subtasks.
+ */
+function editSubtaskInLocal(subtaskId) {
+    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+    if (!subtaskElement) return;
 
-function initializeLocalTaskState(task) {
-    // Initialisiere `window.localEditedContacts` als Array
-    window.localEditedContacts = Array.isArray(task.workers) ? task.workers : [];
+    const subtaskTextElement = subtaskElement.querySelector(".subtaskText");
+    if (!subtaskTextElement) return;
 
-    // Initialisiere `window.localEditedSubtasks` als leeres Objekt oder kopiere Subtasks
-    window.localEditedSubtasks = task.subtasks && typeof task.subtasks === "object" 
-        ? { ...task.subtasks } 
-        : {};
+    const currentTitle = subtaskTextElement.textContent.trim();
+    const editHTML = `
+        <input 
+            type="text" 
+            class="editSubtaskInput" 
+            id="edit-input-${subtaskId}" 
+            value="${currentTitle}"
+            oninput="toggleSubtaskButtons()"
+            onkeydown="handleSubtaskKey(event)">
+            <div class="subtaskButtons">
+            <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="saveEditedSubtask('${subtaskId}')">
+            <div id="separatorSubtask" class="separatorSubtask hidden"></div>
+            <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                    </div>
+    `;
+    subtaskElement.innerHTML = editHTML;
+}
 
-    console.log("Initialized local state:", {
-        workers: window.localEditedContacts,
-        subtasks: window.localEditedSubtasks,
-    });
+function saveEditedSubtask(subtaskId) {
+    // Initialisieren, falls `window.localSubtasks` nicht existiert
+    if (!window.localSubtasks) {
+        window.localSubtasks = {};
+        console.warn("window.localSubtasks wurde initialisiert.");
+    }
+
+    // Subtask abrufen oder neuen erstellen, falls nicht vorhanden
+    let subtask = window.localSubtasks[subtaskId];
+    if (!subtask) {
+        console.log(`Subtask mit ID ${subtaskId} nicht gefunden. Ein neuer Subtask wird erstellt.`);
+        subtask = { title: "", done: false };
+        window.localSubtasks[subtaskId] = subtask;
+    }
+
+    // Eingabefeld abrufen
+    const inputElement = document.getElementById(`edit-input-${subtaskId}`);
+    if (!inputElement) {
+        console.error(`Eingabefeld für Subtask mit ID ${subtaskId} nicht gefunden.`);
+        return;
+    }
+
+    // Neuen Titel abrufen und validieren
+    const newTitle = inputElement.value.trim();
+    if (!newTitle) {
+        console.error("Neuer Titel ist leer oder ungültig.");
+        return;
+    }
+
+    // Subtask-Titel aktualisieren
+    subtask.title = newTitle;
+    console.log(`Subtask ${subtaskId} wurde aktualisiert:`, subtask);
+
+    // DOM aktualisieren
+    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+    if (subtaskElement) {
+        subtaskElement.innerHTML = `
+            <p 
+                id="subtask-p-${subtaskId}" 
+                class="subtaskText" 
+                onclick="editSubtask('${subtaskId}')">
+                ${newTitle}
+            </p>
+            <div class="subtaskButtons">
+                <img 
+                    src="./../assets/icons/png/editIcon.png" 
+                    class="subtask-btn" 
+                    onclick="editSubtask('${subtaskId}')">
+                <div class="separatorSubtask"></div>
+                <img 
+                    src="./../assets/icons/png/D.png" 
+                    class="subtask-btn" 
+                    onclick="deleteSubtaskFromLocal('${subtaskId}')">
+            </div>
+        `;
+    } else {
+        console.error(`Subtask-Element mit ID ${subtaskId} nicht im DOM gefunden.`);
+    }
 }
 
 
 
 
+function initializeLocalTaskState(task) {
+    // Initialisiere lokale Zustände
+    window.localEditedContacts = Array.isArray(task.workers) ? [...task.workers] : [];
+    window.localEditedSubtasks = task.subtasks && typeof task.subtasks === "object" 
+        ? { ...task.subtasks } 
+        : {};
 
-/**
- * Initialisiert die lokalen Kontakte für die Bearbeitung einer Aufgabe.
- * @param {Object} task - Die Task-Daten, die Kontakte enthalten.
- */
-function initializeLocalContacts(task) {
-    if (!task.workers || task.workers.length === 0) {
-        window.localContacts = {};
-        return;
-    }
-
-    window.localContacts = task.workers.reduce((acc, worker) => {
-        acc[worker.name] = worker;
-        return acc;
-    }, {});
+    // Debugging
+    console.log("Initialized local state:", {
+        workers: window.localEditedContacts,
+        subtasks: window.localEditedSubtasks,
+    });
 }
 
 
@@ -324,25 +417,45 @@ function renderContactsDropdown() {
     synchronizeContactCheckboxes();
 }
 
+
+/**
+ * Initialisiert die lokalen Kontakte für die Bearbeitung einer Aufgabe.
+ * @param {Object} task - Die Task-Daten, die Kontakte enthalten.
+ */
+function initializeLocalContacts(task) {
+    if (!task.workers || task.workers.length === 0) {
+        window.localContacts = {};
+        return;
+    }
+
+    window.localContacts = task.workers.reduce((acc, worker) => {
+        acc[worker.name] = worker;
+        return acc;
+    }, {});
+}
+
+
+
 function synchronizeContactCheckboxes() {
     if (!contactsArray || !Array.isArray(contactsArray)) {
         console.error("Fehlende oder ungültige Daten für Kontakte.");
         return;
     }
-    if (!window.localContacts) {
-        console.error("`window.localContacts` ist nicht initialisiert. Initialisiere als leeres Objekt.");
-        window.localContacts = {};
+    if (!Array.isArray(window.localEditedContacts)) {
+        console.error("`window.localEditedContacts` ist kein Array. Initialisiere als leeres Array.");
+        window.localEditedContacts = [];
     }
     contactsArray.forEach(contact => {
         const checkbox = document.querySelector(`#contactsDropdownList input[value="${contact.name}"]`);
         if (checkbox) {
-            checkbox.checked = Object.values(window.localContacts).some(
-                localContact => localContact.name === contact.name
+            checkbox.checked = !!window.localEditedContacts.find(
+                editedContact => editedContact.name === contact.name
             );
         }
     });
-    console.log("Checkboxen erfolgreich synchronisiert.");
+    console.log("Checkboxen erfolgreich synchronisiert:", window.localEditedContacts);
 }
+
 
 
 /**
@@ -417,9 +530,6 @@ function isContactSelected(contactName) {
 }
 
 
-
-
-
 function updateDropdownLabel() {
     const dropdownLabel = document.getElementById("dropdownLabel");
     if (selectedContacts.length === 0) {
@@ -442,8 +552,6 @@ document.addEventListener("click", function (event) {
         dropdownOpen = false;
     }
 });
-
-
 
 
 function toggleSubtaskButtons() {
