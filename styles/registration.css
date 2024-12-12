@@ -100,7 +100,7 @@ input::placeholder{
 
 .signUpBtn:hover{
     background-color:  #29ABE2;
-    border-color: none;
+    border: none;
 }
 
 .btnContainer {

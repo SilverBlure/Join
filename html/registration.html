@@ -36,11 +36,15 @@
                 <div class="seperator center marBo30"></div>
                 <inputBlock>
                     <form id="input">
-                        <div class="border borderInputFields center marBo30">
+                        <div class="border borderInputFields center ">
                             <innerInputfield class="innerInputfield">
-                                <input id="name" class="noBorder input" placeholder="Name" required>
+                                <input id="name" class="noBorder input" placeholder="Name" oninput="checkName()" required>
                                 <img src="./../assets/icons/png/person.png">
                             </innerInputfield>
+                        </div>
+                        <div>
+                            <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last name seperated
+                               </p>
                         </div>
 
                         <div class="border borderInputFields center">
