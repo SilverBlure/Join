@@ -59,6 +59,9 @@ function renderTaskWorkers(workers) {
 
 
 
+
+
+
 /**
  * Öffnet ein Popup für eine spezifische Aufgabe.
  * @param {string} taskId - Die ID der Aufgabe.
