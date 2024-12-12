@@ -72,7 +72,7 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
             <input 
-                class="subtasksCheckbox popupIcons" 
+                class="form-check-input custom-checkbox" 
                 type="checkbox" 
                 ${subtask.done ? 'checked' : ''} 
                 onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
@@ -94,8 +94,7 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
         <div class="subtask-item" id="subtask-${subtaskId}">
             <p 
                 id="subtask-p-${subtaskId}" 
-                class="subtaskText" 
-                onclick="editSubtaskInLocal('${subtaskId}')">
+                class="subtaskText">
                 ${subtask.title}
             </p>
         <li class="subtask-item" id="subtask-${subtaskId}">
@@ -158,7 +157,6 @@ function generateWorkerContainerHTML(initials, color, name, showName) {
         </div>
     `;
 }
-
 
 
 
@@ -283,9 +281,19 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                     <div id="subTasksList">
                         ${subtasksHTML}
                         <div class="createSubtaskBar">
-                            <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text" onkeydown="handleSubtaskKey(event)">
-                            <div class="divider"></div>
-                            <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="./../assets/icons/png/addSubtasks.png">
+                        <input id="subTaskInputAddTask" 
+                            name="subTaskInput" 
+                            class="addSubTaskInput" 
+                            placeholder="Add new subtask" 
+                            type="text" 
+                            oninput="toggleSubtaskButtons()"
+                            onkeydown="handleSubtaskKey(event)">
+                            <div class="subtaskButtons">
+                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
+                                <div id="separatorSubtask" class="separatorSubtask hidden"></div>
+                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                            </div>
+                            <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
                     </div>
                 </div>
@@ -324,6 +332,8 @@ function generateEditSubtaskHTML(subtaskId, currentTitle) {
     <div class="editSubtaskBar">
         <input 
             type="text" 
+            onkeydown="handleSubtaskEditKey(event)"
+            onblur="handleSubtaskBlur(event)" 
             class="editSubtaskInput" 
             id="edit-input-${subtaskId}" 
             value="${currentTitle}">

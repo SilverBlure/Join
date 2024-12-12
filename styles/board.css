@@ -12,6 +12,17 @@
     box-shadow: none;
 }
 
+.custom-checkbox {
+    border: 1px solid grey; 
+    width: 16px;
+}
+
+.custom-checkbox:checked {
+    border: 1px solid grey; 
+    background-color: #2A3647;
+}
+
+
 h1 {
     font-size: 61px;
     font-weight: 700;
@@ -167,6 +178,7 @@ h1 {
     gap: 21px;
 }
 
+
 .BoardCardFooter {
     display: flex;
     justify-content: space-between;
@@ -174,9 +186,16 @@ h1 {
     padding-top: 24px;
 }
 
+
 .worker {
     display: flex;
 }
+
+
+.workerEmblem:first-child {
+    margin-left: 0; /* Das erste Element bleibt an der Ausgangsposition */
+}
+
 
 .workerEmblem {
     border: white 1px solid;
@@ -188,6 +207,9 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    position: relative;
+    margin-left: -10px;
 }
 
 .workerName {
@@ -459,6 +481,8 @@ left: 200px;
     display: flex;
     justify-content: start;
     align-items: center;
+    height: 27px;
+
 }
 
 .workerContainer {

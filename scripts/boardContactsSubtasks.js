@@ -1,4 +1,44 @@
+/**
+ * Behandelt Tasteneingaben beim Bearbeiten eines Subtasks.
+ * @param {KeyboardEvent} event - Das Tastendruck-Ereignis.
+ */
+function handleSubtaskEditKey(event) {
+    const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere Subtask-ID aus der Eingabe-ID
 
+    if (event.key === "Enter") {
+        // Speichere die Änderungen, wenn Enter gedrückt wird
+        event.preventDefault();
+        saveEditedSubtask(subtaskId);
+    } else if (event.key === "Escape") {
+        // Breche die Bearbeitung ab, wenn Escape gedrückt wird
+        event.preventDefault();
+        cancelSubtaskEdit(subtaskId);
+    }
+}
+
+/**
+ * Behandelt Tasteneingaben beim Bearbeiten eines Subtasks.
+ * @param {KeyboardEvent} event - Das Tastendruck-Ereignis.
+ */
+function handleSubtaskEditKey(event) {
+    const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere Subtask-ID aus der Eingabe-ID
+
+    if (event.key === "Enter") {
+        // Speichere die Änderungen, wenn Enter gedrückt wird
+        event.preventDefault();
+        saveEditedSubtask(subtaskId);
+    }
+}
+
+
+/**
+ * Behandelt das `onblur`-Event eines Subtask-Eingabefelds.
+ * @param {Event} event - Das Blur-Event.
+ */
+function handleSubtaskBlur(event) {
+    const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere die Subtask-ID
+    saveEditedSubtask(subtaskId); // Speichere den Subtask
+}
 
 
 
@@ -165,15 +205,18 @@ function saveEditedSubtask(subtaskId) {
         return;
     }
 
-    // Neuen Titel abrufen und validieren
+    // Neuen Titel abrufen
     const newTitle = inputElement.value.trim();
+
+    // Überprüfen, ob das Eingabefeld leer ist
     if (!newTitle) {
-        console.error("Neuer Titel ist leer oder ungültig.");
-        return;
+        console.warn("Das Eingabefeld ist leer. Es wird trotzdem gespeichert.");
     }
 
-    // Subtask-Titel aktualisieren
-    subtask.title = newTitle;
+    // Aktualisierung des Subtask-Titels, auch wenn keine Änderung vorgenommen wurde
+    const oldTitle = subtask.title;
+    subtask.title = newTitle || oldTitle; // Behalte den alten Titel, falls das Eingabefeld leer ist
+
     console.log(`Subtask ${subtaskId} wurde aktualisiert:`, subtask);
 
     // DOM aktualisieren
@@ -184,7 +227,7 @@ function saveEditedSubtask(subtaskId) {
                 id="subtask-p-${subtaskId}" 
                 class="subtaskText" 
                 onclick="editSubtask('${subtaskId}')">
-                ${newTitle}
+                ${subtask.title}
             </p>
             <div class="subtaskButtons">
                 <img 
@@ -202,6 +245,7 @@ function saveEditedSubtask(subtaskId) {
         console.error(`Subtask-Element mit ID ${subtaskId} nicht im DOM gefunden.`);
     }
 }
+
 
 
 
@@ -341,24 +385,6 @@ function saveSubtaskEdit(subtaskId) {
     }
 }
 
-
-/**
- * Fügt einen neuen Subtask zur lokalen Liste hinzu und aktualisiert das DOM.
- */
-function addSubtaskToLocalList() {
-    const subTaskInput = document.getElementById("newSubtaskInput");
-    const subTasksList = document.getElementById("subTasksList");
-    if (!subTaskInput || !subTasksList) return;
-    const subtaskTitle = subTaskInput.value.trim();
-    if (!subtaskTitle) return;
-    const subtaskId = `subtask_${Date.now()}`;
-    const subtaskItem = { title: subtaskTitle, done: false };
-    if (!window.localEditedSubtasks) window.localEditedSubtasks = {};
-    window.localEditedSubtasks[subtaskId] = subtaskItem;
-    const subtaskHTML = generateSubtaskItemHTML(subtaskId, subtaskTitle);
-    subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
-    subTaskInput.value = "";
-}
 
 
 let dropdownOpen = false;
