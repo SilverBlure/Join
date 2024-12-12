@@ -114,3 +114,19 @@ function email_Check(){
         document.getElementById('emailWarning').classList.remove('visible-text');
     }
 }
+
+function changeSvgToOn(){
+    let doc = document.getElementById('checkboxSvg');
+    doc.src = `./../assets/icons/svg/vollCheckbox.svg`;
+    doc.setAttribute('value','true');
+    doc.setAttribute('class', 'checkboxFull');
+    doc.setAttribute('onclick','changeSvgToOff()');
+}
+
+function changeSvgToOff(){
+    let doc = document.getElementById('checkboxSvg');
+    doc.src = `./../assets/icons/svg/leereCheckbox.svg`;
+    doc.setAttribute('value','');
+    doc.setAttribute('class', 'checkboxEmpty');
+    doc.setAttribute('onclick','changeSvgToOn()');
+}

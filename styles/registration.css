@@ -98,6 +98,14 @@ input::placeholder{
     cursor: not-allowed;
 }
 
+.checkboxFull:hover{
+    content: url('./../assets/icons/svg/vollCheckboxMitHoverEffect.svg');
+}
+
+.checkboxEmpty:hover{
+    content: url('./../assets/icons/svg/leereCheckboxHover.svg');
+}
+
 .signUpBtn:hover{
     background-color:  #29ABE2;
     border: none;
