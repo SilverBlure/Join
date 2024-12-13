@@ -143,3 +143,20 @@ function changeToUncheck(){
 }
 
 
+function checkInput(){
+    let doc = document.getElementById('warningText');
+    let emailFromInput = document.getElementById('email').value;
+    let pwFromInput = document.getElementById('password').value;
+    
+    if(!check(emailFromInput, pwFromInput)){
+        doc.classList.replace('hidden-text', 'visible-text');
+    }else{
+        doc.classList.replace('visible-text','hidden-text');
+    }
+}
+
+
+function check(emailFromInput, pwFromInput){
+    let isChecked = loginArray.find((element) => element.email == emailFromInput && element.password == pwFromInput);
+    return isChecked;
+}

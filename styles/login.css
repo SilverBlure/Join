@@ -57,17 +57,39 @@ input::placeholder{
 }
 
 .loginBackground {
-    margin-top: 64px;
-    margin-bottom: 64px;
     background-color: white;
     height: 449px;
     width: 652px;
     border-radius: 30px;
+    margin-bottom: 116px;
 }
 
 h1 {
     font-size: 73px;
     font-weight: 700;
+}
+
+.page{
+    display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 100vh;
+}
+
+.head{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100vw;
+    margin-top: 52px;
+}
+
+.footer{
+    margin-bottom: 64px;
+    width: 246px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .center {
@@ -105,6 +127,16 @@ h1 {
     background-color: #29ABE2;
 }
 
+.hidden-text {
+    opacity: 0;
+    visibility: hidden;
+ }
+
+.visible-text {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease;
+}
 
 .border {
     border: 2px;
@@ -132,6 +164,7 @@ h1 {
     height: 48px;
     width: 110px;
     font-size: 21px;
+    font-weight: 700;
 }
 
 .guestBtn {
@@ -173,19 +206,14 @@ h1 {
 }
 
 
-.loginHeader {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    height: 50px;
-    padding-top: 67px;
-
-}
 
 
 .registrationTrigger {
     margin-bottom: 0px;
     padding-right: 40px;
+    font-weight: 400;
+    font-size: 20px;
+    color: black;
 }
 
 .saveLogin {
@@ -197,25 +225,20 @@ h1 {
     
 }
 
+.signUpBtn{
+    padding-right: 64px;
+    display: flex;
+    align-items: center;
+}
+
 .input{
     width: 328px;
 }
 
-.loginfooter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 50px;
-}
-
 .logoLogin {
-    position: absolute;
-    top: 80px;
-    left: 77px;
-    width: 100px;
-    display: flex;
-    justify-content: start;
-    align-items: start;
+    padding-top: 56px;
+    padding-left: 75px;
+    scale: 1.2;
 }
 
 @media(max-width: 428px) {

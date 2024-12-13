@@ -20,21 +20,18 @@
 
 <body onload="initLog()">
     <div id="snackbar" class="hidden"></div>
-    <img class="logoLogin" src="./../assets/icons/svg/joinLogo.svg">
 
-    <div class="loginBody">
-        <div class="loginHeader">
-
-
-            <div class="registrationLink">
+    <div class="page">
+        <div class="head">
+            <div><img class="logoLogin " src="./../assets/icons/svg/joinLogo.svg"></div>
+            <div class="signUpBtn">
                 <p class="registrationTrigger">Not a Join user?</p>
                 <a href="./registration.html"><button class="logInBtn">Sign up</button></a>
             </div>
 
         </div>
-    </div>
-    <div class="center">
-        <div class="center ">
+
+        <div class="">
             <div class="loginBackground center">
                 <div class="center">
                     <h1>Log in</h1>
@@ -48,12 +45,14 @@
                 </div>
                 <div>
                     <div class="border  borderInputFields">
-                    <innerInputfield class="innerInputfield">
-                        <input id="password" class="noBorder input" placeholder="Passwort">
-                        <img src="./../assets/icons/svg/lock.svg">
-                    </innerInputfield>
+                        <innerInputfield class="innerInputfield">
+                            <input oninput="checkInput()" id="password" type="password" class="noBorder input"
+                                placeholder="Passwort">
+                            <img src="./../assets/icons/svg/lock.svg">
+                        </innerInputfield>
                     </div>
-                <p class="warningText ">*The entered email does not match the password.</p>
+                    <p id="warningText" class="warningText hidden-text">*The entered email does not match the password.
+                    </p>
                 </div>
                 <div class="saveLogin">
                     <img class="checkSvg" id="checkSvg" onclick="changeToChecked()"
@@ -66,10 +65,11 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="loginfooter">
-        <a class="text" href="./privacyPolicy.html">Privacy Policy</a>
-        <a class="text" href="./legalNotice.html">Legal notice</a>
+        <div class="footer">
+            <a class="text" href="./privacyPolicy.html">Privacy Policy</a>
+            <a class="text" href="./legalNotice.html">Legal notice</a>
+        </div>
+
     </div>
 </body>
 
