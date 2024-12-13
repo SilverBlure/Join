@@ -55,7 +55,7 @@ h1 {
 
 .customDropdown {
   position: relative;
-  width: 200px; 
+
 }
 
 .dropdownList {
@@ -162,6 +162,7 @@ h1 {
   overflow-y: auto;
 }
 
+
 /* Einzelne Listen-Spalte */
 .listBody {
   width: 100%;
@@ -239,7 +240,6 @@ h1 {
   align-items: center;
   padding-top: 1.5rem;
 }
-
 
 .worker {
   display: flex;
@@ -427,6 +427,7 @@ border: none;
   max-height: 90vh;
   overflow-y: auto;
   box-sizing: border-box;
+
 }
 
 .popupInformation {
@@ -517,6 +518,45 @@ border: none;
   padding: 2rem;
 }
 
+.selected-category {
+  background-color: #fff;
+}
+
+.category-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 3px solid #ffffff;
+  border-top: none;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-item {
+  padding: 0.5em;
+  border-bottom: 1px solid #eee;
+}
+
+.category-item:hover {
+  background-color: #1a90ea;
+
+  color: white;
+}
+
+
+.category-item:last-child {
+  border-bottom: none;
+}
+
+.hidden {
+  display: none;
+}
+
+
 .addIcons {
   cursor: pointer;
 }
@@ -534,6 +574,17 @@ select, .createContactBar {
   user-select: none;  
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid #d1d1d1;
+  cursor: pointer;
+  user-select: none; 
+}
+
 textarea {
   resize: none;
   min-height: 8.75rem;
@@ -542,7 +593,6 @@ textarea {
 input:focus,
 textarea:focus,
 select:focus {
-  outline: none;
   border: 1px solid #29abe2;
 }
 
