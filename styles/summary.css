@@ -35,6 +35,8 @@
 }
 
 .do {
+  transition: background-color 0.3s ease; /* Hintergrundänderung */
+  transition: transform 0.3s ease, filter 0.3s ease; /* Vergrößerung und Effekte */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,11 +47,43 @@
   height: 168px;
 }
 
+.do:hover {
+  transform: scale(1.1); /* Leichte Vergrößerung um 10% */
+  cursor: pointer;
+  background-color: #2A3647;
+  color: white;
+}
+
 .doIcon {
   width: 69px;
 }
 
+.do:hover .doIcon {
+  content: url('./../assets/icons/png/todoHover.png'); /* Neues Bild */
+}
+
+.do:hover .doneIcon {
+  content: url('./../assets/icons/png/doneHover.png'); /* Neues Bild */
+}
+
+.tasksBox:hover {
+  transform: scale(1.1); /* Leichte Vergrößerung um 10% */
+  cursor: pointer;
+  background-color: #2A3647;
+  color: white;
+}
+
+.urgent:hover {
+  transform: scale(1.1); /* Leichte Vergrößerung um 10% */
+  cursor: pointer;
+  background-color: #2A3647;
+  color: white;
+}
+
+
 .urgent {
+  transition: background-color 0.3s ease; /* Hintergrundänderung */
+  transition: transform 0.3s ease, filter 0.3s ease; /* Vergrößerung und Effekte */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,6 +95,8 @@
 }
 
 .tasksBox {
+  transition: background-color 0.3s ease; /* Hintergrundänderung */
+  transition: transform 0.3s ease, filter 0.3s ease; /* Vergrößerung und Effekte */
   display: flex;
   justify-content: center;
   align-items: center;
