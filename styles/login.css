@@ -71,25 +71,27 @@ h1 {
 
 .page{
     display: flex;
-        flex-direction: column;
+        /*flex-direction: column;*/
         justify-content: space-between;
         align-items: center;
         height: 100vh;
 }
 
 .head{
-    display: flex;
+    display: flex
+;
     justify-content: space-between;
-    align-items: flex-start;
-    width: 100vw;
-    margin-top: 52px;
+    align-items: start;
+    height: 100vh;
+    margin-top: 52px
 }
 
 .footer{
-    margin-bottom: 64px;
-    width: 246px;
+    position: absolute;
+    bottom: 64px;
     display: flex;
     justify-content: space-between;
+    width:264px;
 }
 
 .center {
@@ -228,7 +230,9 @@ h1 {
 .signUpBtn{
     padding-right: 64px;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    height: 100vh;
+    margin-top: 82px;
 }
 
 .input{
