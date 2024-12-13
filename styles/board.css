@@ -119,6 +119,8 @@ h1 {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    touch-action: none; /* Verhindert Standard-Touch-Scrolling */
+  pointer-events: auto; /* Erlaubt Interaktion */
 }
 
 .nothingToDo {
@@ -147,6 +149,9 @@ h1 {
     padding: 16px;
     width: 252px;
     height: 263px;
+    position: relative; /* Damit das Element verschoben werden kann */
+    touch-action: none; /* Standard-Touch-Verhalten deaktivieren */
+    transition: transform 0.2s ease;
 }
 
 .taskCardTitle {
