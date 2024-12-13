@@ -141,9 +141,7 @@ async function addTaskToToDoList(event) {
         console.error("Fehler beim Hinzufügen des Tasks:", error);
 
     }
-  } catch (error) {
-    console.error("Fehler beim Hinzufügen des Tasks:", error);
-  }
+
 }
 
 /**
