@@ -156,9 +156,8 @@ async function addTaskToSpecificList(listId, event) {
 function validateTaskInputs() {
     const title = document.getElementById("title").value.trim();
     const dueDate = document.getElementById("date").value.trim();
-    const priority = tempPriority;
     const categoryName = document.getElementById("category").value.trim();
-    if (!title || !dueDate || !priority || !categoryName) {
+    if (!title || !dueDate || !categoryName) {
         console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
         return false;
     }
