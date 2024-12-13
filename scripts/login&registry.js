@@ -130,7 +130,7 @@ function checkName(){
 function changeToChecked(){
     let doc = document.getElementById('checkSvg');
     doc.src = './../assets/icons/svg/vollCheckbox.svg';
-    doc.setAttribute('class','unCeck');
+    doc.setAttribute('class','unCheck');
     doc.setAttribute('onclick','changeToUncheck()');
     doc.setAttribute('value','true');
 }
