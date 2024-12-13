@@ -8,8 +8,6 @@ function startDragging(taskId) {
     if (card) card.classList.add("dragging");
 }
 
-
-
 /**
  * Beendet das Dragging und entfernt die Hervorhebung.
  */
@@ -18,8 +16,6 @@ function stopDragging() {
     if (card) card.classList.remove("dragging");
     currentDraggedElement = null;
 }
-
-
 
 /**
  * Erlaubt das Ablegen eines Elements auf dem Ziel.
@@ -30,22 +26,18 @@ function allowDrop(event) {
     event.stopPropagation();
 }
 
-
-
 /**
- * Hebt die Ziel-Liste hervor, um zu zeigen, dass ein Drop möglich ist.
- * @param {string} listId - Die ID der Liste, die hervorgehoben werden soll.
+ * Hebt die Ziel-Liste hervor.
+ * @param {string} listId - Die ID der Ziel-Liste.
  */
 function highlightList(listId) {
     const list = document.getElementById(listId);
     if (list) list.classList.add("highlight");
 }
 
-
-
 /**
- * Entfernt die Hervorhebung von der Liste.
- * @param {string} listId - Die ID der Liste, die nicht mehr hervorgehoben werden soll.
+ * Entfernt die Hervorhebung von der Ziel-Liste.
+ * @param {string} listId - Die ID der Ziel-Liste.
  */
 function unhighlightList(listId) {
     const list = document.getElementById(listId);
@@ -53,35 +45,41 @@ function unhighlightList(listId) {
 }
 
 
-
-/**
- * Handhabt das Ablegen eines Tasks auf eine neue Liste.
- * @param {Event} event - Das Drop-Event.
- * @param {string} targetListId - Die ID der Ziel-Liste.
- */
 async function handleDrop(event, targetListId) {
     event.preventDefault();
-    event.stopPropagation();
+
+    if (!currentDraggedElement) {
+        console.warn("Kein aktuelles Dragging-Element.");
+        return;
+    }
+
+    console.log("HandleDrop: Verschiebe zu Ziel-Liste:", targetListId);
+
     const sourceListId = await findTaskSourceList(currentDraggedElement);
     if (!sourceListId) {
+        console.error("Ursprungsliste nicht gefunden.");
         stopDragging();
         return;
     }
+
     try {
         const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
         if (!task) {
+            console.error("Task konnte nicht geladen werden.");
             stopDragging();
             return;
         }
         await deleteTaskFromFirebase(sourceListId, currentDraggedElement);
         await addTaskToFirebase(targetListId, task);
+        console.log("Task erfolgreich verschoben:", task);
         await getTasks();
         renderBoard();
     } finally {
         stopDragging();
-        unhighlightList(`${targetListId}List`);
+        unhighlightList(targetListId);
     }
 }
+
 
 
 
@@ -107,8 +105,6 @@ async function findTaskSourceList(taskId) {
     return null;
 }
 
-
-
 /**
  * Ruft einen Task aus Firebase ab.
  * @param {string} listId - Die ID der Liste, aus der der Task abgerufen werden soll.
@@ -121,8 +117,6 @@ async function fetchTaskFromFirebase(listId, taskId) {
     return response.ok ? await response.json() : null;
 }
 
-
-
 /**
  * Löscht einen Task aus Firebase.
  * @param {string} listId - Die ID der Liste, aus der der Task gelöscht werden soll.
@@ -132,8 +126,6 @@ async function deleteTaskFromFirebase(listId, taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
     await fetch(url, { method: "DELETE" });
 }
-
-
 
 /**
  * Fügt einen Task in Firebase hinzu.
@@ -148,3 +140,99 @@ async function addTaskToFirebase(listId, task) {
         body: JSON.stringify(task),
     });
 }
+
+/**
+ * Touch-Unterstützung für Drag-and-Drop
+ */
+let touchStartX = 0;
+let touchStartY = 0;
+
+/**
+ * Startet das Dragging per Touch.
+ * @param {Event} event - Das Touch-Event.
+ * @param {string} taskId - Die ID des zu ziehenden Tasks.
+ */
+function startTouchDragging(event, taskId) {
+    const touch = event.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    currentDraggedElement = taskId;
+    const card = document.getElementById(`boardCard-${taskId}`);
+    if (card) card.classList.add("dragging");
+    disableScroll(); // Scrollen deaktivieren
+}
+
+function handleTouchMove(event) {
+    if (!currentDraggedElement) return;
+
+    const touch = event.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
+    if (card) {
+        card.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    }
+
+    // Ziel-Element überprüfen
+    const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+    console.log("TouchMove target:", targetElement?.id); // Debug: Zeigt das Ziel-Element an
+
+    if (targetElement && targetElement.classList.contains("listBody")) {
+        highlightList(targetElement.id);
+    }
+}
+
+
+async function handleTouchDrop(event) {
+    if (!currentDraggedElement) return;
+
+    const touch = event.changedTouches[0];
+    const targetElement = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    console.log("TouchDrop target:", targetElement?.id); // Debug: Zeigt das Ziel-Element an
+
+    if (targetElement && targetElement.classList.contains("listBody")) {
+        const targetListId = targetElement.id;
+        await handleDrop(event, targetListId);
+    } else {
+        console.warn("Kein gültiges Ziel für den Drop erkannt.");
+    }
+
+    stopTouchDragging();
+}
+
+
+
+function stopTouchDragging() {
+    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
+    if (card) {
+        card.classList.remove("dragging");
+        card.style.transform = ""; // Position zurücksetzen
+    }
+    currentDraggedElement = null;
+    enableScroll(); // Scrollen wieder aktivieren
+}
+
+
+
+
+function disableScroll() {
+    document.body.style.overflow = "hidden";
+}
+
+function enableScroll() {
+    document.body.style.overflow = "";
+}
+
+
+document.addEventListener("touchstart", (event) => {
+    const target = event.target.closest(".boardCard");
+    if (target) {
+        const taskId = target.id.split("-")[1];
+        startTouchDragging(event, taskId);
+    }
+}, { passive: false });
+
+document.addEventListener("touchmove", handleTouchMove, { passive: false });
+document.addEventListener("touchend", handleTouchDrop, { passive: false });

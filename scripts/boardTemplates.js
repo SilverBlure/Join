@@ -14,6 +14,8 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
         <div id="boardCard-${taskId}" 
              draggable="true"
              ondragstart="startDragging('${taskId}', '${listId}')"
+             ontouchstart="startTouchDragging(event, '${taskId}')"
+
              onclick="openTaskPopup('${taskId}', '${listId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || "No Category"}</p>
@@ -378,7 +380,7 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
         <div id="boardCard-${taskId}" 
              draggable="true"
              ondragstart="startDragging('${taskId}', '${listId}')"
-             onclick="openTaskPopup('${taskId}', '${listId}')"
+             ontouchstart="startTouchDragging(event, '${taskId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">
                 ${task.category?.name || "No Category"}
@@ -392,6 +394,31 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
             </div>
         </div>
     `;
+}
+
+async function findTaskSourceList(taskId) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        console.error("Fehler beim Abrufen der Task-Daten.");
+        return null;
+    }
+
+    const data = await response.json();
+    console.log("Firebase Task-Daten:", data); // Debugging: Zeige die gesamte Datenstruktur
+
+    for (const listId in data) {
+        const tasks = data[listId]?.task || {};
+        console.log(`Überprüfe Liste: ${listId}, Tasks:`, tasks); // Debugging: Zeige die Tasks in jeder Liste
+
+        if (tasks[taskId]) {
+            console.log("Ursprungsliste gefunden:", listId);
+            return listId;
+        }
+    }
+
+    console.warn("Ursprungsliste nicht gefunden für Task:", taskId);
+    return null;
 }
 
 

@@ -369,13 +369,14 @@ border: none;
   flex-wrap: wrap;
 }
 
+
 .subtask-item {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-
 }
+
 
 .editSubtaskItem {
   width: unset;
