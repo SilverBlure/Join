@@ -387,61 +387,86 @@ function saveSubtaskEdit(subtaskId) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 let dropdownOpen = false;
 
-let selectedContacts = []; 
+let selectedContacts = [];
 
 function toggleContactsDropdown() {
-    const dropdownList = document.getElementById("contactsDropdownList");
-    dropdownOpen = !dropdownOpen;
-    if (dropdownOpen) {
-        renderContactsDropdown();
-        dropdownList.classList.add("open");
-    } else {
-        dropdownList.classList.remove("open");
-    }
+  const dropdownList = document.getElementById("contactsDropdownList");
+  dropdownOpen = !dropdownOpen;
+
+  if (dropdownOpen) {
+    renderContactsDropdown();
+    dropdownList.classList.add("open");
+  } else {
+    dropdownList.classList.remove("open");
+  }
 }
 
 
 function renderContactsDropdown() {
     const dropdownList = document.getElementById("contactsDropdownList");
-    dropdownList.innerHTML = "";
-
+      dropdownList.innerHTML = "";
     if (!contactsArray || contactsArray.length === 0) {
-        console.error("No contacts available to render");
-        dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
-        return;
+      console.error("No contacts available to render");
+      dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
+      return;
     }
-
-    contactsArray.forEach(contact => {
-        const li = document.createElement("li");
-        li.classList.add("dropdown-item");
-
-        const circle = document.createElement("div");
-        circle.classList.add("contact-circle"); // Optional: für Styling
-        const nameSpan = document.createElement("span");
-        nameSpan.classList.add("contact-name");
-        nameSpan.textContent = contact.name;
-
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.value = contact.name;
-
-        // Überprüfung, ob der Kontakt bereits ausgewählt ist
-        checkbox.checked = isContactSelected(contact.name);
-
-        // Hinzufügen eines Event-Listeners für Änderungen
-        checkbox.addEventListener("change", (event) => {
-            handleContactSelection(contact, event.target.checked);
-        });
-
-        li.appendChild(circle);
-        li.appendChild(nameSpan);
-        li.appendChild(checkbox);
-        dropdownList.appendChild(li);
+    contactsArray.forEach((contact) => {
+      const li = document.createElement("li");
+      const containerDiv = document.createElement("div");
+      containerDiv.classList.add("dropdown-item");
+      const workerEmblem = document.createElement("p");
+      workerEmblem.classList.add("workerEmblemList");
+      workerEmblem.style.backgroundColor = getColorRGB(contact.name, ""); // Farbe basierend auf dem Namen
+      workerEmblem.textContent = getInitials(contact.name); // Initialen des Namens
+      const nameSpan = document.createElement("span");
+      nameSpan.classList.add("contact-nameList");
+      nameSpan.textContent = contact.name;
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.value = contact.name;
+      checkbox.checked = isContactSelected(contact.name);
+      checkbox.classList.add("form-check-input", "custom-checkbox");
+      checkbox.addEventListener("change", (event) => {
+        handleContactSelection(contact, event.target.checked);
+      });
+  
+      // Füge workerEmblem, Name und Checkbox in den div-Container ein
+      containerDiv.appendChild(workerEmblem);
+      containerDiv.appendChild(nameSpan);
+      containerDiv.appendChild(checkbox);
+  
+      // Füge den div-Container in das <li>-Element ein
+      li.appendChild(containerDiv);
+  
+      // Füge das <li>-Element zur Dropdown-Liste hinzu
+      dropdownList.appendChild(li);
     });
-    synchronizeContactCheckboxes();
-}
+  }
 
 
 /**
@@ -514,24 +539,79 @@ function updateLocalContactsFromCheckboxes() {
 
 
 function handleContactSelection(contact, isChecked) {
+    // Initialisiere localContacts, falls es nicht definiert ist
     if (!window.localContacts) {
-        window.localContacts = {}; 
+      window.localContacts = {}; // Initialisierung
     }
+  
     const selectedContactsList = document.getElementById("selectedContactsList");
+  
     if (isChecked) {
-        if (!isContactSelected(contact.name)) {
-            selectedContacts.push(contact);
-            window.localContacts[contact.id] = contact; 
-            const li = document.createElement("li");
-            li.id = `selected_${contact.id}`;
-            li.textContent = contact.name; 
-            selectedContactsList.appendChild(li);
-        }
+      // Kontakt hinzufügen
+      if (!isContactSelected(contact.name)) {
+        selectedContacts.push(contact);
+        window.localContacts[contact.id] = contact; // Synchronisierung
+  
+        // Erstelle einen div-Container
+        const div = document.createElement("div");
+        div.id = `selected_${contact.id}`;
+        div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
+  
+        // Erstelle das <p>-Tag für die workerEmblem
+        const workerEmblem = document.createElement("p");
+        workerEmblem.classList.add("workerEmblem");
+        workerEmblem.style.backgroundColor = getColorRGB(contact.name, ""); // Farbe setzen
+        workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+  
+        // Füge das <p>-Tag in den div-Container ein
+        div.appendChild(workerEmblem);
+  
+        // Füge den div-Container zur Liste hinzu
+        selectedContactsList.appendChild(div);
+      }
     } else {
-        removeContact(contact);
+      // Kontakt entfernen
+      removeContact(contact);
     }
     updateDropdownLabel();
-}
+  }
+
+
+  /**
+ * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
+ * @param {string} vorname - Der Vorname.
+ * @param {string} nachname - Der Nachname.
+ * @returns {string} - Die generierte RGB-Farbe im Format "rgb(r, g, b)".
+ */
+function getColorRGB(vorname, nachname) {
+    const completeName = (vorname + nachname).toLowerCase();
+    let hash = 0;
+    for (let i = 0; i < completeName.length; i++) {
+        hash += completeName.charCodeAt(i);
+    }
+    const r = (hash * 123) % 256;
+    const g = (hash * 456) % 256;
+    const b = (hash * 789) % 256;
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+  
+  
+  
+  /**
+  * Generiert die Initialen eines Namens.
+  * @param {string} fullName - Der vollständige Name der Person (Vorname Nachname).
+  * @returns {string} - Die generierten Initialen (z.B. "AB").
+  */
+  function getInitials(fullName) {
+    if (!fullName || typeof fullName !== "string") {
+        console.warn("Ungültiger Name für Initialen:", fullName);
+        return ""; // Fallback bei ungültigen Eingaben
+    }
+  
+    const [vorname, nachname] = fullName.trim().split(" ");
+    const initialen = `${vorname?.charAt(0)?.toUpperCase() || ""}${nachname?.charAt(0)?.toUpperCase() || ""}`;
+    return initialen;
+  }
 
 
 function removeContact(contact) {

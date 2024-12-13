@@ -260,7 +260,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                                 <span id="dropdownLabel">Wähle einen Kontakt aus</span>
                             </div>
                             <div class="customDropdown">
-                                <ul class="dropdownList open" id="contactsDropdownList"></ul>
+                                <ul class="dropdownList" id="contactsDropdownList"></ul>
                             </div>                            
                             <ul id="selectedContactsList"></ul>
                 
