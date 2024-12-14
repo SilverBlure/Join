@@ -209,12 +209,9 @@ function buildNewTask() {
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
   const dueDate = document.getElementById("date").value.trim();
-  const priority = tempPriority;
   const categoryName = document.getElementById("category").value.trim();
     // Überprüfen, ob tempPriority gesetzt ist, und einen Standardwert verwenden, falls nicht
     const priority = tempPriority || "Middle";
-
-    const categoryName = document.getElementById("category").value.trim();
     return {
         title,
         description,
@@ -445,28 +442,57 @@ function renderContactsDropdown() {
 
   contactsArray.forEach((contact) => {
     const li = document.createElement("li");
-    li.classList.add("dropdown-item");
+    // Erstelle einen div-Container für die Inhalte
+    const containerDiv = document.createElement("div");
+    containerDiv.classList.add("dropdown-item");
 
-    const circle = document.createElement("div");
+    // Erstelle das <p>-Tag für workerEmblem
+    const workerEmblem = document.createElement("p");
+    workerEmblem.classList.add("workerEmblemList");
+    workerEmblem.style.backgroundColor = getColorRGB(contact.name, ""); // Farbe basierend auf dem Namen
+    workerEmblem.textContent = getInitials(contact.name); // Initialen des Namens
 
     const nameSpan = document.createElement("span");
-    nameSpan.classList.add("contact-name");
+    nameSpan.classList.add("contact-nameList");
     nameSpan.textContent = contact.name;
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.value = contact.name;
     checkbox.checked = isContactSelected(contact.name);
+
+    // Füge die gewünschten Klassen zur Checkbox hinzu
+    checkbox.classList.add("form-check-input", "custom-checkbox");
+
     checkbox.addEventListener("change", (event) => {
       handleContactSelection(contact, event.target.checked);
     });
 
-    li.appendChild(nameSpan);
-    li.appendChild(checkbox);
+    // Füge workerEmblem, Name und Checkbox in den div-Container ein
+    containerDiv.appendChild(workerEmblem);
+    containerDiv.appendChild(nameSpan);
+    containerDiv.appendChild(checkbox);
 
+    // Füge den div-Container in das <li>-Element ein
+    li.appendChild(containerDiv);
+
+    // Füge das <li>-Element zur Dropdown-Liste hinzu
     dropdownList.appendChild(li);
   });
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function handleContactSelection(contact, isChecked) {
   // Initialisiere localContacts, falls es nicht definiert ist
@@ -481,10 +507,23 @@ function handleContactSelection(contact, isChecked) {
     if (!isContactSelected(contact.name)) {
       selectedContacts.push(contact);
       window.localContacts[contact.id] = contact; // Synchronisierung
-      const li = document.createElement("li");
-      li.id = `selected_${contact.id}`;
-      li.textContent = contact.name;
-      selectedContactsList.appendChild(li);
+
+      // Erstelle einen div-Container
+      const div = document.createElement("div");
+      div.id = `selected_${contact.id}`;
+      div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
+
+      // Erstelle das <p>-Tag für die workerEmblem
+      const workerEmblem = document.createElement("p");
+      workerEmblem.classList.add("workerEmblem");
+      workerEmblem.style.backgroundColor = getColorRGB(contact.name, ""); // Farbe setzen
+      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+
+      // Füge das <p>-Tag in den div-Container ein
+      div.appendChild(workerEmblem);
+
+      // Füge den div-Container zur Liste hinzu
+      selectedContactsList.appendChild(div);
     }
   } else {
     // Kontakt entfernen
@@ -492,6 +531,50 @@ function handleContactSelection(contact, isChecked) {
   }
   updateDropdownLabel();
 }
+
+
+
+/**
+ * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
+ * @param {string} vorname - Der Vorname.
+ * @param {string} nachname - Der Nachname.
+ * @returns {string} - Die generierte RGB-Farbe im Format "rgb(r, g, b)".
+ */
+function getColorRGB(vorname, nachname) {
+  const completeName = (vorname + nachname).toLowerCase();
+  let hash = 0;
+  for (let i = 0; i < completeName.length; i++) {
+      hash += completeName.charCodeAt(i);
+  }
+  const r = (hash * 123) % 256;
+  const g = (hash * 456) % 256;
+  const b = (hash * 789) % 256;
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+
+/**
+* Generiert die Initialen eines Namens.
+* @param {string} fullName - Der vollständige Name der Person (Vorname Nachname).
+* @returns {string} - Die generierten Initialen (z.B. "AB").
+*/
+function getInitials(fullName) {
+  if (!fullName || typeof fullName !== "string") {
+      console.warn("Ungültiger Name für Initialen:", fullName);
+      return ""; // Fallback bei ungültigen Eingaben
+  }
+
+  const [vorname, nachname] = fullName.trim().split(" ");
+  const initialen = `${vorname?.charAt(0)?.toUpperCase() || ""}${nachname?.charAt(0)?.toUpperCase() || ""}`;
+  return initialen;
+}
+
+
+
+
+
+
 
 /**
  * Generiert eine Hex-Farbe basierend auf den Buchstaben des Namens.

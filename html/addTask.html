@@ -42,12 +42,9 @@
                             <span id="dropdownLabel">Wähle einen Kontakt aus</span>
                         </div>
                         <div class="customDropdown">
-                            <ul class="dropdownList open" id="contactsDropdownList"></ul>
-
+                            <ul class="dropdownList" id="contactsDropdownList"></ul>
                         </div>
-                       
                         <div id="selectedContactsList"></div>
-
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
@@ -55,7 +52,6 @@
                         <input name="date" type="date" id="date" required>
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
-
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
                                  class="priorityBtn">Urgent
                                  <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
@@ -68,7 +64,6 @@
                                  <img src="./../assets/icons/png/PrioritySymbolsLow.png">
                              </button>
                          </div>
-
                         <label for="category">Category<span class="requiredStar">*</span></label>
                         <div id="categoryDropdown" class="dropdown" required>
                             <div id="selectedCategory" class="selected-category">Select Task Category</div>
@@ -78,11 +73,8 @@
                             </div>
                         </div>
                         <input type="hidden" id="category" name="category" required>
-                        
-
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-
                             <input id="subTaskInputAddTask" 
                             name="subTaskInput" 
                             class="addSubTaskInput" 
@@ -95,7 +87,6 @@
                                 <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
                             </div>
                             <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
-
                         </div>
                         <ul class="subTasksList" id="subTasksList"></ul>
                     </div>
@@ -110,6 +101,5 @@
             </form>
         </div>
     </div>
-
 </body>
 </html>
