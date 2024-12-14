@@ -434,7 +434,7 @@ function renderContactsDropdown() {
       containerDiv.classList.add("dropdown-item");
       const workerEmblem = document.createElement("p");
       workerEmblem.classList.add("workerEmblemList");
-      workerEmblem.style.backgroundColor = getColorRGB(contact.name, ""); // Farbe basierend auf dem Namen
+      workerEmblem.style.backgroundColor = getColorHex(contact.name, ""); // Farbe basierend auf dem Namen
       workerEmblem.textContent = getInitials(contact.name); // Initialen des Namens
       const nameSpan = document.createElement("span");
       nameSpan.classList.add("contact-nameList");
@@ -552,8 +552,7 @@ function handleContactSelection(contact, isChecked) {
     const selectedContactsList = document.getElementById("selectedContactsList");
   
     if (isChecked) {
-      // Kontakt hinzufügen
-      if (!isContactSelected(contact.name)) {
+        if (!isContactSelected(contact.name)) {
         selectedContacts.push(contact);
         window.localContacts[contact.id] = contact; // Synchronisierung
   
@@ -565,7 +564,7 @@ function handleContactSelection(contact, isChecked) {
         // Erstelle das <p>-Tag für die workerEmblem
         const workerEmblem = document.createElement("p");
         workerEmblem.classList.add("workerEmblem");
-        workerEmblem.style.backgroundColor = getColorRGB(contact.name, ""); // Farbe setzen
+        workerEmblem.style.backgroundColor = getColorHex(contact.name, ""); // Farbe setzen
         workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
   
         // Füge das <p>-Tag in den div-Container ein
@@ -579,27 +578,7 @@ function handleContactSelection(contact, isChecked) {
       removeContact(contact);
     }
     updateDropdownLabel();
-  }
-
-
-  /**
- * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
- * @param {string} vorname - Der Vorname.
- * @param {string} nachname - Der Nachname.
- * @returns {string} - Die generierte RGB-Farbe im Format "rgb(r, g, b)".
- */
-function getColorRGB(vorname, nachname) {
-    const completeName = (vorname + nachname).toLowerCase();
-    let hash = 0;
-    for (let i = 0; i < completeName.length; i++) {
-        hash += completeName.charCodeAt(i);
-    }
-    const r = (hash * 123) % 256;
-    const g = (hash * 456) % 256;
-    const b = (hash * 789) % 256;
-    return `rgb(${r}, ${g}, ${b})`;
-  }
-  
+  } 
   
   
   /**

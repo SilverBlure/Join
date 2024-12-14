@@ -143,6 +143,7 @@ function closeAddTaskPopup() {
     const mainContent = document.getElementById('mainContent');
     if (popup) {
         popup.classList.add('hidden');
+        renderBoard();
     }
     if (mainContent) {
         mainContent.classList.remove('blur');

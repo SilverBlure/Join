@@ -655,20 +655,35 @@ document.addEventListener("click", function (event) {
  * Fügt eine neue Subtask hinzu.
  */
 function addNewSubtask() {
-  const subTaskInput =
-    document.getElementById("newSubtaskInput") ||
-    document.getElementById("subTaskInputAddTask");
+  const subTaskInput = document.getElementById("subTaskInputAddTask");
   const subTasksList = document.getElementById("subTasksList");
   const subtaskTitle = subTaskInput.value.trim();
+
+  if (!subtaskTitle) {
+      console.warn("Subtask-Titel ist leer. Abbruch.");
+      return;
+  }
+
   const subtaskId = `subtask_${Date.now()}`;
   const subtaskItem = { title: subtaskTitle, done: false };
+
+  // Lokalen Zustand aktualisieren
   window.localSubtasks = window.localSubtasks || {};
   window.localSubtasks[subtaskId] = subtaskItem;
+
+  // Subtask im DOM hinzufügen
   const subtaskHTML = generateNewSubtaskHTML(subtaskId, subtaskTitle);
   subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
+
+  // Eingabefeld leeren
   subTaskInput.value = "";
+
+  // Subtask-Buttons aktualisieren
   toggleSubtaskButtons();
+
+  console.log("Neuer Subtask hinzugefügt:", subtaskItem);
 }
+
 
 /**
  * Behandelt den Enter-Key-Ereignis für das Subtask-Eingabefeld.
@@ -759,48 +774,96 @@ function deleteSubtaskFromLocal(subtaskId) {
     }
 }
 
-/**
- * Sammelt Subtasks aus der DOM-Subtask-Liste und erstellt ein Objekt.
- * @returns {Object} - Ein Objekt mit Subtasks im Format { subtaskId: { title, done } }.
- */
 function collectSubtasksFromDOM() {
-    const subTasksList = document.getElementById("subTasksList");
-    if (!subTasksList) {
-        console.warn("Subtask-Liste nicht gefunden.");
-        return {};
-    }
-    const subtasks = {};
-    const subtaskItems = subTasksList.querySelectorAll(".subtask-item");
-    subtaskItems.forEach(item => {
-        const subtaskId = item.id.replace("subtask-", "");
-        const titleInput = item.querySelector(".subtaskText, .editSubtaskInput");
-        const doneCheckbox = item.querySelector(".subtask-checkbox");
-        const title = titleInput?.value?.trim() || titleInput?.textContent?.trim();
-        if (title) { // Überspringe leere Titel
-            subtasks[subtaskId] = {
-                title: title,
-                done: doneCheckbox ? doneCheckbox.checked : false,
-            };
-        }
-    });
-    return subtasks;
+  const subTasksList = document.getElementById("subTasksList");
+  if (!subTasksList) {
+      console.warn("Subtask-Liste nicht gefunden.");
+      return {};
+  }
+
+  const subtasks = {};
+  const subtaskItems = subTasksList.querySelectorAll(".subtask-item");
+  subtaskItems.forEach((item) => {
+      const subtaskId = item.id.replace("subtask-", "");
+      const title = item.querySelector(".subtaskText")?.textContent.trim() || "";
+      const done = item.querySelector(".subtask-checkbox")?.checked || false;
+
+      if (title) {
+          subtasks[subtaskId] = { title, done };
+      }
+  });
+
+  return subtasks;
 }
 
 
-/**
- * Behandelt Tasteneingaben beim Bearbeiten eines Subtasks.
- * @param {KeyboardEvent} event - Das Tastendruck-Ereignis.
- */
+
 function handleSubtaskEditKey(event) {
-  const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere Subtask-ID aus der Eingabe-ID
+  const subtaskId = event.target.id.replace("edit-input-", "");
 
   if (event.key === "Enter") {
-      // Speichere die Änderungen, wenn Enter gedrückt wird
+      // Änderungen speichern
       event.preventDefault();
-      addNewSubtask(subtaskId);
+      saveEditedSubtask(subtaskId);
   } else if (event.key === "Escape") {
-      // Breche die Bearbeitung ab, wenn Escape gedrückt wird
+      // Bearbeitung abbrechen
       event.preventDefault();
       cancelSubtaskEdit(subtaskId);
   }
+}
+
+function saveEditedSubtask(subtaskId) {
+  const subtaskInput = document.getElementById(`edit-input-${subtaskId}`);
+  if (!subtaskInput) {
+      console.warn(`Subtask mit ID ${subtaskId} nicht gefunden.`);
+      return;
+  }
+
+  const newTitle = subtaskInput.value.trim();
+  if (!newTitle) {
+      console.warn("Titel ist leer. Abbruch.");
+      return;
+  }
+
+  // Lokalen Zustand aktualisieren
+  if (window.localSubtasks && window.localSubtasks[subtaskId]) {
+      window.localSubtasks[subtaskId].title = newTitle;
+      console.log(`Subtask ${subtaskId} aktualisiert:`, newTitle);
+  }
+
+  // DOM aktualisieren
+  const subtaskText = document.querySelector(`#subtask-${subtaskId} .subtaskText`);
+  if (subtaskText) {
+      subtaskText.textContent = newTitle;
+  }
+}
+
+function cancelSubtaskEdit(subtaskId) {
+  const subtaskInput = document.getElementById(`edit-input-${subtaskId}`);
+  if (subtaskInput) {
+      const originalTitle = window.localSubtasks[subtaskId]?.title || "";
+      subtaskInput.value = originalTitle;
+  }
+  console.log(`Bearbeitung für Subtask ${subtaskId} abgebrochen.`);
+}
+
+function clearSubtaskInput() {
+  const input = document.getElementById("subTaskInputAddTask");
+  if (input) {
+      input.value = "";
+      console.log("Subtask-Eingabefeld erfolgreich geleert.");
+  }
+}
+
+
+function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
+  return `
+      <li id="subtask-${subtaskId}" class="subtask-item">
+          <input type="checkbox" class="subtask-checkbox" id="done-${subtaskId}" 
+              onchange="toggleSubtaskDone('${subtaskId}')">
+          <span class="subtaskText">${subtaskTitle}</span>
+          <button class="editBtn" onclick="startSubtaskEdit('${subtaskId}')">Edit</button>
+          <button class="deleteBtn" onclick="deleteSubtaskFromLocal('${subtaskId}')">Delete</button>
+      </li>
+  `;
 }
