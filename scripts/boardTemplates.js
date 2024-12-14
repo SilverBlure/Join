@@ -254,7 +254,6 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                     <input type="text" id="title" value="${task.title || ''}" required>
                     <label for="description">Description</label>
                     <textarea id="description" rows="5">${task.description || ''}</textarea>
-                   
                     <label for="contactSelection">Assign Contacts</label>
                             <div class="createContactBar" onclick="toggleContactsDropdown()">
                                 <span id="dropdownLabel">Wähle einen Kontakt aus</span>
@@ -263,8 +262,6 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                                 <ul class="dropdownList" id="contactsDropdownList"></ul>
                             </div>                            
                             <ul id="selectedContactsList"></ul>
-                
-
                             </div>
                 <div class="separator"></div>
                 <div class="formPart">

@@ -88,23 +88,18 @@ function buildCategory(categoryName) {
  * @returns {Array<Object>} - Eine Liste von Objekten mit den ausgewählten Kontakten.
  */
 function getWorkersFromSelectedContactsList() {
-    const selectedContactsList = document.getElementById("selectedContactsList");
-    if (!selectedContactsList) {
-        console.error("Die Liste der ausgewählten Kontakte wurde nicht gefunden.");
+    if (!window.localContacts) {
+        console.error("Lokale Kontakte sind nicht verfügbar.");
         return [];
     }
 
-    const workers = [];
-    // Iteriere über die Elemente der Liste
-    Array.from(selectedContactsList.children).forEach(listItem => {
-        const contactName = listItem.textContent.trim(); // Textinhalt des <li>-Elements
-        if (contactName) {
-            workers.push({ name: contactName });
-        }
-    });
-
-    return workers;
+    return Object.values(window.localContacts).map(contact => ({
+        name: contact.name, // Kontaktname
+        id: contact.id,     // Eindeutige ID des Kontakts
+        color: contact.color, // Farbe (falls verfügbar)
+    }));
 }
+
 
 
 
