@@ -1,1174 +1,1091 @@
-
 .addTaskBtn {
-    background-color: #2A3647;
-    color: white;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 211px;
-    height: 48px;
-    font-size: 21px;
-    font-weight: 700;
-    box-shadow: none;
+  background-color: #2a3647;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 211px;
+  height: 48px;
+  font-size: 21px;
+  font-weight: 700;
+  box-shadow: none;
 }
 
 .board {
-    background: #f2ebeb;
+  background: #f2ebeb;
 }
 
 .boardCard {
-    background: #ffffff;
+  background: #ffffff;
 }
 
 .custom-checkbox {
-    border: 1px solid grey; 
-    width: 16px;
+  border: 1px solid grey;
+  width: 16px;
 }
 
 .custom-checkbox:checked {
-    border: 1px solid grey; 
-    background-color: #2A3647;
+  border: 1px solid grey;
+  background-color: #2a3647;
 }
 
-
 h1 {
-    font-size: 61px;
-    font-weight: 700;
+  font-size: 61px;
+  font-weight: 700;
 }
 
 .addSubtaskButton {
-    padding-left: 15px;
-    padding-right: 15px;
-    cursor: pointer;
+  padding-left: 15px;
+  padding-right: 15px;
+  cursor: pointer;
 }
 
-
 .boardHead {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-top: 50px;
-    margin-left: 64px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 50px;
+  margin-left: 64px;
 }
 
 .searchContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 28px;
-    margin-left: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 28px;
+  margin-left: 320px;
 }
 
 .searchBar {
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    height: 48px;
-    width: 262px;
-    overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  width: 262px;
+  overflow: hidden;
 }
 
 .searchBar input {
-    border: none;
+  border: none;
 }
 
 .searchBar input:focus {
-    outline: none;
-    box-shadow: none;
-    border: none;
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
 
 .divider {
-    width: 1px;
-    height: 60%;
-    background-color: #ccc;
-    margin: 0px;
+  width: 1px;
+  height: 60%;
+  background-color: #ccc;
+  margin: 0px;
 }
 
 .searchBar .btn {
-    border: none;
-    background: none;
-    color: #333;
-    padding: 0 15px;
+  border: none;
+  background: none;
+  color: #333;
+  padding: 0 15px;
 }
 
 .formControl {
-    padding-left: 16px;
-    font-size: 20px;
+  padding-left: 16px;
+  font-size: 20px;
 }
 
 .listHeadline {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 16px;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 16px;
 }
 
 .taskList {
-    display: flex;
-    justify-content: start;
-    align-items: start;
-    margin-top: 60px;
-    column-gap: 26px;
-    margin-left: 64px;
-    overflow-y: scroll;
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  margin-top: 60px;
+  column-gap: 26px;
+  margin-left: 64px;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .listBody {
-    width: 280px;
-    gap: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+  width: 280px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .nothingToDo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px dotted #A8A8A8;
-    border-radius: 10px;
-    background-color: #E7E7E7;
-    color: #A8A8A8;
-    width: 246px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px dotted #a8a8a8;
+  border-radius: 10px;
+  background-color: #e7e7e7;
+  color: #a8a8a8;
+  width: 246px;
 }
 
 .nothingToDoText {
-    margin: 10px;
+  margin: 10px;
 }
 
 .progress {
-    width: 120px;
-    height: 8px;
+  width: 120px;
+  height: 8px;
 }
 
 .boardCard {
-    box-shadow: 0px 2px 8px rgb(223, 224, 225);
-    border-radius: 30px;
-    padding: 16px;
-    height: 263px;
+  box-shadow: 0px 2px 8px rgb(223, 224, 225);
+  border-radius: 30px;
+  padding: 16px;
+  height: 263px;
 }
 
 .taskCardTitle {
-    font-size: 16px;
-    font-weight: 700;
-    color: #2A3647;
-    overflow-wrap: break-word;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2a3647;
+  overflow-wrap: break-word;
 }
 
 .taskCardDescription {
-    font-size: 16px;
-    font-weight: 400;
-    color: #A8A8A8;
-    overflow-wrap: break-word;
+  font-size: 16px;
+  font-weight: 400;
+  color: #a8a8a8;
+  overflow-wrap: break-word;
 }
 
 .taskCardSubtasks {
-    font-size: 12px;
-    font-weight: 400;
-    margin: 0px;
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0px;
 }
-
 
 .taskContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 21px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 21px;
 }
-
 
 .BoardCardFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
 }
-
 
 .worker {
-    display: flex;
+  display: flex;
 }
-
 
 .workerEmblem:first-child {
-    margin-left: 0; /* Das erste Element bleibt an der Ausgangsposition */
+  margin-left: 0;
+  /* Das erste Element bleibt an der Ausgangsposition */
 }
 
-
 .workerEmblem {
-    border: white 1px solid;
-    color: white;
-    padding: 16px;
-    border-radius: 100%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    position: relative;
-    margin-left: -10px;
+  border: white 1px solid;
+  color: white;
+  padding: 16px;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  position: relative;
+  margin-left: -10px;
 }
 
 .workerName {
-    padding: 16px;
+  padding: 16px;
 }
 
-
 #selectedContactsList {
-margin: 0px;
-margin-top: 20px;
-margin-bottom: 20px;
-padding: 0px;
-position: relative;
-left: 200px;
+  margin: 0px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 0px;
+  position: relative;
+  left: 200px;
 }
 
 .priority {
-    position: relative;
+  position: relative;
 }
 
 .priorityBtn {
-    background-color: white;
-    color: black;
-    font-size: 20px;
-    font-weight: 400;
-    border-radius: 10px;
-    border: 1px solid #D1D1D1;
-    box-sizing: border-box;
-    width: 136px;
-    height: 56px;
+  background-color: white;
+  color: black;
+  font-size: 20px;
+  font-weight: 400;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  box-sizing: border-box;
+  width: 136px;
+  height: 56px;
 }
 
 .priorityBtnContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 8px;
 }
 
 .priorityBtn.active#prioUrgent {
-    background-color: red !important;
-    color: white;
+  background-color: red !important;
+  color: white;
 }
 
 .priorityBtn.active#prioMiddle {
-    background-color: #f5a841 !important;
-    color: white;
+  background-color: #f5a841 !important;
+  color: white;
 }
 
 .priorityBtn.active#prioLow {
-    background-color: #90ee90 !important;
-    color: white;
+  background-color: #90ee90 !important;
+  color: white;
 }
 
 .priorityBtn.active img {
-    filter: brightness(0) invert(1) !important;
+  filter: brightness(0) invert(1) !important;
 }
 
 .subtaskButtons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    left: 24px;
-  }
-
-  .separatorSubtask {
-    width: 1px;
-    height: 24px;
-    background-color: #A8A8A8;
-    margin: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 24px;
 }
 
+.separatorSubtask {
+  width: 1px;
+  height: 24px;
+  background-color: #a8a8a8;
+  margin: 16px;
+}
 
 .subTasksList {
-    position: relative;
-    padding-left: 0px;
-  }
+  position: relative;
+  padding-left: 0px;
+}
 
-  #subtaskImg {
-    padding-right: 16px;
-  }
+#subtaskImg {
+  padding-right: 16px;
+}
 
 .addSubTaskInput {
-    border: none;
-    }
+  border: none;
+}
 
 .addSubTaskInput:focus {
-    border: none;
+  border: none;
 }
 
 .taskCategory {
-    border: solid 1px;
-    width: fit-content;
-    color: white;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 400;
-    padding: 1px 25px 1px 25px;
+  border: solid 1px;
+  width: fit-content;
+  color: white;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 1px 25px 1px 25px;
 }
 
-
 .categoryTechnicalTask {
-    background-color: #1FD7C1;
+  background-color: #1fd7c1;
 }
 
 .categoryUserStory {
-    background-color: #0038FF;
+  background-color: #0038ff;
 }
 
 .popupDescription {
-    font-size: 20px;
-    overflow-wrap: break-word;
-    font-weight: 400;
+  font-size: 20px;
+  overflow-wrap: break-word;
+  font-weight: 400;
 }
 
 .popupIcons {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .subtasksContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 .subtask-item {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .editSubtaskItem {
-    width: unset;
-    display: flex;
-    justify-content: start;
-    align-items: start;
-
+  width: unset;
+  display: flex;
+  justify-content: start;
+  align-items: start;
 }
 
 .customDropdown {
-    position: relative;
-    width: 200px; 
-  }
-  
-  .dropdownList {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 1000;
-    max-height: 200px; 
-    overflow-y: auto; 
-    user-select: none;  
-  }
-  
-  .dropdownList.open {
-    display: block;
-  }
-  
-  .dropdownList::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-    border-radius: 4px; 
-  }
-  
-  
-  .dropdownList li {
-    padding: 12px 16px;
-    cursor: pointer;
-    font-size: 14px;
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    transition: background 0.3s, color 0.3s;
-    position: relative;
-  }
-  
-  .dropdownList li:hover {
-    background: #29ABE2; 
-    color: #ffffff; 
-  }
-  
-  .dropdownList li + li {
-    border-top: 1px solid #eee;
-  }
-  
-  .dropdown-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .contact-name {
-    flex-grow: 1;
-    font-size: 14px;
-    font-weight: 500;
-    color: #333;
-    margin-right: 10px;
-  }
-  
-  .dropdownList li input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    margin: 0;
-    cursor: pointer;
-  }
-  
+  position: relative;
+  width: 200px;
+}
 
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  user-select: none;
+}
+
+.dropdownList.open {
+  display: block;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 4px;
+}
+
+.dropdownList li {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "Arial", sans-serif;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+  position: relative;
+}
+
+.dropdownList li:hover {
+  background: #29abe2;
+  color: #ffffff;
+}
+
+.dropdownList li + li {
+  border-top: 1px solid #eee;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-name {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 10px;
+}
+
+.dropdownList li input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
 
 .subtasksCheckbox {
-    width: max-content;
+  width: max-content;
 }
 
 .subtaskText {
-    width: 100%;
-    margin: 8px;
-    overflow-wrap: break-word;
+  width: 100%;
+  margin: 8px;
+  overflow-wrap: break-word;
 }
 
-
 .popupOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
 
 .popupOverlay.visible {
-    visibility: visible;
+  visibility: visible;
 }
 
 .hidden {
-    visibility: hidden;
+  visibility: hidden;
 }
 
 .popupContainer {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-    height: 870px;
-    width: 1116px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  height: 870px;
+  width: 1116px;
 }
 
 .popupInformation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 250px;
 }
 
-
 .workerInformation {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    height: 27px;
-
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 27px;
 }
 
 .workerContainer {
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 1rem;
 }
 
 .workerIcon {
-    margin-top: 0px;
-    margin-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 .tasksPopupContainer {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
-    width: 525px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  width: 525px;
 }
 
 .popupHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .popupActions {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 30px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 30px;
 }
 
 .icons {
-    cursor: pointer;
-    width: 32px;
+  cursor: pointer;
+  width: 32px;
 }
 
 .formParts {
-    display: flex;
-    justify-content: start;
-    align-items: center;
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .formPart {
-    display: flex;
-    flex-direction: column;
-    width: 440px;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 440px;
+  gap: 20px;
 }
 
 .separator {
-    width: 2px;
-    background-color: #D1D1D1;
-    height: 424px;
-    margin: 0px 50px 0px 50px;
+  width: 2px;
+  background-color: #d1d1d1;
+  height: 424px;
+  margin: 0px 50px 0px 50px;
 }
 
 .addTaskContent {
-    display: flex;
-    flex-direction: column;
-    width: 1340px;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
+  width: 1340px;
+  height: 100vh;
 }
-
 
 .addIcons {
-    cursor: pointer;
+  cursor: pointer;
 }
-
 
 input,
 textarea,
 select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #D1D1D1;
-    box-sizing: border-box;
-    font-size: 16px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
 textarea {
-    resize: none;
-    min-height: 140px;
+  resize: none;
+  min-height: 140px;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-    outline: none;
-    border: 1px solid #29ABE2;
+  outline: none;
+  border: 1px solid #29abe2;
 }
 
 ::placeholder {
-    color: #D1D1D1;
+  color: #d1d1d1;
 }
 
 .requiredStar {
-    color: #FF8190;
+  color: #ff8190;
 }
 
-
 .prioMediumActive {
-    background: #FFA800;
-    color: white;
+  background: #ffa800;
+  color: white;
 }
 
 .prioLowActive {
-    background: #7AE229;
-    color: white;
+  background: #7ae229;
+  color: white;
 }
-
 
 .taskFormButtons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 136px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 136px;
 }
 
-
 .buttonContainer {
-    display: flex;
-    gap: 16px;
+  display: flex;
+  gap: 16px;
 }
 
 .button {
-    display: flex;
-    align-items: center;
-    padding: 10px 16px;
-    border-radius: 10px;
-    border: none;
-    font-weight: 700;
-    font-size: 20px;
-    cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .close {
-    width: 24px;
-    height: 24px;
+  width: 24px;
+  height: 24px;
 }
 
 .clearBtn {
-    background-color: white;
-    color: #2A3647;
-    border: 1px solid #2A3647;
+  background-color: white;
+  color: #2a3647;
+  border: 1px solid #2a3647;
 }
 
 .saveChangesButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    top: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 130px;
 }
 
 .createSubtaskBar {
-    border-radius: 0.625rem;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    height: 3rem;
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
+  border-radius: 0.625rem;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .dragging {
-    transform: rotate(10deg);
-    transition: transform 0.2s ease-in-out;
+  transform: rotate(10deg);
+  transition: transform 0.2s ease-in-out;
 }
 
 .listBody.highlight {
-    border: 2px dashed #4b4b4b;
-    background-color: #E7E7E7;
-    transition: background-color 0.2s, border 0.2s;
+  border: 2px dashed #4b4b4b;
+  background-color: #e7e7e7;
+  transition: background-color 0.2s, border 0.2s;
 }
-
 
 .subtask-item:hover .hoverBtnContainer {
-    opacity: 1;
-    pointer-events: all;
+  opacity: 1;
+  pointer-events: all;
 }
 
-
 .hoverBtnContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    column-gap: 16px;
-    padding-left: 20px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 16px;
+  padding-left: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .hoverBtn {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
 }
-
 
 .addTaskContent {
-    padding-left: 100px;
-    padding-top: 30px;
+  padding-left: 100px;
+  padding-top: 30px;
 }
 
-
-
-
-
-
-
-
-
-
-
 @media (max-width: 1920px) {
-    h1 {
-        font-size: 61px;
-        font-weight: 700;
-    }
+  h1 {
+    font-size: 61px;
+    font-weight: 700;
+  }
 }
 
 @media (max-width: 1500px) {
-    h1 {
-        font-size: 56px;
-    }
+  h1 {
+    font-size: 56px;
+  }
 
-    .searchContainer {
-        margin-left: 160px;
-    }
+  .searchContainer {
+    margin-left: 160px;
+  }
 
-    .listHeadline {
-        padding-right: unset;
-    }
+  .listHeadline {
+    padding-right: unset;
+  }
 
-    .listBody {
-        width: 200px;
-    }
+  .listBody {
+    width: 200px;
+  }
 
-    h4 {
-        font-size: 22px;
-    }
+  h4 {
+    font-size: 22px;
+  }
 
-    .nothingToDo {
-        width: 200px;
-    }
-
+  .nothingToDo {
+    width: 200px;
+  }
 }
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 1200px) {
-    .listBody {
-        width: 183px;
-        margin-left: 8px;
-    }
+  .listBody {
+    width: 183px;
+    margin-left: 8px;
+  }
 
-    h4 {
-        font-size: 18px;
-    }
+  h4 {
+    font-size: 18px;
+  }
 
-    .nothingToDo {
-        width: 183px;
-    }
+  .nothingToDo {
+    width: 183px;
+  }
 
-    .searchContainer {
-        margin-left: 120px;
-    }
+  .searchContainer {
+    margin-left: 120px;
+  }
 
-    .taskCategory {
-        font-size: 12px;
-    }
+  .taskCategory {
+    font-size: 12px;
+  }
 
-    .popupContainer {
-        width: unset;
-        overflow-y: scroll;
-        -ms-overflow-style: none;
-        /* IE and Edge */
-        scrollbar-width: none;
-        /* Firefox */
-    }
+  .popupContainer {
+    width: unset;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
 
-    #addTaskFormTask {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-    }
+  #addTaskFormTask {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
 
-    .formParts {
-        flex-direction: column;
-    }
+  .formParts {
+    flex-direction: column;
+  }
 
-    .separator {
-        width: 424px;
-        height: 2px;
-        margin: 50px 0px 50px 0px;
-    }
+  .separator {
+    width: 424px;
+    height: 2px;
+    margin: 50px 0px 50px 0px;
+  }
 
-    .taskFormButtons {
-        padding-top: 20px;
-        flex-direction: column;
-    }
+  .taskFormButtons {
+    padding-top: 20px;
+    flex-direction: column;
+  }
 
-    .progress {
-        width: 100px;
-    }
+  .progress {
+    width: 100px;
+  }
 
-    #selectedContactsList {
-        position:unset;
-        }
+  #selectedContactsList {
+    position: unset;
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @media (max-width: 1111px) {
-    .listBody {
-        width: 163px;
-    }
+  .listBody {
+    width: 163px;
+  }
 
-    h4 {
-        font-size: 18px;
-    }
+  h4 {
+    font-size: 18px;
+  }
 
-    .nothingToDo {
-        width: unset;
-    }
+  .nothingToDo {
+    width: unset;
+  }
 
-    .searchContainer {
-        margin-left: 120px;
-    }
+  .searchContainer {
+    margin-left: 120px;
+  }
 
-    .categoryTechnicalTask {
-        font-size: 12px;
-    }
+  .categoryTechnicalTask {
+    font-size: 12px;
+  }
 
-    .categoryUserStory {
-        font-size: 12px;
-    }
+  .categoryUserStory {
+    font-size: 12px;
+  }
 
-    .taskCardTitle {
-        font-size: 12px;
-    }
+  .taskCardTitle {
+    font-size: 12px;
+  }
 
-    .taskCardDescription {
-        font-size: 12px;
-    }
+  .taskCardDescription {
+    font-size: 12px;
+  }
 
-    .taskCardSubtasks {
-        font-size: 8px;
-    }
+  .taskCardSubtasks {
+    font-size: 8px;
+  }
 
-    .progress {
-        width: 80px;
-    }
+  .progress {
+    width: 80px;
+  }
 
-    .workerEmblem {
-        width: 16px;
-        height: 16px;
-    }
+  .workerEmblem {
+    width: 16px;
+    height: 16px;
+  }
 }
-
-
-
-
-
 
 @media (max-width: 1200px) {
-    h1 {
-        font-size: 42px;
-    }
+  h1 {
+    font-size: 42px;
+  }
 
-    .searchContainer {
-        margin-left: 20px;
-    }
+  .searchContainer {
+    margin-left: 20px;
+  }
 
-    .listHeadline {
-        width: 17vh;
-    }
+  .listHeadline {
+    width: 17vh;
+  }
 
-    .nothingToDo {
-        width: 70vh;
-    }
+  .nothingToDo {
+    width: 70vh;
+  }
 
-    .listBody {
-        width: auto;
-        height: max-content;
-        padding-top: 20px;
-        padding-bottom: 50px;
-        padding-left: 20px;
-    }
+  .listBody {
+    width: auto;
+    height: max-content;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+  }
 
-    .taskList {
-        flex-direction: column;
-    }
+  .taskList {
+    flex-direction: column;
+  }
 
-    .taskContainer {
-        flex-direction: row;
-        justify-content: start;
-        width: 656px;
-        overflow: auto;
-    }
+  .taskContainer {
+    flex-direction: row;
+    justify-content: start;
+    width: 656px;
+    overflow: auto;
+  }
 }
-
-
-
-
-
-
 
 @media (max-width: 1110) {
-    .taskList {
-        margin-left: 24px;
-    }
+  .taskList {
+    margin-left: 24px;
+  }
 
-    .listHeadline {
-        width: 60vh;
-    }
+  .listHeadline {
+    width: 60vh;
+  }
 
-    .nothingToDo {
-        width: 60vh;
-    }
+  .nothingToDo {
+    width: 60vh;
+  }
 
-    .boardHead {
-        flex-direction: column;
-        align-items: start;
-    }
+  .boardHead {
+    flex-direction: column;
+    align-items: start;
+  }
 
-    .searchContainer {
-        flex-direction: column;
-        margin-left: unset;
-        align-items: start;
-        gap: 20px;
-    }
+  .searchContainer {
+    flex-direction: column;
+    margin-left: unset;
+    align-items: start;
+    gap: 20px;
+  }
 
-    .boardHead {
-        display: flex;
-        justify-content: start;
-        align-items: center;
-        margin-top: 50px;
-        margin-left: 2px !important;
-    }
+  .boardHead {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: 2px !important;
+  }
 
-    .taskContainer {
-        width: 576px;
-        overflow-x: scroll;
-        height: max-content;
-        padding: 8px
-    }
+  .taskContainer {
+    width: 576px;
+    overflow-x: scroll;
+    height: max-content;
+    padding: 8px;
+  }
 
-    .boardHead {
-        margin-left: 0px !important;
-    
-}
-.searchContainer {
+  .boardHead {
+    margin-left: 0px !important;
+  }
+
+  .searchContainer {
     margin-left: -67px !important;
-}
-.boardHead {
+  }
+
+  .boardHead {
     margin-left: 11px !important;
     flex-direction: column;
-}
+  }
 
-.searchContainer {
+  .searchContainer {
     margin-left: 20px;
     flex-direction: column;
     gap: 9px;
+  }
 }
+
+@media (max-width: 902px) {
+  .boardHead {
+    margin-left: -160px;
+    flex-direction: column;
+  }
+
+  .searchContainer {
+    margin-left: 20px;
+    flex-direction: column;
+    gap: 9px;
+  }
 }
-
-
-
-
 
 @media (max-width: 767px) {
-   
-.board {
+  .board {
     overflow: hidden;
+  }
+
+  .nothingToDo {
+    width: 40vh;
+  }
+
+  .tasksPopupContainer {
+    width: unset;
+  }
+
+  .taskContainer {
+    width: 376px;
+  }
+
+  .taskList {
+    margin-left: -3px !important;
+  }
+
+  .boardHead {
+    margin-left: -160px;
+    flex-direction: column;
+  }
+
+  .searchContainer {
+    margin-left: 20px;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .listBody {
+    width: 91%;
+  }
+
+  .taskContainer {
+    width: 91%;
+  }
 }
-    .nothingToDo {
-        width: 40vh;
-    }
-
-    .tasksPopupContainer {
-        width: unset;
-    }
-    .taskContainer {
-        width: 376px;
-    }
-
-    .taskList {
-        margin-left: -3px !important;
-    }
-
-    .boardHead {
-        margin-left: -160px;
-        flex-direction: column;
-    }
-
-    .searchContainer {
-        margin-left: 20px;
-        flex-direction: column;
-        gap: 9px;
-    }
-
-    .listBody {
-        width: 91%;
-    }
-
-    .taskContainer {
-        width: 91%;
-    }
-}
-
 
 @media (max-width: 580px) {
+  .board {
+    background-color: #f0f3f6;
+  }
 
-    .board {
-     background-color: #f0f3f6;
-
-    }
-
-    .boardCard {
-        background-color: white !important;
-        width: 250px;
+  .boardCard {
+    background-color: white !important;
+    width: 250px;
     height: 230px;
-    }
-    
-    .formPart {
-        width: unset;
-    }
+  }
 
-    .separator {
-        width: 200px;
-    }
+  .formPart {
+    width: 100%;
+  }
 
-    .priorityBtnContainer {
-        flex-direction: column;
-        gap: 8px;
-    }
+  .separator {
+    width: 200px;
+  }
 
-    .priorityBtn {
-        width: 220px;
-    }
+  .priorityBtnContainer {
+    flex-direction: column;
+    gap: 8px;
+  }
 
-    .formPart {
-        width: 100%;
-    }
+  .priorityBtn {
+    width: 220px;
+  }
 
-    .taskContainer {
-        overflow-y: hidden; 
-        overflow-x: scroll; 
-    scrollbar-width: none;
-    }
+  .taskContainer {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-color: #29abe2 #f0f0f0;
+  }
 
-    .tasksPopupContainer {
-        height: -webkit-fill-available;
-        margin: 30px;
-        width: -webkit-fill-available;
-    }
+  .taskContainer h1 {
+    font-size: 42px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+  }
 
-    h1 {
-        font-size: 42px;
-        align-items: center;
-        justify-content: center;
-        display: flex;
-    }
+  .boardHead {
+    display: contents;
+  }
 
-    .boardHead {
-        display: contents;
-    }
+  .searchBar {
+    width: 98%;
+  }
 
-    .searchBar {
-        width: 98%;
-    }
+  .listBody {
+    width: 97%;
+  }
 
-    .listBody {
-        width: 97%;
-    }
-
-    .taskContainer {
-        width: 98%;
-    }
-    
-
+  .taskContainer {
+    width: 98%;
+  }
 }
-
-
 
 @media (max-width: 530px) {
-    .popupInformation {
-        padding-right: 130px;
-    }
+  .popupInformation {
+    padding-right: 130px;
+  }
 
-    .popupContainer {
-        height: -webkit-fill-available;
-        margin-top: 48px;
-        margin-bottom: 48px;
-    }
+  .popupContainer {
+    height: -webkit-fill-available;
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
 }
-
-
 
 @media (max-width: 467px) {
+  .nothingToDo {
+    width: 32vh;
+  }
 
+  .popupInformation {
+    padding-right: unset;
+  }
 
-    .nothingToDo {
-        width: 32vh;
-    }
+  h1 {
+    font-size: 32px;
+  }
 
-    .popupInformation {
-        padding-right: unset;
-    }
-
-    h1 {
-        font-size: 32px;
-    }
-
-    .buttonContainer {
-        flex-direction: column;
-    }
+  .buttonContainer {
+    flex-direction: column;
+  }
 }
 
-
 @media (max-width: 367px) {
-    .listHeadline {
-        width: 25vh;
-    }
+  .listHeadline {
+    width: 25vh;
+  }
 
-    .nothingToDo {
-        width: 25vh;
-    }
+  .nothingToDo {
+    width: 25vh;
+  }
 
+  .searchBar {
+    width: 180px;
+  }
 
-    .searchBar {
-        width: 180px;
-    }
+  .popupOverlay {
+    align-items: start;
+  }
 
-    .popupOverlay {
-        align-items: start;
-    }
-    .taskContainer {
-        width: 216px;
-    }
+  .taskContainer {
+    width: 216px;
+  }
 }
 
 @media (max-width: 385px) {
-    .popupOverlay {
-        display: unset;
-    }
+  .popupOverlay {
+    display: block; /* Adjusted */
+  }
 
-    .tasksPopupContainer {
-        margin-top: 20px;
-    }
+  .tasksPopupContainer {
+    margin-top: 20px;
+  }
 }
