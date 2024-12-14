@@ -732,7 +732,7 @@ function resetFormAndLists() {
       list.innerHTML = ""; // Entfernt alle Listeneinträge
     }
   });
-  
+
   // Optional: Leere lokale Zustände
   window.localSubtasks = {};
   window.localEditedContacts = [];
