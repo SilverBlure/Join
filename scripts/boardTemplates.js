@@ -14,6 +14,8 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
         <div id="boardCard-${taskId}" 
              draggable="true"
              ondragstart="startDragging('${taskId}', '${listId}')"
+             ontouchstart="startTouchDragging(event, '${taskId}')"
+
              onclick="openTaskPopup('${taskId}', '${listId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || "No Category"}</p>
@@ -72,7 +74,7 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
             <input 
-                class="subtasksCheckbox popupIcons" 
+                class="form-check-input custom-checkbox" 
                 type="checkbox" 
                 ${subtask.done ? 'checked' : ''} 
                 onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
@@ -85,30 +87,39 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
 
 
 
+
+
+
+
 function generateEditSingleSubtaskHTML(subtaskId, subtask) {
     return `
         <div class="subtask-item" id="subtask-${subtaskId}">
             <p 
                 id="subtask-p-${subtaskId}" 
-                class="subtaskText" 
-                onclick="editSubtaskInLocal('${subtaskId}')">
-                ${subtask.title || "Unnamed Subtask"}
+                class="subtaskText">
+                ${subtask.title}
             </p>
-            <div class="hoverBtnContainer">
+        <li class="subtask-item" id="subtask-${subtaskId}">
+            <div class="subtaskButtons">
                 <img 
-                    class="hoverBtn" 
                     src="./../assets/icons/png/editIcon.png" 
-                    onclick="editSubtaskInLocal('${subtaskId}')"
-                    alt="Edit Subtask">
+                    class="subtask-btn" 
+                    onclick="editSubtask('${subtaskId}')"> 
+                <div class="separatorSubtask"></div>
                 <img 
-                    class="hoverBtn" 
-                    src="./../assets/icons/png/iconoir_cancel.png" 
-                    onclick="deleteSubtaskFromLocal('${subtaskId}')"
-                    alt="Delete Subtask">
+                    src="./../assets/icons/png/D.png" 
+                    class="subtask-btn" 
+                    onclick="deleteSubtaskFromLocal('${subtaskId}')"> 
             </div>
+        </li>
         </div>
     `;
 }
+
+
+
+
+
 
 
 
@@ -148,7 +159,6 @@ function generateWorkerContainerHTML(initials, color, name, showName) {
         </div>
     `;
 }
-
 
 
 
@@ -273,9 +283,19 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                     <div id="subTasksList">
                         ${subtasksHTML}
                         <div class="createSubtaskBar">
-                            <input id="newSubtaskInput" class="addSubTask" placeholder="Add new subtask" type="text" onkeydown="handleSubtaskKey(event)">
-                            <div class="divider"></div>
-                            <img onclick="addSubtaskToLocalList()" class="addSubtaskButton" src="./../assets/icons/png/addSubtasks.png">
+                        <input id="subTaskInputAddTask" 
+                            name="subTaskInput" 
+                            class="addSubTaskInput" 
+                            placeholder="Add new subtask" 
+                            type="text" 
+                            oninput="toggleSubtaskButtons()"
+                            onkeydown="handleSubtaskKey(event)">
+                            <div class="subtaskButtons">
+                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
+                                <div id="separatorSubtask" class="separatorSubtask hidden"></div>
+                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                            </div>
+                            <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
                     </div>
                 </div>
@@ -314,17 +334,19 @@ function generateEditSubtaskHTML(subtaskId, currentTitle) {
     <div class="editSubtaskBar">
         <input 
             type="text" 
+            onkeydown="handleSubtaskEditKey(event)"
+            onblur="handleSubtaskBlur(event)" 
             class="editSubtaskInput" 
             id="edit-input-${subtaskId}" 
             value="${currentTitle}">
             <div class="subtaskButtons">
         <img src="./../assets/icons/png/D.png"
             class="subtask-btn" 
-            onclick="deleteSubtask('${subtaskId}', '${currentTitle}')">           
+            onclick="deleteSubtaskFromLocal('${subtaskId}')"> 
             <div id="separatorSubtask" class="separatorSubtask"></div>
         <img src="./../assets/icons/png/Subtasks icons11.png"
             class="subtask-btn"
-            onclick="saveSubtaskEdit('${subtaskId}')">
+            onclick="saveEditedSubtask('${subtaskId}')">
     </div>
     </div>
             `;
@@ -358,7 +380,7 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
         <div id="boardCard-${taskId}" 
              draggable="true"
              ondragstart="startDragging('${taskId}', '${listId}')"
-             onclick="openTaskPopup('${taskId}', '${listId}')"
+             ontouchstart="startTouchDragging(event, '${taskId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">
                 ${task.category?.name || "No Category"}
@@ -372,6 +394,31 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
             </div>
         </div>
     `;
+}
+
+async function findTaskSourceList(taskId) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
+    const response = await fetch(url);
+    if (!response.ok) {
+        console.error("Fehler beim Abrufen der Task-Daten.");
+        return null;
+    }
+
+    const data = await response.json();
+    console.log("Firebase Task-Daten:", data); // Debugging: Zeige die gesamte Datenstruktur
+
+    for (const listId in data) {
+        const tasks = data[listId]?.task || {};
+        console.log(`Überprüfe Liste: ${listId}, Tasks:`, tasks); // Debugging: Zeige die Tasks in jeder Liste
+
+        if (tasks[taskId]) {
+            console.log("Ursprungsliste gefunden:", listId);
+            return listId;
+        }
+    }
+
+    console.warn("Ursprungsliste nicht gefunden für Task:", taskId);
+    return null;
 }
 
 

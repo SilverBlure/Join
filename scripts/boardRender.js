@@ -59,6 +59,9 @@ function renderTaskWorkers(workers) {
 
 
 
+
+
+
 /**
  * Öffnet ein Popup für eine spezifische Aufgabe.
  * @param {string} taskId - Die ID der Aufgabe.
@@ -69,7 +72,6 @@ async function openTaskPopup(taskId, listId) {
     const task = await fetchTaskData(taskId, listId); // Aufgabendaten abrufen
     if (!task) return;
     console.log("Task Data in Popup:", task); // Überprüfen der Task-Daten
-
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
     if (!popupOverlay || !popupContainer) return; // Wenn Popup-Elemente fehlen, abbrechen

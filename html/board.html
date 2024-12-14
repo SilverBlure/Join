@@ -48,8 +48,14 @@
                 </div>
             </div>
             <div class="taskList">
-                <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)"
-                    ondragenter="highlightList('todoList')" ondragleave="unhighlightList('todoList')">
+                <div id="todoList" class="listBody" 
+                    ondrop="handleDrop(event, 'todo')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('todoList')" 
+                    ondragleave="unhighlightList('todoList')"
+                    ontouchstart="startTouchDragging(event, 'todo')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'todo')">
                     <div class="listHeadline">
                         <h4>To-do</h4>
                         <img onclick="openAddTaskPopup('todo')" class="addIcons"
@@ -57,21 +63,31 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-                <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')"
-                    ondragover="allowDrop(event)" ondragenter="highlightList('inProgressList')"
-                    ondragleave="unhighlightList('inProgressList')">
+            
+                <div id="inProgressList" class="listBody" 
+                    ondrop="handleDrop(event, 'inProgress')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('inProgressList')" 
+                    ondragleave="unhighlightList('inProgressList')"
+                    ontouchstart="startTouchDragging(event, 'inProgress')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'inProgress')">
                     <div class="listHeadline">
-
                         <h4>in Progress</h4>
                         <img onclick="openAddTaskPopup('inProgress')" class="addIcons"
                             src="./../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-
-                <div id="awaitFeedbackList" class="listBody" ondrop="handleDrop(event, 'awaitFeedback')"
-                    ondragover="allowDrop(event)" ondragenter="highlightList('awaitFeedbackList')"
-                    ondragleave="unhighlightList('awaitFeedbackList')">
+            
+                <div id="awaitFeedbackList" class="listBody" 
+                    ondrop="handleDrop(event, 'awaitFeedback')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('awaitFeedbackList')" 
+                    ondragleave="unhighlightList('awaitFeedbackList')"
+                    ontouchstart="startTouchDragging(event, 'awaitFeedback')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'awaitFeedback')">
                     <div class="listHeadline">
                         <h4>Await feedback</h4>
                         <img onclick="openAddTaskPopup('awaitFeedback')" class="addIcons"
@@ -79,16 +95,22 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-
-                <div id="doneList" class="listBody" ondrop="handleDrop(event, 'done')" ondragover="allowDrop(event)"
-                    ondragenter="highlightList('doneList')" ondragleave="unhighlightList('doneList')">
+            
+                <div id="doneList" class="listBody" 
+                    ondrop="handleDrop(event, 'done')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('doneList')" 
+                    ondragleave="unhighlightList('doneList')"
+                    ontouchstart="startTouchDragging(event, 'done')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'done')">
                     <div class="listHeadline">
                         <h4>Done</h4>
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-
             </div>
+            
         </div>
     </div>
     </div>

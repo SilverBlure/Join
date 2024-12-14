@@ -209,18 +209,19 @@ function buildNewTask() {
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
   const dueDate = document.getElementById("date").value.trim();
-  const priority = tempPriority;
-  const categoryName = document.getElementById("category").value.trim();
+    // Überprüfen, ob tempPriority gesetzt ist, und einen Standardwert verwenden, falls nicht
+    const priority = tempPriority || "Middle";
 
-  return {
-    title,
-    description,
-    dueDate,
-    priority,
-    category: buildCategory(categoryName),
-    workers: getWorkers(),
-    subtasks: getLocalSubtasks(),
-  };
+    const categoryName = document.getElementById("category").value.trim();
+    return {
+        title,
+        description,
+        dueDate,
+        priority,
+        category: buildCategory(categoryName),
+        workers: getWorkers(),
+        subtasks: collectSubtasksFromDOM(),
+    };
 }
 
 /**
@@ -249,13 +250,6 @@ function getWorkers() {
     : [];
 }
 
-/**
- * Ruft die aktuellen Subtask-Daten aus dem lokalen Zustand ab.
- * @returns {Object} Die Subtask-Daten.
- */
-function getLocalSubtasks() {
-  return { ...window.localSubtasks };
-}
 
 /**
  * Speichert eine neue Task in der Datenbank.
@@ -662,4 +656,47 @@ function resetFormAndLists() {
   updateDropdownLabel();
 
   console.log("Formular und Listen erfolgreich zurückgesetzt.");
+}
+
+
+/**
+ * Entfernt einen Subtask aus den lokalen Daten und dem DOM.
+ * @param {string} subtaskId - Die ID des zu entfernenden Subtasks.
+ */
+function deleteSubtaskFromLocal(subtaskId) {
+    if (!subtaskId) return;
+    if (window.localEditedSubtasks && window.localEditedSubtasks[subtaskId]) {
+        delete window.localEditedSubtasks[subtaskId];
+    }
+    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+    if (subtaskElement) {
+        subtaskElement.remove();
+    }
+}
+
+/**
+ * Sammelt Subtasks aus der DOM-Subtask-Liste und erstellt ein Objekt.
+ * @returns {Object} - Ein Objekt mit Subtasks im Format { subtaskId: { title, done } }.
+ */
+function collectSubtasksFromDOM() {
+    const subTasksList = document.getElementById("subTasksList");
+    if (!subTasksList) {
+        console.warn("Subtask-Liste nicht gefunden.");
+        return {};
+    }
+    const subtasks = {};
+    const subtaskItems = subTasksList.querySelectorAll(".subtask-item");
+    subtaskItems.forEach(item => {
+        const subtaskId = item.id.replace("subtask-", "");
+        const titleInput = item.querySelector(".subtaskText, .editSubtaskInput");
+        const doneCheckbox = item.querySelector(".subtask-checkbox");
+        const title = titleInput?.value?.trim() || titleInput?.textContent?.trim();
+        if (title) { // Überspringe leere Titel
+            subtasks[subtaskId] = {
+                title: title,
+                done: doneCheckbox ? doneCheckbox.checked : false,
+            };
+        }
+    });
+    return subtasks;
 }
