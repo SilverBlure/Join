@@ -136,6 +136,13 @@ h1 {
   width: 246px;
 }
 
+.editSubtaskBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .nothingToDoText {
   margin: 10px;
 }
@@ -145,12 +152,26 @@ h1 {
   height: 8px;
 }
 
+.progress-bar {
+    height: 100%; /* Füllt die Progressbar in der Höhe */
+    background-color: #2A3647; /* Farbe der Progressbar */
+    transition: width 0.5s ease-in-out; /* Smooth Animation */
+}
+
+.progress-bar.complete {
+    background-color: #f39c12; /* Farbe für 100% */
+    box-shadow: 5px 5px 15px 5px #f39c12, 5px 5px 15px 5px rgba(243, 156, 18, 0.5);
+}
+
+
 .boardCard {
   box-shadow: 0px 2px 8px rgb(223, 224, 225);
   border-radius: 30px;
   padding: 16px;
   height: 263px;
 }
+
+
 
 .taskCardTitle {
   font-size: 16px;
@@ -210,6 +231,20 @@ h1 {
   position: relative;
   margin-left: -10px;
 }
+
+.workerEmblemList {
+    border: white 1px solid;
+    color: white;
+    padding: 1rem;
+    border-radius: 100%;
+    width: 1.25rem;
+    height: 1.25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: unset;
+    margin-right: 24px;
+  }
 
 .workerName {
   padding: 16px;
@@ -347,6 +382,17 @@ h1 {
   align-items: start;
 }
 
+.createContactBar {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.625rem;
+    border: 1px solid #d1d1d1;
+    box-sizing: border-box;
+    font-size: 1rem;
+    display: flex;
+    user-select: none;
+}
+
 .customDropdown {
   position: relative;
   width: 200px;
@@ -412,6 +458,7 @@ h1 {
   color: #333;
   margin-right: 10px;
 }
+
 
 .dropdownList li input[type="checkbox"] {
   width: 16px;
@@ -621,6 +668,7 @@ select:focus {
 }
 
 .saveChangesButton {
+
   display: flex;
   justify-content: center;
   align-items: center;

@@ -158,16 +158,11 @@ async function editTask(listId, taskId) {
 
 
 
-/**
- * Rendert das Bearbeitungspopup für eine Aufgabe.
- * @param {string} listId - Die ID der Liste.
- * @param {string} taskId - Die ID der Aufgabe.
- * @param {Object} task - Die Aufgabendaten.
- */
 function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
     if (!editTaskPopupOverlay || !editTaskPopupContainer) return;
+
     initializeLocalContacts(task);
 
     editTaskPopupOverlay.setAttribute("data-task-id", taskId);
@@ -175,22 +170,63 @@ function renderEditTaskPopup(listId, taskId, task) {
     editTaskPopupOverlay.classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
 
-    // Subtasks und ausgewählte Kontakte vorbereiten
     const subtasksHTML = generateEditSubtasksHTML(window.localEditedSubtasks);
 
-    // Lokale Kontakte initialisieren, basierend auf den Arbeitern der Aufgabe
-    window.localContacts = {};
-    (task.workers || []).forEach(worker => {
-        // Die ID des Kontakts wird aus den Arbeiterdaten übernommen
-        window.localContacts[worker.id] = { ...worker }; 
-    });
-
-    // HTML generieren
     editTaskPopupContainer.innerHTML = generateEditTaskForm(task, subtasksHTML, listId, taskId);
-    renderContactsDropdown(); // Kontakte-Dropdown aktualisieren
+
+    renderContactsDropdown(); // Dropdown aktualisieren
+    renderSelectedContacts(); // **Stelle sicher, dass ausgewählte Kontakte direkt gerendert werden**
+
+    console.log("Popup gerendert und renderSelectedContacts aufgerufen.");
 }
 
 
+
+
+
+function renderSelectedContacts() {
+    console.log("renderSelectedContacts aufgerufen");
+
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    if (!selectedContactsList) {
+        console.error("selectedContactsList wurde nicht gefunden!");
+        return;
+    }
+
+    // Leere die Liste, um Duplikate zu vermeiden
+    selectedContactsList.innerHTML = "";
+    console.log("selectedContactsList erfolgreich geleert.");
+
+    // Iteriere über die lokalen Kontakte
+    Object.values(window.localContacts).forEach((contact) => {
+        console.log("Kontakt wird gerendert:", contact);
+
+        // Erstelle ein neues <li>-Element
+        const li = document.createElement("li");
+        li.id = `selected_${contact.id}`;
+        li.classList.add("selected-contact");
+
+        // Initialen generieren
+        const initials = contact.name.split(" ").map(n => n.charAt(0).toUpperCase()).join("");
+
+        // Arbeiter-Symbol <p> erstellen mit der neuen Struktur
+        const p = document.createElement("p");
+        p.classList.add("workerEmblem");
+        p.style.backgroundColor = getColorRGB(contact.name, "");
+        p.textContent = initials;
+
+        // <p>-Element in das <li>-Element einfügen
+        li.appendChild(p);
+
+        // <li>-Element zur Liste hinzufügen
+        selectedContactsList.appendChild(li);
+
+        console.log(`Kontakt mit ID ${contact.id} wurde hinzugefügt.`);
+    });
+
+    // Finales HTML-Log für Debugging
+    console.log("Finales HTML der ausgewählten Kontakte:", selectedContactsList.innerHTML);
+}
 
 
 
