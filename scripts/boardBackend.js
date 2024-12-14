@@ -121,11 +121,11 @@ async function addTaskToList(listId, taskDetails) {
     return await postData(url, taskDetails);
 }
 
-
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault();
     if (!listId || !taskId) return;
 
+    // Lokale Kontakte und Subtasks aktualisieren
     updateLocalContactsFromCheckboxes();
     window.localEditedSubtasks = collectSubtasksFromDOM();
 
@@ -133,11 +133,13 @@ async function saveTaskChanges(event, listId, taskId) {
         subtask.done = subtask.done || false;
     });
 
+    // Kontakte in das gewünschte Format bringen
     const workers = Object.values(window.localContacts || {}).map(worker => ({
         name: worker.name,
         id: worker.id || `worker_${Date.now()}`, // Sicherstellen, dass eine ID vorhanden ist
     }));
 
+    // Aktualisierte Task-Daten
     const updatedTask = {
         title: document.getElementById("title").value.trim(),
         description: document.getElementById("description").value.trim() || "No description provided",
@@ -170,13 +172,27 @@ async function saveTaskChanges(event, listId, taskId) {
         console.log("Aufgabe erfolgreich aktualisiert in der Datenbank:", updatedTask);
         await getTasks();
         showSnackbar('Der Task wurde erfolgreich aktualisiert!');
+
+        // Liste der ausgewählten Kontakte im DOM leeren
+        const selectedContactsList = document.getElementById("selectedContactsList");
+        if (selectedContactsList) {
+            selectedContactsList.innerHTML = ""; // Alle Kontakte entfernen
+            console.log("Liste der ausgewählten Kontakte erfolgreich geleert.");
+        }
+
+        // Popup schließen und aktualisierte Task-Daten anzeigen
         closeEditTaskPopup();
         openTaskPopup(taskId, listId);
+
+        // Seite neu laden
+        window.location.reload();
     } catch (error) {
         console.error("Fehler beim Aktualisieren der Aufgabe:", error);
         showSnackbar('Fehler beim Aktualisieren der Daten!');
     }
 }
+
+
 
 
 

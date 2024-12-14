@@ -28,17 +28,48 @@ let tempPriority = null;
  */
 function openAddTaskPopup(listId) {
     const popup = document.getElementById('addTaskPopupOverlay');
+    const selectedContactsList = document.getElementById("selectedContactsList");
+
     if (!popup) {
         console.error("Das Popup konnte nicht gefunden werden.");
         return;
     }
+
     currentListId = listId;
+
+    // Lokale Kontakte zurücksetzen
+    if (window.localContacts) {
+        window.localContacts = {};
+        console.log("Lokale Kontakte zurückgesetzt:", window.localContacts);
+    }
+
+    // Liste der ausgewählten Kontakte im DOM leeren
+    if (selectedContactsList) {
+        selectedContactsList.innerHTML = ""; // Alle Kontakte entfernen
+        console.log("Liste der ausgewählten Kontakte im DOM erfolgreich geleert.");
+    }
+
+    // Formular neu initialisieren
     const form = document.getElementById("addTaskFormTask");
-    const newForm = form.cloneNode(true);
-    form.parentNode.replaceChild(newForm, form);
+    const newForm = form.cloneNode(true); // Formulardaten klonen
+    form.parentNode.replaceChild(newForm, form); // Original-Formular ersetzen
+
+    // Event-Listener für das neue Formular hinzufügen
     newForm.addEventListener("submit", (event) => addTaskToSpecificList(listId, event));
+
+    // Popup anzeigen
     popup.classList.remove('hidden');
+    console.log("Task hinzufügen-Popup wurde geöffnet.");
 }
+
+
+
+
+
+
+
+
+
 
 /**
  * Setzt die Priorität für eine Task.
@@ -206,7 +237,6 @@ function closeTaskPopup() {
     document.getElementById("viewTaskPopupOverlay").classList.remove('visible');
     document.getElementById("mainContent").classList.remove('blur');
     refreshUIAfterPopupClose();
-    location.reload();
 }
 
 

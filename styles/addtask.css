@@ -359,6 +359,7 @@ h1 {
 
 .addSubTaskInput {
 border: none;
+width: 316px;
 }
 
 .addSubTaskInput:focus {
@@ -366,7 +367,7 @@ border: none;
     }
 
 #subtaskImg {
-    padding-right: 16px;
+    padding-left: 90px;
   }
 
   .subtaskButtons {
@@ -411,7 +412,7 @@ border: none;
 .subtask-item {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     gap: 8px;
 }
 
@@ -428,7 +429,7 @@ border: none;
 }
 
 .subtaskText {
-    width: 100%;
+    width: 72%;
     margin: 8px;
     overflow-wrap: break-word;
 }

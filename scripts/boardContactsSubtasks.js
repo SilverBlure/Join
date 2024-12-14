@@ -16,19 +16,7 @@ function handleSubtaskEditKey(event) {
     }
 }
 
-/**
- * Behandelt Tasteneingaben beim Bearbeiten eines Subtasks.
- * @param {KeyboardEvent} event - Das Tastendruck-Ereignis.
- */
-function handleSubtaskEditKey(event) {
-    const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere Subtask-ID aus der Eingabe-ID
 
-    if (event.key === "Enter") {
-        // Speichere die Änderungen, wenn Enter gedrückt wird
-        event.preventDefault();
-        saveEditedSubtask(subtaskId);
-    }
-}
 
 
 /**

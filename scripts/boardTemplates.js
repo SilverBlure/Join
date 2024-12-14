@@ -32,16 +32,51 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
 
 
 
+/**
+ * Generiert die Fortschrittsanzeige basierend auf den Subtasks.
+ * @param {Object} subtasks - Die Subtasks des Tasks.
+ * @returns {string} - HTML für die Fortschrittsanzeige.
+ */
+function generateProgressHTML(subtasks = {}) {
+    const subtasksArray = Object.values(subtasks);
+    const totalCount = subtasksArray.length;
+    const doneCount = subtasksArray.filter(st => st.done).length;
+    const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
+
+    return generateProgressBarHTML(progressPercent, doneCount, totalCount);
+}
+
+/**
+ * Generiert die Fortschrittsanzeige basierend auf den direkten Werten.
+ * @param {number} progressPercent - Der Fortschrittsprozentsatz.
+ * @param {number} doneCount - Die Anzahl der abgeschlossenen Subtasks.
+ * @param {number} totalCount - Die Gesamtanzahl der Subtasks.
+ * @returns {string} - HTML für die Fortschrittsanzeige.
+ */
 function generateSubtasksProgressHTML(progressPercent, doneCount, totalCount) {
+    return generateProgressBarHTML(progressPercent, doneCount, totalCount);
+}
+
+/**
+ * Generiert das HTML für die Fortschrittsanzeige.
+ * @param {number} progressPercent - Der Fortschrittsprozentsatz.
+ * @param {number} doneCount - Die Anzahl der abgeschlossenen Subtasks.
+ * @param {number} totalCount - Die Gesamtanzahl der Subtasks.
+ * @returns {string} - HTML für die Fortschrittsanzeige.
+ */
+function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
+    const progressClass = progressPercent === 100 ? "complete" : "";
+
     return `
         <div class="subtasksContainer">
             <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: ${progressPercent}%;"></div>
+                <div class="${progressClass} progress-bar" style="width: ${progressPercent}%;"></div>
             </div>
             <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
         </div>
     `;
 }
+
 
 
 
@@ -297,7 +332,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                     </div>
                 </div>
             </div>
-            <button class="saveChangesButton" type="submit">Save Changes</button>
+            <button class="saveChangesButton" type="submit"><img src="./../assets/icons/png/check.png">OK</button>
         </form>
     `;
 }
@@ -418,23 +453,6 @@ async function findTaskSourceList(taskId) {
     return null;
 }
 
-
-
-function generateProgressHTML(subtasks = {}) {
-    const subtasksArray = Object.values(subtasks);
-    const totalCount = subtasksArray.length;
-    const doneCount = subtasksArray.filter(st => st.done).length;
-    const progressPercent = totalCount > 0 ? (doneCount / totalCount) * 100 : 0;
-    if (totalCount === 0) return "";
-    return /*html*/ `
-        <div class="subtasksContainer">
-            <div class="progress" role="progressbar" aria-valuenow="${progressPercent}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar" style="width: ${progressPercent}%;"></div>
-            </div>
-            <p class="taskCardSubtasks">${doneCount}/${totalCount} Subtasks</p>
-        </div>
-    `;
-}
 
 
 
