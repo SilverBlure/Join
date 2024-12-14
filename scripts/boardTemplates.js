@@ -297,7 +297,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                     </div>
                 </div>
             </div>
-            <button class="saveChangesButton" type="submit">Save Changes</button>
+            <button class="saveChangesButton" type="submit"><img src="./../assets/icons/png/check.png">OK</button>
         </form>
     `;
 }

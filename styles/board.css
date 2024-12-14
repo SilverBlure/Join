@@ -134,6 +134,13 @@ h1 {
     width: 246px;
 }
 
+.editSubtaskBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .nothingToDoText {
     margin: 10px;
 }
@@ -148,7 +155,7 @@ h1 {
     border-radius: 30px;
     padding: 16px;
     width: 252px;
-    height: 263px;
+    height: max-content;
     position: relative; /* Damit das Element verschoben werden kann */
     touch-action: none; /* Standard-Touch-Verhalten deaktivieren */
     transition: transform 0.2s ease;
@@ -695,7 +702,6 @@ select:focus {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
     top: 130px;
 }
 
@@ -705,7 +711,7 @@ select:focus {
     display: flex;
     align-items: center;
     height: 3rem;
-    width: 100%;
+    width: 106%;
     overflow: hidden;
     box-sizing: border-box;
 }

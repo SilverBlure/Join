@@ -785,3 +785,22 @@ function collectSubtasksFromDOM() {
     });
     return subtasks;
 }
+
+
+/**
+ * Behandelt Tasteneingaben beim Bearbeiten eines Subtasks.
+ * @param {KeyboardEvent} event - Das Tastendruck-Ereignis.
+ */
+function handleSubtaskEditKey(event) {
+  const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere Subtask-ID aus der Eingabe-ID
+
+  if (event.key === "Enter") {
+      // Speichere die Änderungen, wenn Enter gedrückt wird
+      event.preventDefault();
+      addNewSubtask(subtaskId);
+  } else if (event.key === "Escape") {
+      // Breche die Bearbeitung ab, wenn Escape gedrückt wird
+      event.preventDefault();
+      cancelSubtaskEdit(subtaskId);
+  }
+}
