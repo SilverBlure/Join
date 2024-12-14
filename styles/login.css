@@ -158,6 +158,15 @@ h1 {
     border: none;
 }
 
+.signUpBtn{
+    color: white;
+    border-radius: 8px;
+    background-color: #2A3647;
+    height: 48px;
+    width: 110px;
+    font-size: 21px;
+    font-weight: 700;
+}
 
 .logInBtn {
     color: white;
@@ -227,16 +236,26 @@ h1 {
     
 }
 
-.signUpBtn{
+.signUpContainer{
     padding-right: 64px;
     display: flex;
     align-items: flex-start;
     height: 100vh;
     margin-top: 82px;
+    justify-content: center;
+}
+
+.alignCenter{
+    display: flex;
+        align-items: center;
 }
 
 .input{
     width: 328px;
+}
+
+.third{
+    width: 33%;
 }
 
 .logoLogin {
@@ -245,21 +264,120 @@ h1 {
     scale: 1.2;
 }
 
-@media(max-width: 428px) {
-  
-    .loginBackground {
-        margin-top: 64px;
-        margin-bottom: 64px;
-        background-color: white;
-        height: 493px;
-        border-radius: 30px;
-        width: 386px;
+
+
+@media(max-width : 1100px){
+   
+    .registrationTrigger {
+        margin-bottom: 0px;
+        padding-right: 0;
+        font-weight: 400;
+        font-size: 20px;
+        color: black;
     }
 
-    .registrationLink {
-        position: absolute;
-        top: 608px;
-        right: -12px;
+    .page{
+        display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+    }
+    .third{
+        width: 100vw;
+    }
+
+    .head {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .logoLogin {
+        /* padding-top: 56px; */
+        padding-left: 75px;
+        scale: 1;
+    }
+    .signUpContainer {
+        align-items: start;
+    }
+    .registrationTrigger {
+        padding-right: 24px;
+    }
+
+    .loginBackground {
+        background-color: white;
+        height: 449px;
+        width: 652px;
+        border-radius: 30px;
+        margin-bottom: 38px;
+    }
+
+}
+
+@media(max-width: 850px)
+{
+
+    .loginBackground {
+        background-color: white;
+        height: 449px;
+        width: 652px;
+        border-radius: 30px;
+        margin-bottom: 38px;
+    }
+
+    .signUpContainer{
+        align-items: start;
+        margin: 0;
+    }
+
+    .head {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        height: 100vh;
+        margin-top: 52px;
+        width: 100vw;
+    }
+
+    .head {
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        height: 100vh;
+        margin-top: 0;
+        width: 100vw;
+    }
+
+   
+}
+
+
+
+@media (max-width: 700px) {
+
+   
+    .loginBackground {
+        background-color: white;
+        height: 449px;
+        width: 480px;
+        border-radius: 30px;
+        margin-bottom: 38px;
+    }
+ 
+}
+
+@media (max-width: 560px) {
+   
+    .loginBackground {
+        background-color: white;
+        height: 475px;
+        width: 396px;
+        border-radius: 30px;
+        margin-bottom: 38px;
     }
 
     .border {
@@ -270,132 +388,45 @@ h1 {
         height: 48px;
         width: 364px;
         justify-content: center;
-        margin: 30px;
     }
 
     .innerInputfield {
-        width: 340px;
+        width: 341px;
         height: 24px;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    .saveLogin {
-        font-weight: 600;
+    .buttons {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        column-gap: 24px;
-        margin-bottom: 50px;
-        display: none;
+        column-gap: 40px;
     }
-
-    .logoLogin {
-        position: relative;
-        top: 40px;
-        left: 77px;
-        width: 100px;
-        display: flex;
-        justify-content: start;
-        align-items: start;
-    }
-    
-    .buttons{
-        flex-direction: column;
-        margin: 10px;
-
-    }
-
     .logInBtn{
         width: 180px;
-        height: 51px;
-        margin: 10px;
+        margin-bottom: 20px;
     }
-
     .guestBtn{
-        margin: 10px;
         width: 180px;
-        height: 51px;
     }
+    .signUpContainer{
+        padding: 0;
+    }
+    h1{
+        font-size: 47px;
+    }
+    .seperator{
+        width: 88px;
+    }
+}
+
+@media(max-width: 420px){
     .logoLogin{
-        height: 78px;
-        width: 64px;
+        scale: .6;
+        padding-top: 0;
+        padding-left: 24px;
     }
-    .center {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        flex-direction: column;
-        margin-top: -46px;
-    }
-
-
-}
-
-@media (max-width: 700px) {
-
-    .loginBackground {
-        margin-top: 64px;
-        margin-bottom: 64px;
-        background-color: white;
-        height: 493px;
-        border-radius: 30px;
-        width: 460px;
-    }
-    .border {
-        border: 2px;
-        border-style: solid;
-        border-color: #D1D1D1;
-        border-radius: 10px;
-        height: 48px;
-        width: 360px;
-        justify-content: center;
-        margin: 30px;
-    }
-    .innerInputfield {
-        width: 338px;
-        height: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
- 
-}
-
-@media (max-width: 500px) {
-    .loginBackground {
-        margin-top: 64px;
-        margin-bottom: 64px;
-        background-color: white;
-        height: 493px;
-        border-radius: 30px;
-        width: 386px;
-    }
-
-    .loginfooter {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        column-gap: 52px;
-        margin-bottom: -72px;
-    }
-    .border {
-        border: 2px;
-        border-style: solid;
-        border-color: #D1D1D1;
-        border-radius: 10px;
-        height: 48px;
-        width: 340px;
-        justify-content: center;
-        margin: 30px;
-    }
-    .innerInputfield {
-        width: 318px;
-        height: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
 }
