@@ -109,8 +109,7 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
             <img 
-                class="subtask-toggle-icon" 
-                src="${subtask.done ? './../assets/icons/png/checkButtonChecked.png' : './../assets/icons/png/checkButtonEmpty.png'}" 
+                class="subtask-toggle-icon ${subtask.done ? 'done' : 'todo'}" 
                 alt="Toggle Subtask" 
                 onclick="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', ${!subtask.done})">
             <p class="subtaskText" style="text-decoration: ${subtask.done ? 'line-through' : 'none'};">
@@ -119,6 +118,7 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
         </div>
     `;
 }
+
 
 
 

@@ -417,9 +417,77 @@ align-items: center;
   user-select: none;
 }
 
-.selected-contact {
-  display: ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Standard-Zustand für 'todo' */
+.subtask-toggle-icon.todo {
+  content: url('./../assets/icons/png/checkButtonEmpty.png');
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
+  opacity: 1; /* Standard-Deckkraft */
 }
+
+/* Hover-Zustand für 'todo' */
+.subtask-toggle-icon.todo:hover {
+  content: url('./../assets/icons/png/checkButtonEmptyHover.png');
+  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9; /* Leicht reduzierte Deckkraft */
+}
+
+/* Standard-Zustand für 'done' */
+.subtask-toggle-icon.done {
+  content: url('./../assets/icons/png/checkButtonChecked.png');
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
+  opacity: 1; /* Standard-Deckkraft */
+}
+
+/* Hover-Zustand für 'done' */
+.subtask-toggle-icon.done:hover {
+  content: url('./../assets/icons/png/checkButtonCheckedHover.png');
+  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9; /* Leicht reduzierte Deckkraft */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .dropdownList.open {
   display: block;
