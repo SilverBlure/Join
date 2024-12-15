@@ -53,22 +53,8 @@ function login(){
  * @param {string} pw  
 */
 function guestLogin(email, pw){
-    let checkbox = document.getElementById('checkbox');
-    let check = checkLogin(email, pw);
-    let isChecked = checkbox.checked;
-    if(check.match&&isChecked){
-        localStorage.setItem('email', email);
-        localStorage.setItem('pw', pw);
-        localStorage.setItem('sessionKey', check.id);
-        showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
+    setTimeout(()=>{showSnackbar('You are logged in as Guest')},2500);
         location.href ='./../html/summary.html'; 
-    }else if(check.match){
-        localStorage.setItem('sessionKey', check.id);
-        showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./../html/summary.html';
-    }else{
-        showSnackbar('Überprüfe deine Anmeldedaten!')
-    }
 }
 
 /**this funktion searches for email an pw in the login array 
