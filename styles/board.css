@@ -586,6 +586,7 @@ align-items: center;
 
 .dropdownList.open {
   display: block;
+  width:440px;
 }
 
 .dropdownList::-webkit-scrollbar-thumb {
