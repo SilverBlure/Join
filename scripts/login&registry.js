@@ -140,6 +140,7 @@ function changeToUncheck(){
     doc.src = `./../assets/icons/svg/leereCheckbox.svg`;
     doc.setAttribute('class','checkSvg');
     doc.setAttribute('onclick','changeToChecked()');
+    doc.setAttribute('value','false');
 }
 
 
