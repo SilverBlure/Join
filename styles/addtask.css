@@ -120,12 +120,27 @@ h1 {
 }
 
 .dropdownList li:hover {
-  background: #a8a8a8; 
-  color: #ffffff; 
+  background: #2A3647; 
 }
+
+.dropdownList li:hover span {
+  color: white;
+}
+
 
 .dropdownList li + li {
   border-top: 1px solid #eee;
+}
+
+
+.selected-contact-item {
+  color: white;
+  background-color: #091931; 
+  transition: background-color 0.3s ease; 
+}
+
+.selected-contact-item span {
+  color: white;
 }
 
 

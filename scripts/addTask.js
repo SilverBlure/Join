@@ -429,58 +429,78 @@ function toggleContactsDropdown() {
   }
 }
 
-
-
 function renderContactsDropdown() {
   const dropdownList = document.getElementById("contactsDropdownList");
   dropdownList.innerHTML = "";
-  
+
   if (!contactsArray || contactsArray.length === 0) {
     dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
     return;
   }
 
   contactsArray.forEach((contact) => {
-    const li = document.createElement("li");
-    const containerDiv = document.createElement("div");
-    containerDiv.classList.add("dropdown-item");
-    
-    // Vor- und Nachnamen extrahieren
-    const [vorname, nachname] = contact.name.split(" ");
-    const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Generiere die Farbe basierend auf Vor- und Nachnamen
-    
-    // Arbeiter-Symbol erstellen
-    const workerEmblem = document.createElement("p");
-    workerEmblem.classList.add("workerEmblemList");
-    workerEmblem.style.backgroundColor = backgroundColor; // Farbe setzen
-    workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
-    
-    // Name anzeigen
-    const nameSpan = document.createElement("span");
-    nameSpan.classList.add("contact-nameList");
-    nameSpan.textContent = contact.name;
-
-    // Checkbox erstellen
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = contact.name;
-    checkbox.checked = isContactSelected(contact.name);
-    checkbox.classList.add("form-check-input", "custom-checkbox");
-    checkbox.addEventListener("change", (event) => {
-      handleContactSelection(contact, event.target.checked);
-    });
-
-    // Elemente in den Container einfügen
-    containerDiv.appendChild(workerEmblem);
-    containerDiv.appendChild(nameSpan);
-    containerDiv.appendChild(checkbox);
-
-    // Container in die Liste einfügen
-    li.appendChild(containerDiv);
+    const li = createContactDropdownItem(contact); // Nutzt die ausgelagerte Funktion
     dropdownList.appendChild(li);
   });
 }
 
+
+
+function createContactDropdownItem(contact) {
+  const li = document.createElement("li");
+  li.classList.add("dropdown-item");
+  if (isContactSelected(contact.name)) {
+    li.classList.add("selected-contact-item");
+  }
+  const [vorname, nachname] = contact.name.split(" ");
+  const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
+  const workerEmblem = document.createElement("p");
+  workerEmblem.classList.add("workerEmblemList");
+  workerEmblem.style.backgroundColor = backgroundColor;
+  workerEmblem.textContent = getInitials(contact.name);
+  const nameSpan = document.createElement("span");
+  nameSpan.classList.add("contact-nameList");
+  nameSpan.textContent = contact.name;
+  const img = createContactStatusIcon(contact);
+  li.addEventListener("click", () => {
+    const isSelected = isContactSelected(contact.name);
+    handleContactSelection(contact, !isSelected);
+    if (!isSelected) {
+      li.classList.add("selected-contact-item");
+    } else {
+      li.classList.remove("selected-contact-item");
+    }
+    img.src = !isSelected
+      ? "./../assets/icons/png/checkButtonContacts.png"
+      : "./../assets/icons/png/checkButtonEmpty.png";
+    img.alt = !isSelected ? "Selected" : "Not Selected";
+  });
+  li.appendChild(workerEmblem);
+  li.appendChild(nameSpan);
+  li.appendChild(img);
+  return li;
+}
+
+
+
+
+function createContactStatusIcon(contact) {
+  const img = document.createElement("img");
+  img.classList.add("status-icon");
+  img.src = isContactSelected(contact.name)
+    ? "./../assets/icons/png/checkButtonContacts.png"
+    : "./../assets/icons/png/checkButtonEmpty.png";
+  img.alt = isContactSelected(contact.name) ? "Selected" : "Not Selected";
+  img.style.cursor = "pointer";
+  return img;
+}
+
+
+
+
+function isContactSelected(contactName) {
+  return selectedContacts.some((contact) => contact.name === contactName);
+}
 
 
 
@@ -577,9 +597,6 @@ function removeContact(contact) {
 
 
 
-function isContactSelected(contactName) {
-  return selectedContacts.some((contact) => contact.name === contactName);
-}
 
 
 function updateDropdownLabel() {
