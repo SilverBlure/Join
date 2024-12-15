@@ -79,7 +79,6 @@ function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
 
 
 
-
 /**
  * Generiert HTML für die Arbeiter einer Aufgabe.
  * @param {Array<Object>} workers - Die Arbeiter der Aufgabe.
@@ -103,8 +102,6 @@ function generateWorkersHTML(workers = [], showNames = false) {
 
 
 
-
-
 function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
@@ -119,9 +116,6 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
         </div>
     `;
 }
-
-
-
 
 
 
@@ -150,9 +144,6 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
         </div>
     `;
 }
-
-
-
 
 
 
@@ -275,15 +266,16 @@ function generateSingleWorkerHTML(worker) {
 }
 
 
-
 function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
     return /*html*/`
         <div class="popupHeader">
             <h1>Edit Task</h1>
-            <img class="icon close" onclick="closeEditTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
         </div>
         <form id="editTaskForm" onsubmit="saveTaskChanges(event, '${listId}', '${taskId}')">
-            <div class="formParts">
+        <button type="reset" style="all: unset;">
+        <img class="icon close" onclick="closeEditTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
+        </button>
+        <div class="formParts">
                 <div class="formPart">
                     <label for="title">Title<span class="requiredStar">*</span></label>
                     <input type="text" id="title" value="${task.title || ''}" required>
@@ -428,6 +420,7 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     `;
 }
 
+
 async function findTaskSourceList(taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
     const response = await fetch(url);
@@ -452,7 +445,6 @@ async function findTaskSourceList(taskId) {
     console.warn("Ursprungsliste nicht gefunden für Task:", taskId);
     return null;
 }
-
 
 
 

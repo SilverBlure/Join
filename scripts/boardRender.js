@@ -70,7 +70,6 @@ async function openTaskPopup(taskId, listId) {
     if (!listId || !taskId) return; // Wenn IDs fehlen, abbrechen
     const task = await fetchTaskData(taskId, listId); // Aufgabendaten abrufen
     if (!task) return;
-    console.log("Task Data in Popup:", task); // Überprüfen der Task-Daten
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
     if (!popupOverlay || !popupContainer) return; // Wenn Popup-Elemente fehlen, abbrechen
@@ -166,36 +165,36 @@ function renderEditTaskPopup(listId, taskId, task) {
     editTaskPopupContainer.innerHTML = generateEditTaskForm(task, subtasksHTML, listId, taskId);
     renderContactsDropdown(); // Dropdown aktualisieren
     renderSelectedContacts(); // **Stelle sicher, dass ausgewählte Kontakte direkt gerendert werden**
-    console.log("Popup gerendert und renderSelectedContacts aufgerufen.");
 }
 
 
-
+/**
+ * Rendert die ausgewählten Kontakte in der Benutzeroberfläche.
+ */
 function renderSelectedContacts() {
-    console.log("renderSelectedContacts aufgerufen");
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (!selectedContactsList) {
-        console.error("selectedContactsList wurde nicht gefunden!");
         return;
     }
     selectedContactsList.innerHTML = "";
-    console.log("selectedContactsList erfolgreich geleert.");
-    Object.values(window.localContacts).forEach((contact) => {
-        console.log("Kontakt wird gerendert:", contact);
+    if (!window.localContacts || typeof window.localContacts !== "object") {
+        console.warn("window.localContacts ist nicht definiert oder kein gültiges Objekt.");
+        return;
+    }
+    Object.values(window.localContacts).forEach(contact => {
         const div = document.createElement("div");
         div.id = `selected_${contact.id}`;
         div.classList.add("selected-contact");
-        const initials = contact.name.split(" ").map(n => n.charAt(0).toUpperCase()).join("");
         const p = document.createElement("p");
         p.classList.add("workerEmblem");
         p.style.backgroundColor = getColorRGB(contact.name, "");
-        p.textContent = initials;
+        p.textContent = contact.name.split(" ").map(n => n.charAt(0).toUpperCase()).join("");
         div.appendChild(p);
         selectedContactsList.appendChild(div);
-        console.log(`Kontakt mit ID ${contact.id} wurde hinzugefügt.`);
     });
-    console.log("Finales HTML der ausgewählten Kontakte:", selectedContactsList.innerHTML);
 }
+
+
 
 
 
@@ -214,4 +213,23 @@ async function fetchTaskForEditing(listId, taskId) {
     } catch (error) {
         return null; // Bei Fehler null zurückgeben
     }
+}
+
+
+
+/**
+ * Aktualisiert die Daten eines Tasks auf dem Server.
+ * @param {string} listId - Die ID der Liste, in der sich der Task befindet.
+ * @param {string} taskId - Die ID des Tasks.
+ * @param {Object} task - Der aktualisierte Task.
+ * @returns {boolean} - Ob die Aktualisierung erfolgreich war.
+ */
+async function updateTask(listId, taskId, task) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task),
+    });
+    return response.ok;
 }
