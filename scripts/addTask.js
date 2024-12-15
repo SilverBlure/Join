@@ -114,12 +114,18 @@ function transformTask(taskValue) {
  * @returns {Array} Die transformierten Worker-Daten.
  */
 function transformWorkers(workers) {
-  return workers.map((worker) => ({
-    name: worker.name,
-    initials: getInitials(worker.name),
-    color: getColorHex(worker.name, ""),
-  }));
+  return workers.map((worker) => {
+    const [vorname, nachname] = worker.name.split(" "); // Vor- und Nachname extrahieren
+    const color = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachname generieren
+
+    return {
+      name: worker.name,
+      initials: getInitials(worker.name),
+      color: color, // Generierte Farbe setzen
+    };
+  });
 }
+
 
 /**
  * Fügt eine neue Aufgabe zur "To Do"-Liste hinzu.
@@ -428,21 +434,33 @@ function toggleContactsDropdown() {
 function renderContactsDropdown() {
   const dropdownList = document.getElementById("contactsDropdownList");
   dropdownList.innerHTML = "";
+  
   if (!contactsArray || contactsArray.length === 0) {
     dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
     return;
   }
+
   contactsArray.forEach((contact) => {
     const li = document.createElement("li");
     const containerDiv = document.createElement("div");
     containerDiv.classList.add("dropdown-item");
+    
+    // Vor- und Nachnamen extrahieren
+    const [vorname, nachname] = contact.name.split(" ");
+    const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Generiere die Farbe basierend auf Vor- und Nachnamen
+    
+    // Arbeiter-Symbol erstellen
     const workerEmblem = document.createElement("p");
     workerEmblem.classList.add("workerEmblemList");
-    workerEmblem.style.backgroundColor = getColorRGB(contact.name, "");
-    workerEmblem.textContent = getInitials(contact.name); 
+    workerEmblem.style.backgroundColor = backgroundColor; // Farbe setzen
+    workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+    
+    // Name anzeigen
     const nameSpan = document.createElement("span");
     nameSpan.classList.add("contact-nameList");
     nameSpan.textContent = contact.name;
+
+    // Checkbox erstellen
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.value = contact.name;
@@ -451,9 +469,13 @@ function renderContactsDropdown() {
     checkbox.addEventListener("change", (event) => {
       handleContactSelection(contact, event.target.checked);
     });
+
+    // Elemente in den Container einfügen
     containerDiv.appendChild(workerEmblem);
     containerDiv.appendChild(nameSpan);
     containerDiv.appendChild(checkbox);
+
+    // Container in die Liste einfügen
     li.appendChild(containerDiv);
     dropdownList.appendChild(li);
   });
@@ -461,30 +483,45 @@ function renderContactsDropdown() {
 
 
 
+
 function handleContactSelection(contact, isChecked) {
   if (!window.localContacts) {
     window.localContacts = {}; 
   }
+
   const selectedContactsList = document.getElementById("selectedContactsList");
+
   if (isChecked) {
     if (!isContactSelected(contact.name)) {
       selectedContacts.push(contact);
       window.localContacts[contact.id] = contact; 
+      
+      // Vor- und Nachnamen extrahieren
+      const [vorname, nachname] = contact.name.split(" ");
+      const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Generiere Farbe basierend auf Vor- und Nachnamen
+
+      // Div-Container für den Kontakt erstellen
       const div = document.createElement("div");
       div.id = `selected_${contact.id}`;
-      div.classList.add("selected-contact"); 
+      div.classList.add("selected-contact");
+
+      // Arbeiter-Symbol erstellen
       const workerEmblem = document.createElement("p");
       workerEmblem.classList.add("workerEmblem");
-      workerEmblem.style.backgroundColor = getColorRGB(contact.name, ""); 
-      workerEmblem.textContent = getInitials(contact.name); 
+      workerEmblem.style.backgroundColor = backgroundColor; // Setze die Farbe
+      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+
+      // Div-Container mit dem Symbol in die Liste einfügen
       div.appendChild(workerEmblem);
       selectedContactsList.appendChild(div);
     }
   } else {
-    removeContact(contact);
+    removeContact(contact); // Entferne den Kontakt
   }
-  updateDropdownLabel();
+
+  updateDropdownLabel(); // Aktualisiere die Dropdown-Beschriftung
 }
+
 
 
 
@@ -523,27 +560,6 @@ function getInitials(fullName) {
   return initialen;
 }
 
-
-
-/**
- * Generiert eine Hex-Farbe basierend auf den Buchstaben des Namens.
- * @param {string} vorname - Der Vorname.
- * @param {string} nachname - Der Nachname.
- * @returns {string} - Die generierte Hex-Farbe.
- */
-function getColorHex(vorname, nachname) {
-  const completeName = (vorname + nachname).toLowerCase();
-  let hash = 0;
-  for (let i = 0; i < completeName.length; i++) {
-    hash += completeName.charCodeAt(i);
-  }
-  const r = (hash * 123) % 256;
-  const g = (hash * 456) % 256;
-  const b = (hash * 789) % 256;
-  return `#${r.toString(16).padStart(2, "0")}${g
-    .toString(16)
-    .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
-}
 
 
 
