@@ -363,8 +363,11 @@ width: 316px;
 }
 
 .addSubTaskInput:focus {
-    border: none;
-    }
+  outline: none;
+  border: none;
+  transition: border-color 0.3s ease;
+  }
+
 
 #subtaskImg {
     padding-left: 90px;
@@ -629,10 +632,10 @@ textarea {
   min-height: 8.75rem;
 }
 
-input:focus,
-textarea:focus,
-select:focus {
-  border: 1px solid #29abe2;
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border: 1px solid #29ABE2;
+  transition: border-color 0.3s ease;
 }
 
 ::placeholder {
