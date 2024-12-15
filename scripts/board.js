@@ -27,12 +27,21 @@ let tempPriority = null;
  * @param {string} listId - Die ID der Liste, zu der der Task hinzugefügt werden soll.
  */
 function openAddTaskPopup(listId) {
+    if (!sessionStorage.getItem('pageReloaded')) {
+        sessionStorage.setItem('pageReloaded', 'true'); 
+        sessionStorage.setItem('pendingPopupListId', listId); 
+        location.reload();
+        return; 
+    }
+    sessionStorage.removeItem('pageReloaded');
+    const storedListId = sessionStorage.getItem('pendingPopupListId');
+    sessionStorage.removeItem('pendingPopupListId');
     const popup = document.getElementById('addTaskPopupOverlay');
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (!popup) {
         return;
     }
-    currentListId = listId;
+    currentListId = storedListId || listId;
     if (window.localContacts) {
         window.localContacts = {};
     }
@@ -42,9 +51,16 @@ function openAddTaskPopup(listId) {
     const form = document.getElementById("addTaskFormTask");
     const newForm = form.cloneNode(true); 
     form.parentNode.replaceChild(newForm, form); 
-    newForm.addEventListener("submit", (event) => addTaskToSpecificList(listId, event));
+    newForm.addEventListener("submit", (event) => addTaskToSpecificList(currentListId, event));
     popup.classList.remove('hidden');
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const storedListId = sessionStorage.getItem('pendingPopupListId');
+    if (storedListId) {
+        openAddTaskPopup(storedListId); 
+    }
+});
+
 
 
 
