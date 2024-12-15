@@ -255,23 +255,21 @@ function addTaskToAwaitFeedback() {
 
 
 
-/**
- * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
- * @param {string} vorname - Der Vorname.
- * @param {string} nachname - Der Nachname.
- * @returns {string} - Die generierte RGB-Farbe im Format "rgb(r, g, b)".
- */
-function getColorRGB(vorname, nachname) {
-    const completeName = (vorname + nachname).toLowerCase();
+function getColorHex(vorname, nachname){
+    let completeName = (vorname+nachname).toLowerCase();
     let hash = 0;
-    for (let i = 0; i < completeName.length; i++) {
+  
+    for( let i = 0; i< completeName.length; i++){
         hash += completeName.charCodeAt(i);
     }
-    const r = (hash * 123) % 256;
-    const g = (hash * 456) % 256;
-    const b = (hash * 789) % 256;
-    return `rgb(${r}, ${g}, ${b})`;
-}
+  
+    let r = (hash * 123) % 256;
+    let g = (hash * 456) % 256;
+    let b = (hash * 789) % 256;
+  
+    let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return hexColor;
+  }
 
 
 
@@ -285,7 +283,6 @@ function getInitials(fullName) {
         console.warn("Ungültiger Name für Initialen:", fullName);
         return ""; // Fallback bei ungültigen Eingaben
     }
-
     const [vorname, nachname] = fullName.trim().split(" ");
     const initialen = `${vorname?.charAt(0)?.toUpperCase() || ""}${nachname?.charAt(0)?.toUpperCase() || ""}`;
     return initialen;
@@ -425,9 +422,6 @@ async function fetchTask(listId, taskId) {
     if (response.ok) return await response.json();
     return null;
 }
-
-
-
 
 
 

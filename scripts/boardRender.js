@@ -47,15 +47,21 @@ function renderTask(container, taskId, task, listId) {
  * @returns {string} - Das generierte HTML.
  */
 function renderTaskWorkers(workers) {
-    if (!workers || workers.length === 0) return ""; // Wenn keine Arbeiter vorhanden sind, nichts zurückgeben
+    if (!workers || workers.length === 0) return "";
     return workers
-        .filter(worker => worker && worker.name) // Ungültige Einträge filtern
-        .map(worker => `
-            <p class="workerEmblem" style="background-color: ${getColorRGB(worker.name, "")};">
-                ${getInitials(worker.name)}
-            </p>
-        `).join(""); // HTML für jeden Arbeiter generieren
+        .filter(worker => worker && worker.name) 
+        .map(worker => {
+            const [vorname, nachname] = worker.name.split(" "); 
+            const backgroundColor = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
+            return `
+                <p class="workerEmblem" style="background-color: ${backgroundColor};">
+                    ${vorname.charAt(0).toUpperCase()}${nachname.charAt(0).toUpperCase()} <!-- Initialen anzeigen -->
+                </p>
+            `;
+        })
+        .join(""); 
 }
+
 
 
 
@@ -187,7 +193,7 @@ function renderSelectedContacts() {
         div.classList.add("selected-contact");
         const p = document.createElement("p");
         p.classList.add("workerEmblem");
-        p.style.backgroundColor = getColorRGB(contact.name, "");
+        p.style.backgroundColor = getColorHex(contact.name, "");
         p.textContent = contact.name.split(" ").map(n => n.charAt(0).toUpperCase()).join("");
         div.appendChild(p);
         selectedContactsList.appendChild(div);
