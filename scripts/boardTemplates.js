@@ -108,17 +108,18 @@ function generateWorkersHTML(workers = [], showNames = false) {
 function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
-            <input 
-                class="form-check-input custom-checkbox" 
-                type="checkbox" 
-                ${subtask.done ? 'checked' : ''} 
-                onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
+            <img 
+                class="subtask-toggle-icon" 
+                src="${subtask.done ? './../assets/icons/png/checkButtonChecked.png' : './../assets/icons/png/checkButtonEmpty.png'}" 
+                alt="Toggle Subtask" 
+                onclick="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', ${!subtask.done})">
             <p class="subtaskText" style="text-decoration: ${subtask.done ? 'line-through' : 'none'};">
                 ${subtask.title || 'Unnamed Subtask'}
             </p>
         </div>
     `;
 }
+
 
 
 
