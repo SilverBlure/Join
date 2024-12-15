@@ -29,24 +29,37 @@ async function loadLoginData(){
  * @param {string} email
  * @param {string} pw  
 */
-function login(){
-    let email = document.getElementById('email').value;
-    let pw =document.getElementById('password').value;
-    let check = document.getElementById('checkSvg').getAttribute('value');
-    if(check.match&&check){
-        localStorage.setItem('email', email);
-        localStorage.setItem('pw', pw);
-        localStorage.setItem('sessionKey', check.id);
-        showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
-        location.href ='./../html/summary.html';
-    }else if(check.match){
-        localStorage.setItem('sessionKey', check.id);
-        showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!')
-        location.href ='./../html/summary.html';
-    }else{
-        showSnackbar('Überprüfe deine Anmeldedaten!')
+function login(loginType){
+    let pw, email;
+    if(loginType == 'normal'){
+        email = document.getElementById('email').value;
+        pw = document.getElementById('password').value;
+        let isChecked = document.getElementById('checkSvg').getAttribute('value');
+        if(checkLogin(email, pw) && isChecked) {
+            localStorage.setItem('email', email);
+            localStorage.setItem('pw', pw);
+            localStorage.setItem('sessionKey', check.id);
+            showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
+            location.href ='./../html/summary.html';
+        }else if(checkLogin(email, pw)){
+            localStorage.setItem('sessionKey', check.id);
+            showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!');
+            location.href ='./../html/summary.html';
+        }else{
+            showSnackbar('Überprüfe deine Anmeldedaten!');
+        }
+    }else if(loginType == 'Gast'){
+        pw = 'Gast';
+        email = 'Gast@join.com';
+        if(checkLogin(email, pw)){
+            localStorage.setItem('sessionKey', check.id);
+            showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!');
+            location.href ='./../html/summary.html';
+        }
+
     }
 }
+
 
 /**this function makes the login to ur account 
  * @param {string} email
@@ -141,7 +154,6 @@ function checkInput(){
         doc.classList.replace('visible-text','hidden-text');
     }
 }
-
 
 function check(emailFromInput, pwFromInput){
     let isChecked = loginArray.find((element) => element.email == emailFromInput && element.password == pwFromInput);
