@@ -90,15 +90,18 @@ function generateWorkersHTML(workers = [], showNames = false) {
     if (workers.length === 0) {
         return '<p>No selected Contacts.</p>';
     }
+
     return workers
         .filter(worker => worker && worker.name)
         .map(worker => {
+            const [vorname, nachname] = worker.name.split(" ");
+            const color = worker.color || getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
             const initials = getInitials(worker.name);
-            const color = worker.color || getColorHex(worker.name, "");
             return generateWorkerContainerHTML(initials, color, worker.name, showNames);
         })
         .join("");
 }
+
 
 
 
@@ -247,13 +250,20 @@ function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
 }
 
 
-
+/**
+ * Generiert HTML für einen einzelnen Worker.
+ * @param {Object} worker - Das Worker-Objekt mit `name` und optional `color`.
+ * @returns {string} - Das generierte HTML.
+ */
 function generateSingleWorkerHTML(worker) {
+    const [vorname, nachname] = worker.name.split(" "); // Vor- und Nachname extrahieren
+    const color = worker.color || getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+    const initials = getInitials(worker.name); // Initialen generieren
+
     return `
         <div class="workerInformation">
-            <p class="workerEmblem workerIcon" 
-               style="background-color: ${worker.color || getColorHex(worker.name, "")};">
-                ${getInitials(worker.name)}
+            <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
             </p>
             <p class="workerName">${worker.name}</p>
             <img 
@@ -264,6 +274,7 @@ function generateSingleWorkerHTML(worker) {
         </div>
     `;
 }
+
 
 
 function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
@@ -457,10 +468,16 @@ function generateNoMatchingMessageHTML(message) {
 }
 
 
-
+/**
+ * Generiert HTML für einen einzelnen Worker.
+ * @param {string} workerName - Der vollständige Name des Workers (Vorname Nachname).
+ * @returns {string} - Das generierte HTML.
+ */
 function generateWorkerHTML(workerName) {
-    const initials = getInitials(workerName);
-    const color = getColorHex(workerName, "");
+    const initials = getInitials(workerName); // Initialen generieren
+    const [vorname, nachname] = workerName.split(" "); // Vor- und Nachnamen extrahieren
+    const color = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+
     return `
         <div class="workerInformation">
             <p class="workerEmblem workerIcon" style="background-color: ${color};">
@@ -478,9 +495,17 @@ function generateWorkerHTML(workerName) {
 
 
 
+
+/**
+ * Generiert HTML für einen editierbaren Worker.
+ * @param {Object} contact - Der Kontakt-Objekt mit Name und anderen Details.
+ * @returns {string} - Das generierte HTML.
+ */
 function generateEditableWorkerHTML(contact) {
-    const initials = getInitials(contact.name);
-    const color = getColorHex(contact.name, "");
+    const initials = getInitials(contact.name); // Initialen generieren
+    const [vorname, nachname] = contact.name.split(" "); // Vor- und Nachnamen extrahieren
+    const color = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+
     return `
         <div class="workerInformation">
             <p class="workerEmblem workerIcon" style="background-color: ${color};">
@@ -498,9 +523,16 @@ function generateEditableWorkerHTML(contact) {
 
 
 
+/**
+ * Generiert HTML für einen editierbaren Worker.
+ * @param {string} name - Der vollständige Name des Workers (Vorname Nachname).
+ * @returns {string} - Das generierte HTML.
+ */
 function generateWorkerHTMLForEdit(name) {
-    const initials = getInitials(name);
-    const color = getColorHex(name, "");
+    const initials = getInitials(name); // Initialen generieren
+    const [vorname, nachname] = name.split(" "); // Vor- und Nachnamen extrahieren
+    const color = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+
     return `
         <div class="workerInformation">
             <p class="workerEmblem workerIcon" style="background-color: ${color};">${initials}</p>

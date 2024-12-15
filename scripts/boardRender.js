@@ -64,9 +64,6 @@ function renderTaskWorkers(workers) {
 
 
 
-
-
-
 /**
  * Öffnet ein Popup für eine spezifische Aufgabe.
  * @param {string} taskId - Die ID der Aufgabe.
@@ -173,7 +170,6 @@ function renderEditTaskPopup(listId, taskId, task) {
     renderSelectedContacts(); // **Stelle sicher, dass ausgewählte Kontakte direkt gerendert werden**
 }
 
-
 /**
  * Rendert die ausgewählten Kontakte in der Benutzeroberfläche.
  */
@@ -182,7 +178,7 @@ function renderSelectedContacts() {
     if (!selectedContactsList) {
         return;
     }
-    selectedContactsList.innerHTML = "";
+    selectedContactsList.innerHTML = ""; // Liste zurücksetzen
     if (!window.localContacts || typeof window.localContacts !== "object") {
         console.warn("window.localContacts ist nicht definiert oder kein gültiges Objekt.");
         return;
@@ -193,13 +189,16 @@ function renderSelectedContacts() {
         div.classList.add("selected-contact");
         const p = document.createElement("p");
         p.classList.add("workerEmblem");
-        p.style.backgroundColor = getColorHex(contact.name, "");
+        const [vorname, nachname] = contact.name.split(" ");
+        p.style.backgroundColor = getColorHex(
+            vorname?.toLowerCase() || "",
+            nachname?.toLowerCase() || ""
+        );
         p.textContent = contact.name.split(" ").map(n => n.charAt(0).toUpperCase()).join("");
         div.appendChild(p);
         selectedContactsList.appendChild(div);
     });
 }
-
 
 
 
