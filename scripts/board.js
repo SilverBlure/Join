@@ -143,6 +143,7 @@ function closeAddTaskPopup() {
     const mainContent = document.getElementById('mainContent');
     if (popup) {
         popup.classList.add('hidden');
+        refreshUIAfterPopupClose();
         renderBoard();
     }
     if (mainContent) {
@@ -209,15 +210,39 @@ function resetLocalState() {
 /**
  * Schließt das "Task bearbeiten"-Popup und setzt Formular und UI-Zustand zurück.
  */
-function closeEditTaskPopup() {
-    refreshUIAfterPopupClose();
-    const overlay = document.getElementById("editTaskPopupOverlay");
-    const mainContent = document.getElementById("mainContent");
-    if (overlay) overlay.classList.remove('visible');
-    if (mainContent) mainContent.classList.remove('blur');
-    tempPriority = null;
-    refreshUIAfterPopupClose();
+async function closeEditTaskPopup() {
+    try {
+        const overlay = document.getElementById("editTaskPopupOverlay");
+        const mainContent = document.getElementById("mainContent");
+
+        // Entferne die Sichtbarkeit des Popups
+        if (overlay) overlay.classList.remove('visible');
+        if (mainContent) mainContent.classList.remove('blur');
+
+        // Temporäre Priorität zurücksetzen
+        tempPriority = null;
+
+        // Formular zurücksetzen
+        const form = document.getElementById("addTaskFormTask");
+        if (form) form.reset();
+
+        // Kontakte leeren
+        const selectedContactsList = document.getElementById("selectedContactsList");
+        if (selectedContactsList) {
+            selectedContactsList.innerHTML = ""; // Kontakte in der UI leeren
+        }
+        window.localContacts = {}; // Lokalen Zustand der Kontakte leeren
+
+        // Aktuellste Daten aus der Datenbank holen und UI aktualisieren
+        await refreshUIAfterPopupClose();
+
+        console.log("Popup geschlossen, Formular und Kontakte zurückgesetzt.");
+    } catch (error) {
+        console.error("Fehler beim Schließen des Popups:", error);
+    }
 }
+
+
 
 
 
@@ -483,13 +508,29 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
 
 /**
  * Aktualisiert die Benutzeroberfläche, nachdem ein Popup geschlossen wurde.
+ * Stellt sicher, dass die neuesten Daten aus der Datenbank abgerufen werden, bevor gerendert wird.
  */
-function refreshUIAfterPopupClose() {
-    refreshLists();
-    const form = document.getElementById("addTaskFormTask");
-    if (form) form.reset();
-    renderBoard();
+async function refreshUIAfterPopupClose() {
+    try {
+        // Aktuellste Daten aus der Datenbank abrufen
+        await getTasks(); // Annahme: Diese Funktion holt die neuesten Daten und aktualisiert den Zustand
+
+        // Listen aktualisieren
+        refreshLists();
+
+        // Formular zurücksetzen
+        const form = document.getElementById("addTaskFormTask");
+        if (form) form.reset();
+
+        // Benutzeroberfläche rendern
+        renderBoard();
+
+        console.log("Benutzeroberfläche erfolgreich aktualisiert.");
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren der Daten aus der Datenbank:", error);
+    }
 }
+
 
 
 

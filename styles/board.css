@@ -171,6 +171,7 @@ h1 {
 
 
 .taskCardTitle {
+  width: 200px;
   font-size: 16px;
   font-weight: 700;
   color: #2a3647;
@@ -181,8 +182,13 @@ h1 {
   font-size: 16px;
   font-weight: 400;
   color: #a8a8a8;
-  overflow-wrap: break-word;
+  overflow-wrap: break-word; /* Optional für Wortumbrüche */
+  width: 200px; /* Box-Breite */
+  overflow: hidden; /* Verhindert das Überlaufen */
+  text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
+  white-space: nowrap; /* Verhindert den Zeilenumbruch */
 }
+
 
 .taskCardSubtasks {
   font-size: 12px;
@@ -248,12 +254,9 @@ h1 {
 }
 
 #selectedContactsList {
-  margin: 0px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 0px;
-  position: relative;
-  left: 200px;
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 .priority {
@@ -412,6 +415,10 @@ h1 {
   max-height: 200px;
   overflow-y: auto;
   user-select: none;
+}
+
+.selected-contact {
+  display: ;
 }
 
 .dropdownList.open {
