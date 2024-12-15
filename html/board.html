@@ -122,28 +122,22 @@
     <div id="editTaskPopupOverlay" class="popupOverlay hidden">
         <div id="editTaskPopupContainer" class="popupContainer"></div>
     </div>
-
     <div id="addTaskPopupOverlay" class="popupOverlay hidden">
         <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
-
-
-
             <div class="popupHeader">
                 <h1>Add Task</h1>
-                <img class="icons close" onclick="closeAddTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
             </div>
-
             <form id="addTaskFormTask">
+                <button type="reset" style="all: unset;">
+                    <img class="icons close" onclick="closeAddTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
+                </button>
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
                         <input name="title" type="text" id="title" placeholder="Enter a title" required>
-
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
-
-
                             <label for="contactSelection">Assign Contacts</label>
                         <div class="createContactBar" onclick="toggleContactsDropdown()">
                             <span id="dropdownLabel">Wähle einen Kontakt aus</span>
@@ -152,8 +146,6 @@
                             <ul class="dropdownList" id="contactsDropdownList"></ul>
                         </div>
                         <div id="selectedContactsList"></div>
-
-
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">

@@ -79,7 +79,6 @@ function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
 
 
 
-
 /**
  * Generiert HTML für die Arbeiter einer Aufgabe.
  * @param {Array<Object>} workers - Die Arbeiter der Aufgabe.
@@ -91,11 +90,13 @@ function generateWorkersHTML(workers = [], showNames = false) {
     if (workers.length === 0) {
         return '<p>No selected Contacts.</p>';
     }
+
     return workers
         .filter(worker => worker && worker.name)
         .map(worker => {
+            const [vorname, nachname] = worker.name.split(" ");
+            const color = worker.color || getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
             const initials = getInitials(worker.name);
-            const color = worker.color || getColorHex(worker.name, "");
             return generateWorkerContainerHTML(initials, color, worker.name, showNames);
         })
         .join("");
@@ -104,22 +105,19 @@ function generateWorkersHTML(workers = [], showNames = false) {
 
 
 
-
 function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
-            <input 
-                class="form-check-input custom-checkbox" 
-                type="checkbox" 
-                ${subtask.done ? 'checked' : ''} 
-                onchange="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', this.checked)">
+            <img 
+                class="subtask-toggle-icon ${subtask.done ? 'done' : 'todo'}" 
+                alt="Toggle Subtask" 
+                onclick="toggleSubtaskStatus('${listId}', '${taskId}', '${subtaskId}', ${!subtask.done})">
             <p class="subtaskText" style="text-decoration: ${subtask.done ? 'line-through' : 'none'};">
                 ${subtask.title || 'Unnamed Subtask'}
             </p>
         </div>
     `;
 }
-
 
 
 
@@ -150,9 +148,6 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
         </div>
     `;
 }
-
-
-
 
 
 
@@ -256,13 +251,20 @@ function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
 }
 
 
-
+/**
+ * Generiert HTML für einen einzelnen Worker.
+ * @param {Object} worker - Das Worker-Objekt mit `name` und optional `color`.
+ * @returns {string} - Das generierte HTML.
+ */
 function generateSingleWorkerHTML(worker) {
+    const [vorname, nachname] = worker.name.split(" "); // Vor- und Nachname extrahieren
+    const color = worker.color || getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+    const initials = getInitials(worker.name); // Initialen generieren
+
     return `
         <div class="workerInformation">
-            <p class="workerEmblem workerIcon" 
-               style="background-color: ${worker.color || getColorHex(worker.name, "")};">
-                ${getInitials(worker.name)}
+            <p class="workerEmblem workerIcon" style="background-color: ${color};">
+                ${initials}
             </p>
             <p class="workerName">${worker.name}</p>
             <img 
@@ -280,10 +282,12 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
     return /*html*/`
         <div class="popupHeader">
             <h1>Edit Task</h1>
-            <img class="icon close" onclick="closeEditTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
         </div>
         <form id="editTaskForm" onsubmit="saveTaskChanges(event, '${listId}', '${taskId}')">
-            <div class="formParts">
+        <button type="reset" style="all: unset;">
+        <img class="icon close" onclick="closeEditTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
+        </button>
+        <div class="formParts">
                 <div class="formPart">
                     <label for="title">Title<span class="requiredStar">*</span></label>
                     <input type="text" id="title" value="${task.title || ''}" required>
@@ -428,6 +432,7 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     `;
 }
 
+
 async function findTaskSourceList(taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
     const response = await fetch(url);
@@ -455,7 +460,6 @@ async function findTaskSourceList(taskId) {
 
 
 
-
 function generateNoMatchingMessageHTML(message) {
     return `
         <div class="nothingToDo">
@@ -465,10 +469,16 @@ function generateNoMatchingMessageHTML(message) {
 }
 
 
-
+/**
+ * Generiert HTML für einen einzelnen Worker.
+ * @param {string} workerName - Der vollständige Name des Workers (Vorname Nachname).
+ * @returns {string} - Das generierte HTML.
+ */
 function generateWorkerHTML(workerName) {
-    const initials = getInitials(workerName);
-    const color = getColorHex(workerName, "");
+    const initials = getInitials(workerName); // Initialen generieren
+    const [vorname, nachname] = workerName.split(" "); // Vor- und Nachnamen extrahieren
+    const color = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+
     return `
         <div class="workerInformation">
             <p class="workerEmblem workerIcon" style="background-color: ${color};">
@@ -486,9 +496,17 @@ function generateWorkerHTML(workerName) {
 
 
 
+
+/**
+ * Generiert HTML für einen editierbaren Worker.
+ * @param {Object} contact - Der Kontakt-Objekt mit Name und anderen Details.
+ * @returns {string} - Das generierte HTML.
+ */
 function generateEditableWorkerHTML(contact) {
-    const initials = getInitials(contact.name);
-    const color = getColorHex(contact.name, "");
+    const initials = getInitials(contact.name); // Initialen generieren
+    const [vorname, nachname] = contact.name.split(" "); // Vor- und Nachnamen extrahieren
+    const color = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+
     return `
         <div class="workerInformation">
             <p class="workerEmblem workerIcon" style="background-color: ${color};">
@@ -506,9 +524,16 @@ function generateEditableWorkerHTML(contact) {
 
 
 
+/**
+ * Generiert HTML für einen editierbaren Worker.
+ * @param {string} name - Der vollständige Name des Workers (Vorname Nachname).
+ * @returns {string} - Das generierte HTML.
+ */
 function generateWorkerHTMLForEdit(name) {
-    const initials = getInitials(name);
-    const color = getColorHex(name, "");
+    const initials = getInitials(name); // Initialen generieren
+    const [vorname, nachname] = name.split(" "); // Vor- und Nachnamen extrahieren
+    const color = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
+
     return `
         <div class="workerInformation">
             <p class="workerEmblem workerIcon" style="background-color: ${color};">${initials}</p>

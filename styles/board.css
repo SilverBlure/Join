@@ -12,8 +12,12 @@
   box-shadow: none;
 }
 
-.board {
-  background: #f2ebeb;
+.contact-name {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 10px;
 }
 
 .boardCard {
@@ -174,6 +178,7 @@ h1 {
 
 
 .taskCardTitle {
+  width: 200px;
   font-size: 16px;
   font-weight: 700;
   color: #2a3647;
@@ -184,8 +189,13 @@ h1 {
   font-size: 16px;
   font-weight: 400;
   color: #a8a8a8;
-  overflow-wrap: break-word;
+  overflow-wrap: break-word; /* Optional für Wortumbrüche */
+  width: 200px; /* Box-Breite */
+  overflow: hidden; /* Verhindert das Überlaufen */
+  text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
+  white-space: nowrap; /* Verhindert den Zeilenumbruch */
 }
+
 
 .taskCardSubtasks {
   font-size: 12px;
@@ -251,12 +261,9 @@ h1 {
 }
 
 #selectedContactsList {
-  margin: 0px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 0px;
-  position: relative;
-  left: 200px;
+display: flex;
+justify-content: center;
+align-items: center;
 }
 
 .priority {
@@ -417,39 +424,76 @@ h1 {
   user-select: none;
 }
 
-.dropdownList.open {
-  display: block;
-}
 
-.dropdownList::-webkit-scrollbar-thumb {
-  background-color: #ddd;
-  border-radius: 4px;
-}
 
-.dropdownList li {
-  padding: 12px 16px;
+
+
+
+
+
+
+
+
+
+
+
+
+/* Standard-Zustand für 'todo' */
+.subtask-toggle-icon.todo {
+  content: url('./../assets/icons/png/checkButtonEmpty.png');
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  font-size: 14px;
-  font-family: "Arial", sans-serif;
-  color: #333;
-  transition: background 0.3s, color 0.3s;
-  position: relative;
+  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
+  opacity: 1; /* Standard-Deckkraft */
 }
 
-.dropdownList li:hover {
-  background: #29abe2;
-  color: #ffffff;
+/* Hover-Zustand für 'todo' */
+.subtask-toggle-icon.todo:hover {
+  content: url('./../assets/icons/png/checkButtonEmptyHover.png');
+  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9; /* Leicht reduzierte Deckkraft */
 }
 
-.dropdownList li + li {
-  border-top: 1px solid #eee;
+/* Standard-Zustand für 'done' */
+.subtask-toggle-icon.done {
+  content: url('./../assets/icons/png/checkButtonChecked.png');
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
+  opacity: 1; /* Standard-Deckkraft */
 }
 
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+/* Hover-Zustand für 'done' */
+.subtask-toggle-icon.done:hover {
+  content: url('./../assets/icons/png/checkButtonCheckedHover.png');
+  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9; /* Leicht reduzierte Deckkraft */
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .contact-name {
   flex-grow: 1;
@@ -458,6 +502,160 @@ h1 {
   color: #333;
   margin-right: 10px;
 }
+
+.contact-nameList {
+  flex-grow: 1;
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 10px;
+}
+
+.dropdownList li input[type="checkbox"] {
+  width: 10px;
+  height: 10px;
+  margin: 0;
+  cursor: pointer;
+}
+
+
+#selectedContactsList {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 5px;
+}
+
+
+.customDropdown {
+  position: relative;
+
+}
+
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+  max-height: 200px; 
+  overflow-y: auto; 
+  user-select: none;  
+}
+
+.dropdownList.open {
+  display: block;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 4px; 
+}
+
+.customDropdown {
+  position: relative;
+
+}
+
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+  max-height: 200px; 
+  overflow-y: auto; 
+  user-select: none;  
+}
+
+.dropdownList.open {
+  display: block;
+  width:440px;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 4px; 
+}
+
+.dropdown-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.dropdownList li {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+  position: relative;
+}
+
+.dropdownList li:hover {
+  background: #2A3647; 
+}
+
+.dropdownList li:hover span {
+  color: white;
+}
+
+
+.dropdownList li + li {
+  border-top: 1px solid #eee;
+}
+
+
+.selected-contact-item {
+  color: white;
+  background-color: #091931; 
+  transition: background-color 0.3s ease; 
+}
+
+.selected-contact-item span {
+  color: white;
+}
+
+
+
+
+.selected-contact-item {
+  color: white;
+  background-color: #091931; 
+  transition: background-color 0.3s ease; 
+}
+
+.selected-contact-item span {
+  color: white;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
 
 
 .dropdownList li input[type="checkbox"] {

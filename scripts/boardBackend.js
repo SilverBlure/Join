@@ -121,25 +121,20 @@ async function addTaskToList(listId, taskDetails) {
     return await postData(url, taskDetails);
 }
 
+
+
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault();
     if (!listId || !taskId) return;
-
-    // Lokale Kontakte und Subtasks aktualisieren
     updateLocalContactsFromCheckboxes();
     window.localEditedSubtasks = collectSubtasksFromDOM();
-
     Object.values(window.localEditedSubtasks).forEach(subtask => {
         subtask.done = subtask.done || false;
     });
-
-    // Kontakte in das gewünschte Format bringen
     const workers = Object.values(window.localContacts || {}).map(worker => ({
         name: worker.name,
-        id: worker.id || `worker_${Date.now()}`, // Sicherstellen, dass eine ID vorhanden ist
+        id: worker.id || `worker_${Date.now()}`, 
     }));
-
-    // Aktualisierte Task-Daten
     const updatedTask = {
         title: document.getElementById("title").value.trim(),
         description: document.getElementById("description").value.trim() || "No description provided",
@@ -149,12 +144,9 @@ async function saveTaskChanges(event, listId, taskId) {
             name: document.getElementById("category").value.trim() || "Uncategorized",
             class: `category${(document.getElementById("category").value || "Uncategorized").replace(/\s/g, "")}`,
         },
-        workers, // Nur ID und Name speichern
+        workers, 
         subtasks: { ...window.localEditedSubtasks },
     };
-
-    console.log("Speichere aktualisierte Aufgabe:", updatedTask);
-
     try {
         const response = await fetch(`${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`, {
             method: "PUT",
@@ -163,39 +155,22 @@ async function saveTaskChanges(event, listId, taskId) {
             },
             body: JSON.stringify(updatedTask),
         });
-
         if (!response.ok) {
-            console.error("Fehler beim Speichern der Aufgabe:", response.statusText);
             return;
         }
-
-        console.log("Aufgabe erfolgreich aktualisiert in der Datenbank:", updatedTask);
         await getTasks();
         showSnackbar('Der Task wurde erfolgreich aktualisiert!');
-
-        // Liste der ausgewählten Kontakte im DOM leeren
         const selectedContactsList = document.getElementById("selectedContactsList");
         if (selectedContactsList) {
-            selectedContactsList.innerHTML = ""; // Alle Kontakte entfernen
-            console.log("Liste der ausgewählten Kontakte erfolgreich geleert.");
+            selectedContactsList.innerHTML = ""; 
         }
-
-        // Popup schließen und aktualisierte Task-Daten anzeigen
         closeEditTaskPopup();
         openTaskPopup(taskId, listId);
-
-        // Seite neu laden
         window.location.reload();
     } catch (error) {
-        console.error("Fehler beim Aktualisieren der Aufgabe:", error);
         showSnackbar('Fehler beim Aktualisieren der Daten!');
     }
 }
-
-
-
-
-
 
 
 

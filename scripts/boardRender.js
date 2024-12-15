@@ -47,18 +47,20 @@ function renderTask(container, taskId, task, listId) {
  * @returns {string} - Das generierte HTML.
  */
 function renderTaskWorkers(workers) {
-    if (!workers || workers.length === 0) return ""; // Wenn keine Arbeiter vorhanden sind, nichts zurückgeben
+    if (!workers || workers.length === 0) return "";
     return workers
-        .filter(worker => worker && worker.name) // Ungültige Einträge filtern
-        .map(worker => `
-            <p class="workerEmblem" style="background-color: ${getColorRGB(worker.name, "")};">
-                ${getInitials(worker.name)}
-            </p>
-        `).join(""); // HTML für jeden Arbeiter generieren
+        .filter(worker => worker && worker.name) 
+        .map(worker => {
+            const [vorname, nachname] = worker.name.split(" "); 
+            const backgroundColor = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
+            return `
+                <p class="workerEmblem" style="background-color: ${backgroundColor};">
+                    ${vorname.charAt(0).toUpperCase()}${nachname.charAt(0).toUpperCase()} <!-- Initialen anzeigen -->
+                </p>
+            `;
+        })
+        .join(""); 
 }
-
-
-
 
 
 
@@ -71,7 +73,6 @@ async function openTaskPopup(taskId, listId) {
     if (!listId || !taskId) return; // Wenn IDs fehlen, abbrechen
     const task = await fetchTaskData(taskId, listId); // Aufgabendaten abrufen
     if (!task) return;
-    console.log("Task Data in Popup:", task); // Überprüfen der Task-Daten
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
     if (!popupOverlay || !popupContainer) return; // Wenn Popup-Elemente fehlen, abbrechen
@@ -120,13 +121,9 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
     document.getElementById("mainContent").classList.add("blur");
     const headerHTML = generatePopupHeaderHTML(task);
     const detailsHTML = generatePopupDetailsHTML(task);
-    
-    // Hier wird der false-Wert explizit übergeben
     const workerContainerHTML = generateWorkersHTML(task.workers || [], true); 
-
     const subtasksContainerHTML = generateSubtasksContainerHTML(subtasksHTML);
     const actionsHTML = generatePopupActionsHTML(listId, taskId);
-
     popupContainer.innerHTML = `
         ${headerHTML}
         ${detailsHTML}
@@ -162,71 +159,47 @@ function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
     if (!editTaskPopupOverlay || !editTaskPopupContainer) return;
-
     initializeLocalContacts(task);
-
     editTaskPopupOverlay.setAttribute("data-task-id", taskId);
     editTaskPopupOverlay.setAttribute("data-list-id", listId);
     editTaskPopupOverlay.classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
-
     const subtasksHTML = generateEditSubtasksHTML(window.localEditedSubtasks);
-
     editTaskPopupContainer.innerHTML = generateEditTaskForm(task, subtasksHTML, listId, taskId);
-
     renderContactsDropdown(); // Dropdown aktualisieren
     renderSelectedContacts(); // **Stelle sicher, dass ausgewählte Kontakte direkt gerendert werden**
-
-    console.log("Popup gerendert und renderSelectedContacts aufgerufen.");
 }
 
-
-
-
-
+/**
+ * Rendert die ausgewählten Kontakte in der Benutzeroberfläche.
+ */
 function renderSelectedContacts() {
-    console.log("renderSelectedContacts aufgerufen");
-
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (!selectedContactsList) {
-        console.error("selectedContactsList wurde nicht gefunden!");
         return;
     }
-
-    // Leere die Liste, um Duplikate zu vermeiden
-    selectedContactsList.innerHTML = "";
-    console.log("selectedContactsList erfolgreich geleert.");
-
-    // Iteriere über die lokalen Kontakte
-    Object.values(window.localContacts).forEach((contact) => {
-        console.log("Kontakt wird gerendert:", contact);
-
-        // Erstelle ein neues <li>-Element
-        const li = document.createElement("li");
-        li.id = `selected_${contact.id}`;
-        li.classList.add("selected-contact");
-
-        // Initialen generieren
-        const initials = contact.name.split(" ").map(n => n.charAt(0).toUpperCase()).join("");
-
-        // Arbeiter-Symbol <p> erstellen mit der neuen Struktur
+    selectedContactsList.innerHTML = ""; // Liste zurücksetzen
+    if (!window.localContacts || typeof window.localContacts !== "object") {
+        console.warn("window.localContacts ist nicht definiert oder kein gültiges Objekt.");
+        return;
+    }
+    Object.values(window.localContacts).forEach(contact => {
+        const div = document.createElement("div");
+        div.id = `selected_${contact.id}`;
+        div.classList.add("selected-contact");
         const p = document.createElement("p");
         p.classList.add("workerEmblem");
-        p.style.backgroundColor = getColorRGB(contact.name, "");
-        p.textContent = initials;
-
-        // <p>-Element in das <li>-Element einfügen
-        li.appendChild(p);
-
-        // <li>-Element zur Liste hinzufügen
-        selectedContactsList.appendChild(li);
-
-        console.log(`Kontakt mit ID ${contact.id} wurde hinzugefügt.`);
+        const [vorname, nachname] = contact.name.split(" ");
+        p.style.backgroundColor = getColorHex(
+            vorname?.toLowerCase() || "",
+            nachname?.toLowerCase() || ""
+        );
+        p.textContent = contact.name.split(" ").map(n => n.charAt(0).toUpperCase()).join("");
+        div.appendChild(p);
+        selectedContactsList.appendChild(div);
     });
-
-    // Finales HTML-Log für Debugging
-    console.log("Finales HTML der ausgewählten Kontakte:", selectedContactsList.innerHTML);
 }
+
 
 
 
@@ -245,4 +218,23 @@ async function fetchTaskForEditing(listId, taskId) {
     } catch (error) {
         return null; // Bei Fehler null zurückgeben
     }
+}
+
+
+
+/**
+ * Aktualisiert die Daten eines Tasks auf dem Server.
+ * @param {string} listId - Die ID der Liste, in der sich der Task befindet.
+ * @param {string} taskId - Die ID des Tasks.
+ * @param {Object} task - Der aktualisierte Task.
+ * @returns {boolean} - Ob die Aktualisierung erfolgreich war.
+ */
+async function updateTask(listId, taskId, task) {
+    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task),
+    });
+    return response.ok;
 }
