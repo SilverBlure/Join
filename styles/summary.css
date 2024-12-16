@@ -1,3 +1,8 @@
+
+body{
+  overflow: hidden;
+}
+
 .blueLine {
   border-left: 3px solid #29abe2;
   height: 59px;

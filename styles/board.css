@@ -1,3 +1,7 @@
+body{
+  overflow: hidden;
+}
+
 .addTaskBtn {
   background-color: #2a3647;
   color: white;
@@ -22,6 +26,12 @@
 
 .boardCard {
   background: #ffffff;
+}
+
+.closebtn{
+  display: flex;
+    align-items: center;
+    justify-content: end;
 }
 
 .custom-checkbox {
@@ -822,6 +832,12 @@ align-items: center;
   height: 100vh;
 }
 
+.editTask{
+  display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
 .addIcons {
   cursor: pointer;
 }
@@ -907,7 +923,8 @@ select:focus {
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 130px;
+  top: 20px;
+  padding: 10px;
 }
 
 .createSubtaskBar {
@@ -1026,7 +1043,7 @@ select:focus {
   #addTaskFormTask {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     flex-direction: column;
   }
 
@@ -1264,6 +1281,12 @@ select:focus {
     width: 250px;
     height: 230px;
   }
+
+  .dropdownList.open {
+    width: 332px;
+}
+
+
 
   .formPart {
     width: 100%;

@@ -513,7 +513,9 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
   
-
+function closeSelection(){
+    document.getElementById('contactsDropdownList').classList.replace('open', '');
+}
 
 
 
