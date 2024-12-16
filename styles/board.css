@@ -24,10 +24,6 @@ body{
   margin-right: 10px;
 }
 
-.boardCard {
-  background: #ffffff;
-}
-
 .closebtn{
   display: flex;
     align-items: center;
@@ -123,7 +119,7 @@ h1 {
   align-items: start;
   margin-top: 60px;
   column-gap: 26px;
-  margin-left: 64px;
+  padding-left: 64px;
   overflow-y: scroll;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -213,6 +209,8 @@ h1 {
   border-radius: 30px;
   padding: 16px;
   height: 263px;
+  width: 230px;
+  background: #ffffff;
 }
 
 
@@ -997,9 +995,12 @@ select:focus {
   }
 
   .listBody {
-    width: 200px;
+    width: 236px;
   }
-
+.boardCard{
+  width: 250px;
+  height: 230px;
+}
   h4 {
     font-size: 22px;
   }
@@ -1157,7 +1158,7 @@ select:focus {
 
 @media (max-width: 1110) {
   .taskList {
-    margin-left: 24px;
+    padding-left: 64px;
   }
 
   .listHeadline {
@@ -1248,7 +1249,7 @@ select:focus {
   }
 
   .taskList {
-    margin-left: -3px !important;
+    padding-left: 64px;
   }
 
   .boardHead {
