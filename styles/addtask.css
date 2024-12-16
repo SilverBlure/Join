@@ -9,6 +9,12 @@ body {
   font-family: sans-serif;
 }
 
+h1 {
+  font-family: 'Inter', sans-serif; 
+  font-weight: 700; 
+  font-size: 42px; 
+}
+
 /* Container/Layout-Anpassungen */
 .board {
   width: 100%;
@@ -47,6 +53,81 @@ body {
   overflow: hidden;
 }
 
+.customDropdown {
+  position: relative;
+
+}
+
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+  max-height: 200px; 
+  overflow-y: auto; 
+  user-select: none;  
+}
+
+.dropdownList.open {
+  display: block;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 4px; 
+}
+
+
+.dropdownList li {
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  transition: background 0.3s, color 0.3s;
+  position: relative;
+}
+
+.dropdownList li:hover {
+  background: #29ABE2; 
+  color: #ffffff; 
+}
+
+.dropdownList li + li {
+  border-top: 1px solid #eee;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contact-name {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 10px;
+}
+
+.dropdownList li input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+
 .searchBar input {
   border: none;
   width: 100%;
@@ -80,6 +161,7 @@ body {
   /* Entfernen der festen linken Margin, stattdessen Padding im Parent (.board) nutzen */
   overflow-y: auto;
 }
+
 
 /* Einzelne Listen-Spalte */
 .listBody {
@@ -259,6 +341,7 @@ border: none;
 
   .subTasksList {
     position: relative;
+    padding-left: 0px;
   }
 
 .separatorSubtask {
@@ -343,6 +426,7 @@ border: none;
   max-height: 90vh;
   overflow-y: auto;
   box-sizing: border-box;
+
 }
 
 .popupInformation {
@@ -433,19 +517,71 @@ border: none;
   padding: 2rem;
 }
 
+.selected-category {
+  background-color: #fff;
+}
+
+.category-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 3px solid #ffffff;
+  border-top: none;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-item {
+  padding: 0.5em;
+  border-bottom: 1px solid #eee;
+}
+
+.category-item:hover {
+  background-color: #1a90ea;
+
+  color: white;
+}
+
+
+.category-item:last-child {
+  border-bottom: none;
+}
+
+.hidden {
+  display: none;
+}
+
+
 .addIcons {
   cursor: pointer;
 }
 
 input,
 textarea,
-select {
+select, .createContactBar {
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.625rem;
   border: 1px solid #d1d1d1;
   box-sizing: border-box;
   font-size: 1rem;
+  display: flex;
+  user-select: none;  
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid #d1d1d1;
+  cursor: pointer;
+  user-select: none; 
 }
 
 textarea {
@@ -456,7 +592,6 @@ textarea {
 input:focus,
 textarea:focus,
 select:focus {
-  outline: none;
   border: 1px solid #29abe2;
 }
 
@@ -521,9 +656,6 @@ select:focus {
 }
 
 
-.subTasksList {
-    padding-left: 0px;
-}
 
 .editSubtaskBar {
     display: flex;
