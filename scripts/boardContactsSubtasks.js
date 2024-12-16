@@ -16,19 +16,6 @@ function handleSubtaskEditKey(event) {
     }
 }
 
-/**
- * Behandelt Tasteneingaben beim Bearbeiten eines Subtasks.
- * @param {KeyboardEvent} event - Das Tastendruck-Ereignis.
- */
-function handleSubtaskEditKey(event) {
-    const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere Subtask-ID aus der Eingabe-ID
-
-    if (event.key === "Enter") {
-        // Speichere die Änderungen, wenn Enter gedrückt wird
-        event.preventDefault();
-        saveEditedSubtask(subtaskId);
-    }
-}
 
 
 /**
@@ -183,6 +170,7 @@ function editSubtaskInLocal(subtaskId) {
     subtaskElement.innerHTML = editHTML;
 }
 
+
 function saveEditedSubtask(subtaskId) {
     // Initialisieren, falls `window.localSubtasks` nicht existiert
     if (!window.localSubtasks) {
@@ -248,22 +236,23 @@ function saveEditedSubtask(subtaskId) {
 
 
 
-
-
 function initializeLocalTaskState(task) {
-    // Initialisiere lokale Zustände
-    window.localEditedContacts = Array.isArray(task.workers) ? [...task.workers] : [];
+    window.localEditedContacts = Array.isArray(task.workers)
+        ? task.workers.map(worker => ({
+            name: worker.name,
+            id: worker.id || `worker_${Date.now()}`, // Keine Farbe mehr
+        }))
+        : [];
+
     window.localEditedSubtasks = task.subtasks && typeof task.subtasks === "object" 
         ? { ...task.subtasks } 
         : {};
 
-    // Debugging
     console.log("Initialized local state:", {
         workers: window.localEditedContacts,
         subtasks: window.localEditedSubtasks,
     });
 }
-
 
 
 
@@ -386,20 +375,74 @@ function saveSubtaskEdit(subtaskId) {
 }
 
 
+function toggleSubtaskButtons() {
+    const input = document.getElementById("subTaskInputAddTask");
+    const saveBtn = document.getElementById("saveSubtaskBtn");
+    const clearBtn = document.getElementById("clearSubtaskBtn");
+    const separator = document.getElementById("separatorSubtask")
+    const subtaskImg = document.getElementById("subtaskImg");
+    if (input.value.trim() !== "") {
+        saveBtn.classList.remove("hidden");
+        clearBtn.classList.remove("hidden");
+        subtaskImg.classList.add("hidden");
+        separator.classList.remove("hidden")
+    } else {
+        saveBtn.classList.add("hidden");
+        clearBtn.classList.add("hidden");
+        subtaskImg.classList.remove("hidden");
+        separator.classList.add("hidden");
+
+    }
+}
+
+
+function clearSubtaskInput() {
+    const input = document.getElementById("subTaskInputAddTask");
+    input.value = "";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 let dropdownOpen = false;
 
-let selectedContacts = []; 
+let selectedContacts = [];
+
+
+
+
+
+
+
 
 function toggleContactsDropdown() {
-    const dropdownList = document.getElementById("contactsDropdownList");
-    dropdownOpen = !dropdownOpen;
-    if (dropdownOpen) {
-        renderContactsDropdown();
-        dropdownList.classList.add("open");
-    } else {
-        dropdownList.classList.remove("open");
-    }
+  const dropdownList = document.getElementById("contactsDropdownList");
+  dropdownOpen = !dropdownOpen;
+  if (dropdownOpen) {
+    renderContactsDropdown();
+    dropdownList.classList.add("open");
+  } else {
+    dropdownList.classList.remove("open");
+  }
 }
 
 
@@ -408,57 +451,99 @@ function renderContactsDropdown() {
     dropdownList.innerHTML = "";
 
     if (!contactsArray || contactsArray.length === 0) {
-        console.error("No contacts available to render");
         dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
         return;
     }
 
-    contactsArray.forEach(contact => {
+    contactsArray.forEach((contact) => {
         const li = document.createElement("li");
-        li.classList.add("dropdown-item");
+        li.classList.add("dropdown-item"); // Standardklasse für alle Kontakte
 
-        const circle = document.createElement("div");
-        circle.classList.add("contact-circle"); // Optional: für Styling
+        // Prüfen, ob der Kontakt ausgewählt ist, und entsprechende Klasse hinzufügen
+        if (isContactSelected(contact.name)) {
+            li.classList.add("selected-contact-item"); // Markiere das gesamte <li>
+        }
+
+        // Vor- und Nachnamen extrahieren
+        const [vorname, nachname] = contact.name.split(" ");
+        const backgroundColor = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
+
+        // Arbeiter-Symbol erstellen
+        const workerEmblem = document.createElement("p");
+        workerEmblem.classList.add("workerEmblemList");
+        workerEmblem.style.backgroundColor = backgroundColor; // Farbe setzen
+        workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+
+        // Name anzeigen
         const nameSpan = document.createElement("span");
-        nameSpan.classList.add("contact-name");
+        nameSpan.classList.add("contact-nameList");
         nameSpan.textContent = contact.name;
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.value = contact.name;
+        // Status-Icon (anstatt einer Checkbox)
+        const img = document.createElement("img");
+        img.classList.add("status-icon");
+        img.src = isContactSelected(contact.name)
+            ? "./../assets/icons/png/checkButtonContacts.png" // Pfad zum "checked"-Bild
+            : "./../assets/icons/png/checkButtonEmpty.png"; // Pfad zum "unchecked"-Bild
+        img.alt = isContactSelected(contact.name) ? "Selected" : "Not Selected";
+        img.style.cursor = "pointer";
 
-        // Überprüfung, ob der Kontakt bereits ausgewählt ist
-        checkbox.checked = isContactSelected(contact.name);
+        // Event-Listener für Statuswechsel (auf das gesamte <li>)
+        li.addEventListener("click", () => {
+            const isSelected = isContactSelected(contact.name);
+            handleContactSelection(contact, !isSelected);
 
-        // Hinzufügen eines Event-Listeners für Änderungen
-        checkbox.addEventListener("change", (event) => {
-            handleContactSelection(contact, event.target.checked);
+            // Toggle "selected-contact-item" Klasse auf dem <li>
+            if (!isSelected) {
+                li.classList.add("selected-contact-item");
+            } else {
+                li.classList.remove("selected-contact-item");
+            }
+
+            // Bild umschalten
+            img.src = !isSelected
+                ? "./../assets/icons/png/checkButtonContacts.png"
+                : "./../assets/icons/png/checkButtonEmpty.png";
+            img.alt = !isSelected ? "Selected" : "Not Selected";
         });
 
-        li.appendChild(circle);
+        // Elemente in das <li> einfügen
+        li.appendChild(workerEmblem);
         li.appendChild(nameSpan);
-        li.appendChild(checkbox);
+        li.appendChild(img);
+
+        // <li> in die Dropdown-Liste einfügen
         dropdownList.appendChild(li);
     });
-    synchronizeContactCheckboxes();
+}
+
+function isContactSelected(contactName) {
+    return Object.values(window.localContacts || {}).some(contact => contact.name === contactName);
 }
 
 
-/**
- * Initialisiert die lokalen Kontakte für die Bearbeitung einer Aufgabe.
- * @param {Object} task - Die Task-Daten, die Kontakte enthalten.
- */
-function initializeLocalContacts(task) {
-    if (!task.workers || task.workers.length === 0) {
+
+  function initializeLocalContacts(task) {
+    if (!task || !Array.isArray(task.workers)) {
+        console.warn("Keine gültigen Worker-Daten gefunden.");
         window.localContacts = {};
         return;
     }
 
+    // Lokale Kontakte initialisieren
     window.localContacts = task.workers.reduce((acc, worker) => {
-        acc[worker.name] = worker;
+        acc[worker.id] = { id: worker.id, name: worker.name };
         return acc;
     }, {});
+
+    console.log("Lokale Kontakte erfolgreich initialisiert:", window.localContacts);
+
+    // Aktualisiere die HTML-Liste der ausgewählten Kontakte
+    renderSelectedContacts();
 }
+
+
+
 
 
 
@@ -484,9 +569,6 @@ function synchronizeContactCheckboxes() {
 
 
 
-/**
- * Synchronisiert die ausgewählten Kontakte aus den Checkboxen mit `window.localContacts`.
- */
 function updateLocalContactsFromCheckboxes() {
     const checkboxes = document.querySelectorAll('#contactsDropdownList input[type="checkbox"]');
     if (!window.localContacts) {
@@ -495,13 +577,19 @@ function updateLocalContactsFromCheckboxes() {
 
     checkboxes.forEach(checkbox => {
         const contactName = checkbox.value;
-        if (checkbox.checked) {
-            // Füge den Kontakt hinzu, falls nicht vorhanden
+        const isChecked = checkbox.checked;
+        const existingContact = contactsArray.find(contact => contact.name === contactName);
+
+        if (isChecked) {
+            // Füge Kontakt hinzu, falls nicht vorhanden
             if (!Object.values(window.localContacts).some(contact => contact.name === contactName)) {
-                window.localContacts[`contact_${Date.now()}`] = { name: contactName };
+                window.localContacts[`contact_${Date.now()}`] = {
+                    name: contactName,
+                    id: existingContact?.id || `contact_${Date.now()}`, // ID aus vorhandenen Daten oder generieren
+                };
             }
         } else {
-            // Entferne den Kontakt, falls vorhanden
+            // Entferne Kontakt
             const contactKey = Object.keys(window.localContacts).find(
                 key => window.localContacts[key].name === contactName
             );
@@ -513,25 +601,38 @@ function updateLocalContactsFromCheckboxes() {
 }
 
 
+
+
 function handleContactSelection(contact, isChecked) {
     if (!window.localContacts) {
-        window.localContacts = {}; 
+        window.localContacts = {}; // Initialisierung
     }
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (isChecked) {
         if (!isContactSelected(contact.name)) {
             selectedContacts.push(contact);
-            window.localContacts[contact.id] = contact; 
-            const li = document.createElement("li");
-            li.id = `selected_${contact.id}`;
-            li.textContent = contact.name; 
-            selectedContactsList.appendChild(li);
+            window.localContacts[contact.id] = contact; // Synchronisierung
+            const [vorname, nachname] = contact.name.split(" ");
+            const div = document.createElement("div");
+            div.id = `selected_${contact.id}`;
+            div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
+            const workerEmblem = document.createElement("p");
+            workerEmblem.classList.add("workerEmblem");
+            workerEmblem.style.backgroundColor = getColorHex(
+                vorname?.toLowerCase() || "", 
+                nachname?.toLowerCase() || ""
+            ); // Farbe setzen basierend auf Vor- und Nachnamen
+            workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+            div.appendChild(workerEmblem);
+            selectedContactsList.appendChild(div);
         }
     } else {
         removeContact(contact);
     }
     updateDropdownLabel();
 }
+
+  
 
 
 function removeContact(contact) {
@@ -542,17 +643,6 @@ function removeContact(contact) {
         selectedContactItem.remove();
     }
     updateDropdownLabel();
-}
-
-
-/**
- * Überprüft, ob ein Kontakt bereits als Worker ausgewählt ist.
- * @param {string} contactName - Der Name des Kontakts.
- * @returns {boolean} - True, wenn der Kontakt bereits ausgewählt ist, ansonsten false.
- */
-function isContactSelected(contactName) {
-    // Prüfe, ob der Kontakt im `localContacts` gespeichert ist
-    return Object.values(window.localContacts || {}).some(contact => contact.name === contactName);
 }
 
 
@@ -580,30 +670,6 @@ document.addEventListener("click", function (event) {
 });
 
 
-function toggleSubtaskButtons() {
-    const input = document.getElementById("subTaskInputAddTask");
-    const saveBtn = document.getElementById("saveSubtaskBtn");
-    const clearBtn = document.getElementById("clearSubtaskBtn");
-    const separator = document.getElementById("separatorSubtask")
-    const subtaskImg = document.getElementById("subtaskImg");
-    if (input.value.trim() !== "") {
-        saveBtn.classList.remove("hidden");
-        clearBtn.classList.remove("hidden");
-        subtaskImg.classList.add("hidden");
-        separator.classList.remove("hidden")
-    } else {
-        saveBtn.classList.add("hidden");
-        clearBtn.classList.add("hidden");
-        subtaskImg.classList.remove("hidden");
-        separator.classList.add("hidden");
-
-    }
-}
-
-function clearSubtaskInput() {
-    const input = document.getElementById("subTaskInputAddTask");
-    input.value = "";
-}
 
 
 

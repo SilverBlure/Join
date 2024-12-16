@@ -3,7 +3,7 @@
  * Standardwert ist 'Middle'.
  * @type {string}
  */
-let tempPriority = 'Middle';
+let tempPriority = "Middle";
 
 /**
  * Initialisiert die Anwendung, lädt Session-ID, Task-Listen und Kontakte.
@@ -114,12 +114,18 @@ function transformTask(taskValue) {
  * @returns {Array} Die transformierten Worker-Daten.
  */
 function transformWorkers(workers) {
-  return workers.map((worker) => ({
-    name: worker.name,
-    initials: getInitials(worker.name),
-    color: getColorHex(worker.name, ""),
-  }));
+  return workers.map((worker) => {
+    const [vorname, nachname] = worker.name.split(" "); // Vor- und Nachname extrahieren
+    const color = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachname generieren
+
+    return {
+      name: worker.name,
+      initials: getInitials(worker.name),
+      color: color, // Generierte Farbe setzen
+    };
+  });
 }
+
 
 /**
  * Fügt eine neue Aufgabe zur "To Do"-Liste hinzu.
@@ -127,19 +133,15 @@ function transformWorkers(workers) {
  * @param {Event} event - Das Form-Submit-Event.
  */
 async function addTaskToToDoList(event) {
-    addNewSubtask();
-    event.preventDefault();
-    if (!validateTaskInputs()) return;
-    const newTask = buildNewTask();
-    try {
-        const result = await saveTask(newTask);
-        if (result) {
-            showSnackbar("Der Task wurde erfolgreich erstellt!");
-            document.getElementById("prioMiddle").classList.add("active");
-        }
-    } catch (error) {
-        console.error("Fehler beim Hinzufügen des Tasks:", error);
-
+  addNewSubtask();
+  event.preventDefault();
+  if (!validateTaskInputs()) return;
+  const newTask = buildNewTask();
+  try {
+    const result = await saveTask(newTask);
+    if (result) {
+      showSnackbar("Der Task wurde erfolgreich erstellt!");
+      document.getElementById("prioMiddle").classList.add("active");
     }
   } catch (error) {
     console.error("Fehler beim Hinzufügen des Tasks:", error);
@@ -154,12 +156,10 @@ function validateTaskInputs() {
   const title = document.getElementById("title").value.trim();
   const dueDate = document.getElementById("date").value.trim();
   const priority = tempPriority;
-  const categoryInput = document.getElementById("category"); // Verstecktes Input-Feld
-  const selectedCategory = document.getElementById("selectedCategory"); // Anzeigeelement
+  const categoryInput = document.getElementById("category"); 
+  const selectedCategory = document.getElementById("selectedCategory"); 
   const categoryName = categoryInput.value.trim();
-
   let isValid = true;
-
   if (!title || !dueDate || !priority || !categoryName) {
     console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
     if (!title) console.error("Titel ist ein Pflichtfeld.");
@@ -197,14 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Dropdown schließen, wenn außerhalb geklickt wird
   document.addEventListener("click", (event) => {
     if (!categoryDropdown.contains(event.target)) {
       categoryList.classList.add("hidden");
     }
   });
 });
-
 
 /**
  * Erstellt ein neues Task-Objekt basierend auf den Formulareingaben.
@@ -214,21 +212,18 @@ function buildNewTask() {
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
   const dueDate = document.getElementById("date").value.trim();
-  const priority = tempPriority;
   const categoryName = document.getElementById("category").value.trim();
-
-  return {
-    title,
-    description,
-    dueDate,
-    priority,
-    category: buildCategory(categoryName),
-    workers: getWorkers(),
-    subtasks: getLocalSubtasks(),
-  };
-
+    const priority = tempPriority || "Middle";
+    return {
+        title,
+        description,
+        dueDate,
+        priority,
+        category: buildCategory(categoryName),
+        workers: getWorkers(),
+        subtasks: collectSubtasksFromDOM(),
+    };
 }
-
 
 /**
  * Erstellt die Kategorie-Daten einer Task.
@@ -256,13 +251,6 @@ function getWorkers() {
     : [];
 }
 
-/**
- * Ruft die aktuellen Subtask-Daten aus dem lokalen Zustand ab.
- * @returns {Object} Die Subtask-Daten.
- */
-function getLocalSubtasks() {
-  return { ...window.localSubtasks };
-}
 
 /**
  * Speichert eine neue Task in der Datenbank.
@@ -286,7 +274,7 @@ function resetTaskForm() {
   document.getElementById("addTaskFormTask").reset();
   clearLocalContacts();
   clearLocalSubtasks();
-  tempPriority = 'Middle';
+  tempPriority = "Middle";
   document
     .querySelectorAll(".priorityBtn.active")
     .forEach((button) => button.classList.remove("active"));
@@ -418,7 +406,7 @@ async function saveDefaultTaskLists(url, defaultLists) {
  * Setzt die Priorität für eine Task.
  * @param {string} priority - Die Priorität, die gesetzt werden soll.
  */
-function setPriority(priority) { 
+function setPriority(priority) {
   tempPriority = priority;
   document
     .querySelectorAll(".priorityBtn")
@@ -433,7 +421,6 @@ let selectedContacts = [];
 function toggleContactsDropdown() {
   const dropdownList = document.getElementById("contactsDropdownList");
   dropdownOpen = !dropdownOpen;
-
   if (dropdownOpen) {
     renderContactsDropdown();
     dropdownList.classList.add("open");
@@ -444,124 +431,185 @@ function toggleContactsDropdown() {
 
 function renderContactsDropdown() {
   const dropdownList = document.getElementById("contactsDropdownList");
-
-  // Liste leeren
   dropdownList.innerHTML = "";
 
   if (!contactsArray || contactsArray.length === 0) {
-    console.error("No contacts available to render");
     dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
     return;
   }
 
   contactsArray.forEach((contact) => {
-    const li = document.createElement("li");
-    li.classList.add("dropdown-item");
-
-    const circle = document.createElement("div");
-
-    const nameSpan = document.createElement("span");
-    nameSpan.classList.add("contact-name");
-    nameSpan.textContent = contact.name;
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.value = contact.name;
-    checkbox.checked = isContactSelected(contact.name);
-    checkbox.addEventListener("change", (event) => {
-      handleContactSelection(contact, event.target.checked);
-    });
-
-    li.appendChild(nameSpan);
-    li.appendChild(checkbox);
-
+    const li = createContactDropdownItem(contact); // Nutzt die ausgelagerte Funktion
     dropdownList.appendChild(li);
   });
-
 }
 
-function handleContactSelection(contact, isChecked) {
-  // Initialisiere localContacts, falls es nicht definiert ist
-  if (!window.localContacts) {
-    window.localContacts = {}; // Initialisierung
+
+
+function createContactDropdownItem(contact) {
+  const li = document.createElement("li");
+  li.classList.add("dropdown-item");
+  if (isContactSelected(contact.name)) {
+    li.classList.add("selected-contact-item");
   }
-
-
-  const selectedContactsList = document.getElementById("selectedContactsList");
-
-  if (isChecked) {
-    // Kontakt hinzufügen
-    if (!isContactSelected(contact.name)) {
-      selectedContacts.push(contact);
-      window.localContacts[contact.id] = contact; // Synchronisierung
-      const li = document.createElement("li");
-      li.id = `selected_${contact.id}`;
-      li.textContent = contact.name;
-      selectedContactsList.appendChild(li);
+  const [vorname, nachname] = contact.name.split(" ");
+  const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
+  const workerEmblem = document.createElement("p");
+  workerEmblem.classList.add("workerEmblemList");
+  workerEmblem.style.backgroundColor = backgroundColor;
+  workerEmblem.textContent = getInitials(contact.name);
+  const nameSpan = document.createElement("span");
+  nameSpan.classList.add("contact-nameList");
+  nameSpan.textContent = contact.name;
+  const img = createContactStatusIcon(contact);
+  li.addEventListener("click", () => {
+    const isSelected = isContactSelected(contact.name);
+    handleContactSelection(contact, !isSelected);
+    if (!isSelected) {
+      li.classList.add("selected-contact-item");
+    } else {
+      li.classList.remove("selected-contact-item");
     }
-  } else {
-    // Kontakt entfernen
-    removeContact(contact);
-  }
-  updateDropdownLabel();
+    img.src = !isSelected
+      ? "./../assets/icons/png/checkButtonContacts.png"
+      : "./../assets/icons/png/checkButtonEmpty.png";
+    img.alt = !isSelected ? "Selected" : "Not Selected";
+  });
+  li.appendChild(workerEmblem);
+  li.appendChild(nameSpan);
+  li.appendChild(img);
+  return li;
 }
 
-/**
- * Generiert eine Hex-Farbe basierend auf den Buchstaben des Namens.
- * @param {string} vorname - Der Vorname.
- * @param {string} nachname - Der Nachname.
- * @returns {string} - Die generierte Hex-Farbe.
- */
-function getColorHex(vorname, nachname) {
-  const completeName = (vorname + nachname).toLowerCase();
-  let hash = 0;
-  for (let i = 0; i < completeName.length; i++) {
-    hash += completeName.charCodeAt(i);
-  }
-  const r = (hash * 123) % 256;
-  const g = (hash * 456) % 256;
-  const b = (hash * 789) % 256;
-  return `#${r.toString(16).padStart(2, "0")}${g
-    .toString(16)
-    .padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
+
+
+
+function createContactStatusIcon(contact) {
+  const img = document.createElement("img");
+  img.classList.add("status-icon");
+  img.src = isContactSelected(contact.name)
+    ? "./../assets/icons/png/checkButtonContacts.png"
+    : "./../assets/icons/png/checkButtonEmpty.png";
+  img.alt = isContactSelected(contact.name) ? "Selected" : "Not Selected";
+  img.style.cursor = "pointer";
+  return img;
 }
 
-function removeContact(contact) {
-  selectedContacts = selectedContacts.filter(
-    (selected) => selected.id !== contact.id
-  );
 
 
-  delete window.localContacts[contact.id];
-
-  const selectedContactItem = document.getElementById(`selected_${contact.id}`);
-  if (selectedContactItem) {
-    selectedContactItem.remove();
-  }
-
-  updateDropdownLabel();
-
-}
 
 function isContactSelected(contactName) {
   return selectedContacts.some((contact) => contact.name === contactName);
 }
 
-function updateDropdownLabel() {
 
+
+function handleContactSelection(contact, isChecked) {
+  if (!window.localContacts) {
+    window.localContacts = {}; 
+  }
+
+  const selectedContactsList = document.getElementById("selectedContactsList");
+
+  if (isChecked) {
+    if (!isContactSelected(contact.name)) {
+      selectedContacts.push(contact);
+      window.localContacts[contact.id] = contact; 
+      
+      // Vor- und Nachnamen extrahieren
+      const [vorname, nachname] = contact.name.split(" ");
+      const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Generiere Farbe basierend auf Vor- und Nachnamen
+
+      // Div-Container für den Kontakt erstellen
+      const div = document.createElement("div");
+      div.id = `selected_${contact.id}`;
+      div.classList.add("selected-contact");
+
+      // Arbeiter-Symbol erstellen
+      const workerEmblem = document.createElement("p");
+      workerEmblem.classList.add("workerEmblem");
+      workerEmblem.style.backgroundColor = backgroundColor; // Setze die Farbe
+      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+
+      // Div-Container mit dem Symbol in die Liste einfügen
+      div.appendChild(workerEmblem);
+      selectedContactsList.appendChild(div);
+    }
+  } else {
+    removeContact(contact); // Entferne den Kontakt
+  }
+
+  updateDropdownLabel(); // Aktualisiere die Dropdown-Beschriftung
+}
+
+
+
+
+/**
+ * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
+ * @param {string} vorname - Der Vorname.
+ * @param {string} nachname - Der Nachname.
+ * @returns {string} - Die generierte RGB-Farbe im Format "rgb(r, g, b)".
+ */
+function getColorRGB(vorname, nachname) {
+  const completeName = (vorname + nachname).toLowerCase();
+  let hash = 0;
+  for (let i = 0; i < completeName.length; i++) {
+      hash += completeName.charCodeAt(i);
+  }
+  const r = (hash * 123) % 256;
+  const g = (hash * 456) % 256;
+  const b = (hash * 789) % 256;
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+
+/**
+* Generiert die Initialen eines Namens.
+* @param {string} fullName - Der vollständige Name der Person (Vorname Nachname).
+* @returns {string} - Die generierten Initialen (z.B. "AB").
+*/
+function getInitials(fullName) {
+  if (!fullName || typeof fullName !== "string") {
+      console.warn("Ungültiger Name für Initialen:", fullName);
+      return ""; 
+  }
+  const [vorname, nachname] = fullName.trim().split(" ");
+  const initialen = `${vorname?.charAt(0)?.toUpperCase() || ""}${nachname?.charAt(0)?.toUpperCase() || ""}`;
+  return initialen;
+}
+
+
+
+
+function removeContact(contact) {
+  selectedContacts = selectedContacts.filter(
+    (selected) => selected.id !== contact.id
+  );
+  delete window.localContacts[contact.id];
+  const selectedContactItem = document.getElementById(`selected_${contact.id}`);
+  if (selectedContactItem) {
+    selectedContactItem.remove();
+  }
+  updateDropdownLabel();
+}
+
+
+
+
+
+function updateDropdownLabel() {
   const dropdownLabel = document.getElementById("dropdownLabel");
   if (selectedContacts.length === 0) {
     dropdownLabel.textContent = "Wähle einen Kontakt aus";
   } else {
     dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
   }
-
 }
-
 document.addEventListener("click", function (event) {
   const dropdownList = document.getElementById("contactsDropdownList");
   const createContactBar = document.querySelector(".createContactBar");
-
   if (
     dropdownOpen &&
     !dropdownList.contains(event.target) &&
@@ -572,17 +620,18 @@ document.addEventListener("click", function (event) {
   }
 });
 
+
 document.addEventListener("click", function (event) {
-    const dropdownList = document.getElementById("contactsDropdownList");
-    const createContactBar = document.querySelector(".createContactBar");
-    if (
-        dropdownOpen && 
-        !dropdownList.contains(event.target) && 
-        !createContactBar.contains(event.target)
-    ) {
-        dropdownList.classList.remove("open");
-        dropdownOpen = false;
-    }
+  const dropdownList = document.getElementById("contactsDropdownList");
+  const createContactBar = document.querySelector(".createContactBar");
+  if (
+    dropdownOpen &&
+    !dropdownList.contains(event.target) &&
+    !createContactBar.contains(event.target)
+  ) {
+    dropdownList.classList.remove("open");
+    dropdownOpen = false;
+  }
 });
 
 
@@ -590,19 +639,22 @@ document.addEventListener("click", function (event) {
  * Fügt eine neue Subtask hinzu.
  */
 function addNewSubtask() {
-    const subTaskInput = document.getElementById("newSubtaskInput") || document.getElementById("subTaskInputAddTask");
-    const subTasksList = document.getElementById("subTasksList");
-    const subtaskTitle = subTaskInput.value.trim();
-    const subtaskId = `subtask_${Date.now()}`;
-    const subtaskItem = { title: subtaskTitle, done: false };
-    window.localSubtasks = window.localSubtasks || {};
-    window.localSubtasks[subtaskId] = subtaskItem;
-    const subtaskHTML = generateNewSubtaskHTML(subtaskId, subtaskTitle);
-    subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
-    subTaskInput.value = "";
-    toggleSubtaskButtons();
-
+  const subTaskInput = document.getElementById("subTaskInputAddTask");
+  const subTasksList = document.getElementById("subTasksList");
+  const subtaskTitle = subTaskInput.value.trim();
+  if (!subtaskTitle) {
+      return;
+  }
+  const subtaskId = `subtask_${Date.now()}`;
+  const subtaskItem = { title: subtaskTitle, done: false };
+  window.localSubtasks = window.localSubtasks || {};
+  window.localSubtasks[subtaskId] = subtaskItem;
+  const subtaskHTML = generateNewSubtaskHTML(subtaskId, subtaskTitle);
+  subTasksList.insertAdjacentHTML("beforeend", subtaskHTML);
+  subTaskInput.value = "";
+  toggleSubtaskButtons();
 }
+
 
 /**
  * Behandelt den Enter-Key-Ereignis für das Subtask-Eingabefeld.
@@ -615,24 +667,24 @@ function handleSubtaskKey(event) {
   }
 }
 
-function toggleSubtaskButtons() {
-    const input = document.getElementById("subTaskInputAddTask");
-    const saveBtn = document.getElementById("saveSubtaskBtn");
-    const clearBtn = document.getElementById("clearSubtaskBtn");
-    const separator = document.getElementById("separatorSubtask")
-    const subtaskImg = document.getElementById("subtaskImg");
-    if (input.value.trim() !== "") {
-        saveBtn.classList.remove("hidden");
-        clearBtn.classList.remove("hidden");
-        subtaskImg.classList.add("hidden");
-        separator.classList.remove("hidden")
-    } else {
-        saveBtn.classList.add("hidden");
-        clearBtn.classList.add("hidden");
-        subtaskImg.classList.remove("hidden");
-        separator.classList.add("hidden");
 
-    }
+function toggleSubtaskButtons() {
+  const input = document.getElementById("subTaskInputAddTask");
+  const saveBtn = document.getElementById("saveSubtaskBtn");
+  const clearBtn = document.getElementById("clearSubtaskBtn");
+  const separator = document.getElementById("separatorSubtask");
+  const subtaskImg = document.getElementById("subtaskImg");
+  if (input.value.trim() !== "") {
+    saveBtn.classList.remove("hidden");
+    clearBtn.classList.remove("hidden");
+    subtaskImg.classList.add("hidden");
+    separator.classList.remove("hidden");
+  } else {
+    saveBtn.classList.add("hidden");
+    clearBtn.classList.add("hidden");
+    subtaskImg.classList.remove("hidden");
+    separator.classList.add("hidden");
+  }
 }
 
 
@@ -642,9 +694,10 @@ function toggleSubtaskButtons() {
  * @returns {string} Die Initialen des Namens.
  */
 function getInitials(fullName) {
-
-    const nameParts = fullName.trim().split(" ");
-    return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""}`;
+  const nameParts = fullName.trim().split(" ");
+  return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${
+    nameParts[1]?.charAt(0).toUpperCase() || ""
+  }`;
 }
 
 
@@ -652,24 +705,127 @@ function getInitials(fullName) {
  * Setzt das Formular zurück und leert die definierten Listen.
  */
 function resetFormAndLists() {
-    // Formular zurücksetzen
-    const form = document.getElementById("addTaskFormTask"); // Ersetze 'myForm' mit der ID deines Formulars
-    if (form) {
-        form.reset(); // Setzt alle Formularfelder zurück
+  const form = document.getElementById("addTaskFormTask"); 
+  if (form) {
+    form.reset(); 
+    document.getElementById(setPriority());
+    document.getElementById("prioMiddle").classList.add("active");
+  }
+  const listsToClear = ["subTasksList", "selectedContactsList"]; 
+  listsToClear.forEach((listId) => {
+    const list = document.getElementById(listId);
+    if (list) {
+      list.innerHTML = ""; 
     }
+  });
+  window.localSubtasks = {};
+  window.localEditedContacts = [];
+  selectedContacts = [];
+  updateDropdownLabel();
+}
 
-    // Listen leeren
-    const listsToClear = ["subTasksList", "selectedContactsList"]; // IDs der Listen, die geleert werden sollen
-    listsToClear.forEach(listId => {
-        const list = document.getElementById(listId);
-        if (list) {
-            list.innerHTML = ""; // Entfernt alle Listeneinträge
-        }
-    });
 
-    // Optional: Leere lokale Zustände
-    window.localSubtasks = {};
-    window.localEditedContacts = [];
-    console.log("Formular und Listen erfolgreich zurückgesetzt.");
+/**
+ * Entfernt einen Subtask aus den lokalen Daten und dem DOM.
+ * @param {string} subtaskId - Die ID des zu entfernenden Subtasks.
+ */
+function deleteSubtaskFromLocal(subtaskId) {
+    if (!subtaskId) return;
+    if (window.localEditedSubtasks && window.localEditedSubtasks[subtaskId]) {
+        delete window.localEditedSubtasks[subtaskId];
+    }
+    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+    if (subtaskElement) {
+        subtaskElement.remove();
+    }
+}
+
+function collectSubtasksFromDOM() {
+  const subTasksList = document.getElementById("subTasksList");
+  if (!subTasksList) {
+      return {};
+  }
+  const subtasks = {};
+  const subtaskItems = subTasksList.querySelectorAll(".subtask-item");
+  subtaskItems.forEach((item) => {
+      const subtaskId = item.id.replace("subtask-", "");
+      const title = item.querySelector(".subtaskText")?.textContent.trim() || "";
+      const done = item.querySelector(".subtask-checkbox")?.checked || false;
+      if (title) {
+          subtasks[subtaskId] = { title, done };
+      }
+  });
+  return subtasks;
+}
+
+
+
+function handleSubtaskEditKey(event) {
+  const subtaskId = event.target.id.replace("edit-input-", "");
+  if (event.key === "Enter") {
+      event.preventDefault();
+      saveEditedSubtask(subtaskId);
+  } else if (event.key === "Escape") {
+      event.preventDefault();
+      cancelSubtaskEdit(subtaskId);
+  }
+}
+
+
+
+
+function saveEditedSubtask(subtaskId) {
+  const subtaskInput = document.getElementById(`edit-input-${subtaskId}`);
+  if (!subtaskInput) {
+      return;
+  }
+  const newTitle = subtaskInput.value.trim();
+  if (!newTitle) {
+      return;
+  }
+  if (window.localSubtasks && window.localSubtasks[subtaskId]) {
+      window.localSubtasks[subtaskId].title = newTitle;
+  }
+  const newSubtaskHTML = generateNewSubtaskHTML(subtaskId, newTitle);
+  const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+  if (subtaskElement) {
+      subtaskElement.outerHTML = newSubtaskHTML;
+  }
+}
+
+
+
+function clearSubtaskInput() {
+  const input = document.getElementById("subTaskInputAddTask");
+  if (input) {
+      input.value = "";
+  }
+}
+
+
+async function editSubtask(subtaskId) {
+  const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+  if (!subtaskElement) return;
+  const subtaskTextElement = subtaskElement.querySelector(".subtaskText");
+  if (!subtaskTextElement) return;
+  const currentTitle = subtaskTextElement.textContent.trim();
+  if (!currentTitle) return;
+  const editSubtaskHTML = generateEditSubtaskHTML(subtaskId, currentTitle);
+  subtaskElement.innerHTML = editSubtaskHTML;
+}
+
+
+
+
+function handleSubtaskBlur(event) {
+  const subtaskId = event.target.id.replace("edit-input-", "");
+  setTimeout(() => {
+      const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+      if (!subtaskElement) {
+          console.warn(`Subtask mit ID ${subtaskId} existiert nicht mehr im DOM.`);
+          return;
+      }
+      saveEditedSubtask(subtaskId);
+  }, 0);
 }
 

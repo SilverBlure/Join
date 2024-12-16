@@ -27,18 +27,42 @@ let tempPriority = null;
  * @param {string} listId - Die ID der Liste, zu der der Task hinzugefügt werden soll.
  */
 function openAddTaskPopup(listId) {
+    if (!sessionStorage.getItem('pageReloaded')) {
+        sessionStorage.setItem('pageReloaded', 'true'); 
+        sessionStorage.setItem('pendingPopupListId', listId); 
+        location.reload();
+        return; 
+    }
+    sessionStorage.removeItem('pageReloaded');
+    const storedListId = sessionStorage.getItem('pendingPopupListId');
+    sessionStorage.removeItem('pendingPopupListId');
     const popup = document.getElementById('addTaskPopupOverlay');
+    const selectedContactsList = document.getElementById("selectedContactsList");
     if (!popup) {
-        console.error("Das Popup konnte nicht gefunden werden.");
         return;
     }
-    currentListId = listId;
+    currentListId = storedListId || listId;
+    if (window.localContacts) {
+        window.localContacts = {};
+    }
+    if (selectedContactsList) {
+        selectedContactsList.innerHTML = ""; 
+    }
     const form = document.getElementById("addTaskFormTask");
-    const newForm = form.cloneNode(true);
-    form.parentNode.replaceChild(newForm, form);
-    newForm.addEventListener("submit", (event) => addTaskToSpecificList(listId, event));
+    const newForm = form.cloneNode(true); 
+    form.parentNode.replaceChild(newForm, form); 
+    newForm.addEventListener("submit", (event) => addTaskToSpecificList(currentListId, event));
     popup.classList.remove('hidden');
 }
+document.addEventListener('DOMContentLoaded', () => {
+    const storedListId = sessionStorage.getItem('pendingPopupListId');
+    if (storedListId) {
+        openAddTaskPopup(storedListId); 
+    }
+});
+
+
+
 
 /**
  * Setzt die Priorität für eine Task.
@@ -49,6 +73,7 @@ function setPriority(priority) {
     document.querySelectorAll(".priorityBtn").forEach(btn => btn.classList.remove("active"));
     document.getElementById(`prio${priority}`)?.classList.add("active");
 }
+
 
 /**
  * Erstellt ein neues Task-Objekt aus den Formulareingaben.
@@ -66,7 +91,6 @@ function buildNewTask() {
     };
     return task;
 }
-
 
 
 /**
@@ -88,22 +112,15 @@ function buildCategory(categoryName) {
  * @returns {Array<Object>} - Eine Liste von Objekten mit den ausgewählten Kontakten.
  */
 function getWorkersFromSelectedContactsList() {
-    const selectedContactsList = document.getElementById("selectedContactsList");
-    if (!selectedContactsList) {
-        console.error("Die Liste der ausgewählten Kontakte wurde nicht gefunden.");
+    if (!window.localContacts) {
+        console.error("Lokale Kontakte sind nicht verfügbar.");
         return [];
     }
-
-    const workers = [];
-    // Iteriere über die Elemente der Liste
-    Array.from(selectedContactsList.children).forEach(listItem => {
-        const contactName = listItem.textContent.trim(); // Textinhalt des <li>-Elements
-        if (contactName) {
-            workers.push({ name: contactName });
-        }
-    });
-
-    return workers;
+    return Object.values(window.localContacts).map(contact => ({
+        name: contact.name, // Kontaktname
+        id: contact.id,     // Eindeutige ID des Kontakts
+        color: contact.color, // Farbe (falls verfügbar)
+    }));
 }
 
 
@@ -117,6 +134,8 @@ function closeAddTaskPopup() {
     const mainContent = document.getElementById('mainContent');
     if (popup) {
         popup.classList.add('hidden');
+        refreshUIAfterPopupClose();
+        renderBoard();
     }
     if (mainContent) {
         mainContent.classList.remove('blur');
@@ -156,16 +175,13 @@ async function addTaskToSpecificList(listId, event) {
 function validateTaskInputs() {
     const title = document.getElementById("title").value.trim();
     const dueDate = document.getElementById("date").value.trim();
-    const priority = tempPriority;
     const categoryName = document.getElementById("category").value.trim();
-    if (!title || !dueDate || !priority || !categoryName) {
+    if (!title || !dueDate || !categoryName) {
         console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
         return false;
     }
     return true;
 }
-
-
 
 
 
@@ -183,14 +199,24 @@ function resetLocalState() {
 /**
  * Schließt das "Task bearbeiten"-Popup und setzt Formular und UI-Zustand zurück.
  */
-function closeEditTaskPopup() {
-    refreshUIAfterPopupClose();
-    const overlay = document.getElementById("editTaskPopupOverlay");
-    const mainContent = document.getElementById("mainContent");
-    if (overlay) overlay.classList.remove('visible');
-    if (mainContent) mainContent.classList.remove('blur');
-    tempPriority = null;
-    refreshUIAfterPopupClose();
+async function closeEditTaskPopup() {
+    try {
+        const overlay = document.getElementById("editTaskPopupOverlay");
+        const mainContent = document.getElementById("mainContent");
+        if (overlay) overlay.classList.remove('visible');
+        if (mainContent) mainContent.classList.remove('blur');
+        tempPriority = null;
+        const form = document.getElementById("addTaskFormTask");
+        if (form) form.reset();
+        const selectedContactsList = document.getElementById("selectedContactsList");
+        if (selectedContactsList) {
+            selectedContactsList.innerHTML = ""; // Kontakte in der UI leeren
+        }
+        window.localContacts = {}; // Lokalen Zustand der Kontakte leeren
+        await refreshUIAfterPopupClose();
+    } catch (error) {
+        console.error("Fehler beim Schließen des Popups:", error);
+    }
 }
 
 
@@ -208,13 +234,13 @@ async function refreshBoard() {
 /**
  * Schließt das Task-Details-Popup und aktualisiert die UI.
  */
-function closeTaskPopup() {
+async function closeTaskPopup() {
     document.getElementById("viewTaskPopupOverlay").classList.remove('visible');
     document.getElementById("mainContent").classList.remove('blur');
     refreshUIAfterPopupClose();
-    location.reload();
-}
 
+
+}
 
 
 
@@ -245,23 +271,21 @@ function addTaskToAwaitFeedback() {
 
 
 
-/**
- * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
- * @param {string} vorname - Der Vorname.
- * @param {string} nachname - Der Nachname.
- * @returns {string} - Die generierte RGB-Farbe im Format "rgb(r, g, b)".
- */
-function getColorRGB(vorname, nachname) {
-    const completeName = (vorname + nachname).toLowerCase();
+function getColorHex(vorname, nachname){
+    let completeName = (vorname+nachname).toLowerCase();
     let hash = 0;
-    for (let i = 0; i < completeName.length; i++) {
+  
+    for( let i = 0; i< completeName.length; i++){
         hash += completeName.charCodeAt(i);
     }
-    const r = (hash * 123) % 256;
-    const g = (hash * 456) % 256;
-    const b = (hash * 789) % 256;
-    return `rgb(${r}, ${g}, ${b})`;
-}
+  
+    let r = (hash * 123) % 256;
+    let g = (hash * 456) % 256;
+    let b = (hash * 789) % 256;
+  
+    let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return hexColor;
+  }
 
 
 
@@ -275,7 +299,6 @@ function getInitials(fullName) {
         console.warn("Ungültiger Name für Initialen:", fullName);
         return ""; // Fallback bei ungültigen Eingaben
     }
-
     const [vorname, nachname] = fullName.trim().split(" ");
     const initialen = `${vorname?.charAt(0)?.toUpperCase() || ""}${nachname?.charAt(0)?.toUpperCase() || ""}`;
     return initialen;
@@ -418,24 +441,6 @@ async function fetchTask(listId, taskId) {
 
 
 
-/**
- * Aktualisiert die Daten eines Tasks auf dem Server.
- * @param {string} listId - Die ID der Liste, in der sich der Task befindet.
- * @param {string} taskId - Die ID des Tasks.
- * @param {Object} task - Der aktualisierte Task.
- * @returns {boolean} - Ob die Aktualisierung erfolgreich war.
- */
-async function updateTask(listId, taskId, task) {
-    const url = `${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`;
-    const response = await fetch(url, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(task),
-    });
-    return response.ok;
-}
-
-
 
 /**
  * Aktualisiert ein spezifisches Task-Element auf dem Board mit neuen Daten.
@@ -449,7 +454,7 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
         return;
     }
     const progressHTML = generateProgressHTML(updatedTask.subtasks);
-    const workersHTML = generateWorkersHTML(updatedTask.workers, false); // Name wird nicht angezeigt
+    const workersHTML = renderTaskWorkers(updatedTask.workers, false); // Name wird nicht angezeigt
     const newTaskHTML = generateTaskCardHTML(taskId, updatedTask, listId, progressHTML, workersHTML);
     taskElement.outerHTML = newTaskHTML;
 }
@@ -458,13 +463,20 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
 
 /**
  * Aktualisiert die Benutzeroberfläche, nachdem ein Popup geschlossen wurde.
+ * Stellt sicher, dass die neuesten Daten aus der Datenbank abgerufen werden, bevor gerendert wird.
  */
-function refreshUIAfterPopupClose() {
-    refreshLists();
-    const form = document.getElementById("addTaskFormTask");
-    if (form) form.reset();
-    renderBoard();
+async function refreshUIAfterPopupClose() {
+    try {
+        await getTasks(); 
+        refreshLists();
+        const form = document.getElementById("addTaskFormTask");
+        if (form) form.reset();
+        renderBoard();
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren der Daten aus der Datenbank:", error);
+    }
 }
+
 
 
 
@@ -472,16 +484,62 @@ function refreshLists() {
     const subTasksList = document.getElementById("subTasksList");
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (subTasksList) {
-        subTasksList.innerHTML = ""; // Sicherstellen, dass die Liste leer ist
+        subTasksList.innerHTML = "";
     }
     if (selectedContactsList) {
-        selectedContactsList.innerHTML = ""; // Sicherstellen, dass die Liste leer ist
+        selectedContactsList.innerHTML = "";
+    }
+    if (!window.localContacts || typeof window.localContacts !== "object") {
+        window.localContacts = {};
     }
     const priorityButtons = document.querySelectorAll(".priorityBtn");
     priorityButtons.forEach(button => button.classList.remove("active"));
-    const middleButton = document.getElementById("prioMiddle"); // Passe die ID an, falls sie anders lautet
+    const middleButton = document.getElementById("prioMiddle");
     if (middleButton) {
         middleButton.classList.add("active");
     }
     tempPriority = "Middle";
 }
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("addTaskFormTask");
+    if (form) {
+        form.addEventListener("reset", () => {
+            refreshLists(); // Setze Subtasks und Kontakte zurück
+        });
+    } 
+});
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

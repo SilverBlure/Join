@@ -48,8 +48,14 @@
                 </div>
             </div>
             <div class="taskList">
-                <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)"
-                    ondragenter="highlightList('todoList')" ondragleave="unhighlightList('todoList')">
+                <div id="todoList" class="listBody" 
+                    ondrop="handleDrop(event, 'todo')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('todoList')" 
+                    ondragleave="unhighlightList('todoList')"
+                    ontouchstart="startTouchDragging(event, 'todo')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'todo')">
                     <div class="listHeadline">
                         <h4>To-do</h4>
                         <img onclick="openAddTaskPopup('todo')" class="addIcons"
@@ -57,21 +63,31 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-                <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')"
-                    ondragover="allowDrop(event)" ondragenter="highlightList('inProgressList')"
-                    ondragleave="unhighlightList('inProgressList')">
+            
+                <div id="inProgressList" class="listBody" 
+                    ondrop="handleDrop(event, 'inProgress')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('inProgressList')" 
+                    ondragleave="unhighlightList('inProgressList')"
+                    ontouchstart="startTouchDragging(event, 'inProgress')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'inProgress')">
                     <div class="listHeadline">
-
                         <h4>in Progress</h4>
                         <img onclick="openAddTaskPopup('inProgress')" class="addIcons"
                             src="./../assets/icons/png/plusButton.png">
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-
-                <div id="awaitFeedbackList" class="listBody" ondrop="handleDrop(event, 'awaitFeedback')"
-                    ondragover="allowDrop(event)" ondragenter="highlightList('awaitFeedbackList')"
-                    ondragleave="unhighlightList('awaitFeedbackList')">
+            
+                <div id="awaitFeedbackList" class="listBody" 
+                    ondrop="handleDrop(event, 'awaitFeedback')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('awaitFeedbackList')" 
+                    ondragleave="unhighlightList('awaitFeedbackList')"
+                    ontouchstart="startTouchDragging(event, 'awaitFeedback')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'awaitFeedback')">
                     <div class="listHeadline">
                         <h4>Await feedback</h4>
                         <img onclick="openAddTaskPopup('awaitFeedback')" class="addIcons"
@@ -79,16 +95,22 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-
-                <div id="doneList" class="listBody" ondrop="handleDrop(event, 'done')" ondragover="allowDrop(event)"
-                    ondragenter="highlightList('doneList')" ondragleave="unhighlightList('doneList')">
+            
+                <div id="doneList" class="listBody" 
+                    ondrop="handleDrop(event, 'done')" 
+                    ondragover="allowDrop(event)"
+                    ondragenter="highlightList('doneList')" 
+                    ondragleave="unhighlightList('doneList')"
+                    ontouchstart="startTouchDragging(event, 'done')" 
+                    ontouchmove="handleTouchMove(event)" 
+                    ontouchend="handleTouchDrop(event, 'done')">
                     <div class="listHeadline">
                         <h4>Done</h4>
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-
             </div>
+            
         </div>
     </div>
     </div>
@@ -100,40 +122,30 @@
     <div id="editTaskPopupOverlay" class="popupOverlay hidden">
         <div id="editTaskPopupContainer" class="popupContainer"></div>
     </div>
-
     <div id="addTaskPopupOverlay" class="popupOverlay hidden">
         <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
-
-
-
             <div class="popupHeader">
                 <h1>Add Task</h1>
-                <img class="icons close" onclick="closeAddTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
             </div>
-
             <form id="addTaskFormTask">
+                <button type="reset" style="all: unset;">
+                    <img class="icons close" onclick="closeAddTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
+                </button>
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
                         <input name="title" type="text" id="title" placeholder="Enter a title" required>
-
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
-
-
                             <label for="contactSelection">Assign Contacts</label>
-                            <div class="createContactBar" onclick="toggleContactsDropdown()">
-                                <span id="dropdownLabel">Wähle einen Kontakt aus</span>
-                            </div>
-                            <div class="customDropdown">
-                                <ul class="dropdownList open" id="contactsDropdownList"></ul>
-                            </div>
-                           
-                            <ul id="selectedContactsList"></ul>
-
-
-
+                        <div class="createContactBar" onclick="toggleContactsDropdown()">
+                            <span id="dropdownLabel">Wähle einen Kontakt aus</span>
+                        </div>
+                        <div class="customDropdown">
+                            <ul class="dropdownList" id="contactsDropdownList"></ul>
+                        </div>
+                        <div id="selectedContactsList"></div>
                     </div>
                     <div class="separator"></div>
                     <div class="formPart">
