@@ -602,9 +602,9 @@ function removeContact(contact) {
 function updateDropdownLabel() {
   const dropdownLabel = document.getElementById("dropdownLabel");
   if (selectedContacts.length === 0) {
-    dropdownLabel.textContent = "Wähle einen Kontakt aus";
+    dropdownLabel.textContent = "Select contacts to assign";
   } else {
-    dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
+    dropdownLabel.textContent = `${selectedContacts.length} contact(s) selected`;
   }
 }
 document.addEventListener("click", function (event) {

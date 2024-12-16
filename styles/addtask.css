@@ -89,77 +89,84 @@ body {
   gap: 5px;
 }
 
-
-.customDropdown {
-  position: relative;
-
-}
-
-.dropdownList {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: none;
-  z-index: 1000;
-  max-height: 200px; 
-  overflow-y: auto; 
-  user-select: none;  
-}
-
-.dropdownList.open {
-  display: block;
-}
-
-.dropdownList::-webkit-scrollbar-thumb {
-  background-color: #ddd;
-  border-radius: 4px; 
-}
-
-.customDropdown {
-  position: relative;
-
-}
-
-.dropdownList {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  display: none;
-  z-index: 1000;
-  max-height: 200px; 
-  overflow-y: auto; 
-  user-select: none;  
-}
-
-.dropdownList.open {
-  display: block;
-}
-
-.dropdownList::-webkit-scrollbar-thumb {
-  background-color: #ddd;
-  border-radius: 4px; 
-}
-
 .dropdown-item {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+h1 {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 42px;
+}
+
+/* Container/Layout-Anpassungen */
+.board {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+  max-height: 200px; 
+  overflow-y: auto; 
+  user-select: none;  
+}
+
+.dropdownList.open {
+  display: block;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 4px; 
+}
+
+.customDropdown {
+  position: relative;
+}
+
+.dropdownList {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: none;
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  user-select: none;
+}
+
+.dropdownList.open {
+  display: block;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 4px;
+}
+
+.custom-checkbox {
+  border: 1px solid grey;
+  width: 16px;
+}
+
+.custom-checkbox:checked {
+  border: 1px solid grey;
+  background-color: #2a3647;
 }
 
 
@@ -168,14 +175,15 @@ body {
   padding: 12px 16px;
   cursor: pointer;
   font-size: 14px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: #333;
   transition: background 0.3s, color 0.3s;
   position: relative;
 }
 
 .dropdownList li:hover {
-  background: #2A3647; 
+  background: #a8a8a8;
+  color: #ffffff;
 }
 
 .dropdownList li:hover span {
@@ -187,56 +195,12 @@ body {
   border-top: 1px solid #eee;
 }
 
-
-.selected-contact-item {
-  color: white;
-  background-color: #091931; 
-  transition: background-color 0.3s ease; 
-}
-
-.selected-contact-item span {
-  color: white;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-h1 {
-  font-family: 'Inter', sans-serif; 
-  font-weight: 700; 
-  font-size: 42px; 
-}
-
-/* Container/Layout-Anpassungen */
-.board {
-  width: 100%;
-  max-width: 1340px;
-  margin: 0 auto;
-  padding: 0 20px;
+.contact-name {
+  flex-grow: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 10px;
 }
 
 /* Kopfbereich responsiv ausrichten */
@@ -268,7 +232,6 @@ h1 {
   max-width: 276px;
   overflow: hidden;
 }
-
 
 .searchBar input {
   border: none;
@@ -303,7 +266,6 @@ h1 {
   /* Entfernen der festen linken Margin, stattdessen Padding im Parent (.board) nutzen */
   overflow-y: auto;
 }
-
 
 /* Einzelne Listen-Spalte */
 .listBody {
@@ -429,41 +391,38 @@ h1 {
   box-sizing: border-box;
 }
 
-
 .addSubTaskInput {
-border: none;
-width: 316px;
+  border: none;
+  width: 316px;
 }
 
 .addSubTaskInput:focus {
-  outline: none;
   border: none;
-  transition: border-color 0.3s ease;
-  }
+}
 
 
 #subtaskImg {
-    padding-left: 90px;
-  }
+  padding-left: 90px;
+}
 
-  .subtaskButtons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    left: 24px;
-  }
+.subtaskButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  left: 24px;
+}
 
-  .subTasksList {
-    position: relative;
-    padding-left: 0px;
-  }
+.subTasksList {
+  position: relative;
+  padding-left: 0px;
+}
 
 .separatorSubtask {
-    width: 1px;
-    height: 24px;
-    background-color: #A8A8A8;
-    margin: 16px;
+  width: 1px;
+  height: 24px;
+  background-color: #a8a8a8;
+  margin: 16px;
 }
 
 .popupDescription {
@@ -484,14 +443,12 @@ width: 316px;
   flex-wrap: wrap;
 }
 
-
 .subtask-item {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 8px;
 }
-
 
 .editSubtaskItem {
   width: unset;
@@ -505,9 +462,9 @@ width: 316px;
 }
 
 .subtaskText {
-    width: 72%;
-    margin: 8px;
-    overflow-wrap: break-word;
+  width: 72%;
+  margin: 8px;
+  overflow-wrap: break-word;
 }
 
 /* Popup Overlay */
@@ -542,7 +499,6 @@ width: 316px;
   max-height: 90vh;
   overflow-y: auto;
   box-sizing: border-box;
-
 }
 
 .popupInformation {
@@ -662,7 +618,6 @@ width: 316px;
   color: white;
 }
 
-
 .category-item:last-child {
   border-bottom: none;
 }
@@ -671,14 +626,14 @@ width: 316px;
   display: none;
 }
 
-
 .addIcons {
   cursor: pointer;
 }
 
 input,
 textarea,
-select, .createContactBar {
+select,
+.createContactBar {
   width: 100%;
   padding: 0.75rem;
   border-radius: 0.625rem;
@@ -686,7 +641,19 @@ select, .createContactBar {
   box-sizing: border-box;
   font-size: 1rem;
   display: flex;
-  user-select: none;  
+  user-select: none;
+}
+
+input,
+textarea,
+select {
+  background-color: white;
+  color: #bcbcbc;
+}
+
+.dropdown,
+.createSubtaskBar {
+  background-color: white;
 }
 
 .dropdown {
@@ -697,7 +664,7 @@ select, .createContactBar {
   border-radius: 0.625rem;
   border: 1px solid #d1d1d1;
   cursor: pointer;
-  user-select: none; 
+  user-select: none;
 }
 
 textarea {
@@ -764,31 +731,40 @@ input:focus, textarea:focus, select:focus {
   background-color: white;
   color: #2a3647;
   border: 1px solid #2a3647;
+  width: 98px !important;
 }
 
 .clearBtn:hover {
   background-color: white !important;
-  border-color: #29ABE2 !important;
+  border-color: #29abe2 !important;
+  color: #29abe2;
 }
 
+.clearBtn img {
+  display: block;
+  transition: all 0.3s ease;
+}
 
+.clearBtn img:hover {
+  content: url("./../assets/icons/png/iconoir_cancel_blue.png");
+}
 
 .editSubtaskBar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
 }
 
 .editSubtaskInput {
-    border-radius: 0.625rem;
-    border: 1px solid #ccc;
-    display: flex;
-    align-items: center;
-    height: 3rem;
-    overflow: hidden;
-    box-sizing: border-box;
+  border-radius: 0.625rem;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  height: 3rem;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .dragging {
@@ -819,7 +795,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 .button:hover {
-    background-color: #29ABE2;
+  background-color: #29abe2;
 }
 
 .hoverBtn {
@@ -874,9 +850,8 @@ input:focus, textarea:focus, select:focus {
   }
 }
 
-@media (max-width: 880Px) {
+@media (max-width: 1080px) {
   body {
-    background-color: #f6f7f8;
     position: relative;
     overflow: hidden;
   }
@@ -938,6 +913,23 @@ input:focus, textarea:focus, select:focus {
     margin-bottom: 10px;
     font-size: 14px;
     padding: 10px;
+    background-color: white;
+    color: #bcbcbc;
+  }
+
+  .dropdown,
+  .createSubtaskBar {
+    background-color: white;
+  }
+
+  .buttonContainer {
+    position: fixed;
+    bottom: 87px;
+    background-color: #f6f7f8;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row-reverse;
   }
 
   .taskFormButtonsMobile {
@@ -957,6 +949,7 @@ input:focus, textarea:focus, select:focus {
   .button {
     flex: 0 1 auto;
     max-width: 200px;
+    width: 144px;
     height: 50px;
     padding: 10px;
     font-size: 16px;
@@ -976,16 +969,17 @@ input:focus, textarea:focus, select:focus {
 
   h1 {
     position: fixed;
-    background-color: #f6f7f8;
     font-weight: bold;
     font-size: 50px;
     top: 96px;
     width: 88%;
+    background-color: #f6f7f8;
   }
 
   textarea {
     resize: none;
     min-height: 80px;
+    background-color: white;
   }
 
   .addSubtaskButton img {
