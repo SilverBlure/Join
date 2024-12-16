@@ -60,6 +60,7 @@ function login(loginType) {
             location.href = './../html/summary.html';
         }
     }
+    deleteGuestContacts();
 }
 
 
