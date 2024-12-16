@@ -25,24 +25,27 @@ async function loadLoginData(){
     }
 }
 
-/**this function makes the logon to ur account 
+/**this function makes the login to ur account 
  * @param {string} email
  * @param {string} pw  
 */
 function login(loginType){
-    let pw, email;
+    let pw, email, logindata, isChecked;
+
     if(loginType == 'normal'){
         email = document.getElementById('email').value;
         pw = document.getElementById('password').value;
-        let isChecked = document.getElementById('checkSvg').getAttribute('value');
-        if(checkLogin(email, pw) && isChecked) {
+        isChecked = document.getElementById('checkSvg').getAttribute('value'); 
+        if(checkLogin(email, pw).match && isChecked) {
+            logindata = checkLogin(email, pw);
             localStorage.setItem('email', email);
             localStorage.setItem('pw', pw);
-            localStorage.setItem('sessionKey', check.id);
+            localStorage.setItem('sessionKey', logindata.id);
             showSnackbar('Deine Anmelde Daten werden für das näche mal gespeichert');
             location.href ='./../html/summary.html';
-        }else if(checkLogin(email, pw)){
-            localStorage.setItem('sessionKey', check.id);
+        }else if(checkLogin(email, pw).match){
+            logindata = checkLogin(email, pw);
+            localStorage.setItem('sessionKey', logindata.id);
             showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!');
             location.href ='./../html/summary.html';
         }else{
@@ -51,12 +54,12 @@ function login(loginType){
     }else if(loginType == 'Gast'){
         pw = 'Gast';
         email = 'Gast@join.com';
-        if(checkLogin(email, pw)){
-            localStorage.setItem('sessionKey', check.id);
+        if(checkLogin(email, pw).match){
+            logindata = checkLogin(email, pw);
+            localStorage.setItem('sessionKey', logindata.id);
             showSnackbar('Du wirst weitergeleitet, deine Anmeldedaten werden nicht local gespeichert!');
             location.href ='./../html/summary.html';
         }
-
     }
 }
 
