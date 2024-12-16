@@ -62,6 +62,10 @@ let defaultContacts=[
 let defaultTasks=[];
 
 
+async function guestProtocol(){                 //Wird in die GuestLogin funktion gesetzt
+    
+}
+
 function resetGuestLogin(){
 
 }

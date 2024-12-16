@@ -697,7 +697,8 @@ h3{
     }
 
     .shortInfo{
-        justify-content: center;
+        justify-content: flex-start;
+        margin-left: 86px;
     }
 
     .addContactBtn {
