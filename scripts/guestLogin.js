@@ -59,11 +59,19 @@ let defaultContacts=[
 }
 ];
 
-let defaultTasks=[];
+
+
+
+
+
+
+let defaultTasks=[
+    
+];
 
 
 async function guestProtocol(){                 //Wird in die GuestLogin funktion gesetzt
-    
+    checkIfGuest();
 }
 
 function resetGuestLogin(){
@@ -78,10 +86,44 @@ let userId = localStorage.getItem('sessionKey')
     })
 }
 
-function pushContact(){
+async function deleteGuestTasks(){
+    let userId = localStorage.getItem('sessionKey')
 
+    await fetch(BASE_URL + 'data/user/' + userId + '/user/tasks' + '.json', {
+        method: "DELETE",
+    })
 }
 
-function pushtasks(){
+
+async function addBasicContacts(){
+    let ID = localStorage.getItem('sessionKey')
+    for(let i = 0; i<defaultContacts.length;i++){
+    await fetch(BASE_URL + "data/user/" + ID + "/user/contacts/" + ".json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            contact: {
+                name: `${defaultContacts[i].name}`,
+                email: `${defaultContacts[i].email}`,
+                phone: `${defaultContacts[i].phone}`,
+            }
+        })
+    }
+    )
+    }}
+
+async function addBasicTasks(){
     
+}
+
+async function checkIfGuest(){
+    let keyFromLocalstorage = localStorage.getItem('sessionKey');
+    if(keyFromLocalstorage === '-ODHuokeuYDB2yZbvrDx'){
+        deleteGuestContacts();
+        deleteGuestTasks();
+        addBasicContacts();
+        addBasicTasks();
+    }
 }
