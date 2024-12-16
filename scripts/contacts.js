@@ -5,33 +5,6 @@ let contactsArray = [];
 async function init() {
     loadSessionId();
     await getContacts();
-    if (ID == "-ODHuokeuYDB2yZbvrDx" ) {
-        await deleteGuestContacts();
-        contactsArray = defaultContacts;
-        renderContacts();
-        pushDefaultContacts();
-    } 
-}
-
-async function deleteGuestContacts(){
-    for (let i = 0; i < contactsArray.length; i++) {
-    contactId = contactsArray[i].id;
-    await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
-        method: "DELETE",
-})
-}
-}
-
-
-async function pushDefaultContacts(){
-    for (let i = 0; i < contactsArray.length; i++) {
-        let name = contactsArray[i].name;
-        let  email = contactsArray[i].email;
-        let phone = contactsArray[i].phone;
-        pushData(name, email, phone);
-        
-    }
-
 }
 
 
