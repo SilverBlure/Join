@@ -1124,6 +1124,10 @@ select:focus {
     font-size: 42px;
   }
 
+  body{
+    overflow: unset;
+  }
+
   .searchContainer {
     margin-left: 20px;
   }
@@ -1286,6 +1290,7 @@ select:focus {
   .dropdownList.open {
     width: 332px;
 }
+
 
 
 

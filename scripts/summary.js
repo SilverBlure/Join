@@ -250,7 +250,7 @@ function setUserName(userName) {
 
 function setGreeting() {
     const currentHour = new Date().getHours();
-    console.log(currentHour);
+   
     const greetingElement = document.getElementById('greeting');
     if (currentHour < 12) {
         return greetingElement.textContent = "Good Morning,";
