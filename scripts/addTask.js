@@ -816,7 +816,6 @@ async function editSubtask(subtaskId) {
 
 
 
-
 function handleSubtaskBlur(event) {
   const subtaskId = event.target.id.replace("edit-input-", "");
   setTimeout(() => {

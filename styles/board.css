@@ -127,7 +127,37 @@ h1 {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  overflow-y: auto; /* Ermöglicht vertikales Scrollen */
+  overflow-x: scroll; /* Verhindert horizontales Scrollen */
+  touch-action: pan-y; /* Scroll nur in eine Richtung erlaubt */
 }
+
+.dragging .listHeadline,
+.dragging .taskContainer {
+    pointer-events: none; /* Verhindert, dass diese Bereiche als Ziel erkannt werden */
+}
+
+.scroll-zone-top,
+.scroll-zone-bottom {
+    position: fixed;
+    height: 50px;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.scroll-zone-top {
+    top: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+}
+
+.scroll-zone-bottom {
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+}
+
+
 
 .nothingToDo {
   display: flex;
@@ -183,6 +213,11 @@ h1 {
   font-weight: 700;
   color: #2a3647;
   overflow-wrap: break-word;
+  overflow-wrap: break-word; /* Optional für Wortumbrüche */
+  width: 200px; /* Box-Breite */
+  overflow: hidden; /* Verhindert das Überlaufen */
+  text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
+  white-space: nowrap; /* Verhindert den Zeilenumbruch */
 }
 
 .taskCardDescription {
@@ -209,6 +244,7 @@ h1 {
   align-items: center;
   flex-direction: column;
   gap: 21px;
+  padding: 20px;
 }
 
 .BoardCardFooter {
@@ -1190,6 +1226,8 @@ select:focus {
 
   .taskContainer {
     width: 376px;
+    height: 280px;
+    padding: 20px;
   }
 
   .taskList {
