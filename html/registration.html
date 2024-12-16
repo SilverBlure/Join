@@ -39,20 +39,22 @@
                     <form id="input">
                         <div class="border borderInputFields center ">
                             <innerInputfield class="innerInputfield">
-                                <input id="name" class="noBorder input" placeholder="Name" oninput="checkName()" required>
+                                <input id="name" class="noBorder input" placeholder="Name" oninput="checkName()"
+                                    required>
                                 <img src="./../assets/icons/png/person.png">
                             </innerInputfield>
                         </div>
                         <div>
-                            <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last name seperated
-                               </p>
+                            <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last
+                                name seperated
+                            </p>
                         </div>
 
                         <div class="border borderInputFields center">
                             <innerInputfield class="innerInputfield">
                                 <input id="email" type="email" class="noBorder input"
-                                    pattern="([a-zA-Z]{1,})(\.)([a-zA-Z]{1,})@([a-zA-Z]{1,})(\.)([a-z]{2,3})"
-                                    oninput="email_Check()" placeholder="Email" required>
+                                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" oninput="email_Check()"
+                                    placeholder="Email" required>
                                 <img src="./../assets/icons/svg/mail.svg">
                             </innerInputfield>
                         </div>
@@ -86,8 +88,10 @@
                     </div>
 
                     <div class="conditionBox">
-                        <img onclick="changeSvgToOn()" class="checkboxEmpty" id="checkboxSvg" src="./../assets/icons/svg/leereCheckbox.svg">
-                        <text class="condition conditionText">I accept the <a class="privacylink" href="./privacyPolicy.html">Privacy policy</a></text>
+                        <img onclick="changeSvgToOn()" class="checkboxEmpty" id="checkboxSvg"
+                            src="./../assets/icons/svg/leereCheckbox.svg">
+                        <text class="condition conditionText">I accept the <a class="privacylink"
+                                href="./privacyPolicy.html">Privacy policy</a></text>
                     </div>
                     <div class="btnContainer">
                         <button form="input" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>

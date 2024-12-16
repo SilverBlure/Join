@@ -156,3 +156,20 @@ function check(emailFromInput, pwFromInput) {
     let isChecked = loginArray.find((element) => element.email == emailFromInput && element.password == pwFromInput);
     return isChecked;
 }                                                                                                                                                                  
+
+function checkName(){
+    let name = document.getElementById('name').value;
+    if(!name.includes(' ')){
+        document.getElementById('nameWarning').classList.remove('hidden-text');
+        document.getElementById('nameWarning').classList.add('visible-text');
+    }else{
+        document.getElementById('nameWarning').classList.remove('visible-text');
+        document.getElementById('nameWarning').classList.add('hidden-text');
+    }
+    setTimeout(()=>{
+        if(name === ''){
+            document.getElementById('nameWarning').classList.remove('visible-text');
+        document.getElementById('nameWarning').classList.add('hidden-text');
+        }
+    },500);
+}
