@@ -31,7 +31,6 @@ async function loadLoginData(){
 */
 function login(loginType){
     let pw, email, logindata, isChecked;
-
     if(loginType == 'normal'){
         email = document.getElementById('email').value;
         pw = document.getElementById('password').value;
@@ -112,23 +111,8 @@ function passwordCheck(pw1, pw2){
 }
 
 
-function checkName(){
-    let name = document.getElementById('name').value;
-    if(!name.includes(' ')){
-        document.getElementById('nameWarning').classList.remove('hidden-text');
-        document.getElementById('nameWarning').classList.add('visible-text');
-    }else{
-        document.getElementById('nameWarning').classList.remove('visible-text');
-        document.getElementById('nameWarning').classList.add('hidden-text');
-    }
-    setTimeout(()=>{
-        if(name === ''){
-            document.getElementById('nameWarning').classList.remove('visible-text');
-        document.getElementById('nameWarning').classList.add('hidden-text');
-        }
-    },500);
-}
-
+/**change Remembermy icon to checked
+ */
 function changeToChecked(){
     let doc = document.getElementById('checkSvg');
     doc.src = './../assets/icons/svg/vollCheckbox.svg';
@@ -137,6 +121,8 @@ function changeToChecked(){
     doc.setAttribute('value','true');
 }
 
+/*change Remembermy icon to  unchecked
+ */
 function changeToUncheck(){
     let doc = document.getElementById('checkSvg');
     doc.src = `./../assets/icons/svg/leereCheckbox.svg`;
@@ -145,7 +131,8 @@ function changeToUncheck(){
     doc.setAttribute('value','false');
 }
 
-
+/** check if email and pw is valide 
+ */
 function checkInput(){
     let doc = document.getElementById('warningText');
     let emailFromInput = document.getElementById('email').value;
@@ -158,6 +145,12 @@ function checkInput(){
     }
 }
 
+/** check if email and pw is right
+ * 
+ * @param {string} emailFromInput 
+ * @param {string} pwFromInput 
+ * @returns 
+ */
 function check(emailFromInput, pwFromInput){
     let isChecked = loginArray.find((element) => element.email == emailFromInput && element.password == pwFromInput);
     return isChecked;
