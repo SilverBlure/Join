@@ -52,7 +52,7 @@ function login(loginType) {
         }
     } else if (loginType == 'Gast') {
         pw = 'Gast';
-        email = 'Gast@join.com';
+        email = 'test.Join@Join.com';
         if (checkLogin(email, pw).match) {
             logindata = checkLogin(email, pw);
             localStorage.setItem('sessionKey', logindata.id);
