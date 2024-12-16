@@ -109,24 +109,20 @@ async function addTaskToFirebase(listId, task) {
         body: JSON.stringify(task),
     });
 }
-
 async function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
-
     const sourceListId = await findTaskSourceList(currentDraggedElement);
     if (!sourceListId) {
         stopTouchDragging(); // Stoppen, falls keine Quellliste gefunden wurde
         return;
     }
-
     try {
         const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
         if (!task) {
             stopTouchDragging();
             return;
         }
-
         await deleteTaskFromFirebase(sourceListId, currentDraggedElement);
         await addTaskToFirebase(targetListId, task);
         await getTasks();
@@ -137,7 +133,6 @@ async function handleDrop(event, targetListId) {
     }
 }
 
-
 const LONG_PRESS_THRESHOLD = 200; // Zeit in Millisekunden für Dragging
 const THRESHOLD_DISTANCE = 10; // Minimale Bewegung in Pixeln für Dragging
 let currentDraggedElement = null;
@@ -145,9 +140,6 @@ let touchStartTimestamp = null;
 let touchStartX = null;
 let touchStartY = null;
 let touchMoved = false; // Ob eine signifikante Bewegung erfolgt
-let autoScrollInterval = null;
-let scrollDisabled = false;
-
 
 window.addEventListener("touchstart", (event) => {
     const target = event.target.closest(".boardCard");
@@ -157,36 +149,33 @@ window.addEventListener("touchstart", (event) => {
     }
 }, { passive: false });
 
-window.addEventListener("touchmove", handleTouchMove, { passive: false });
+window.addEventListener("touchstart", (event) => {
+    const target = event.target.closest(".boardCard");
+    if (target) {
+        const taskId = target.id.split("-")[1];
+        startTouchDragging(event, taskId);
+    }
+}, { passive: false }); // passive: false ist hier wichtig
 
-window.addEventListener("touchend", handleTouchDrop, { passive: false });
+window.addEventListener("touchend", handleTouchDrop, { passive: false }); // Auch hier passiv deaktivieren
 
 
-/**
- * Startet das Touch-Event, differenziert zwischen Click und Dragging.
- * @param {Event} event - Das Touch-Event.
- * @param {string} taskId - Die ID des Tasks.
- */
-function startTouchDragging(event, taskId) {
+async function startTouchDragging(event, taskId) {
     const target = document.getElementById(`boardCard-${taskId}`);
     if (!target) return;
-
     touchStartTimestamp = Date.now();
     const touch = event.touches[0];
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
-    touchMoved = false; // Zurücksetzen des Bewegungsstatus
+    touchMoved = false;
     currentDraggedElement = taskId;
-
-    // Timeout starten, um zwischen Click und Dragging zu unterscheiden
-    setTimeout(() => {
+    setTimeout(async () => {
         if (!touchMoved) {
-            console.log("OnClick erkannt für Task ID:", taskId);
-            openTaskPopup(taskId, findTaskSourceList(taskId)); // Beispiel-OnClick-Aktion
+            const listId = await findTaskSourceList(taskId); // Warten, bis Promise aufgelöst ist
+            openTaskPopup(taskId, listId); // Aufgelösten Wert verwenden
         } else {
             target.classList.add("dragging");
-            disableScroll(); // Scrollen deaktivieren
-            console.log("Dragging gestartet für Task ID:", taskId);
+            disableScroll();
         }
     }, LONG_PRESS_THRESHOLD);
 }
@@ -200,15 +189,8 @@ function handleTouchMove(event) {
     if (!currentDraggedElement) return;
 
     touchMoved = true; // Kennzeichnet, dass es sich um eine Bewegung handelt
-    const touch = event.touches[0];
-    const touchY = touch.clientY;
 
-    // Nur während des Dragging-Prozesses Auto-Scroll auslösen
-    if (currentDraggedElement) {
-        autoScroll(touchY);
-    }
-
-    const targetElement = document.elementFromPoint(touch.pageX, touch.pageY);
+    const targetElement = document.elementFromPoint(event.touches[0].pageX, event.touches[0].pageY);
     if (targetElement?.classList.contains("listBody")) {
         highlightList(targetElement.id);
     } else {
@@ -218,11 +200,6 @@ function handleTouchMove(event) {
     }
 }
 
-
-/**
- * Handhabt das Ablegen eines Tasks oder ein Click-Event.
- * @param {Event} event - Das Touch-Event.
- */
 /**
  * Handhabt das Ablegen eines Tasks oder ein Click-Event.
  * @param {Event} event - Das Touch-Event.
@@ -247,31 +224,20 @@ async function handleTouchDrop(event) {
     const touch = event.changedTouches[0];
     const adjustedX = touch.pageX - window.pageXOffset;
     const adjustedY = touch.pageY - window.pageYOffset;
-
     const targetElement = document.elementFromPoint(adjustedX, adjustedY);
-
-    console.log("Touch ended on element:", targetElement);
-
     const targetList = targetElement?.closest(".listBody");
     if (!targetList) {
-        console.warn("Drop target is not a valid list body.");
         stopTouchDragging();
         return;
     }
-
-    console.log("Valid drop target:", targetList.id);
-
     const targetListId = targetList.id.replace("List", "");
-
     try {
         await handleDrop(event, targetListId);
     } catch (error) {
-        console.error("Fehler beim Drop:", error);
     } finally {
         stopTouchDragging();
     }
 }
-
 
 function stopTouchDragging() {
     const card = document.getElementById(`boardCard-${currentDraggedElement}`);
@@ -281,66 +247,20 @@ function stopTouchDragging() {
     currentDraggedElement = null;
     touchStartTimestamp = null;
     touchMoved = false; // Zurücksetzen
-    stopAutoScroll(); // Beende Auto-Scroll
     enableScroll(); // Scrollen wieder aktivieren
 }
 
-
-
-function autoScroll(touchY) {
-    const scrollThreshold = 50; // Bereich vom Rand des Bildschirms
-    const scrollSpeed = 10; // Geschwindigkeit des Scrollens in Pixeln
-    const scrollInterval = 50; // Intervalldauer in Millisekunden
-
-    // Beende ein bestehendes Auto-Scroll-Intervall
-    stopAutoScroll();
-
-    if (scrollDisabled) {
-        // Scrollen blockiert, keine Auto-Scroll-Aktion
-        console.log("Scrollen ist deaktiviert. Auto-Scroll wird nicht ausgeführt.");
-        return;
-    }
-
-    if (touchY < scrollThreshold) {
-        // Scroll nach oben
-        autoScrollInterval = setInterval(() => {
-            window.scrollBy({ top: -scrollSpeed });
-        }, scrollInterval);
-    } else if (touchY > window.innerHeight - scrollThreshold) {
-        // Scroll nach unten
-        autoScrollInterval = setInterval(() => {
-            window.scrollBy({ top: scrollSpeed });
-        }, scrollInterval);
-    }
-}
-
-
 /**
- * Stoppt das Auto-Scrolling.
- */
-function stopAutoScroll() {
-    if (autoScrollInterval) {
-        clearInterval(autoScrollInterval);
-        autoScrollInterval = null;
-    }
-}
-
-/**
- * Deaktiviert das Scrollen der Seite, außer während des Auto-Scrolls.
+ * Deaktiviert das Scrollen der Seite.
  */
 function disableScroll() {
-    if (!autoScrollInterval) {
-        document.body.style.overflow = "hidden";
-        scrollDisabled = true;
-    }
+    document.body.style.overflow = "hidden";
 }
 
 /**
  * Aktiviert das Scrollen der Seite.
  */
 function enableScroll() {
-    if (!autoScrollInterval) {
-        document.body.style.overflow = "";
-        scrollDisabled = false;
-    }
+    document.body.style.overflow = "";
 }
+
