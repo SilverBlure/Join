@@ -39,7 +39,7 @@
                             placeholder="Enter a Description"></textarea>
                         <label for="contactSelection">Assign Contacts</label>
                         <div class="createContactBar" onclick="toggleContactsDropdown()">
-                            <span id="dropdownLabel">Wähle einen Kontakt aus</span>
+                            <span id="dropdownLabel">Select contacts to assign</span>
                         </div>
                         <div class="customDropdown">
                             <ul class="dropdownList" id="contactsDropdownList"></ul>
@@ -95,8 +95,13 @@
                 <div class="taskFormButtons">
                     <p><span class="requiredStar">*</span>This field is required</p>
                     <div class="buttonContainer">
-                        <button type="submit" class="button">Create Task</button>
-                        <button type="reset" class="button clearBtn">Clear</button>
+                        <button type="reset" class="button clearBtn">Clear
+                            <img src="./../assets/icons/png/iconoir_cancel.png">
+                        </button>
+                        <button type="submit" class="button">Create Task
+                            <img src="./../assets/icons/png/check.png">
+                        </button>
+                        
                     </div>
                 </div>
             </form>

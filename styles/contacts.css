@@ -689,7 +689,7 @@ h3{
     .contactsBar{
         width: 100vw;
         align-items: center;
-    
+        padding-bottom: 100px;
 
     }
     #contacts{
