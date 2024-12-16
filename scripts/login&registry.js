@@ -55,7 +55,7 @@ function login(){
  * @param {string} email
  * @param {string} pw  
 */
-function guestLogin(email, pw){
+async function guestLogin(email, pw){
     let checkbox = document.getElementById('checkbox');
     let check = checkLogin(email, pw);
     let isChecked = checkbox.checked;
@@ -73,7 +73,6 @@ function guestLogin(email, pw){
     }else{
         showSnackbar('Überprüfe deine Anmeldedaten!')
     }
-    deleteGuestContacts();
 }
 
 /**this funktion searches for email an pw in the login array 

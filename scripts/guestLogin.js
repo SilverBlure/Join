@@ -13,12 +13,6 @@ let defaultContacts=[
 },
 
 {
-    name: 'Gast Account',
-    email: 'Gast@join.com',
-    phone: 'editMe'
-},
-
-{
     name: 'Kevin Fischer',
     email: 'kevin.fi92@gmail.com',
     phone: '234414112343421'
@@ -66,13 +60,8 @@ function resetGuestLogin(){
 
 }
 
-async function deleteGuestContacts(){
-let userId = localStorage.getItem('sessionKey')
 
-    await fetch(BASE_URL + 'data/user/' + userId + '/user/contacts' + '.json', {
-        method: "DELETE",
-    })
-}
+
 
 function pushContact(){
 
