@@ -95,18 +95,26 @@ function editContactTemp(i) {
     <form class="contacInput" id="contactForm">
        <div class="inputBorder">
     <span class="innerInputfield">
-        <input class="noBorder inputNameImg" id="name" placeholder="Name" required>
+        <input oninput="checkName()" class="noBorder inputNameImg" id="name" placeholder="Name" required>
     </span>
 
 </div>
-<div id="nameWarning" class="failtureText hidden-text">Please enter first and last name.</div>
+<div>
+                            <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last
+                                name seperated
+                            </p>
+                        </div>
 
 <div class="inputBorder">
     <span class="innerInputfield">
-        <input id="email" type="email" class="noBorder inputMailImg" placeholder="Email" required>
+        <input oninput="emailCheck()"  id="email" type="email" class="noBorder inputMailImg" placeholder="Email" required>
     </span>
 </div>
-<div id="emailWarning" class="failtureText hidden-text">Please enter a valid email address.</div>
+<div>
+                            <p id="emailWarning" class="failtureText left hidden-text">*The email address you want to
+                                use is
+                                registered </p>
+                        </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
