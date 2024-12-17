@@ -332,6 +332,23 @@ h4{
     
 }
 
+.inputNameImg {
+    background: url('./../assets/icons/png/person.png');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.inputMailImg {
+    background: url('./../assets/icons/svg/mail.svg');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+.inputcallImg {
+    background: url('../assets/icons/png/call.png');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
 .addContactLogo{
     display: flex;
     align-items: flex-start;
@@ -383,6 +400,12 @@ h4{
 
 .noBorder {
     border: none;
+    width: 100%;
+}
+
+.dialogBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 

@@ -81,6 +81,31 @@ body {
   cursor: pointer;
 }
 
+.dropdownList li:hover {
+  background: #2A3647; 
+
+}
+
+.status-icon:hover {
+  filter: brightness(0) invert(1);
+
+}
+
+li:hover .status-icon {
+  filter: brightness(0) invert(1);
+} 
+
+
+
+.selected-contact-item {
+  color: white;
+  background-color: #091931; 
+  transition: background-color 0.3s ease; 
+}
+
+.selected-contact-item span {
+  color: white;
+}
 
 #selectedContactsList {
   display: flex;
@@ -181,10 +206,7 @@ h1 {
   position: relative;
 }
 
-.dropdownList li:hover {
-  background: #a8a8a8;
-  color: #ffffff;
-}
+
 
 .dropdownList li:hover span {
   color: white;
@@ -645,10 +667,25 @@ select,
 }
 
 input,
+textarea {
+  color: #888888; /* Grau für den leeren Zustand */
+}
+
+input:focus,
+textarea:focus {
+  color: #000000; /* Schwarz bei Eingabe */
+}
+
+input:not(:placeholder-shown),
+textarea:not(:placeholder-shown) {
+  color: #000000; /* Schwarz, sobald etwas eingegeben wurde */
+}
+
+
+input,
 textarea,
 select {
   background-color: white;
-  color: #bcbcbc;
 }
 
 .dropdown,

@@ -514,7 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 function closeSelection(){
-    document.getElementById('contactsDropdownList').classList.replace('open', '');
+    document.getElementById('contactsDropdownList').classList.add('closed');
 }
 
 

@@ -1,7 +1,6 @@
 body {
     font-family: "Raleway";
     margin: 0px;
-    max-width: 1440px;
 }
 
 a {
@@ -12,6 +11,12 @@ a {
 a:hover {
     cursor: pointer;
     color: #2A3647;
+}
+
+a li.active {
+    background-color: rgba(9, 25, 49, 1);
+    color: white;
+    font-weight: bold;
 }
 
 .content {
@@ -40,7 +45,7 @@ a:hover {
     left: 50%;
     width: 500px;
     transform: translate(-50%, -50%); 
-    animation: logoToCorner 3s ease forwards;
+    animation: logoToCorner 1.5s ease forwards;
     display: flex;
     justify-content: start;
     align-items: start;

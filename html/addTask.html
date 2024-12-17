@@ -25,7 +25,7 @@
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     <div class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
-        <div class="addTaskContent">
+        <div class="addTaskContent" onclick="closeShowMenu()">
             <h1>Add Task</h1>
             <form id="addTaskFormTask" 
             onsubmit="addTaskToToDoList(event)"
@@ -49,7 +49,7 @@
                     <div class="separator"></div>
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                        <input name="date" type="date" id="date" required>
+                        <input name="date" type="date" placeholder="dd/mm/yyyy" id="date" required>
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"

@@ -19,8 +19,8 @@ td {
 
 .helpContent {
     padding-left: 100px;
-    max-width: 1340px;
     overflow-y: auto;
+    margin-right: 30px;
 
 }
 
@@ -31,6 +31,10 @@ td {
     padding: 0 5%;
 
 }
+
+.helpHeadline img{
+    cursor: pointer;
+   }
 
 @media (max-width: 1024px) {
     .helpContent {

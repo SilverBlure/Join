@@ -52,29 +52,26 @@ function addContactTemp(){
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input class="noBorder" name="name" type="text" id="name" placeholder="Firstname Lastname" required>
-                <img src="./../assets/icons/png/person.png">
+                <input class="noBorder inputNameImg" name="name" type="text" id="name" placeholder="Firstname Lastname" required>
             </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" name="email" type="email" class="noBorder" placeholder="Email"  required>
-                <img src="./../assets/icons/svg/mail.svg">
+                <input id="email" name="email" type="email" class="noBorder inputMailImg" placeholder="Email"  required>
             </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="phone" name="phone" type="number" class="noBorder" placeholder="phone" required>
-                <img src="../assets/icons/png/call.png">
+                <input id="phone" name="phone" type="number" class="noBorder inputcallImg" placeholder="phone" required>
             </span>
         </div>
     </form>
     </div>
     <div class="createContactBtn">
         <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
-        <button class="dialogBtn" type="submit" form="contactForm">Create contact <img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtn" type="submit" disabled form="contactForm">Create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
@@ -93,30 +90,26 @@ function editContactTemp(i){
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input class="noBorder" id="name" placeholder="Name" required>
-
-                <img src="./../assets/icons/png/person.png">
+                <input class="noBorder inputNameImg" id="name" placeholder="Name" required>
             </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" type="email" class="noBorder" placeholder="Email" required>
-                <img src="./../assets/icons/svg/mail.svg">
+                <input id="email" type="email" class="noBorder inputMailImg" placeholder="Email" required>
             </span>
         </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="phone" type="number" class="noBorder" placeholder="phone" required>
-                <img src="../assets/icons/png/call.png">
+                <input id="phone" type="number" class="noBorder inputcallImg" placeholder="phone" required>
             </span>
         </div>
     </form>
     </div>
     <div class="createContactBtn">
         <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
-        <button class="dialogBtn" type="submit" form="contactForm">Save<img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtn" type="submit" disabled form="contactForm">Save<img src="../assets/icons/png/check.png"></button>
     </div>
 </div>                      
 `;

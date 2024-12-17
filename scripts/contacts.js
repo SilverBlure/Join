@@ -118,14 +118,64 @@ function createContact() {
     let name = document.getElementById('name').value;
     let email = document.getElementById('email').value;
     let phone = +document.getElementById('phone').value;
-    pushData(name, email, phone);
-    closeAddContact();
-    setTimeout(() => {
-    getContacts();
-    renderContacts();
-    }, 800);
-    
+
+    let createContactBtn = document.querySelector('.dialogBtn');
+
+    if (checkEmail(email) && name.includes(" ")) {
+        // Enable the button by removing the disabled attribute
+        createContactBtn.disabled = false;
+
+        // Push data and render contacts
+        pushData(name, email, phone);
+        closeAddContact();
+        setTimeout(() => {
+            getContacts();
+            renderContacts();
+        }, 800);
+    } else {
+        // Handle validation failures
+        if (!checkEmail(email)) {
+            console.log("Falsche Email");
+        } 
+        if (!name.includes(" ")) {
+            console.log("Name nicht zweiteilig");
+        }
+        // Disable the button if validation fails
+        createContactBtn.disabled = true;
+    }
 }
+
+
+/*
+function getFromEdit(i) {
+    let name = document.getElementById('name').value;
+    let phone = document.getElementById('phone').value;
+    let email= document.getElementById('email').value;
+    let contactId = contactsArray[i].id;
+
+    if (checkEmail(email)&&()){
+        putContact(contactId, name, email, phone, i)
+    } else {
+
+  alert("Bitte geben sie eine gültige E-Mail")
+    }
+}
+    */
+
+function checkEmail(email) {
+    if (typeof email !== "string") {
+        console.error("Invalid email format:", email);
+        return false;
+    }
+
+    if (!email.includes("@")) {
+        return false;
+    }
+
+    let lastDotIndex = email.lastIndexOf(".");
+    return lastDotIndex > email.indexOf("@") && email.length - lastDotIndex > 2;
+}
+
 
 
 /**
@@ -265,11 +315,11 @@ async function deleteContactDatabase(i) {
 /**
  * this function renders the dialog to add a new contact
  */
-function addContact(){
-    document.getElementById('dialogInfo').innerHTML ="Add contact";
-    document.getElementById('editContact').innerHTML ="";
+function addContact() {
+    document.getElementById('dialogInfo').innerHTML = "Add contact";
+    document.getElementById('editContact').innerHTML = "";
     document.getElementById('editContact').innerHTML = addContactTemp();
-
+    monitorFormInputs(); 
     document.getElementById('contactForm').addEventListener('submit', function(event) {
         event.preventDefault();
         if (this.checkValidity()) {
@@ -278,29 +328,55 @@ function addContact(){
     });
 }
 
+function monitorFormInputs() {
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const button = document.querySelector('.dialogBtn');
+
+    // Überwache Änderungen in den Inputfeldern
+    nameInput.addEventListener('input', validateForm);
+    emailInput.addEventListener('input', validateForm);
+
+    function validateForm() {
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+
+        // Prüfe Bedingungen für Name und Email
+        if (name.includes(" ") && checkEmail(email)) {
+            button.disabled = false; // Button aktivieren
+        } else {
+            button.disabled = true; // Button deaktiviert lassen
+        }
+    }
+}
 
 /**
  * this function validates the input for creating or editing a new contact
  */
 function checkInput(createEdit, i) {
-    let fullname = document.getElementById('name').value.trim(); 
+    let fullname = document.getElementById('name').value.trim();
+    let email = document.getElementById('email').value.trim();
+
     if (fullname.split(" ").length < 2) {
         showSnackbar("Please enter first and last name.");
-    }else{
-        createEdit(i)
-    } 
+    } else if (!checkEmail(email)) {
+        showSnackbar("Please enter a valid email address.");
+    } else {
+        createEdit(i);
+    }
 }
+
 
 
 /**
  * this function renders the dialog to edit a new contact
  */
-function editContact(i){
-    document.getElementById('dialogInfo').innerHTML ="Edit contact";
-    document.getElementById('editContact').innerHTML ="";
+function editContact(i) {
+    document.getElementById('dialogInfo').innerHTML = "Edit contact";
+    document.getElementById('editContact').innerHTML = "";
     document.getElementById('editContact').innerHTML = editContactTemp(i);
-    openEditContact(i); 
-
+    openEditContact(i);
+    monitorFormInputs(); 
     document.getElementById('contactForm').addEventListener('submit', function(event) {
         event.preventDefault();
         if (this.checkValidity()) {
@@ -308,6 +384,7 @@ function editContact(i){
         }
     });
 }
+
 
 
 
@@ -322,6 +399,7 @@ function getFromEdit(i) {
     let contactId = contactsArray[i].id;
   putContact(contactId, name, email, phone, i)
 }
+
 
 
 /**
