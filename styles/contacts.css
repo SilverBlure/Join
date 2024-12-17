@@ -398,6 +398,21 @@ h4{
 
 }
 
+.failtureText {
+    color: red;
+    font-size: 12px;
+}
+
+.visible-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hidden-text {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+}
 .noBorder {
     border: none;
     width: 100%;

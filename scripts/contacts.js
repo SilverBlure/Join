@@ -170,6 +170,7 @@ function checkEmail(email) {
 
     if (!email.includes("@")) {
         return false;
+        
     }
 
     let lastDotIndex = email.lastIndexOf(".");
@@ -350,6 +351,35 @@ function monitorFormInputs() {
     }
 }
 
+
+function emailCheck(){
+    let email = document.getElementById('email').value;
+    if(!checkEmail(email)){
+        document.getElementById('emailWarning').classList.add('visible-text');
+        document.getElementById('emailWarning').classList.remove('hidden-text');
+    }else{
+        document.getElementById('emailWarning').classList.add('hidden-text');
+        document.getElementById('emailWarning').classList.remove('visible-text');
+    }
+}
+
+function checkName(){
+    let name = document.getElementById('name').value;
+    if(!name.includes(' ')){
+        document.getElementById('nameWarning').classList.remove('hidden-text');
+        document.getElementById('nameWarning').classList.add('visible-text');
+    }else{
+        document.getElementById('nameWarning').classList.remove('visible-text');
+        document.getElementById('nameWarning').classList.add('hidden-text');
+    }
+    setTimeout(()=>{
+        if(name === ''){
+            document.getElementById('nameWarning').classList.remove('visible-text');
+        document.getElementById('nameWarning').classList.add('hidden-text');
+        }
+    },500);
+}
+
 /**
  * this function validates the input for creating or editing a new contact
  */
@@ -357,14 +387,25 @@ function checkInput(createEdit, i) {
     let fullname = document.getElementById('name').value.trim();
     let email = document.getElementById('email').value.trim();
 
+    // Fehlermeldungselemente abrufen
+    let nameWarning = document.getElementById('nameWarning');
+    let emailWarning = document.getElementById('emailWarning');
+
+    // Fehlermeldungen zurücksetzen
+    nameWarning.classList.remove('visible');
+    emailWarning.classList.remove('visible');
+
     if (fullname.split(" ").length < 2) {
         showSnackbar("Please enter first and last name.");
+        document.getElementById('nameWarning').classList.add('correct');
     } else if (!checkEmail(email)) {
         showSnackbar("Please enter a valid email address.");
+        document.getElementById('emailWarning').classList.add('correct');
     } else {
-        createEdit(i);
+        createEdit(i); // Eingabe erfolgreich
     }
 }
+
 
 
 
