@@ -382,7 +382,7 @@ h4{
 .contacInput{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 8px;
     margin-bottom: 50px;
 }
 
@@ -795,7 +795,7 @@ h3{
     }
 
     .userImg{
-        margin-top: -180px;
+        margin-top: -112px;
     }
 
     .notOnMobile{
