@@ -1,14 +1,12 @@
 function renderCurrentLetter(currentLetter) {
-    return `<div>
+  return `<div>
     <div class="separator">${currentLetter}</div>
         <div class="contact-group" id="group-${currentLetter}"></div>
     </div>`;
-
 }
 
-
 function contactTemps(i, initialien) {
-    return /*html*/ `<div class="contact">
+  return /*html*/ `<div class="contact">
                 <div class="shortInfo" onclick="renderContactDetails(${i})">
                     <div class="tag">
                         <p id="userTag${i}" class="contactUserTag">${initialien}</p>
@@ -21,9 +19,8 @@ function contactTemps(i, initialien) {
             </div>`;
 }
 
-
 function contactDetailsTemps(i, initialien) {
-    return /*html*/`<div class="InfoBoxHead">
+  return /*html*/ `<div class="InfoBoxHead">
 <div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
     <div>
         <div><H2>${contactsArray[i].name}</H2></div>
@@ -39,8 +36,8 @@ function contactDetailsTemps(i, initialien) {
     </div> `;
 }
 
-function addContactTemp(){
-    return /*html*/ `
+function addContactTemp() {
+  return /*html*/ `
     <div>
         <img class="userImg" src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
@@ -52,36 +49,41 @@ function addContactTemp(){
     <form class="contacInput" id="contactForm">
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input class="noBorder" name="name" type="text" id="name" placeholder="Firstname Lastname" required>
-                <img src="./../assets/icons/png/person.png">
+                <input oninput="checkName()" class="noBorder inputNameImg" name="name" type="text" id="name" placeholder="Firstname Lastname" required>
             </span>
         </div>
-    
+    <div>
+                            <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last
+                                name seperated
+                            </p>
+                        </div>
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" name="email" type="email" class="noBorder" placeholder="Email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
-                <img src="./../assets/icons/svg/mail.svg">
+                <input  oninput="emailCheck()" id="email" name="email" type="email" class="noBorder inputMailImg" placeholder="Email"  required>
             </span>
         </div>
-    
+    <div>
+                            <p id="emailWarning" class="failtureText left hidden-text">*The email address you want to
+                                use is
+                                registered </p>
+                        </div>
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="phone" name="phone" type="number" class="noBorder" placeholder="phone" required>
-                <img src="../assets/icons/png/call.png">
+                <input id="phone" name="phone" type="number" class="noBorder inputcallImg" placeholder="phone" required>
             </span>
         </div>
     </form>
     </div>
     <div class="createContactBtn">
         <button type="submit" class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">Cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
-        <button class="dialogBtn" type="submit" form="contactForm">Create contact <img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtn" type="submit" disabled form="contactForm">Create contact <img src="../assets/icons/png/check.png"></button>
     </div>
 </div>
 `;
 }
 
-function editContactTemp(i){
-    return /*html*/ `
+function editContactTemp(i) {
+  return /*html*/ `
     <div>
         <img class="editImg" src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
@@ -91,50 +93,54 @@ function editContactTemp(i){
     </div>
     <div>
     <form class="contacInput" id="contactForm">
-        <div class="inputBorder">
-            <span class="innerInputfield">
-                <input class="noBorder" id="name" placeholder="Name" required>
+       <div class="inputBorder">
+    <span class="innerInputfield">
+        <input oninput="checkName()" class="noBorder inputNameImg" id="name" placeholder="Name" required>
+    </span>
 
-                <img src="./../assets/icons/png/person.png">
-            </span>
-        </div>
+</div>
+<div>
+                            <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last
+                                name seperated
+                            </p>
+                        </div>
+
+<div class="inputBorder">
+    <span class="innerInputfield">
+        <input oninput="emailCheck()"  id="email" type="email" class="noBorder inputMailImg" placeholder="Email" required>
+    </span>
+</div>
+<div>
+                            <p id="emailWarning" class="failtureText left hidden-text">*The email address you want to
+                                use is
+                                registered </p>
+                        </div>
     
         <div class="inputBorder">
             <span class="innerInputfield">
-                <input id="email" type="email" class="noBorder" placeholder="Email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" required>
-                <img src="./../assets/icons/svg/mail.svg">
-            </span>
-        </div>
-    
-        <div class="inputBorder">
-            <span class="innerInputfield">
-                <input id="phone" type="number" class="noBorder" placeholder="phone" required>
-                <img src="../assets/icons/png/call.png">
+                <input id="phone" type="number" class="noBorder inputcallImg" placeholder="phone" required>
             </span>
         </div>
     </form>
     </div>
     <div class="createContactBtn">
         <button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button>
-        <button class="dialogBtn" type="submit" form="contactForm">Save<img src="../assets/icons/png/check.png"></button>
+        <button class="dialogBtn" type="submit" disabled form="contactForm">Save<img src="../assets/icons/png/check.png"></button>
     </div>
 </div>                      
 `;
 }
 
-function deleteContactTemp(i){
-    return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
+function deleteContactTemp(i) {
+  return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
     <div class="deleteBtn"><button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
-    `
+    `;
 }
-
-
-
 
 // addTask.js Templates
 
 function generateSubtaskHTML(subtaskId, title) {
-    return /*html*/`
+  return /*html*/ `
         <div class="subtask-item" id="${subtaskId}">
             <input type="checkbox" onchange="toggleLocalSubtaskStatus('${subtaskId}', this.checked)">
             <p class="subtaskText" onclick="editLocalSubtask('${subtaskId}')">${title}</p>
@@ -143,10 +149,8 @@ function generateSubtaskHTML(subtaskId, title) {
     `;
 }
 
-
-
 function createContactItem(contactId, initials, name, color) {
-    return /*html*/ `
+  return /*html*/ `
         <div class="workerInformation">
             <p id="${contactId}" class="workerEmblem workerIcon" style="background-color: ${color};">
                 ${initials}

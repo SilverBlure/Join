@@ -283,7 +283,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
         <div class="popupHeader">
             <h1>Edit Task</h1>
         </div>
-        <form id="editTaskForm" onsubmit="saveTaskChanges(event, '${listId}', '${taskId}')">
+        <form id="editTaskForm" class="editTask" onsubmit="saveTaskChanges(event, '${listId}', '${taskId}')">
         <button type="reset" style="all: unset;">
         <img class="icon close" onclick="closeEditTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
         </button>
@@ -295,7 +295,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                     <textarea id="description" rows="5">${task.description || ''}</textarea>
                     <label for="contactSelection">Assign Contacts</label>
                             <div class="createContactBar" onclick="toggleContactsDropdown()">
-                                <span id="dropdownLabel">Wähle einen Kontakt aus</span>
+                                <span id="dropdownLabel">Select Task Category</span>
                             </div>
                             <div class="customDropdown">
                                 <ul class="dropdownList" id="contactsDropdownList"></ul>

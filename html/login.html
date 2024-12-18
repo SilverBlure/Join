@@ -17,57 +17,68 @@
     <script src="./../scripts/backend.js"></script>
     <script src="./../scripts/login&registry.js"></script>
     <script src="./../script.js"></script>
+    
+    
 </head>
 
 <body onload="initLog()">
     <div id="snackbar" class="hidden"></div>
-    <img class="logoLogin" src="./../assets/icons/svg/joinLogo.svg">
 
-    <div class="loginBody">
-        <div class="loginHeader">
-
-
-            <div class="registrationLink">
-                <p class="registrationTrigger">Not a Join user?</p>
-                <a href="./registration.html"><button class="logInBtn">Sign up</button></a>
+    <div class="page ">
+        <div class="head third">
+            <div>
+                <img class="logoLogin " src="./../assets/icons/svg/joinLogo.svg">
             </div>
 
-        </div>
-    </div>
-    <div class="center">
-        <div class="center ">
-            <div class="loginBackground center">
-                <h1>Log in</h1>
-                <div class="seperator"></div>
 
+        </div>
+
+        <div class="center third">
+            <div class="loginBackground center">
+                <div class="center">
+                    <h1>Log in</h1>
+                    <div class="seperator"></div>
+                </div>
                 <div class="border borderInputFields center">
                     <innerInputfield class="innerInputfield">
                         <input id="email" class="noBorder input" placeholder="Email">
                         <img src="./../assets/icons/svg/mail.svg">
                     </innerInputfield>
                 </div>
-
-                <div class="border borderInputFields">
-                    <innerInputfield class="innerInputfield">
-                        <input id="password" class="noBorder input" placeholder="Passwort">
-                        <img src="./../assets/icons/svg/lock.svg">
-                    </innerInputfield>
+                <div>
+                    <div class="border  borderInputFields">
+                        <innerInputfield class="innerInputfield">
+                            <input oninput="checkInput()" id="password" type="password" class="noBorder input"
+                                placeholder="Passwort">
+                            <img src="./../assets/icons/svg/lock.svg">
+                        </innerInputfield>
+                    </div>
+                    <p id="warningText" class="warningText hidden-text">*The entered email does not match the password.
+                    </p>
                 </div>
-
                 <div class="saveLogin">
-                    <input id="checkbox" type="checkbox">
+                    <img class="checkSvg" id="checkSvg" onclick="changeToChecked()"
+                        src="./../assets/icons/svg/leereCheckbox.svg">
                     <text class="">Remember me</text>
                 </div>
                 <div class="buttons">
-                    <button onclick="login()" class="logInBtn">Log in</button>
-                   <button onclick="guestLogin('Gast@join.com', 'Gast')" class="guestBtn">Guest Log in</button>
+                    <button onclick="login('normal')" class="logInBtn">Log in</button>
+                    <button onclick="login('Gast')" class="guestBtn">Guest Log in</button>
                 </div>
             </div>
+            <div class="footer ">
+                <a class="text" href="./privacyPolicy.html">Privacy Policy</a>
+                <a class="text" href="./legalNotice.html">Legal notice</a>
+            </div>
+
         </div>
-    </div>
-    <div class="loginfooter">
-        <a href="./privacyPolicy.html">Privacy Policy</a>
-        <a href="./legalNotice.html">Legal notice</a>
+        <div class="signUpContainer third">
+            <div class="alignCenter">
+                <p class="registrationTrigger">Not a Join user?</p>
+                <a href="./registration.html"><button class="signUpBtn">Sign up</button></a>
+            </div>
+        </div>
+
     </div>
 </body>
 

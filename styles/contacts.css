@@ -332,6 +332,23 @@ h4{
     
 }
 
+.inputNameImg {
+    background: url('./../assets/icons/png/person.png');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.inputMailImg {
+    background: url('./../assets/icons/svg/mail.svg');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+.inputcallImg {
+    background: url('../assets/icons/png/call.png');
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
 .addContactLogo{
     display: flex;
     align-items: flex-start;
@@ -365,7 +382,7 @@ h4{
 .contacInput{
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 8px;
     margin-bottom: 50px;
 }
 
@@ -381,8 +398,29 @@ h4{
 
 }
 
+.failtureText {
+    color: red;
+    font-size: 12px;
+}
+
+.visible-text {
+    opacity: 1;
+    visibility: visible;
+}
+
+.hidden-text {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease;
+}
 .noBorder {
     border: none;
+    width: 100%;
+}
+
+.dialogBtn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 
@@ -689,7 +727,7 @@ h3{
     .contactsBar{
         width: 100vw;
         align-items: center;
-    
+        padding-bottom: 100px;
 
     }
     #contacts{
@@ -697,7 +735,8 @@ h3{
     }
 
     .shortInfo{
-        justify-content: center;
+        justify-content: flex-start;
+        margin-left: 86px;
     }
 
     .addContactBtn {
@@ -756,7 +795,7 @@ h3{
     }
 
     .userImg{
-        margin-top: -180px;
+        margin-top: -112px;
     }
 
     .notOnMobile{

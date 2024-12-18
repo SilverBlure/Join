@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 .addTaskBtn {
   background-color: #2a3647;
   color: white;
@@ -20,8 +24,10 @@
   margin-right: 10px;
 }
 
-.boardCard {
-  background: #ffffff;
+.closebtn {
+  display: flex;
+  align-items: center;
+  justify-content: end;
 }
 
 .custom-checkbox {
@@ -113,7 +119,7 @@ h1 {
   align-items: start;
   margin-top: 60px;
   column-gap: 26px;
-  margin-left: 64px;
+  padding-left: 64px;
   overflow-y: scroll;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -134,30 +140,28 @@ h1 {
 
 .dragging .listHeadline,
 .dragging .taskContainer {
-    pointer-events: none; /* Verhindert, dass diese Bereiche als Ziel erkannt werden */
+  pointer-events: none; /* Verhindert, dass diese Bereiche als Ziel erkannt werden */
 }
 
 .scroll-zone-top,
 .scroll-zone-bottom {
-    position: fixed;
-    height: 50px;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    pointer-events: none;
+  position: fixed;
+  height: 50px;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  pointer-events: none;
 }
 
 .scroll-zone-top {
-    top: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
 }
 
 .scroll-zone-bottom {
-    bottom: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
 }
-
-
 
 .nothingToDo {
   display: flex;
@@ -171,10 +175,10 @@ h1 {
 }
 
 .editSubtaskBar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .nothingToDoText {
@@ -187,25 +191,24 @@ h1 {
 }
 
 .progress-bar {
-    height: 100%; /* Füllt die Progressbar in der Höhe */
-    background-color: #2A3647; /* Farbe der Progressbar */
-    transition: width 0.5s ease-in-out; /* Smooth Animation */
+  height: 100%; /* Füllt die Progressbar in der Höhe */
+  background-color: #2a3647; /* Farbe der Progressbar */
+  transition: width 0.5s ease-in-out; /* Smooth Animation */
 }
 
 .progress-bar.complete {
-    background-color: #f39c12; /* Farbe für 100% */
-    box-shadow: 5px 5px 15px 5px #f39c12, 5px 5px 15px 5px rgba(243, 156, 18, 0.5);
+  background-color: #f39c12; /* Farbe für 100% */
+  box-shadow: 5px 5px 15px 5px #f39c12, 5px 5px 15px 5px rgba(243, 156, 18, 0.5);
 }
-
 
 .boardCard {
   box-shadow: 0px 2px 8px rgb(223, 224, 225);
   border-radius: 30px;
   padding: 16px;
   height: 263px;
+  width: 230px;
+  background: #ffffff;
 }
-
-
 
 .taskCardTitle {
   width: 200px;
@@ -230,7 +233,6 @@ h1 {
   text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
   white-space: nowrap; /* Verhindert den Zeilenumbruch */
 }
-
 
 .taskCardSubtasks {
   font-size: 12px;
@@ -279,27 +281,27 @@ h1 {
 }
 
 .workerEmblemList {
-    border: white 1px solid;
-    color: white;
-    padding: 1rem;
-    border-radius: 100%;
-    width: 1.25rem;
-    height: 1.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: unset;
-    margin-right: 24px;
-  }
+  border: white 1px solid;
+  color: white;
+  padding: 1rem;
+  border-radius: 100%;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: unset;
+  margin-right: 24px;
+}
 
 .workerName {
   padding: 16px;
 }
 
 #selectedContactsList {
-display: flex;
-justify-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .priority {
@@ -426,14 +428,14 @@ align-items: center;
 }
 
 .createContactBar {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 0.625rem;
-    border: 1px solid #d1d1d1;
-    box-sizing: border-box;
-    font-size: 1rem;
-    display: flex;
-    user-select: none;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid #d1d1d1;
+  box-sizing: border-box;
+  font-size: 1rem;
+  display: flex;
+  user-select: none;
 }
 
 .customDropdown {
@@ -460,23 +462,9 @@ align-items: center;
   user-select: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Standard-Zustand für 'todo' */
 .subtask-toggle-icon.todo {
-  content: url('./../assets/icons/png/checkButtonEmpty.png');
+  content: url("./../assets/icons/png/checkButtonEmpty.png");
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -486,14 +474,14 @@ align-items: center;
 
 /* Hover-Zustand für 'todo' */
 .subtask-toggle-icon.todo:hover {
-  content: url('./../assets/icons/png/checkButtonEmptyHover.png');
+  content: url("./../assets/icons/png/checkButtonEmptyHover.png");
   transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
   opacity: 0.9; /* Leicht reduzierte Deckkraft */
 }
 
 /* Standard-Zustand für 'done' */
 .subtask-toggle-icon.done {
-  content: url('./../assets/icons/png/checkButtonChecked.png');
+  content: url("./../assets/icons/png/checkButtonChecked.png");
   width: 20px;
   height: 20px;
   cursor: pointer;
@@ -503,33 +491,10 @@ align-items: center;
 
 /* Hover-Zustand für 'done' */
 .subtask-toggle-icon.done:hover {
-  content: url('./../assets/icons/png/checkButtonCheckedHover.png');
+  content: url("./../assets/icons/png/checkButtonCheckedHover.png");
   transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
   opacity: 0.9; /* Leicht reduzierte Deckkraft */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .contact-name {
   flex-grow: 1;
@@ -554,7 +519,6 @@ align-items: center;
   cursor: pointer;
 }
 
-
 #selectedContactsList {
   display: flex;
   justify-content: start;
@@ -562,10 +526,8 @@ align-items: center;
   gap: 5px;
 }
 
-
 .customDropdown {
   position: relative;
-
 }
 
 .dropdownList {
@@ -582,9 +544,9 @@ align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none;
   z-index: 1000;
-  max-height: 200px; 
-  overflow-y: auto; 
-  user-select: none;  
+  max-height: 200px;
+  overflow-y: auto;
+  user-select: none;
 }
 
 .dropdownList.open {
@@ -593,12 +555,11 @@ align-items: center;
 
 .dropdownList::-webkit-scrollbar-thumb {
   background-color: #ddd;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .customDropdown {
   position: relative;
-
 }
 
 .dropdownList {
@@ -615,19 +576,19 @@ align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none;
   z-index: 1000;
-  max-height: 200px; 
-  overflow-y: auto; 
-  user-select: none;  
+  max-height: 200px;
+  overflow-y: auto;
+  user-select: none;
 }
 
 .dropdownList.open {
   display: block;
-  width:440px;
+  width: 440px;
 }
 
 .dropdownList::-webkit-scrollbar-thumb {
   background-color: #ddd;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .dropdown-item {
@@ -636,49 +597,42 @@ align-items: center;
   align-items: center;
 }
 
-
-
 .dropdownList li {
   padding: 12px 16px;
   cursor: pointer;
   font-size: 14px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: #333;
   transition: background 0.3s, color 0.3s;
   position: relative;
 }
 
 .dropdownList li:hover {
-  background: #2A3647; 
+  background: #2a3647;
 }
 
 .dropdownList li:hover span {
   color: white;
 }
 
-
 .dropdownList li + li {
   border-top: 1px solid #eee;
 }
 
-
 .selected-contact-item {
   color: white;
-  background-color: #091931; 
-  transition: background-color 0.3s ease; 
+  background-color: #091931;
+  transition: background-color 0.3s ease;
 }
 
 .selected-contact-item span {
   color: white;
 }
 
-
-
-
 .selected-contact-item {
   color: white;
-  background-color: #091931; 
-  transition: background-color 0.3s ease; 
+  background-color: #091931;
+  transition: background-color 0.3s ease;
 }
 
 .selected-contact-item span {
@@ -690,9 +644,6 @@ align-items: center;
   align-items: center;
   justify-content: space-between;
 }
-
-
-
 
 .dropdownList li input[type="checkbox"] {
   width: 16px;
@@ -822,6 +773,12 @@ align-items: center;
   height: 100vh;
 }
 
+.editTask {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
 .addIcons {
   cursor: pointer;
 }
@@ -837,6 +794,10 @@ select {
   font-size: 16px;
 }
 
+.closed {
+  display: none;
+}
+
 textarea {
   resize: none;
   min-height: 140px;
@@ -847,6 +808,28 @@ textarea:focus,
 select:focus {
   outline: none;
   border: 1px solid #29abe2;
+}
+
+.dropdownList li:hover {
+  background: #2a3647;
+}
+
+.status-icon:hover {
+  filter: brightness(0) invert(1);
+}
+
+li:hover .status-icon {
+  filter: brightness(0) invert(1);
+}
+
+.selected-contact-item {
+  color: white;
+  background-color: #091931;
+  transition: background-color 0.3s ease;
+}
+
+.selected-contact-item span {
+  color: white;
 }
 
 ::placeholder {
@@ -902,12 +885,12 @@ select:focus {
 }
 
 .saveChangesButton {
-
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 130px;
+  top: 20px;
+  padding: 10px;
 }
 
 .createSubtaskBar {
@@ -980,9 +963,12 @@ select:focus {
   }
 
   .listBody {
-    width: 200px;
+    width: 236px;
   }
-
+  .boardCard {
+    width: 250px;
+    height: 230px;
+  }
   h4 {
     font-size: 22px;
   }
@@ -1026,7 +1012,7 @@ select:focus {
   #addTaskFormTask {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     flex-direction: column;
   }
 
@@ -1106,6 +1092,10 @@ select:focus {
     font-size: 42px;
   }
 
+  body {
+    overflow: unset;
+  }
+
   .searchContainer {
     margin-left: 20px;
   }
@@ -1140,7 +1130,7 @@ select:focus {
 
 @media (max-width: 1110) {
   .taskList {
-    margin-left: 24px;
+    padding-left: 64px;
   }
 
   .listHeadline {
@@ -1231,7 +1221,7 @@ select:focus {
   }
 
   .taskList {
-    margin-left: -3px !important;
+    padding-left: 64px;
   }
 
   .boardHead {
@@ -1263,6 +1253,19 @@ select:focus {
     background-color: white !important;
     width: 250px;
     height: 230px;
+  }
+
+  .dropdownList.open {
+    width: 332px;
+  }
+
+  .taskList {
+    padding-left: 2px;
+  }
+
+  h1 {
+    justify-content: center;
+    display: flex;
   }
 
   .formPart {

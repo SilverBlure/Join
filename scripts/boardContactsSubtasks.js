@@ -181,7 +181,6 @@ function saveEditedSubtask(subtaskId) {
     // Subtask abrufen oder neuen erstellen, falls nicht vorhanden
     let subtask = window.localSubtasks[subtaskId];
     if (!subtask) {
-        console.log(`Subtask mit ID ${subtaskId} nicht gefunden. Ein neuer Subtask wird erstellt.`);
         subtask = { title: "", done: false };
         window.localSubtasks[subtaskId] = subtask;
     }
@@ -205,7 +204,7 @@ function saveEditedSubtask(subtaskId) {
     const oldTitle = subtask.title;
     subtask.title = newTitle || oldTitle; // Behalte den alten Titel, falls das Eingabefeld leer ist
 
-    console.log(`Subtask ${subtaskId} wurde aktualisiert:`, subtask);
+
 
     // DOM aktualisieren
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
@@ -248,10 +247,6 @@ function initializeLocalTaskState(task) {
         ? { ...task.subtasks } 
         : {};
 
-    console.log("Initialized local state:", {
-        workers: window.localEditedContacts,
-        subtasks: window.localEditedSubtasks,
-    });
 }
 
 
@@ -338,7 +333,7 @@ function saveSubtaskEdit(subtaskId) {
 
     // Abrufen des neuen Titels
     const newTitle = inputElement.value;
-    console.log("saveSubtaskEdit aufgerufen mit:", { subtaskId, newTitle });
+   
 
     // Überprüfen, ob der neue Titel definiert ist
     if (!newTitle || newTitle.trim() === "") {
@@ -352,7 +347,7 @@ function saveSubtaskEdit(subtaskId) {
     // Aktualisierung des lokalen Zustands
     if (window.localSubtasks && window.localSubtasks[subtaskId]) {
         window.localSubtasks[subtaskId].title = trimmedTitle;
-        console.log("Subtask aktualisiert:", subtaskId, "mit neuem Titel:", trimmedTitle);
+      
     } else {
         console.error("Subtask mit der ID nicht im lokalen Zustand gefunden:", subtaskId);
         return;
@@ -536,8 +531,6 @@ function isContactSelected(contactName) {
         return acc;
     }, {});
 
-    console.log("Lokale Kontakte erfolgreich initialisiert:", window.localContacts);
-
     // Aktualisiere die HTML-Liste der ausgewählten Kontakte
     renderSelectedContacts();
 }
@@ -564,7 +557,7 @@ function synchronizeContactCheckboxes() {
             );
         }
     });
-    console.log("Checkboxen erfolgreich synchronisiert:", window.localEditedContacts);
+  
 }
 
 

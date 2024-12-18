@@ -6,6 +6,7 @@ async function initSummary() {
     try {
         const tasksArray = await fetchAndPrepareTasks();
         renderDashboard(tasksArray);
+        setGreeting()
         getNextDueDate(tasksArray);
     } catch (error) {
         setDefaultDashboardValues();
@@ -249,13 +250,14 @@ function setUserName(userName) {
 
 function setGreeting() {
     const currentHour = new Date().getHours();
+   
     const greetingElement = document.getElementById('greeting');
     if (currentHour < 12) {
-        greetingElement.textContent = "Good Morning,";
+        return greetingElement.textContent = "Good Morning,";
     } else if (currentHour < 18) {
-        greetingElement.textContent = "Good Afternoon,";
+        return greetingElement.textContent = "Good Afternoon,";
     } else {
-        greetingElement.textContent = "Good Evening,";
+        return greetingElement.textContent = "Good Evening,";
     }
 }
 

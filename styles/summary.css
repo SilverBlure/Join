@@ -1,3 +1,8 @@
+
+body{
+  overflow: hidden;
+}
+
 .blueLine {
   border-left: 3px solid #29abe2;
   height: 59px;
@@ -7,7 +12,6 @@
 
 .summary {
   padding-left: 100px;
-  width: 1340px;
 }
 
 .greyLine {

@@ -18,15 +18,17 @@
     <script src="./../scripts/templates.js"></script>
     <script src="./../scripts/summary.js"></script>
     <script src="./../scripts/backend.js"></script>
+    <script src="./../scripts/guestLogin.js"></script>
+    <script src="./../scripts/exampel.js"></script>
 
 </head>
 
-<body onload="includeHTML(), init(), initSummary()">
+<body onload="guestProtocol(),includeHTML(), init(), initSummary()">
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     
     <div class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
-        <div class="summary">
+        <div class="summary" onclick="closeShowMenu()">
         <div class="join360">
             <h1 style="font-size: 61px; font-weight: 700;">Join 360</h1><span class="blueLine"></span>
             <h3 style="font-size: 27px; color: #2A3647;">Key Metrics at a Glance</h3>

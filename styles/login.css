@@ -1,6 +1,5 @@
 body {
     margin: 0;
-    max-width: 1440px;
     height: 100vh;
     background-color: #F6F7F8;
     flex-direction: column;
@@ -12,6 +11,25 @@ body {
 .loginBody {
     animation: fadeInBlur 1s ease forwards;
 }
+
+.logInBtn:hover {
+    background-color: #29ABE2;
+    border: none;
+}
+
+.guestBtn:hover {
+    color: #29ABE2;
+    border-color: #29ABE2;
+}
+
+.checkSvg:hover {
+    content: url('./../assets/icons/svg/leereCheckboxHover.svg');
+}
+
+.unCheck:hover {
+    content: url('./../assets/icons/svg/vollCheckboxMitHoverEffect.svg')
+}
+
 
 @keyframes fadeInBlur {
     0% {
@@ -25,13 +43,24 @@ body {
     }
 }
 
+input::placeholder {
+    color: rgba(209, 209, 209, 1);
+}
+
+.text {
+    color: rgba(209, 209, 209, 1);
+}
+
+.text:hover {
+    color: #29ABE2;
+}
+
 .loginBackground {
-    margin-top: 64px;
-    margin-bottom: 64px;
     background-color: white;
-    height: 493px;
+    height: 449px;
     width: 652px;
     border-radius: 30px;
+    margin-bottom: 116px;
 }
 
 h1 {
@@ -39,9 +68,32 @@ h1 {
     font-weight: 700;
 }
 
+.page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100vh;
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    height: 100vh;
+    margin-top: 52px
+}
+
+.footer {
+    position: absolute;
+    bottom: 64px;
+    display: flex;
+    justify-content: space-between;
+    width: 264px;
+}
+
 .center {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
 }
@@ -62,6 +114,11 @@ h1 {
     align-items: center;
 }
 
+.warningText {
+    margin: 0;
+    padding: 0;
+    color: red;
+}
 
 .seperator {
     height: 3px;
@@ -69,6 +126,16 @@ h1 {
     background-color: #29ABE2;
 }
 
+.hidden-text {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.visible-text {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease;
+}
 
 .border {
     border: 2px;
@@ -78,14 +145,25 @@ h1 {
     height: 48px;
     width: 422px;
     justify-content: center;
-    margin: 30px;
 }
 
+.marginTo16 {
+    margin-top: 16px;
+}
 
 .noBorder {
     border: none;
 }
 
+.signUpBtn {
+    color: white;
+    border-radius: 8px;
+    background-color: #2A3647;
+    height: 48px;
+    width: 110px;
+    font-size: 21px;
+    font-weight: 700;
+}
 
 .logInBtn {
     color: white;
@@ -94,6 +172,7 @@ h1 {
     height: 48px;
     width: 110px;
     font-size: 21px;
+    font-weight: 700;
 }
 
 .guestBtn {
@@ -135,19 +214,14 @@ h1 {
 }
 
 
-.loginHeader {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    height: 50px;
-    padding-top: 67px;
-
-}
 
 
 .registrationTrigger {
     margin-bottom: 0px;
     padding-right: 40px;
+    font-weight: 400;
+    font-size: 20px;
+    color: black;
 }
 
 .saveLogin {
@@ -156,181 +230,153 @@ h1 {
     justify-content: center;
     align-items: center;
     column-gap: 24px;
-    margin-bottom: 50px;
+
 }
 
-.input{
+.signUpContainer {
+    padding-right: 64px;
+    display: flex;
+    align-items: flex-start;
+    height: 100vh;
+    margin-top: 82px;
+    justify-content: center;
+}
+
+.alignCenter {
+    display: flex;
+    align-items: center;
+}
+
+.input {
     width: 328px;
 }
 
-.loginfooter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 50px;
+.third {
+    width: 33%;
 }
 
 .logoLogin {
-    position: absolute;
-    top: 80px;
-    left: 77px;
-    width: 100px;
-    display: flex;
-    justify-content: start;
-    align-items: start;
+    padding-top: 56px;
+    padding-left: 75px;
+    scale: 1.2;
 }
 
-@media(max-width: 428px) {
-  
-    .loginBackground {
-        margin-top: 64px;
-        margin-bottom: 64px;
-        background-color: white;
-        height: 493px;
-        border-radius: 30px;
-        width: 386px;
+
+
+@media(max-width : 1100px) {
+
+    .registrationTrigger {
+        margin-bottom: 0px;
+        padding-right: 0;
+        font-weight: 400;
+        font-size: 20px;
+        color: black;
     }
 
-    .registrationLink {
-        position: absolute;
-        top: 608px;
-        right: -12px;
+    .page {
+        flex-direction: column;
+        width: 100vw;
     }
 
-    .border {
-        border: 2px;
-        border-style: solid;
-        border-color: #D1D1D1;
-        border-radius: 10px;
-        height: 48px;
-        width: 364px;
-        justify-content: center;
-        margin: 30px;
+    .third {
+        width: 100vw;
     }
 
-    .innerInputfield {
-        width: 340px;
-        height: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .saveLogin {
-        font-weight: 600;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        column-gap: 24px;
-        margin-bottom: 50px;
-        display: none;
+    .head {
+        justify-content: start;
+        align-items: start;
+        margin: 0;
     }
 
     .logoLogin {
-        position: relative;
-        top: 40px;
-        left: 77px;
-        width: 100px;
-        display: flex;
-        justify-content: start;
+        padding-left: 75px;
+        scale: 1;
+    }
+
+    .signUpContainer {
         align-items: start;
     }
-    
-    .buttons{
-        flex-direction: column;
-        margin: 10px;
 
+    .registrationTrigger {
+        padding-right: 24px;
     }
 
-    .logInBtn{
-        width: 180px;
-        height: 51px;
-        margin: 10px;
+    .loginBackground {
+        margin-bottom: 38px;
+    }
+}
+
+@media(max-width: 850px) {
+
+    .loginBackground {
+        margin-bottom: 38px;
     }
 
-    .guestBtn{
-        margin: 10px;
-        width: 180px;
-        height: 51px;
-    }
-    .logoLogin{
-        height: 78px;
-        width: 64px;
-    }
-    .center {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        flex-direction: column;
-        margin-top: -46px;
+    .signUpContainer {
+        align-items: start;
+        margin: 0;
     }
 
-
+    .head {
+        justify-content: start;
+        margin-top: 0;
+        width: 100vw;
+    }
 }
 
 @media (max-width: 700px) {
 
     .loginBackground {
-        margin-top: 64px;
-        margin-bottom: 64px;
-        background-color: white;
-        height: 493px;
-        border-radius: 30px;
-        width: 460px;
+        width: 480px;
+
     }
-    .border {
-        border: 2px;
-        border-style: solid;
-        border-color: #D1D1D1;
-        border-radius: 10px;
-        height: 48px;
-        width: 360px;
-        justify-content: center;
-        margin: 30px;
-    }
-    .innerInputfield {
-        width: 338px;
-        height: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
- 
 }
 
-@media (max-width: 500px) {
+@media (max-width: 560px) {
+
     .loginBackground {
-        margin-top: 64px;
-        margin-bottom: 64px;
-        background-color: white;
-        height: 493px;
-        border-radius: 30px;
-        width: 386px;
+        height: 475px;
+        width: 396px;
     }
 
-    .loginfooter {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        column-gap: 52px;
-        margin-bottom: -72px;
-    }
     .border {
-        border: 2px;
-        border-style: solid;
-        border-color: #D1D1D1;
-        border-radius: 10px;
-        height: 48px;
-        width: 340px;
-        justify-content: center;
-        margin: 30px;
-    }
-    .innerInputfield {
-        width: 318px;
-        height: 24px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        width: 364px;
     }
 
+    .innerInputfield {
+        width: 341px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+
+    .logInBtn {
+        width: 180px;
+        margin-bottom: 20px;
+    }
+
+    .guestBtn {
+        width: 180px;
+    }
+
+    .signUpContainer {
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 47px;
+    }
+
+    .seperator {
+        width: 88px;
+    }
+}
+
+@media(max-width: 420px) {
+    .logoLogin {
+        scale: .6;
+        padding-top: 0;
+        padding-left: 24px;
+    }
 }

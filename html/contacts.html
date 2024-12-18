@@ -18,6 +18,7 @@
     <script src="./../scripts/contacts.js"></script>
     <script src="./../scripts/templates.js"></script>
     <script src="./../scripts/backend.js"></script>
+    <script src="./../scripts/guestLogin.js"></script>
 </head>
 
 <body onload="includeHTML(), init()">
@@ -42,7 +43,7 @@
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     <div class="contacts">
         <div class="header" w3-include-html="./../templates/header.html"></div>
-        <div class="contactContainer">
+        <div class="contactContainer" onclick="closeShowMenu()">
             <div class="contactsBar" id="contactList">
                 <div class="btnContainer"><button class="addContactBtn" onclick="openAddContact()">Add new contact <img
                             src="./../assets/icons/png/person_add.png" alt=""></button></div>

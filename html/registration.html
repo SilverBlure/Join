@@ -21,67 +21,92 @@
 </head>
 
 <body onload="initReg()">
-    <div id="snackbar" class="hidden"></div>
-    <img class="logoLogin" src="./../assets/icons/svg/joinLogo.svg">
-
-    <div class="center ">
-
-        <div class="registration">
-
-            <div style="display: flex; justify-content: center; align-items: center;">
-                <a href="./login.html"><img style="position: relative; right: 50px;"
-                        src="./../assets/icons/png/arrow-left-line.png"></a>
-                <h1>Sign up</h1>
-            </div>
-
-
-            <div>
-                <div class="border borderInputFields center">
-                    <innerInputfield class="innerInputfield">
-                        <input id="name" class="noBorder input" placeholder="Name" required>
-                        <img src="./../assets/icons/png/person.png">
-                    </innerInputfield>
+    <div class="page ">
+        <div>
+            <div id="snackbar" class="hidden"></div>
+            <img class="logoLogin" src="./../assets/icons/svg/joinLogo.svg">
+        </div>
+        <div class="center">
+            <div class="registration">
+                <div class="regHead">
+                    <a href="./login.html"><img src="./../assets/icons/png/arrow-left-line.png"></a>
+                    <h1 class="signUp ">Sign up</h1>
+                    <empty class="empty"></empty>
                 </div>
 
-                <div class="border borderInputFields center">
-                    <innerInputfield class="innerInputfield">
-                        <input id="email" type="email" class="noBorder input" placeholder="Email" required>
-                        <img src="./../assets/icons/svg/mail.svg">
-                    </innerInputfield>
-                </div>
+                <div class="seperator center marBo30"></div>
+                <inputBlock>
+                    <form id="input">
+                        <div class="border borderInputFields center ">
+                            <innerInputfield class="innerInputfield">
+                                <input id="name" class="noBorder input" placeholder="Name" oninput="checkName()"
+                                    required>
+                                <img src="./../assets/icons/png/person.png">
+                            </innerInputfield>
+                        </div>
+                        <div>
+                            <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last
+                                name seperated
+                            </p>
+                        </div>
 
-                <div class="border borderInputFields center">
-                    <innerInputfield class="innerInputfield">
-                        <input id="password_1" type="password" class="noBorder input" placeholder="Passwort" required>
-                        <img src="./../assets/icons/svg/lock.svg">
-                    </innerInputfield>
-                </div>
+                        <div class="border borderInputFields center">
+                            <innerInputfield class="innerInputfield">
+                                <input id="email" type="email" class="noBorder input"
+                                oninput="email_Check()"
+                                    placeholder="Email" required>
+                                <img src="./../assets/icons/svg/mail.svg">
+                            </innerInputfield>
+                        </div>
 
-                <div class="border borderInputFields center">
-                    <innerInputfield class="innerInputfield">
-                        <input id="password_2" type="password" class="noBorder input" placeholder="Passwort wiederholen"
-                            required>
-                        <img src="./../assets/icons/svg/lock.svg">
-                    </innerInputfield>
-                </div>
+                        <div>
+                            <p id="emailWarning" class="failtureText left hidden-text">*The email address you want to
+                                use is
+                                registered </p>
+                        </div>
 
-                <div class="conditionBox">
-                    <input id="checkbox" type="checkbox" onclick="enableButton()">
-                    <text class="condition">I accept the <a href="./privacyPolicy.html">Privacy policy</a></text>
-                </div>
-                <div class="btnContainer">
-                    <button onclick="signIn()" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
-                </div>
+                        <div class="border borderInputFields center marBo30">
+                            <innerInputfield class="innerInputfield">
+                                <input id="pw_1" type="password" name="password1" class="noBorder input"
+                                    placeholder="Password" required>
+                                <img src="./../assets/icons/svg/lock.svg">
+                            </innerInputfield>
+                        </div>
+
+                        <div class="border borderInputFields center">
+                            <innerInputfield class="innerInputfield">
+                                <input id="pw_2" type="password" name="password2" class="noBorder input"
+                                    placeholder="Confirm Password" oninput="pw_check()" required>
+                                <img src="./../assets/icons/svg/lock.svg">
+                            </innerInputfield>
+                        </div>
+                    </form>
+                    <div>
+                        <p name="passwordEqueal" id="pwWarning" class="failtureText left hidden-text">*Ups! your
+                            password
+                            dont match</p>
+                    </div>
+
+                    <div class="conditionBox">
+                        <img onclick="changeSvgToOn()" class="checkboxEmpty" id="checkboxSvg"
+                            src="./../assets/icons/svg/leereCheckbox.svg">
+                        <text class="condition conditionText">I accept the <a class="privacylink"
+                                href="./privacyPolicy.html">Privacy policy</a></text>
+                    </div>
+                    <div class="btnContainer">
+                        <button form="input" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
+                    </div>
+
+                </inputBlock>
             </div>
         </div>
-
-        <div class="signUpfooter">
-            <a href="./privacyPolicy.html">Privacy Policy</a>
-            <a href="./legalNotice.html">Legal notice</a>
+        <div class="signUpfooter textColor">
+            <a class="textColor" href="./privacyPolicy.html">Privacy Policy</a>
+            <a class="textColor" href="./legalNotice.html">Legal notice</a>
         </div>
+
 
     </div>
-
 
 </body>
 

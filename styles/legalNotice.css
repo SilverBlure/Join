@@ -7,18 +7,19 @@ html, body {
 .legalNoticeContent {
     padding-left: 100px;
     overflow-y: auto;
-    display: flex;
-    justify-content: center;
-    align-items: start ;
-    flex-direction: column;
+    margin-right: 30px;
 }
 
 .legalNoticeHeadline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 580px;
+    padding: 0 5%;
 }
+
+.legalNoticeHeadline img{
+    cursor: pointer;
+   }
 
 
 @media (max-width: 1024px) {
