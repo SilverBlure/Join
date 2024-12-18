@@ -142,6 +142,7 @@ async function addTaskToToDoList(event) {
     if (result) {
       showSnackbar("Der Task wurde erfolgreich erstellt!");
       document.getElementById("prioMiddle").classList.add("active");
+      location.href="./board.html";
     }
   } catch (error) {
     console.error("Fehler beim Hinzufügen des Tasks:", error);
@@ -155,21 +156,41 @@ async function addTaskToToDoList(event) {
 function validateTaskInputs() {
   const title = document.getElementById("title").value.trim();
   const dueDate = document.getElementById("date").value.trim();
-  const priority = tempPriority;
-  const categoryInput = document.getElementById("category"); 
-  const selectedCategory = document.getElementById("selectedCategory"); 
-  const categoryName = categoryInput.value.trim();
+  const categoryInput = document.getElementById("category");
+  const categoryName = categoryInput ? categoryInput.value.trim() : "";
   let isValid = true;
-  if (!title || !dueDate || !priority || !categoryName) {
-    console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
-    if (!title) console.error("Titel ist ein Pflichtfeld.");
-    if (!dueDate) console.error("Fälligkeitsdatum ist ein Pflichtfeld.");
-    if (!priority) console.error("Priorität ist ein Pflichtfeld.");
-    if (!categoryName) console.error("Kategorie ist ein Pflichtfeld.");
-    return false;
+  const titleWarning = document.getElementById("titleWarning");
+  const dateWarning = document.getElementById("dateWarning");
+  const categoryWarning = document.getElementById("categoryWarning");
+  resetWarnings([titleWarning, dateWarning, categoryWarning]);
+  if (!title) {
+    titleWarning.classList.add("showalert");
+    isValid = false;
   }
-  return true;
+  if (!dueDate) {
+    dateWarning.classList.add("showalert");
+    isValid = false;
+  }
+  if (!categoryName) {
+    categoryWarning.classList.add("showalert");
+    isValid = false;
+  }
+
+  return isValid;
 }
+
+/**
+ * Setzt die Warnungen zurück.
+ * @param {Array} warningElements - Eine Liste der Warnungselemente.
+ */
+function resetWarnings(warningElements) {
+  warningElements.forEach((warning) => {
+    if (warning) {
+      warning.classList.remove("showalert");
+    }
+  });
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const categoryDropdown = document.getElementById("categoryDropdown");
@@ -634,6 +655,27 @@ document.addEventListener("click", function (event) {
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('date');
+  
+
+  if (dateInput) {
+    dateInput.setAttribute('min', today);
+
+    dateInput.addEventListener('change', (event) => {
+      const selectedDate = event.target.value;
+      if (selectedDate < today) {
+        alert("Vergangene Daten können nicht ausgewählt werden.");
+        event.target.value = ""; // Leert das Feld
+      }
+    });
+  } else {
+   
+  }
+});
+
+
 
 /**
  * Fügt eine neue Subtask hinzu.
@@ -710,6 +752,7 @@ function resetFormAndLists() {
     form.reset(); 
     document.getElementById(setPriority());
     document.getElementById("prioMiddle").classList.add("active");
+    window.location.reload();
   }
   const listsToClear = ["subTasksList", "selectedContactsList"]; 
   listsToClear.forEach((listId) => {

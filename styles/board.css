@@ -136,6 +136,7 @@ h1 {
   overflow-y: auto; /* Ermöglicht vertikales Scrollen */
   overflow-x: scroll; /* Verhindert horizontales Scrollen */
   touch-action: pan-y; /* Scroll nur in eine Richtung erlaubt */
+  max-height: 673px;
 }
 
 .dragging .listHeadline,
@@ -152,6 +153,28 @@ h1 {
   z-index: 9999;
   pointer-events: none;
 }
+
+
+.subtaskButtons:hover {
+  cursor: pointer;
+}
+
+.error {
+  border: 1px solid red;
+  background-color: #ffeeee; /* Optional: Heller roter Hintergrund */
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: -17px;
+  display: none;
+}
+
+.showalert {
+  display: block;
+}
+
 
 .scroll-zone-top {
   top: 0;
@@ -261,7 +284,7 @@ h1 {
 }
 
 .workerEmblem:first-child {
-  margin-left: 0;
+  margin-left: -16px;
   /* Das erste Element bleibt an der Ausgangsposition */
 }
 
@@ -291,7 +314,7 @@ h1 {
   justify-content: center;
   align-items: center;
   margin: unset;
-  margin-right: 24px;
+  margin-right: -24px;
 }
 
 .workerName {
@@ -351,7 +374,6 @@ h1 {
   justify-content: center;
   align-items: center;
   position: relative;
-  left: 24px;
 }
 
 .separatorSubtask {
@@ -364,6 +386,23 @@ h1 {
 .subTasksList {
   position: relative;
   padding-left: 0px;
+  max-height: 120px;
+  border: 0.5px solid #ddd; 
+  overflow-y: auto; 
+}
+
+/* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
+.subTasksList::-webkit-scrollbar {
+  width: 8px; /* Breite der Scrollleiste */
+}
+
+.subTasksList::-webkit-scrollbar-thumb {
+  background-color: #aaa; /* Farbe des Scrollleisten-Daumen */
+  border-radius: 4px; /* Abgerundete Ecken */
+}
+
+.subTasksList::-webkit-scrollbar-thumb:hover {
+  background-color: #888; /* Farbe des Daumens beim Hover */
 }
 
 #subtaskImg {
@@ -524,6 +563,7 @@ h1 {
   justify-content: start;
   align-items: start;
   gap: 5px;
+  margin-left: 22px;
 }
 
 .customDropdown {
@@ -756,7 +796,7 @@ h1 {
   display: flex;
   flex-direction: column;
   width: 440px;
-  gap: 20px;
+  gap: 15px;
 }
 
 .separator {
@@ -765,6 +805,7 @@ h1 {
   height: 424px;
   margin: 0px 50px 0px 50px;
 }
+
 
 .addTaskContent {
   display: flex;
@@ -1023,7 +1064,7 @@ li:hover .status-icon {
   .separator {
     width: 424px;
     height: 2px;
-    margin: 50px 0px 50px 0px;
+    margin: 10px 0px 10px 0px;
   }
 
   .taskFormButtons {
@@ -1087,7 +1128,7 @@ li:hover .status-icon {
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1350px) {
   h1 {
     font-size: 42px;
   }
