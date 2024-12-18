@@ -337,6 +337,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-right: -16px;
 }
 
 .workerEmblemList {
@@ -432,12 +433,48 @@ h1 {
   justify-content: center;
   align-items: center;
   position: relative;
-  left: 24px;
+}
+
+.subtaskButtons:hover {
+  cursor: pointer;
+}
+
+.error {
+  border: 1px solid red;
+  background-color: #ffeeee; /* Optional: Heller roter Hintergrund */
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  display: none;
+}
+
+.showalert {
+  display: block;
 }
 
 .subTasksList {
   position: relative;
   padding-left: 0px;
+  max-height: 227px;
+  border: 0.5px solid #ddd; 
+  overflow-y: auto; 
+}
+
+/* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
+.subTasksList::-webkit-scrollbar {
+  width: 8px; /* Breite der Scrollleiste */
+}
+
+.subTasksList::-webkit-scrollbar-thumb {
+  background-color: #aaa; /* Farbe des Scrollleisten-Daumen */
+  border-radius: 4px; /* Abgerundete Ecken */
+}
+
+.subTasksList::-webkit-scrollbar-thumb:hover {
+  background-color: #888; /* Farbe des Daumens beim Hover */
 }
 
 .separatorSubtask {

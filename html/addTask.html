@@ -33,7 +33,8 @@
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
-                        <input name="title" type="text" id="title" placeholder="Enter a title" required>
+                        <input name="title" type="text" id="title" placeholder="Enter a title">
+                        <span class="error-message" id="titleWarning">Title is required.</span> 
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
@@ -49,7 +50,9 @@
                     <div class="separator"></div>
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                        <input name="date" type="date" placeholder="dd/mm/yyyy" id="date" required>
+                        <input name="date" type="date" placeholder="dd/mm/yyyy" id="date">
+                        <span class="error-message" id="dateWarning">Date is required.</span> 
+
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
@@ -71,6 +74,7 @@
                                 <div class="category-item" data-value="Technical Task">Technical Task</div>
                                 <div class="category-item " data-value="User Story">User Story</div>
                             </div>
+                            <span class="error-message" id="categoryWarning">Category is required.</span> 
                         </div>
                         <input type="hidden" id="category" name="category" required>
                         <label for="subtask">Subtasks</label>
