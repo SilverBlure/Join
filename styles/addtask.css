@@ -82,7 +82,7 @@ body {
 }
 
 .dropdownList li:hover {
-  background: #2A3647; 
+  background: #2A3647;
 
 }
 
@@ -93,14 +93,14 @@ body {
 
 li:hover .status-icon {
   filter: brightness(0) invert(1);
-} 
+}
 
 
 
 .selected-contact-item {
   color: white;
-  background-color: #091931; 
-  transition: background-color 0.3s ease; 
+  background-color: #091931;
+  transition: background-color 0.3s ease;
 }
 
 .selected-contact-item span {
@@ -138,9 +138,9 @@ h1 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none;
   z-index: 1000;
-  max-height: 200px; 
-  overflow-y: auto; 
-  user-select: none;  
+  max-height: 200px;
+  overflow-y: auto;
+  user-select: none;
 }
 
 .dropdownList.open {
@@ -149,7 +149,7 @@ h1 {
 
 .dropdownList::-webkit-scrollbar-thumb {
   background-color: #ddd;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .customDropdown {
@@ -206,14 +206,16 @@ h1 {
   position: relative;
 }
 
-
+.additional-contacts {
+  padding-left: 12px;
+}
 
 .dropdownList li:hover span {
   color: white;
 }
 
 
-.dropdownList li + li {
+.dropdownList li+li {
   border-top: 1px solid #eee;
 }
 
@@ -239,7 +241,8 @@ h1 {
   justify-content: center;
   align-items: center;
   column-gap: 1.75rem;
-  margin-left: auto; /* Statt fester Margin kann hier Flex genutzt werden */
+  margin-left: auto;
+  /* Statt fester Margin kann hier Flex genutzt werden */
   flex-wrap: wrap;
   margin-top: 1rem;
 }
@@ -315,6 +318,17 @@ h1 {
   font-weight: 700;
   box-shadow: none;
   cursor: pointer;
+}
+
+.hidden-text {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.visible-text {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1s ease;
 }
 
 .addSubtaskButton {
@@ -441,14 +455,14 @@ h1 {
 
 .error {
   border: 1px solid red;
-  background-color: #ffeeee; /* Optional: Heller roter Hintergrund */
+  background-color: #ffeeee;
+  /* Optional: Heller roter Hintergrund */
 }
 
 .error-message {
   color: red;
   font-size: 12px;
-  margin-top: 5px;
-  display: none;
+  margin: 0px;
 }
 
 .showalert {
@@ -459,22 +473,26 @@ h1 {
   position: relative;
   padding-left: 0px;
   max-height: 227px;
-  border: 0.5px solid #ddd; 
-  overflow-y: auto; 
+  border: 0.5px solid #ddd;
+  overflow-y: auto;
 }
 
 /* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
 .subTasksList::-webkit-scrollbar {
-  width: 8px; /* Breite der Scrollleiste */
+  width: 8px;
+  /* Breite der Scrollleiste */
 }
 
 .subTasksList::-webkit-scrollbar-thumb {
-  background-color: #aaa; /* Farbe des Scrollleisten-Daumen */
-  border-radius: 4px; /* Abgerundete Ecken */
+  background-color: #aaa;
+  /* Farbe des Scrollleisten-Daumen */
+  border-radius: 4px;
+  /* Abgerundete Ecken */
 }
 
 .subTasksList::-webkit-scrollbar-thumb:hover {
-  background-color: #888; /* Farbe des Daumens beim Hover */
+  background-color: #888;
+  /* Farbe des Daumens beim Hover */
 }
 
 .separatorSubtask {
@@ -564,7 +582,8 @@ h1 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-right: 250px; /* Diese Angabe kann optional entfernt oder angepasst werden */
+  padding-right: 250px;
+  /* Diese Angabe kann optional entfernt oder angepasst werden */
 }
 
 .workerInformation {
@@ -615,6 +634,7 @@ h1 {
   cursor: pointer;
   width: 2rem;
 }
+
 .formParts {
   display: flex;
   justify-content: start;
@@ -705,17 +725,20 @@ select,
 
 input,
 textarea {
-  color: #888888; /* Grau für den leeren Zustand */
+  color: #888888;
+  /* Grau für den leeren Zustand */
 }
 
 input:focus,
 textarea:focus {
-  color: #000000; /* Schwarz bei Eingabe */
+  color: #000000;
+  /* Schwarz bei Eingabe */
 }
 
 input:not(:placeholder-shown),
 textarea:not(:placeholder-shown) {
-  color: #000000; /* Schwarz, sobald etwas eingegeben wurde */
+  color: #000000;
+  /* Schwarz, sobald etwas eingegeben wurde */
 }
 
 
@@ -746,7 +769,9 @@ textarea {
   min-height: 8.75rem;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
   border: 1px solid #29ABE2;
   transition: border-color 0.3s ease;

@@ -2,6 +2,15 @@ body {
   overflow: hidden;
 }
 
+.selected-contact {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+h4 {
+  width: 179px;
+}
+
 .addTaskBtn {
   background-color: #2a3647;
   color: white;
@@ -108,9 +117,9 @@ h1 {
 
 .listHeadline {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-right: 16px;
+  gap: 17px;
 }
 
 .taskList {
@@ -133,27 +142,18 @@ h1 {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow-y: auto; /* Ermöglicht vertikales Scrollen */
-  overflow-x: scroll; /* Verhindert horizontales Scrollen */
-  touch-action: pan-y; /* Scroll nur in eine Richtung erlaubt */
+  overflow-y: auto;
+  /* Ermöglicht vertikales Scrollen */
+  touch-action: pan-y;
+  /* Scroll nur in eine Richtung erlaubt */
   max-height: 673px;
 }
 
 .dragging .listHeadline,
 .dragging .taskContainer {
-  pointer-events: none; /* Verhindert, dass diese Bereiche als Ziel erkannt werden */
-}
-
-.scroll-zone-top,
-.scroll-zone-bottom {
-  position: fixed;
-  height: 50px;
-  left: 0;
-  right: 0;
-  z-index: 9999;
   pointer-events: none;
+  /* Verhindert, dass diese Bereiche als Ziel erkannt werden */
 }
-
 
 
 .subtaskButtons:hover {
@@ -162,7 +162,8 @@ h1 {
 
 .error {
   border: 1px solid red;
-  background-color: #ffeeee; /* Optional: Heller roter Hintergrund */
+  background-color: #ffeeee;
+  /* Optional: Heller roter Hintergrund */
 }
 
 .error-message {
@@ -217,13 +218,17 @@ h1 {
 }
 
 .progress-bar {
-  height: 100%; /* Füllt die Progressbar in der Höhe */
-  background-color: #2a3647; /* Farbe der Progressbar */
-  transition: width 0.5s ease-in-out; /* Smooth Animation */
+  height: 100%;
+  /* Füllt die Progressbar in der Höhe */
+  background-color: #2a3647;
+  /* Farbe der Progressbar */
+  transition: width 0.5s ease-in-out;
+  /* Smooth Animation */
 }
 
 .progress-bar.complete {
-  background-color: #f39c12; /* Farbe für 100% */
+  background-color: #f39c12;
+  /* Farbe für 100% */
   box-shadow: 5px 5px 15px 5px #f39c12, 5px 5px 15px 5px rgba(243, 156, 18, 0.5);
 }
 
@@ -242,22 +247,32 @@ h1 {
   font-weight: 700;
   color: #2a3647;
   overflow-wrap: break-word;
-  overflow-wrap: break-word; /* Optional für Wortumbrüche */
-  width: 200px; /* Box-Breite */
-  overflow: hidden; /* Verhindert das Überlaufen */
-  text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
-  white-space: nowrap; /* Verhindert den Zeilenumbruch */
+  overflow-wrap: break-word;
+  /* Optional für Wortumbrüche */
+  width: 200px;
+  /* Box-Breite */
+  overflow: hidden;
+  /* Verhindert das Überlaufen */
+  text-overflow: ellipsis;
+  /* Fügt ... bei Überlauf hinzu */
+  white-space: nowrap;
+  /* Verhindert den Zeilenumbruch */
 }
 
 .taskCardDescription {
   font-size: 16px;
   font-weight: 400;
   color: #a8a8a8;
-  overflow-wrap: break-word; /* Optional für Wortumbrüche */
-  width: 200px; /* Box-Breite */
-  overflow: hidden; /* Verhindert das Überlaufen */
-  text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
-  white-space: nowrap; /* Verhindert den Zeilenumbruch */
+  overflow-wrap: break-word;
+  /* Optional für Wortumbrüche */
+  width: 200px;
+  /* Box-Breite */
+  overflow: hidden;
+  /* Verhindert das Überlaufen */
+  text-overflow: ellipsis;
+  /* Fügt ... bei Überlauf hinzu */
+  white-space: nowrap;
+  /* Verhindert den Zeilenumbruch */
 }
 
 .taskCardSubtasks {
@@ -280,6 +295,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   padding-top: 24px;
+  padding-left: 16px;
 }
 
 .worker {
@@ -391,22 +407,26 @@ h1 {
   position: relative;
   padding-left: 0px;
   max-height: 120px;
-  border: 0.5px solid #ddd; 
-  overflow-y: auto; 
+  border: 0.5px solid #ddd;
+  overflow-y: auto;
 }
 
 /* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
 .subTasksList::-webkit-scrollbar {
-  width: 8px; /* Breite der Scrollleiste */
+  width: 8px;
+  /* Breite der Scrollleiste */
 }
 
 .subTasksList::-webkit-scrollbar-thumb {
-  background-color: #aaa; /* Farbe des Scrollleisten-Daumen */
-  border-radius: 4px; /* Abgerundete Ecken */
+  background-color: #aaa;
+  /* Farbe des Scrollleisten-Daumen */
+  border-radius: 4px;
+  /* Abgerundete Ecken */
 }
 
 .subTasksList::-webkit-scrollbar-thumb:hover {
-  background-color: #888; /* Farbe des Daumens beim Hover */
+  background-color: #888;
+  /* Farbe des Daumens beim Hover */
 }
 
 #subtaskImg {
@@ -439,10 +459,22 @@ h1 {
   background-color: #0038ff;
 }
 
+.popupTitle {
+  overflow-wrap: break-word;
+  max-width: 414px;
+}
+
+#description {
+  overscroll-behavior-block: contain;
+}
+
 .popupDescription {
   font-size: 20px;
   overflow-wrap: break-word;
   font-weight: 400;
+  white-space: pre-wrap;
+  max-height: 120px;
+  overflow: auto;
 }
 
 .popupIcons {
@@ -454,6 +486,11 @@ h1 {
   justify-content: center;
   align-items: center;
   gap: 8px;
+}
+
+.subtask-container {
+  max-height: 100px;
+  overflow: auto;
 }
 
 .subtask-item {
@@ -511,15 +548,19 @@ h1 {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
-  opacity: 1; /* Standard-Deckkraft */
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  /* Sanfte Animation für Transform und Opacity */
+  opacity: 1;
+  /* Standard-Deckkraft */
 }
 
 /* Hover-Zustand für 'todo' */
 .subtask-toggle-icon.todo:hover {
   content: url("./../assets/icons/png/checkButtonEmptyHover.png");
-  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
-  opacity: 0.9; /* Leicht reduzierte Deckkraft */
+  transform: scale(1.1);
+  /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9;
+  /* Leicht reduzierte Deckkraft */
 }
 
 /* Standard-Zustand für 'done' */
@@ -528,15 +569,19 @@ h1 {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
-  opacity: 1; /* Standard-Deckkraft */
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  /* Sanfte Animation für Transform und Opacity */
+  opacity: 1;
+  /* Standard-Deckkraft */
 }
 
 /* Hover-Zustand für 'done' */
 .subtask-toggle-icon.done:hover {
   content: url("./../assets/icons/png/checkButtonCheckedHover.png");
-  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
-  opacity: 0.9; /* Leicht reduzierte Deckkraft */
+  transform: scale(1.1);
+  /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9;
+  /* Leicht reduzierte Deckkraft */
 }
 
 .contact-name {
@@ -548,7 +593,6 @@ h1 {
 }
 
 .contact-nameList {
-  flex-grow: 1;
   font-size: 18px;
   font-weight: 500;
   color: #333;
@@ -659,7 +703,7 @@ h1 {
   color: white;
 }
 
-.dropdownList li + li {
+.dropdownList li+li {
   border-top: 1px solid #eee;
 }
 
@@ -678,6 +722,8 @@ h1 {
   background-color: #091931;
   transition: background-color 0.3s ease;
 }
+
+
 
 .selected-contact-item span {
   color: white;
@@ -706,6 +752,23 @@ h1 {
   overflow-wrap: break-word;
 }
 
+#editTaskPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+#editTaskPopupContainer {
+  z-index: 30;
+}
+
 .popupOverlay {
   position: fixed;
   top: 0;
@@ -716,7 +779,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 10;
 }
 
 .popupOverlay.visible {
@@ -734,6 +797,7 @@ h1 {
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
   height: 870px;
   width: 1116px;
+  z-index: 40;
 }
 
 .popupInformation {
@@ -752,12 +816,17 @@ h1 {
 
 .workerContainer {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: start;
   flex-direction: column;
   gap: 12px;
   padding-bottom: 1rem;
+  max-height: 160px;
+  overflow: auto;
+  padding-left: 50px;
+  padding-top: 15px;
 }
+
 
 .workerIcon {
   margin-top: 0px;
@@ -899,7 +968,7 @@ li:hover .status-icon {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 136px;
+  padding-top: 20px; 
 }
 
 .buttonContainer {
@@ -987,6 +1056,45 @@ li:hover .status-icon {
   padding-top: 30px;
 }
 
+.listBody::-webkit-scrollbar {
+  width: 8px;
+}
+
+.listBody::-webkit-scrollbar-track {
+  background: white;
+}
+
+.listBody::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+  border: 2px solid white;
+  max-height: 20px;
+}
+
+.listBody::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+.taskContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.taskContainer::-webkit-scrollbar-track {
+  background: white;
+}
+
+.taskContainer::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+  border: 2px solid white;
+  max-height: 20px;
+}
+
+.taskContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+
 @media (max-width: 1920px) {
   h1 {
     font-size: 61px;
@@ -1003,17 +1111,22 @@ li:hover .status-icon {
     margin-left: 160px;
   }
 
-  .listHeadline {
-    padding-right: unset;
-  }
 
   .listBody {
     width: 236px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
+
   .boardCard {
-    width: 250px;
+    width: 224px;
     height: 230px;
   }
+
+  .taskCardSubtasks {
+    font-size: 10px;
+  }
+
   h4 {
     font-size: 22px;
   }
@@ -1137,17 +1250,16 @@ li:hover .status-icon {
     font-size: 42px;
   }
 
+  .BoardCardFooter {
+    padding-top: unset;
+  }
+
   body {
-    overflow: unset;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
-  .searchContainer {
-    margin-left: 20px;
-  }
 
-  .listHeadline {
-    width: 17vh;
-  }
 
   .nothingToDo {
     width: 70vh;
@@ -1173,23 +1285,26 @@ li:hover .status-icon {
   }
 }
 
-@media (max-width: 1110) {
-  .taskList {
-    padding-left: 64px;
+@media (max-width: 1200px) {
+  .BoardCardFooter {
+    padding-top: 24px;
+  }
+}
+
+@media (max-width: 1110px) {
+
+  .BoardCardFooter {
+    padding-top: 20px;
   }
 
-  .listHeadline {
-    width: 60vh;
+  .taskList {
+    padding-left: 64px;
   }
 
   .nothingToDo {
     width: 60vh;
   }
 
-  .boardHead {
-    flex-direction: column;
-    align-items: start;
-  }
 
   .searchContainer {
     flex-direction: column;
@@ -1198,36 +1313,23 @@ li:hover .status-icon {
     gap: 20px;
   }
 
-  .boardHead {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-top: 50px;
-    margin-left: 2px !important;
-  }
-
   .taskContainer {
     width: 576px;
-    overflow-x: scroll;
+    overflow-x: auto;
     height: max-content;
     padding: 8px;
   }
 
-  .boardHead {
-    margin-left: 0px !important;
-  }
 
-  .searchContainer {
-    margin-left: -67px !important;
-  }
+
 
   .boardHead {
-    margin-left: 11px !important;
+    margin-left: 92px;
     flex-direction: column;
+    align-items: start;
   }
 
   .searchContainer {
-    margin-left: 20px;
     flex-direction: column;
     gap: 9px;
   }
@@ -1235,18 +1337,23 @@ li:hover .status-icon {
 
 @media (max-width: 902px) {
   .boardHead {
-    margin-left: -160px;
+    margin-left: 92px;
     flex-direction: column;
   }
 
   .searchContainer {
-    margin-left: 20px;
     flex-direction: column;
     gap: 9px;
   }
 }
 
 @media (max-width: 767px) {
+  .boardHead {
+    margin-left: 92px;
+    justify-content: start;
+    align-items: start;
+  }
+
   .board {
     overflow: hidden;
   }
@@ -1270,18 +1377,20 @@ li:hover .status-icon {
   }
 
   .boardHead {
-    margin-left: -160px;
     flex-direction: column;
   }
 
   .searchContainer {
-    margin-left: 20px;
     flex-direction: column;
     gap: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
   }
 
   .listBody {
     width: 91%;
+
   }
 
   .taskContainer {
@@ -1330,12 +1439,6 @@ li:hover .status-icon {
     width: 220px;
   }
 
-  .taskContainer {
-    overflow-y: hidden;
-    overflow-x: scroll;
-    scrollbar-color: #29abe2 #f0f0f0;
-  }
-
   .taskContainer h1 {
     font-size: 42px;
     align-items: center;
@@ -1357,6 +1460,10 @@ li:hover .status-icon {
 
   .taskContainer {
     width: 98%;
+  }
+
+  .searchContainer {
+    align-items: center;
   }
 }
 
@@ -1391,9 +1498,7 @@ li:hover .status-icon {
 }
 
 @media (max-width: 367px) {
-  .listHeadline {
-    width: 25vh;
-  }
+
 
   .nothingToDo {
     width: 25vh;
@@ -1414,7 +1519,8 @@ li:hover .status-icon {
 
 @media (max-width: 385px) {
   .popupOverlay {
-    display: block; /* Adjusted */
+    display: block;
+    /* Adjusted */
   }
 
   .tasksPopupContainer {

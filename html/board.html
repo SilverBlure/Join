@@ -115,15 +115,24 @@
     </div>
     </div>
 
-    <div id="viewTaskPopupOverlay" class="popupOverlay hidden">
+
+
+    
+    
+    
+
+    <div id="viewTaskPopupOverlay" class="popupOverlay hidden" onclick="closeTaskPopup()">
         <div id="viewTaskContainer" class="tasksPopupContainer" onclick="event.stopPropagation()"></div>
     </div>
-
-    <div id="editTaskPopupOverlay" class="popupOverlay hidden">
-        <div id="editTaskPopupContainer" class="popupContainer"></div>
+    
+    <div id="editTaskPopupOverlay" class="popupOverlay hidden" onclick="closeEditTaskPopup()">
+        <div id="editTaskPopupContainer" class="popupContainer" onclick="event.stopPropagation()"></div>
     </div>
-    <div id="addTaskPopupOverlay" class="popupOverlay hidden">
-        <div id="addTaskContainer" onclick="closeSelection()" class="popupContainer" onclick="event.stopPropagation()">
+    
+    <div id="addTaskPopupOverlay" class="popupOverlay hidden" onclick="closeAddTaskPopup()">
+        <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
+
+            
             <div class="popupHeader">
                 <h1>Add Task</h1>
             </div>
@@ -136,7 +145,7 @@
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
-                        <input name="title" type="text" id="title" placeholder="Enter a title">
+                        <input maxlength="30" name="title" type="text" id="title" placeholder="Enter a title">
                         <span class="error-message" id="titleWarning">Title is required.</span> 
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
@@ -162,7 +171,7 @@
                                 <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
                             </button>
                             <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
-                                class="priorityBtn active">Middle
+                                class="priorityBtn active">Medium
                                 <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
                             </button>
                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low

@@ -264,8 +264,7 @@ async function closeTaskPopup() {
     document.getElementById("viewTaskPopupOverlay").classList.remove('visible');
     document.getElementById("mainContent").classList.remove('blur');
     refreshUIAfterPopupClose();
-
-
+    document.getElementsByTagName('body')[0].style.overflow = "auto";
 }
 
 

@@ -424,7 +424,10 @@ let selectedContacts = [];
 
 
 
-
+function closeContactsDropdown() {
+    const dropdownList = document.getElementById("contactsDropdownList");
+      dropdownList.classList.remove("open");
+  }
 
 
 
@@ -614,30 +617,25 @@ function handleContactSelection(contact, isChecked) {
     if (!window.localContacts) {
         window.localContacts = {}; // Initialisierung
     }
+
     const selectedContactsList = document.getElementById("selectedContactsList");
+    if (!selectedContactsList) return;
+
     if (isChecked) {
         if (!isContactSelected(contact.name)) {
             selectedContacts.push(contact);
             window.localContacts[contact.id] = contact; // Synchronisierung
-            const [vorname, nachname] = contact.name.split(" ");
-            const div = document.createElement("div");
-            div.id = `selected_${contact.id}`;
-            div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
-            const workerEmblem = document.createElement("p");
-            workerEmblem.classList.add("workerEmblem");
-            workerEmblem.style.backgroundColor = getColorHex(
-                vorname?.toLowerCase() || "", 
-                nachname?.toLowerCase() || ""
-            ); // Farbe setzen basierend auf Vor- und Nachnamen
-            workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
-            div.appendChild(workerEmblem);
-            selectedContactsList.appendChild(div);
         }
     } else {
         removeContact(contact);
     }
+
+    // Beschränke die Anzeige auf 5 Kontakte
+    renderSelectedContacts();
     updateDropdownLabel();
 }
+
+
 
   
 

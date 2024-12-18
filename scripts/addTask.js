@@ -164,15 +164,15 @@ function validateTaskInputs() {
   const categoryWarning = document.getElementById("categoryWarning");
   resetWarnings([titleWarning, dateWarning, categoryWarning]);
   if (!title) {
-    titleWarning.classList.add("showalert");
+    titleWarning.classList.replace("hidden-text","visible-text");
     isValid = false;
   }
   if (!dueDate) {
-    dateWarning.classList.add("showalert");
+    dateWarning.classList.replace("hidden-text","visible-text");
     isValid = false;
   }
   if (!categoryName) {
-    categoryWarning.classList.add("showalert");
+    categoryWarning.classList.replace("hidden-text","visible-text");
     isValid = false;
   }
 
@@ -527,41 +527,63 @@ function isContactSelected(contactName) {
 
 function handleContactSelection(contact, isChecked) {
   if (!window.localContacts) {
-    window.localContacts = {}; 
+      window.localContacts = {}; // Initialisierung
   }
 
   const selectedContactsList = document.getElementById("selectedContactsList");
+  if (!selectedContactsList) return;
 
   if (isChecked) {
-    if (!isContactSelected(contact.name)) {
-      selectedContacts.push(contact);
-      window.localContacts[contact.id] = contact; 
-      
-      // Vor- und Nachnamen extrahieren
-      const [vorname, nachname] = contact.name.split(" ");
-      const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Generiere Farbe basierend auf Vor- und Nachnamen
-
-      // Div-Container für den Kontakt erstellen
-      const div = document.createElement("div");
-      div.id = `selected_${contact.id}`;
-      div.classList.add("selected-contact");
-
-      // Arbeiter-Symbol erstellen
-      const workerEmblem = document.createElement("p");
-      workerEmblem.classList.add("workerEmblem");
-      workerEmblem.style.backgroundColor = backgroundColor; // Setze die Farbe
-      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
-
-      // Div-Container mit dem Symbol in die Liste einfügen
-      div.appendChild(workerEmblem);
-      selectedContactsList.appendChild(div);
-    }
+      if (!isContactSelected(contact.name)) {
+          selectedContacts.push(contact);
+          window.localContacts[contact.id] = contact; // Synchronisierung
+      }
   } else {
-    removeContact(contact); // Entferne den Kontakt
+      removeContact(contact);
   }
 
-  updateDropdownLabel(); // Aktualisiere die Dropdown-Beschriftung
+  // Beschränke die Anzeige auf 5 Kontakte
+  renderSelectedContacts();
+  updateDropdownLabel();
 }
+
+/**
+* Aktualisiert die Anzeige der ausgewählten Kontakte.
+*/
+function renderSelectedContacts() {
+  const selectedContactsList = document.getElementById("selectedContactsList");
+  if (!selectedContactsList) return;
+
+  selectedContactsList.innerHTML = ""; // Liste zurücksetzen
+
+  const maxContactsToShow = 5;
+  const visibleContacts = selectedContacts.slice(0, maxContactsToShow); // Erste 5 Kontakte
+  const additionalCount = selectedContacts.length - visibleContacts.length; // Anzahl zusätzlicher Kontakte
+
+  visibleContacts.forEach(contact => {
+      const [vorname, nachname] = contact.name.split(" ");
+      const div = document.createElement("div");
+      div.id = `selected_${contact.id}`;
+      div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
+      const workerEmblem = document.createElement("p");
+      workerEmblem.classList.add("workerEmblem");
+      workerEmblem.style.backgroundColor = getColorHex(
+          vorname?.toLowerCase() || "",
+          nachname?.toLowerCase() || ""
+      ); // Farbe setzen basierend auf Vor- und Nachnamen
+      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+      div.appendChild(workerEmblem);
+      selectedContactsList.appendChild(div);
+  });
+
+  if (additionalCount > 0) {
+      const additionalDiv = document.createElement("div");
+      additionalDiv.classList.add("additional-contacts");
+      additionalDiv.textContent = `+${additionalCount}`;
+      selectedContactsList.appendChild(additionalDiv);
+  }
+}
+
 
 
 
