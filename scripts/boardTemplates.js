@@ -311,9 +311,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                         <option value="User Story" ${task.category?.name === 'User Story' ? 'selected' : ''}>User Story</option>
                     </select>
                     <label for="subtask">Subtasks</label>
-                    <div id="subTasksList">
-                        ${subtasksHTML}
-                        <div class="createSubtaskBar">
+                    <div class="createSubtaskBar">
                         <input id="subTaskInputAddTask" 
                             name="subTaskInput" 
                             class="addSubTaskInput" 
@@ -328,6 +326,8 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                             </div>
                             <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
+                    <div id="subTasksList">
+                        ${subtasksHTML}
                     </div>
                 </div>
             </div>

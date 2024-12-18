@@ -411,6 +411,14 @@ h1 {
   overflow-y: auto;
 }
 
+#subTasksList {
+  position: relative;
+  padding-left: 0px;
+  max-height: 120px;
+  border: 0.5px solid #ddd;
+  overflow-y: auto;
+}
+
 /* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
 .subTasksList::-webkit-scrollbar {
   width: 8px;
@@ -1347,6 +1355,12 @@ li:hover .status-icon {
   }
 }
 
+@media (max-width: 890px) {
+  .taskList {
+      padding-left: 10px;
+  }
+}
+
 @media (max-width: 767px) {
   .boardHead {
     margin-left: 92px;
@@ -1373,7 +1387,7 @@ li:hover .status-icon {
   }
 
   .taskList {
-    padding-left: 64px;
+    padding-left: 1px;
   }
 
   .boardHead {

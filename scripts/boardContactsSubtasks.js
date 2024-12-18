@@ -596,18 +596,29 @@ function updateLocalContactsFromCheckboxes() {
     });
 }
 
-document.addEventListener("click", function (event) {
+document.addEventListener("mousedown", function (event) {
     const dropdownList = document.getElementById("contactsDropdownList");
     const createContactBar = document.querySelector(".createContactBar");
-    if (
-        dropdownOpen && 
-        !dropdownList.contains(event.target) && 
-        !createContactBar.contains(event.target)
-    ) {
+    const selectedContactsList = document.getElementById("selectedContactsList");
+
+    // Sicherstellen, dass die Elemente existieren
+    if (!dropdownList || !createContactBar || !selectedContactsList) {
+        console.error("Ein erforderliches Element fehlt!");
+        return;
+    }
+
+    // Prüfen, ob außerhalb der relevanten Elemente geklickt wurde
+    const clickedInsideDropdown = dropdownList.contains(event.target);
+    const clickedInsideCreateBar = createContactBar.contains(event.target);
+    const clickedInsideSelectedContacts = selectedContactsList.contains(event.target);
+
+    // Wenn der Klick außerhalb dieser Bereiche ist, erzwinge das Schließen
+    if (!clickedInsideDropdown && !clickedInsideCreateBar && !clickedInsideSelectedContacts) {
         dropdownList.classList.remove("open");
         dropdownOpen = false;
     }
 });
+
 
 
 
@@ -659,20 +670,6 @@ function updateDropdownLabel() {
         dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
     }
 }
-
-
-document.addEventListener("click", function (event) {
-    const dropdownList = document.getElementById("contactsDropdownList");
-    const createContactBar = document.querySelector(".createContactBar");
-    if (
-        dropdownOpen && 
-        !dropdownList.contains(event.target) && 
-        !createContactBar.contains(event.target)
-    ) {
-        dropdownList.classList.remove("open");
-        dropdownOpen = false;
-    }
-});
 
 
 
