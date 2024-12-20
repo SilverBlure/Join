@@ -319,6 +319,26 @@ function clearLocalSubtasks() {
   if (subTasksList) subTasksList.innerHTML = "";
 }
 
+function resetCategoryDropdown() {
+  const selectedCategory = document.getElementById("selectedCategory");
+  const categoryInput = document.getElementById("category");
+
+  if (!selectedCategory) {
+    console.error("Element mit ID 'selectedCategory' nicht gefunden!");
+    return;
+  }
+
+  if (!categoryInput) {
+    console.error("Element mit ID 'category' nicht gefunden!");
+    return;
+  }
+
+  // Setze Standardtext und leere den versteckten Input-Wert
+  selectedCategory.textContent = "Select Task Category";
+  categoryInput.value = ""; 
+}
+
+
 /**
  * Fügt eine neue Task in die "To Do"-Liste hinzu.
  * @async
@@ -769,25 +789,28 @@ function getInitials(fullName) {
  * Setzt das Formular zurück und leert die definierten Listen.
  */
 function resetFormAndLists() {
-  const form = document.getElementById("addTaskFormTask"); 
+  const form = document.getElementById("addTaskFormTask");
   if (form) {
-    form.reset(); 
-    document.getElementById(setPriority());
+    form.reset();
+    setPriority("Middle"); // Standardpriorität setzen
     document.getElementById("prioMiddle").classList.add("active");
-    window.location.reload();
+    resetCategoryDropdown(); // Kategorie zurücksetzen
   }
-  const listsToClear = ["subTasksList", "selectedContactsList"]; 
+  
+  const listsToClear = ["subTasksList", "selectedContactsList"];
   listsToClear.forEach((listId) => {
     const list = document.getElementById(listId);
     if (list) {
-      list.innerHTML = ""; 
+      list.innerHTML = ""; // Listen leeren
     }
   });
+
   window.localSubtasks = {};
   window.localEditedContacts = [];
   selectedContacts = [];
   updateDropdownLabel();
 }
+
 
 
 /**

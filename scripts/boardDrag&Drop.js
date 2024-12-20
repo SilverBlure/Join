@@ -128,18 +128,24 @@ async function handleDrop(event, targetListId) {
         await getTasks();
         renderBoard();
     } finally {
-        stopTouchDragging(); // Stoppen, nachdem das Element verschoben wurde
+        stopTouchDragging(); 
         unhighlightList(`${targetListId}List`);
     }
 }
 
-const LONG_PRESS_THRESHOLD = 200; // Zeit in Millisekunden für Dragging
-const THRESHOLD_DISTANCE = 10; // Minimale Bewegung in Pixeln für Dragging
+const LONG_PRESS_THRESHOLD = 200; 
+const THRESHOLD_DISTANCE = 10; 
 let currentDraggedElement = null;
 let touchStartTimestamp = null;
 let touchStartX = null;
 let touchStartY = null;
-let touchMoved = false; // Ob eine signifikante Bewegung erfolgt
+let touchMoved = false; 
+let autoScrollInterval = null; 
+let isAutoScrolling = false;
+let scrollDirection = 0; 
+
+const SCROLL_EDGE_OFFSET = 100; 
+const SCROLL_SPEED = 20; 
 
 window.addEventListener("touchstart", (event) => {
     const target = event.target.closest(".boardCard");
@@ -149,16 +155,8 @@ window.addEventListener("touchstart", (event) => {
     }
 }, { passive: false });
 
-window.addEventListener("touchstart", (event) => {
-    const target = event.target.closest(".boardCard");
-    if (target) {
-        const taskId = target.id.split("-")[1];
-        startTouchDragging(event, taskId);
-    }
-}, { passive: false }); // passive: false ist hier wichtig
-
-window.addEventListener("touchend", handleTouchDrop, { passive: false }); // Auch hier passiv deaktivieren
-
+window.addEventListener("touchmove", handleTouchMove, { passive: false });
+window.addEventListener("touchend", handleTouchDrop, { passive: false });
 
 async function startTouchDragging(event, taskId) {
     const target = document.getElementById(`boardCard-${taskId}`);
@@ -169,10 +167,12 @@ async function startTouchDragging(event, taskId) {
     touchStartY = touch.clientY;
     touchMoved = false;
     currentDraggedElement = taskId;
+
     setTimeout(async () => {
         if (!touchMoved) {
-            const listId = await findTaskSourceList(taskId); // Warten, bis Promise aufgelöst ist
-            openTaskPopup(taskId, listId); // Aufgelösten Wert verwenden
+            const listId = await findTaskSourceList(taskId);
+            openTaskPopup(taskId, listId);
+            stopTouchDragging();
         } else {
             target.classList.add("dragging");
             disableScroll();
@@ -180,47 +180,63 @@ async function startTouchDragging(event, taskId) {
     }, LONG_PRESS_THRESHOLD);
 }
 
-
-/**
- * Handhabt die Bewegung eines Touch-Events.
- * @param {Event} event - Das Touch-Event.
- */
 function handleTouchMove(event) {
     if (!currentDraggedElement) return;
 
-    touchMoved = true; // Kennzeichnet, dass es sich um eine Bewegung handelt
+    const touch = event.touches[0];
+    const deltaX = Math.abs(touch.clientX - touchStartX);
+    const deltaY = Math.abs(touch.clientY - touchStartY);
 
-    const targetElement = document.elementFromPoint(event.touches[0].pageX, event.touches[0].pageY);
-    if (targetElement?.classList.contains("listBody")) {
-        highlightList(targetElement.id);
+
+    if (deltaX > THRESHOLD_DISTANCE || deltaY > THRESHOLD_DISTANCE) {
+        touchMoved = true;
+    }
+
+    // Hervorheben der Ziel-Liste
+    if (currentDraggedElement) {
+        const adjustedX = touch.pageX - window.pageXOffset;
+        const adjustedY = touch.pageY - window.pageYOffset;
+        const targetElement = document.elementFromPoint(adjustedX, adjustedY);
+        if (targetElement?.classList.contains("listBody")) {
+            highlightList(targetElement.id);
+        } else {
+            document.querySelectorAll(".listBody").forEach((list) =>
+                unhighlightList(list.id)
+            );
+        }
+    }
+
+    // Auto-Scroll Logik:
+    const viewportHeight = window.innerHeight;
+    const y = touch.clientY; 
+    if (y < SCROLL_EDGE_OFFSET) {
+        startAutoScrolling(-1);
+    } else if (y > viewportHeight - SCROLL_EDGE_OFFSET) {
+        startAutoScrolling(1);
     } else {
-        document.querySelectorAll(".listBody").forEach((list) =>
-            unhighlightList(list.id)
-        );
+        stopAutoScrolling();
     }
 }
 
-/**
- * Handhabt das Ablegen eines Tasks oder ein Click-Event.
- * @param {Event} event - Das Touch-Event.
- */
 async function handleTouchDrop(event) {
     if (!currentDraggedElement) {
         return;
     }
 
+    stopAutoScrolling(); 
+
     const touchDuration = Date.now() - touchStartTimestamp;
 
-    // Prüfen, ob es sich um einen Click handelt
+
     if (touchDuration < LONG_PRESS_THRESHOLD && !touchMoved) {
         const taskId = currentDraggedElement;
         const listId = await findTaskSourceList(taskId);
-        openTaskPopup(taskId, listId); // Beispiel-OnClick-Aktion
+        openTaskPopup(taskId, listId);
         stopTouchDragging();
         return;
     }
 
-    // Dragging-Logik fortsetzen
+    // Drag-Drop
     const touch = event.changedTouches[0];
     const adjustedX = touch.pageX - window.pageXOffset;
     const adjustedY = touch.pageY - window.pageYOffset;
@@ -234,32 +250,81 @@ async function handleTouchDrop(event) {
     try {
         await handleDrop(event, targetListId);
     } catch (error) {
+        console.error(error);
     } finally {
         stopTouchDragging();
     }
 }
 
 function stopTouchDragging() {
-    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
+    stopAutoScrolling();
+    const card = currentDraggedElement && document.getElementById(`boardCard-${currentDraggedElement}`);
     if (card) {
         card.classList.remove("dragging");
     }
     currentDraggedElement = null;
     touchStartTimestamp = null;
-    touchMoved = false; // Zurücksetzen
-    enableScroll(); // Scrollen wieder aktivieren
+    touchMoved = false;
+    enableScroll();
 }
 
-/**
- * Deaktiviert das Scrollen der Seite.
- */
+// Auto-Scrolling starten
+function startAutoScrolling(direction) {
+    if (scrollDirection === direction && isAutoScrolling) return; 
+    scrollDirection = direction;
+    if (!isAutoScrolling) {
+        isAutoScrolling = true;
+        autoScroll();
+    }
+}
+
+// Auto-Scrolling stoppen
+function stopAutoScrolling() {
+    isAutoScrolling = false;
+    scrollDirection = 0;
+}
+
+function autoScroll() {
+    if (!isAutoScrolling) return;
+    window.scrollBy(0, scrollDirection * SCROLL_SPEED);
+    requestAnimationFrame(autoScroll);
+}
+
+async function handleDrop(event, targetListId) {
+    // Nur wenn abbrechbar:
+    if (event.cancelable) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    const sourceListId = await findTaskSourceList(currentDraggedElement);
+    if (!sourceListId) {
+        stopTouchDragging(); 
+        return;
+    }
+    try {
+        const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
+        if (!task) {
+            stopTouchDragging();
+            return;
+        }
+        await deleteTaskFromFirebase(sourceListId, currentDraggedElement);
+        await addTaskToFirebase(targetListId, task);
+        await getTasks();
+        renderBoard();
+    } finally {
+        stopTouchDragging(); 
+        unhighlightList(`${targetListId}List`);
+    }
+}
+
+
+
 function disableScroll() {
     document.body.style.overflow = "hidden";
 }
 
-/**
- * Aktiviert das Scrollen der Seite.
- */
+
 function enableScroll() {
     document.body.style.overflow = "";
 }

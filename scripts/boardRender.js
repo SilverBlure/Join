@@ -175,13 +175,17 @@ function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
     if (!editTaskPopupOverlay || !editTaskPopupContainer) return;
+
     initializeLocalContacts(task);
     editTaskPopupOverlay.setAttribute("data-task-id", taskId);
     editTaskPopupOverlay.setAttribute("data-list-id", listId);
     editTaskPopupOverlay.classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
-    const subtasksHTML = generateEditSubtasksHTML(window.localEditedSubtasks);
-    editTaskPopupContainer.innerHTML = generateEditTaskForm(task, subtasksHTML, listId, taskId);
+
+    // Nur die Logik ausführen, ohne HTML darzustellen
+    generateEditSubtasksHTML(window.localEditedSubtasks);
+
+    editTaskPopupContainer.innerHTML = generateEditTaskForm(task, "", listId, taskId); // "" anstelle von subtasksHTML
     renderContactsDropdown(); // Dropdown aktualisieren
     renderSelectedContacts(); // **Stelle sicher, dass ausgewählte Kontakte direkt gerendert werden**
 }

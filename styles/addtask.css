@@ -7,55 +7,27 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  overflow-x: hidden;
+
+}
+
+.content{
+  overflow-y: hidden;
+  background-color: #f6f7f8;
 }
 
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+form {
+  max-height: 100vh !important; /* Begrenze die Höhe des Formulars */
+  overflow-y: auto; /* Ermöglicht Scrollen bei langen Formularen */
+}
 
 
 .contact-name {
@@ -472,7 +444,7 @@ h1 {
 .subTasksList {
   position: relative;
   padding-left: 0px;
-  max-height: 227px;
+ max-height: 173px;;
   border: 0.5px solid #ddd;
   overflow-y: auto;
 }
@@ -640,6 +612,8 @@ h1 {
   justify-content: start;
   align-items: flex-start;
   gap: 2rem;
+  margin-right: 6%;
+
 }
 
 .formPart {
@@ -665,7 +639,9 @@ h1 {
   height: 100vh;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2rem 0rem;
+  margin-left: 3%;
+  margin-right: 3%;
 }
 
 .selected-category {
@@ -719,7 +695,6 @@ select,
   border: 1px solid #d1d1d1;
   box-sizing: border-box;
   font-size: 1rem;
-  display: flex;
   user-select: none;
 }
 
@@ -801,7 +776,7 @@ select:focus {
   align-items: center;
   padding-top: 0.5rem;
   flex-wrap: wrap;
-  padding-right: 160px;
+  padding-right: 22%;
 }
 
 .buttonContainer {
@@ -948,6 +923,13 @@ select:focus {
     bottom: 76px !important;
   }
 }
+
+@media (max-width: 784px) {
+.formParts {
+  margin-right: 30px;
+}
+}
+
 
 @media (max-width: 1080px) {
   body {

@@ -1,5 +1,6 @@
 body {
   overflow: hidden;
+  overflow-x: hidden;
 }
 
 .selected-contact {
@@ -146,7 +147,11 @@ h1 {
   /* Ermöglicht vertikales Scrollen */
   touch-action: pan-y;
   /* Scroll nur in eine Richtung erlaubt */
-  max-height: 673px;
+  max-height: 553px;
+}
+
+.subTasksList p{
+  display: none;
 }
 
 .dragging .listHeadline,
@@ -870,7 +875,6 @@ h1 {
 .formParts {
   display: flex;
   justify-content: start;
-  align-items: center;
 }
 
 .formPart {
@@ -1296,6 +1300,12 @@ li:hover .status-icon {
 @media (max-width: 1200px) {
   .BoardCardFooter {
     padding-top: 24px;
+  }
+}
+
+@media (max-width: 950px) {
+  .sidebar {
+      height: 136vh;
   }
 }
 

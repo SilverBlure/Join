@@ -166,7 +166,8 @@ async function saveTaskChanges(event, listId, taskId) {
         }
         closeEditTaskPopup();
         openTaskPopup(taskId, listId);
-        window.location.reload();
+        document.getElementById("viewTaskContainer").style.display = "none";
+        document.getElementById("viewTaskPopupOverlay").style.display = "none";
     } catch (error) {
         showSnackbar('Fehler beim Aktualisieren der Daten!');
     }
