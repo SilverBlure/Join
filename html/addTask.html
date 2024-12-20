@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,20 +21,22 @@
     <script src="./../scripts/addTask.js"></script>
     <script src="./../scripts/boardTemplates.js"></script>
 </head>
+
 <body onload="includeHTML(); main()">
     <div id="snackbar" class="hidden"></div>
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     <div class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
-        <div class="addTaskContent">
+        <div class="addTaskContent" onclick="closeShowMenu()">
             <h1>Add Task</h1>
-            <form id="addTaskFormTask" 
-            onsubmit="addTaskToToDoList(event)"
-            onreset="resetFormAndLists()">
+            <form id="addTaskFormTask" onsubmit="addTaskToToDoList(event)" onreset="resetFormAndLists()">
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
-                        <input name="title" type="text" id="title" placeholder="Enter a title" required>
+                        <div>
+                            <input name="title" type="text" id="title" placeholder="Enter a title">
+                            <span class="error-message hidden-text" id="titleWarning">Title is required.</span>
+                        </div>
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
@@ -49,43 +52,47 @@
                     <div class="separator"></div>
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                        <input name="date" type="date" id="date" required>
+                        <div>
+                            <input name="date" type="date" placeholder="dd/mm/yyyy" id="date">
+                            <span class="error-message hidden-text" id="dateWarning">Date is required.</span>
+                        </div>
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
-                                 class="priorityBtn">Urgent
-                                 <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
-                             </button>
-                             <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
-                                 class="priorityBtn active">Medium
-                                 <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
-                             </button>
-                             <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
-                                 <img src="./../assets/icons/png/PrioritySymbolsLow.png">
-                             </button>
-                         </div>
+                                class="priorityBtn">Urgent
+                                <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
+                            </button>
+                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
+                                class="priorityBtn active">Medium
+                                <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
+                            </button>
+                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
+                                <img src="./../assets/icons/png/PrioritySymbolsLow.png">
+                            </button>
+                        </div>
                         <label for="category">Category<span class="requiredStar">*</span></label>
-                        <div id="categoryDropdown" class="dropdown" required>
-                            <div id="selectedCategory" class="selected-category">Select Task Category</div>
-                            <div id="categoryList" class="category-list hidden">
-                                <div class="category-item" data-value="Technical Task">Technical Task</div>
-                                <div class="category-item " data-value="User Story">User Story</div>
+                        <div>
+                            <div id="categoryDropdown" class="dropdown" required>
+                                <div id="selectedCategory" class="selected-category">Select Task Category</div>
+                                <div id="categoryList" class="category-list hidden">
+                                    <div class="category-item" data-value="Technical Task">Technical Task</div>
+                                    <div class="category-item " data-value="User Story">User Story</div>
+                                </div>
                             </div>
+                            <span class="error-message hidden-text" id="categoryWarning">Category is required.</span>
                         </div>
                         <input type="hidden" id="category" name="category" required>
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
-                            <input id="subTaskInputAddTask" 
-                            name="subTaskInput" 
-                            class="addSubTaskInput" 
-                            placeholder="Add new subtask" 
-                            type="text" 
-                            oninput="toggleSubtaskButtons()"
-                            onkeydown="handleSubtaskKey(event)">
+                            <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput"
+                                placeholder="Add new subtask" type="text" oninput="toggleSubtaskButtons()"
+                                onkeydown="handleSubtaskKey(event)">
                             <div class="subtaskButtons">
-                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
+                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn"
+                                    class="subtask-btn hidden" onclick="addNewSubtask()">
                                 <div id="separatorSubtask" class="separatorSubtask hidden"></div>
-                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn"
+                                    class="subtask-btn hidden" onclick="clearSubtaskInput()">
                             </div>
                             <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
@@ -101,11 +108,12 @@
                         <button type="submit" class="button">Create Task
                             <img src="./../assets/icons/png/check.png">
                         </button>
-                        
+
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </body>
+
 </html>

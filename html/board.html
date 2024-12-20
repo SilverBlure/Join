@@ -31,7 +31,7 @@
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
     <div id="mainContent" class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
-        <div class="board">
+        <div class="board" onclick="closeShowMenu()">
             <div class="boardHead">
                 <h1>Board</h1>
                 <div class="searchContainer">
@@ -115,15 +115,24 @@
     </div>
     </div>
 
-    <div id="viewTaskPopupOverlay" class="popupOverlay hidden">
+
+
+    
+    
+    
+
+    <div id="viewTaskPopupOverlay" class="popupOverlay hidden" onclick="closeTaskPopup()">
         <div id="viewTaskContainer" class="tasksPopupContainer" onclick="event.stopPropagation()"></div>
     </div>
-
-    <div id="editTaskPopupOverlay" class="popupOverlay hidden">
-        <div id="editTaskPopupContainer" class="popupContainer"></div>
+    
+    <div id="editTaskPopupOverlay" class="popupOverlay hidden" onclick="closeEditTaskPopup()">
+        <div id="editTaskPopupContainer" class="popupContainer" onclick="event.stopPropagation()"></div>
     </div>
-    <div id="addTaskPopupOverlay" class="popupOverlay hidden">
-        <div id="addTaskContainer" onclick="closeSelection()" class="popupContainer" onclick="event.stopPropagation()">
+    
+    <div id="addTaskPopupOverlay" class="popupOverlay hidden" onclick="closeAddTaskPopup()">
+        <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
+
+            
             <div class="popupHeader">
                 <h1>Add Task</h1>
             </div>
@@ -136,7 +145,8 @@
                 <div class="formParts">
                     <div class="formPart">
                         <label for="title">Title<span class="requiredStar">*</span></label>
-                        <input name="title" type="text" id="title" placeholder="Enter a title" required>
+                        <input maxlength="30" name="title" type="text" id="title" placeholder="Enter a title">
+                        <span class="error-message" id="titleWarning">Title is required.</span> 
                         <label for="description">Description</label>
                         <textarea name="description" id="description" rows="5"
                             placeholder="Enter a Description"></textarea>
@@ -152,8 +162,8 @@
                     <div class="separator"></div>
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                        <input name="date" type="date" id="date" required>
-
+                        <input name="date" type="date" id="date" >
+                        <span class="error-message" id="dateWarning">Date is required.</span> 
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
@@ -170,12 +180,12 @@
                         </div>
 
                         <label for="category">Category<span class="requiredStar">*</span></label>
-                        <select name="category" id="category" required>
-                            <option value="" disabled selected hidden>Select Task Category</option>
+                        <select name="category" id="category">
+                              <option value="" disabled selected hidden>Select Task Category</option>
                             <option value="Technical Task">Technical Task</option>
                             <option value="User Story">User Story</option>
                         </select>
-
+                        <span class="error-message" id="categoryWarning">Category is required.</span> 
                         <label for="subtask">Subtasks</label>
                         <div class="createSubtaskBar">
                             <input id="subTaskInputAddTask" 

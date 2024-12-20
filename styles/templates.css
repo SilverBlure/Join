@@ -107,8 +107,7 @@ footer{
 }
 
 .helpImg {
-  height: 20px;
-  width: 20px;
+  scale: 1.2;
 }
 
 .sidebarLogo {
@@ -219,6 +218,7 @@ a {
   gap: 1px;
   padding: 8px;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 #dropdownMenu span:hover {
@@ -298,10 +298,6 @@ a {
     height: 50px;
     width: 40px;
     margin-left: 20px !important;
-  }
-
-  .helpImg {
-    display: none;
   }
 
   footer {

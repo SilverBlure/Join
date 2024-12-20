@@ -77,8 +77,12 @@ async function createNewMailEntry(email){
 
 }
 /** render the userttag in html doc*/
-async function setUserTag(){
-    document.getElementById('logedInUser').innerHTML = `${await getUserTag()}`;
+async function setUserTag() {
+    const userTag = await getUserTag();
+    const userElement = document.getElementById('logedInUser');
+    if (userElement) {
+        userElement.innerHTML = `${userTag}`;
+    }
 }
 /** load names with session key from firebase*/
 async function getUserTag(){

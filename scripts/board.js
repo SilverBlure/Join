@@ -169,21 +169,47 @@ async function addTaskToSpecificList(listId, event) {
 
 
 /**
- * Validiert die erforderlichen Eingaben im Formular für das Hinzufügen von Tasks.
- * @returns {boolean} - Ob die Eingaben gültig sind.
+ * Validiert die Eingaben im Task-Formular.
+ * @returns {boolean} Gibt true zurück, wenn die Eingaben gültig sind, ansonsten false.
  */
 function validateTaskInputs() {
     const title = document.getElementById("title").value.trim();
     const dueDate = document.getElementById("date").value.trim();
-    const categoryName = document.getElementById("category").value.trim();
-    if (!title || !dueDate || !categoryName) {
-        console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
-        return false;
+    const categoryInput = document.getElementById("category");
+    const categoryName = categoryInput ? categoryInput.value.trim() : "";
+    let isValid = true;
+    const titleWarning = document.getElementById("titleWarning");
+    const dateWarning = document.getElementById("dateWarning");
+    const categoryWarning = document.getElementById("categoryWarning");
+    resetWarnings([titleWarning, dateWarning, categoryWarning]);
+    if (!title) {
+      titleWarning.classList.add("showalert");
+      isValid = false;
     }
-    return true;
-}
-
-
+    if (!dueDate) {
+      dateWarning.classList.add("showalert");
+      isValid = false;
+    }
+    if (!categoryName) {
+      categoryWarning.classList.add("showalert");
+      isValid = false;
+    }
+  
+    return isValid;
+  }
+  
+  /**
+   * Setzt die Warnungen zurück.
+   * @param {Array} warningElements - Eine Liste der Warnungselemente.
+   */
+  function resetWarnings(warningElements) {
+    warningElements.forEach((warning) => {
+      if (warning) {
+        warning.classList.remove("showalert");
+      }
+    });
+  }
+  
 
 /**
  * Setzt den lokalen Zustand für Subtasks, Kontakte und Priorität zurück.
@@ -238,8 +264,7 @@ async function closeTaskPopup() {
     document.getElementById("viewTaskPopupOverlay").classList.remove('visible');
     document.getElementById("mainContent").classList.remove('blur');
     refreshUIAfterPopupClose();
-
-
+    document.getElementsByTagName('body')[0].style.overflow = "auto";
 }
 
 
@@ -514,7 +539,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   
 function closeSelection(){
-    document.getElementById('contactsDropdownList').classList.replace('open', '');
+    document.getElementById('contactsDropdownList').classList.add('closed');
 }
 
 

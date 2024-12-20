@@ -1,130 +1,729 @@
-body{
-    overflow: hidden;
+body {
+  overflow: hidden;
 }
 
-button{
-    border: none;
-    background: none;
+button {
+  border: none;
+  background: none;
 }
 
-.dialogBtn{
-    height: 57px;
-    font-size: 18px;
-    font-weight: 700;
-    padding: 10px;
+.dialogBtn {
+  height: 57px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px;
 }
 
-.dialogBtn:hover{
-    background-color:#29ABE2;
-    border-color: #29ABE2;
-    
+.dialogBtn:hover {
+  background-color: #29abe2;
+  border-color: #29abe2;
 }
 
-.dialogBtn:active{
-    background-color:rgba(9, 25, 49, 1);
-    border-color: rgba(9, 25, 49, 1);
+.dialogBtn:active {
+  background-color: rgba(9, 25, 49, 1);
+  border-color: rgba(9, 25, 49, 1);
 }
 
-.dialogBtnWhite{
-    height: 57px;
-    font-size: 18px;
-    font-weight: 700;
-    padding: 10px;
-    background-color: white;
-    color: black;
-    font-weight: 400;
-    border: solid 1px black;
+.dialogBtnWhite {
+  height: 57px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px;
+  background-color: white;
+  color: black;
+  font-weight: 400;
+  border: solid 1px black;
 }
 
-.dialogBtnWhite:hover{
-    color:#29ABE2;
-    border-color: #29ABE2;
-
+.dialogBtnWhite:hover {
+  color: #29abe2;
+  border-color: #29abe2;
 }
 
-.dialogBtnWhite:hover .cancel{
-    color:#29ABE2;
-    border-color: #29ABE2;
-    content: url('../assets/icons/png/iconoir_cancel_blue.png');
+.dialogBtnWhite:hover .cancel {
+  color: #29abe2;
+  border-color: #29abe2;
+  content: url("../assets/icons/png/iconoir_cancel_blue.png");
 }
 
-.dialogBtnWhite:active{
-    color:black;
-    border-color: black;
+.dialogBtnWhite:active {
+  color: black;
+  border-color: black;
 }
 
-.dialogBtnWhite:active .cancel{
-    color:black;
-    border-color: black;
-    content: url('../assets/icons/png/iconoir_cancel.png');
+.dialogBtnWhite:active .cancel {
+  color: black;
+  border-color: black;
+  content: url("../assets/icons/png/iconoir_cancel.png");
 }
 
-.detailsBtn{
-display: flex;
-gap: 10px;
+.detailsBtn {
+  display: flex;
+  gap: 10px;
 }
 
-.mailTo{
-    color: rgb(103, 176, 245)!important;
-    font-size: 16px;
-    font-weight: 400;
+.mailTo {
+  color: rgb(103, 176, 245) !important;
+  font-size: 16px;
+  font-weight: 400;
 }
 
-p{
-    margin: 0;
+p {
+  margin: 0;
 }
 
 .contactContainer {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: row;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
 }
 
 .contacts {
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    animation: fadeInBlur 0.25s ease forwards;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  animation: fadeInBlur 0.25s ease forwards;
 }
 
 .contactsBar {
-    display: flex;
-    flex-direction: column;
-    width: 556px;
-    height: 90vh;
-    padding-left: 35px;
-    padding-right: 35px;
-    background-color: white;
-    overflow-y: scroll;   
+  display: flex;
+  flex-direction: column;
+  width: 556px;
+  height: 90vh;
+  padding-left: 35px;
+  padding-right: 35px;
+  background-color: white;
+  overflow-y: scroll;
 }
 
 .contactsBar::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .contactsBar::-webkit-scrollbar-track {
-    background: white;
+  background: white;
 }
 
 .contactsBar::-webkit-scrollbar-thumb {
-    background-color: #aaa;
-    border-radius: 10px;
-    border: 2px solid white;
-    max-height: 20px;
+  background-color: #aaa;
+  border-radius: 10px;
+  border: 2px solid white;
+  max-height: 20px;
 }
 
 .contactsBar::-webkit-scrollbar-thumb:hover {
-    background-color: #888;
+  background-color: #888;
 }
 
 .btnContainer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .addContactBtn {
+  height: 56px;
+  width: 352px;
+  font-size: 21px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  margin-bottom: 20px;
+}
+
+.addContactBtn:hover {
+  background-color: #29abe2;
+  border-color: #29abe2;
+}
+
+.addContactBtn:active {
+  background-color: rgba(9, 25, 49, 1);
+  border-color: rgba(9, 25, 49, 1);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+.shortInfo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 100%;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.shortInfo:hover {
+  cursor: pointer;
+  background-color: rgb(42, 54, 71);
+  color: white;
+}
+
+.contact-group {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.separator {
+  padding-bottom: 20px;
+  padding-left: 20px;
+  border-bottom: solid rgb(209, 209, 209) 1px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contactDetails {
+  background-color: rgb(246, 247, 248);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  padding-left: 65px;
+}
+
+.contactHeadline {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.contactInfoBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.InfoBoxHead {
+  display: flex;
+  align-items: center;
+}
+
+.contactUserTag {
+  border-radius: 40px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: white;
+  margin-right: 30px;
+  font-size: 12px;
+  background-color: white;
+}
+
+.userTagBig {
+  border-radius: 120px;
+  width: 120px;
+  height: 120px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  color: white;
+  background-color: rgb(248, 113, 17);
+  margin-right: 30px;
+  font-size: 47px;
+  font-weight: 500;
+}
+
+.email {
+  margin-bottom: 30px;
+}
+
+.phone {
+  gap: 15px;
+}
+
+.blueLine {
+  border-left: 3px solid #29abe2;
+  height: 59px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.blueLineHorizontal {
+  border: 2px solid #29abe2;
+  width: 85px;
+}
+
+.userTag {
+  border: white 1px solid;
+  color: white;
+  padding: 16px;
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 61px;
+  font-weight: 700;
+}
+h3 {
+  font-size: 27px;
+  font-weight: 400;
+}
+
+h4 {
+  font-size: 20px;
+  font-weight: 400;
+  padding: 50px 0 50px 0;
+}
+
+#contactDialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: none;
+  z-index: 55;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  background-color: rgba(66, 66, 66, 0.637);
+  margin: auto;
+}
+
+.newContactContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.newContact {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 600px;
+  width: 100vw;
+  border-radius: 15px;
+  color: white;
+}
+
+.inputNameImg {
+  background: url("./../assets/icons/png/person.png");
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.inputMailImg {
+  background: url("./../assets/icons/svg/mail.svg");
+  background-repeat: no-repeat;
+  background-position: right;
+}
+.inputcallImg {
+  background: url("../assets/icons/png/call.png");
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.addContactLogo {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(42, 54, 71);
+  height: 100%;
+  width: 470px;
+  gap: 10px;
+  padding-left: 50px;
+  border-radius: 20px 0px 0px 20px;
+}
+
+.addContacts {
+  padding-left: 50px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 640px;
+  border-radius: 0 20px 20px 0px;
+}
+
+.createContact {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  padding-left: 50px;
+}
+
+.contacInput {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 50px;
+}
+
+
+.innerInputfield {
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 350px;
+  border: none;
+  padding-left: 5px;
+
+}
+
+.failtureText {
+  color: red;
+  font-size: 12px;
+}
+
+
+.visible-text {
+  opacity: 1;
+  visibility: visible;
+
+}
+
+.hidden-text {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease;
+}
+
+.noBorder {
+  border: none;
+  width: 100%;
+
+}
+
+.dialogBtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.closeBtn {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 50px;
+  width: 350px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.edit:hover {
+  content: url("../assets/icons/png/edit_blue.png");
+}
+
+.delete:hover {
+  content: url("../assets/icons/png/Delete_blue.png");
+}
+
+.close:hover {
+  cursor: pointer;
+  content: url("../assets/icons/png/iconoir_cancel_blue.png");
+}
+
+.close:active {
+  content: url("../assets/icons/png/iconoir_cancel.png");
+}
+
+.createContactBtn {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  width: 320px;
+}
+
+.addbutton {
+  font-size: 18px;
+  font-weight: 400;
+  padding: 5px;
+}
+
+.inputBorder {
+  border: solid rgba(0, 0, 0, 0.144) 1px;
+  height: 50px;
+  width: 350px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.deleteDialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: black;
+  padding-left: 50px;
+  font-size: 20px;
+}
+
+.deleteBtn {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
+
+input {
+  width: 300px;
+}
+
+.backToContactsBtn {
+  display: none;
+}
+
+.backArrow:hover {
+  cursor: pointer;
+}
+
+.topLine {
+  margin-top: 50px;
+  display: flex;
+}
+
+.closeMobileEditContact {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .contactsBar {
+    width: 456px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .mailTo {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1120px) {
+  h1 {
+    font-size: 42px;
+  }
+  h3 {
+    font-size: 18px;
+  }
+  .userTagBig {
+    width: 80px;
+    height: 80px;
+  }
+
+  .addbutton {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1020px) {
+  .sidebar li {
+    padding-left: 5px;
+  }
+  .contactsBar {
+    padding-left: 5px;
+    padding-right: 0px;
+  }
+  .addContactBtn {
+    height: 46px;
+    width: 250px;
+  }
+  .contactDetails {
+    padding-left: 45px;
+  }
+
+  .addContacts {
+    padding-left: 15px;
+  }
+
+  @media (max-width: 920px) {
+    .contactsBar {
+      width: 356px;
+    }
+    .addContactBtn {
+      font-size: 16px;
+    }
+    .contactDetails {
+      width: 70%;
+    }
+  }
+}
+
+@media (max-width: 855px) {
+  .blueLineMobile {
+    display: block;
+    border: 2px solid #29abe2;
+    width: 85px;
+  }
+  h1 {
+    font-size: 32px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  h3 {
+    font-size: 16px;
+  }
+  .contactDetails {
+    width: 75%;
+  }
+  .contactHeadline {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .userTagBig {
+    width: 60px;
+    height: 60px;
+    font-size: 32px;
+  }
+  .blueLine {
+    display: none;
+  }
+  .pointer {
+    height: 20px;
+  }
+  .contactInfoBox {
+    margin-top: 40px;
+  }
+  .help {
+    width: 10px;
+  }
+  .contactsBar {
+    width: 320px;
+  }
+  .contactContainer {
+    justify-content: left;
+  }
+
+  .contactUserTag {
+    margin-right: 15px;
+  }
+
+  .shortInfo {
+    padding: 10px;
+  }
+}
+@media (max-width: 760px) {
+  .contacts {
+    height: auto;
+  }
+}
+@media (max-width: 720px) {
+  .contactDetails {
+    padding-left: 15px;
+  }
+  .userTagBig {
+    margin-right: 15px;
+  }
+  .shortInfo {
+    padding: 5px;
+  }
+
+  .createContact {
+    padding-left: 15px;
+  }
+}
+@media (max-width: 700px) {
+  .userImg {
+    height: 110px;
+  }
+
+  .innerInputfield {
+    width: 300px;
+  }
+
+  .inputBorder {
+    width: 310px;
+  }
+
+  .closeBtn {
+    width: 320px;
+  }
+
+  .addbutton {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 625px) {
+  .innerInputfield {
+    width: 240px;
+  }
+
+  .inputBorder {
+    width: 250px;
+  }
+
+  .closeBtn {
+    width: 260px;
+  }
+}
+@media (max-width: 580px) {
+  .backToContactsBtn {
+    display: block;
+    padding-left: 250px;
+  }
+
+  .contactDetails {
+    display: none;
+    width: 100%;
+    padding-left: 30px;
+  }
+
+  h1 {
+    font-size: 51px;
+  }
+  h2 {
+    font-size: 42px;
+  }
+  h3 {
+    font-size: px;
+  }
+
+
+  h4 {
+    padding: 30px 0 20px 0;
+  }
+
+  .userTagBig {
+    width: 80px;
+    height: 80px;
+  }
+
+
+  .contactsBar {
+    width: 100vw;
+    align-items: center;
+    padding-bottom: 100px;
+  }
+  #contacts {
+    width: 100%;
+  }
+
+  .shortInfo {
+    justify-content: flex-start;
+    margin-left: 86px;
+  }
+
+  .addContactBtn {
     height: 56px;
     width: 352px;
     font-size: 21px;
@@ -135,702 +734,133 @@ p{
     gap: 16px;
     margin-top: 16px;
     margin-bottom: 20px;
-}
-
-.addContactBtn:hover{
-    background-color:#29ABE2;
-    border-color: #29ABE2;  
-}
-
-.addContactBtn:active{
-    background-color:rgba(9, 25, 49, 1);
-    border-color: rgba(9, 25, 49, 1);
-}
-
-.contact {
-    display: flex;
+  }
+  .newContact {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding-top: 30px;
-    padding-bottom: 10px;
-
-}
-
-.shortInfo {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: row;
-    width: 100%;
-    border-radius: 10px;
-    padding: 15px;
-}
-
-.shortInfo:hover {
-    cursor: pointer;
-    background-color: rgb(42, 54, 71);
-    color: white;
-}
-
-.contact-group{
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.separator {
-    padding-bottom: 20px;
-    padding-left: 20px;
-    border-bottom: solid rgb(209, 209, 209) 1px;   
-}
-
-
-.tag {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
-
-.contactDetails {
-    background-color: rgb(246, 247, 248);
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: start;
-    flex-direction: column;
-    padding-left: 65px;
-}
-
-.contactHeadline {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.contactInfoBox {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.InfoBoxHead {
-    display: flex;
-    align-items: center;
-}
-
-.contactUserTag{
-    border-radius: 40px;
-    width: 40px;
-    height: 40px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: white;
-    margin-right: 30px;
-    font-size: 12px;
-    background-color: white;
-}
-
-.userTagBig {
-    
-    border-radius: 120px;
-    width: 120px;
-    height: 120px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    color: white;
-    background-color: rgb(248, 113, 17);
-    margin-right: 30px;
-    font-size: 47px;
-    font-weight: 500;
-}
-
-.email{
-    margin-bottom: 30px;
-}
-
-.phone{
-    gap: 15px;
-}
-
-.blueLine {
-    border-left: 3px solid #29ABE2;
-    height: 59px;
-    margin-left: 30px;
-    margin-right: 30px;
-}
-
-.blueLineHorizontal {
-    border: 2px solid #29ABE2;
-    width: 85px;
-    
-
-}
-
-.userTag {
-    border: white 1px solid;
-    color: white;
-    padding: 16px;
-    border-radius: 100%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-h1{
-    font-size: 61px;
-    font-weight: 700;
-}
-h3{
-    font-size: 27px;
-    font-weight: 400;
-}
-
-h4{
-    font-size: 20px;
-    font-weight: 400;
-    padding: 50px 0 50px 0 ;
-}
-
-#contactDialog{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    display: none;
-    z-index: 55;
     height: 100vh;
     width: 100vw;
-    position: fixed;
-    background-color: rgba(66, 66, 66, 0.637);
-    margin: auto;   
-}
+  }
 
-.newContactContainer{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-    border-radius: 20px;
-}
-
-.newContact{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 600px;
-    width: 100vw;
-    border-radius: 15px;
-    color: white;
-    
-}
-
-.addContactLogo{
-    display: flex;
+  .addContactLogo {
+    padding: 0;
+    border-radius: 20px 20px 0px 0px;
     align-items: flex-start;
+    height: 50%;
+    width: 100%;
+    padding-left: 20px;
+  }
+  .addContacts {
+    height: 50%;
+    width: 100%;
+    border-radius: 0px 0px 20px 20px;
+    flex-direction: column;
     justify-content: center;
+    padding: 0;
+  }
+
+  .createContact {
+    display: flex;
+    width: 100%;
     flex-direction: column;
-    background-color: rgb(42, 54, 71);
-    height: 100%;
-    width: 470px;
-    gap:10px;
-    padding-left: 50px;
-    border-radius: 20px 0px 0px 20px;
-}
-
-.addContacts{
-    padding-left: 50px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    height: 100%; 
-    width: 640px;  
-    border-radius: 0 20px 20px 0px;
-}
-
-.createContact{
-    display: flex;
-    width: 50%;
-    flex-direction: column;
-    padding-left: 50px;
-}
-
-.contacInput{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-bottom: 50px;
-}
-
-.innerInputfield {
-    height: 40px;
-    display: flex;
-    flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 350px;
-    border: none;
-    padding-left: 5px;
+    padding-left: 0;
+    margin-bottom: 34%;
+  }
 
-}
+  .createContactBtn {
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+  }
 
-.noBorder {
-    border: none;
-}
+
+  .closeBtn {
+    display: none;
+  }
 
 
-.closeBtn{
+  .userImg {
+    position: sticky;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+     margin: 0; 
+     margin-bottom: 8%;
+  }
+
+  .notOnMobile {
+    display: none;
+  }
+
+  #dialogInfo {
+    font-size: 56px;
+  }
+
+  h3 {
+    font-size: 24px;
+  }
+
+  .closeMobileEditContact {
+    width: 95%;
     display: flex;
     justify-content: flex-end;
+    margin-top: -50px;
+    margin-bottom: 150px;
+  }
+
+  .closeMobileEditContactBtn:hover {
+    cursor: pointer;
+  }
+
+  .editImg {
+    display: none;
+  }
+
+  .blueLine {
+    display: none;
+  }
+}
+
+@media (max-width: 530px) {
+  .backToContactsBtn {
+    padding-left: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .backToContactsBtn {
+    padding-left: 150px;
+  }
+}
+
+@media (max-width: 435px) {
+  .backToContactsBtn {
+    padding-left: 100px;
+  }
+}
+
+@media (max-width: 385px) {
+  .backToContactsBtn {
+    padding-left: 30px;
+  }
+  .addContactBtn {
+    width: 300px;
+  }
+}
+
+@media (max-width: 360px) {
+  .innerInputfield,
+  .contacInput,
+  .inputBorder {
+    width: 300px;
+  }
+  .closeMobileEditContact {
     margin-bottom: 50px;
-    width: 350px;
-}
+  }
 
-.pointer{
-    cursor: pointer;
-}
-
-.edit:hover{
-    content: url('../assets/icons/png/edit_blue.png');
-}
-
-.delete:hover{
-    content: url('../assets/icons/png/Delete_blue.png');
-}
-
-.close:hover{
-    cursor: pointer;
-    content: url('../assets/icons/png/iconoir_cancel_blue.png');
-}
-
-.close:active{
-    content: url('../assets/icons/png/iconoir_cancel.png');
-}
-
-.createContactBtn{
-display: flex;
-gap: 20px;
-align-items: flex-start;
-width: 320px;
-}
-
-.addbutton{
-    font-size: 18px;
-    font-weight: 400;
-    padding: 5px;
-
-}
-
-.inputBorder{  
-border: solid rgba(0, 0, 0, 0.144) 1px;
-height: 50px;
-width: 350px;
-border-radius: 10px;
-display: flex;
-align-items: center;
-}
-
-.deleteDialog{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: black;
-    padding-left: 50px;
-    font-size: 20px;
-
-}
-
-.deleteBtn{
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 20px;
-}
-
-input{
-    width: 300px;
-}
-
-.backToContactsBtn{
-    display: none;  
-}
-
-.backArrow:hover{
-    cursor: pointer;
-}
-
-.topLine{
-    margin-top: 50px;
-    display: flex;
-}
-
-.closeMobileEditContact{
-    display: none;
-}
-
-@media (max-width: 1200px){
-
-    .contactsBar{
-        width: 456px;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    .mailTo{
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 1120px){
-
-h1{
-    font-size: 42px;
-}
-h3{
-    font-size: 18px;
-}
-.userTagBig{
-    width: 80px;
-    height: 80px; 
-
-}
-
-.addbutton{
-    font-size: 16px;
-}
-}
-
-@media (max-width: 1020px){
-    .sidebar li{
-        padding-left: 5px;
-    }
-    .contactsBar{
-        padding-left: 5px;
-        padding-right: 0px;
-    }
-    .addContactBtn{
-        height: 46px;
-        width: 250px;
-    }
-    .contactDetails{
-        padding-left: 45px;
-    }
-
-    .addContacts{
-        padding-left: 15px;
-    }
-
-    @media (max-width: 920px){
-        .contactsBar{
-            width: 356px;
-        }
-        .addContactBtn{
-            font-size: 16px;   
-    }
-    .contactDetails{
-        width: 70%;
-    }
-}
-}
-
-@media (max-width: 855px){
-    .blueLineMobile{
-        display: block;
-        border: 2px solid #29ABE2;
-        width: 85px;
-    }
-    h1{
-        font-size: 32px;
-    }
-    h2{
-        font-size: 20px;
-    }
-    h3{
-        font-size: 16px;
-    }
-    .contactDetails{
-        width: 75%;
-    }
-    .contactHeadline{
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    .userTagBig{
-        width: 60px;
-        height: 60px;
-        font-size: 32px; 
-    }
-    .blueLine{
-        display: none;
-    }
-    .pointer{
-        height: 20px;
-    }
-    .contactInfoBox{
-        margin-top: 40px;
-    }
-    .help{
-        width: 10px;
-    }
-    .contactsBar{
-        width: 320px;
-        
-    }
-    .contactContainer{
-    justify-content: left;
-    }
-
-    .contactUserTag{
-        margin-right: 15px;
-    }
-
-    .shortInfo{
-        padding: 10px;
-    }
-
-}
-@media (max-width: 760px){
-
-    .contacts{
-        height: auto;
-    }
-}
-@media (max-width: 720px){
-    .contactDetails{
-        padding-left: 15px;
-    }
-.userTagBig{
-    margin-right: 15px;
-}
-.shortInfo{
-    padding: 5px;
-}
-
-.createContact{
-    padding-left: 15px;
-}
-
-}
-@media (max-width: 700px){
-
-.userImg{
-    height: 110px;
-}
-
-.innerInputfield{
-    width: 300px;
-}
-
-.inputBorder{
-    width: 310px;
-}
-
-.closeBtn{
-    width: 320px;
-}
-
-.addbutton{
+  .sidebar li {
     font-size: 14px;
-}
-
-}
-
-@media (max-width: 625px){
-    .innerInputfield{
-        width: 240px;
-    }
-    
-    .inputBorder{
-        width: 250px;
-    }
-    
-    .closeBtn{
-        width: 260px;
-    }
-
-}
-@media (max-width: 580px){
-    .backToContactsBtn{
-        display: block;
-        padding-left: 250px;
-    }
-
-    .contactDetails{
-        display: none;
-        width: 100%;
-        padding-left: 30px;
-    }
-
-    h1{
-        font-size: 51px;
-    }
-    h2{
-        font-size: 42px;
-    }
-    h3{
-        font-size: px;
-    }
-
-    h4{
-        padding: 30px 0 20px 0
-    }
-
-    .userTagBig{
-        width: 80px;
-        height: 80px;
-    }
-
-    .contactsBar{
-        width: 100vw;
-        align-items: center;
-        padding-bottom: 100px;
-
-    }
-    #contacts{
-        width: 100%;
-    }
-
-    .shortInfo{
-        justify-content: flex-start;
-        margin-left: 86px;
-    }
-
-    .addContactBtn {
-        height: 56px;
-        width: 352px;
-        font-size: 21px;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 16px;
-        margin-top: 16px;
-        margin-bottom: 20px;
-    }
-    .newContact{
-        flex-direction: column;
-        height: 100vh;
-        width: 100vw;
-    }
-
-    .addContactLogo{
-        padding: 0;
-        border-radius: 20px 20px 0px 0px;
-        align-items: flex-start;
-        height: 50%;
-        width: 100%;
-        padding-left: 20px;
-    }
-    .addContacts{
-        height: 50%;
-        width: 100%;
-        border-radius: 0px 0px 20px 20px;
-        flex-direction: column;
-        justify-content: center;
-        padding: 0;
-    }
-
-    .createContact{
-        display: flex;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding-left: 0;  
-    }
-
-    .createContactBtn{
-        gap: 15px;
-        align-items: center;
-        justify-content: center;
-
-    }
-
-    .closeBtn{
-        display: none;
-    }
-
-    .userImg{
-        margin-top: -180px;
-    }
-
-    .notOnMobile{
-        display: none;
-    }
-
-    #dialogInfo{
-        font-size: 56px;
-    }
-
-    h3{
-        font-size: 24px;
-    }
-
-    .closeMobileEditContact{
-        width: 95%;
-        display: flex;
-        justify-content: flex-end;
-        margin-top: -50px; 
-        margin-bottom: 150px; 
-    }
-
-    .closeMobileEditContactBtn:hover{
-        cursor: pointer;
-    }
-
-    .editImg{
-        display: none;
-    }
-
-.blueLine{
-    display: none;
-}
-
-}
-
-@media (max-width: 530px){
-    .backToContactsBtn{
-        padding-left: 200px;
-    }
-}
-
-@media (max-width: 480px){
-    .backToContactsBtn{
-        padding-left: 150px;
-    }
-}
-
-@media (max-width: 435px){
-    .backToContactsBtn{
-        padding-left: 100px;
-    }
-}
-
-@media (max-width: 385px){
-    .backToContactsBtn{
-        padding-left: 30px;
-    }
-    .addContactBtn{
-        width: 300px;
-    }
-}
-
-@media (max-width: 360px){
-
-    .innerInputfield, .contacInput, .inputBorder{
-        width: 300px;
-    }
-    .closeMobileEditContact {
-        margin-bottom: 50px;
-    }
-
-    .sidebar li{
-        font-size: 14px;
-    }
+  }
 }

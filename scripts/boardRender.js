@@ -48,10 +48,18 @@ function renderTask(container, taskId, task, listId) {
  */
 function renderTaskWorkers(workers) {
     if (!workers || workers.length === 0) return "";
-    return workers
-        .filter(worker => worker && worker.name) 
+
+    const maxWorkersToShow = 5; // Maximale Anzahl der anzuzeigenden Arbeiter
+    const workersToShow = workers
+        .filter(worker => worker && worker.name) // Ungültige oder leere Arbeiter entfernen
+        .slice(0, maxWorkersToShow); // Nur die ersten 5 Arbeiter auswählen
+
+    const additionalCount = workers.length - workersToShow.length; // Zusätzliche Arbeiter zählen
+
+    // Arbeiter-HTML generieren
+    const workersHTML = workersToShow
         .map(worker => {
-            const [vorname, nachname] = worker.name.split(" "); 
+            const [vorname, nachname] = worker.name.split(" ");
             const backgroundColor = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
             return `
                 <p class="workerEmblem" style="background-color: ${backgroundColor};">
@@ -59,7 +67,14 @@ function renderTaskWorkers(workers) {
                 </p>
             `;
         })
-        .join(""); 
+        .join("");
+
+    // Zusätzliche Anzeige hinzufügen, falls mehr als 5 Arbeiter vorhanden sind
+    const additionalHTML = additionalCount > 0 
+        ? `<p class="additionalWorkers">+${additionalCount}</p>` 
+        : "";
+
+    return workersHTML + additionalHTML;
 }
 
 
@@ -79,6 +94,7 @@ async function openTaskPopup(taskId, listId) {
     const subtasksHTML = generateSubtasksHTML(task, taskId, listId); // Subtasks generieren
     const workersHTML = generateWorkersHTML(task.workers || []); // Arbeiter generieren
     showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workersHTML, listId, taskId); // Popup anzeigen
+    document.getElementsByTagName('body')[0].style.overflow = "hidden";
 }
 
 
@@ -127,8 +143,8 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
     popupContainer.innerHTML = `
         ${headerHTML}
         ${detailsHTML}
-        ${workerContainerHTML}
-        ${subtasksContainerHTML}
+        <div class="workerContainer">${workerContainerHTML}</div>
+        <div class="subtask-container"${subtasksContainerHTML}</div>
         ${actionsHTML}
     `;
 }
@@ -178,12 +194,20 @@ function renderSelectedContacts() {
     if (!selectedContactsList) {
         return;
     }
+
     selectedContactsList.innerHTML = ""; // Liste zurücksetzen
+
     if (!window.localContacts || typeof window.localContacts !== "object") {
         console.warn("window.localContacts ist nicht definiert oder kein gültiges Objekt.");
         return;
     }
-    Object.values(window.localContacts).forEach(contact => {
+
+    const contacts = Object.values(window.localContacts); // Kontakte extrahieren
+    const maxContactsToShow = 5; // Maximal anzuzeigende Kontakte
+    const visibleContacts = contacts.slice(0, maxContactsToShow); // Erste 5 Kontakte
+    const additionalCount = contacts.length - visibleContacts.length; // Anzahl zusätzlicher Kontakte
+
+    visibleContacts.forEach(contact => {
         const div = document.createElement("div");
         div.id = `selected_${contact.id}`;
         div.classList.add("selected-contact");
@@ -198,7 +222,16 @@ function renderSelectedContacts() {
         div.appendChild(p);
         selectedContactsList.appendChild(div);
     });
+
+    if (additionalCount > 0) {
+        // Füge einen Hinweis für zusätzliche Kontakte hinzu
+        const additionalDiv = document.createElement("div");
+        additionalDiv.classList.add("additional-contacts");
+        additionalDiv.textContent = `+${additionalCount}`;
+        selectedContactsList.appendChild(additionalDiv);
+    }
 }
+
 
 
 

@@ -181,7 +181,6 @@ function saveEditedSubtask(subtaskId) {
     // Subtask abrufen oder neuen erstellen, falls nicht vorhanden
     let subtask = window.localSubtasks[subtaskId];
     if (!subtask) {
-        console.log(`Subtask mit ID ${subtaskId} nicht gefunden. Ein neuer Subtask wird erstellt.`);
         subtask = { title: "", done: false };
         window.localSubtasks[subtaskId] = subtask;
     }
@@ -205,7 +204,7 @@ function saveEditedSubtask(subtaskId) {
     const oldTitle = subtask.title;
     subtask.title = newTitle || oldTitle; // Behalte den alten Titel, falls das Eingabefeld leer ist
 
-    console.log(`Subtask ${subtaskId} wurde aktualisiert:`, subtask);
+
 
     // DOM aktualisieren
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
@@ -248,10 +247,6 @@ function initializeLocalTaskState(task) {
         ? { ...task.subtasks } 
         : {};
 
-    console.log("Initialized local state:", {
-        workers: window.localEditedContacts,
-        subtasks: window.localEditedSubtasks,
-    });
 }
 
 
@@ -338,7 +333,7 @@ function saveSubtaskEdit(subtaskId) {
 
     // Abrufen des neuen Titels
     const newTitle = inputElement.value;
-    console.log("saveSubtaskEdit aufgerufen mit:", { subtaskId, newTitle });
+   
 
     // Überprüfen, ob der neue Titel definiert ist
     if (!newTitle || newTitle.trim() === "") {
@@ -352,7 +347,7 @@ function saveSubtaskEdit(subtaskId) {
     // Aktualisierung des lokalen Zustands
     if (window.localSubtasks && window.localSubtasks[subtaskId]) {
         window.localSubtasks[subtaskId].title = trimmedTitle;
-        console.log("Subtask aktualisiert:", subtaskId, "mit neuem Titel:", trimmedTitle);
+      
     } else {
         console.error("Subtask mit der ID nicht im lokalen Zustand gefunden:", subtaskId);
         return;
@@ -429,7 +424,10 @@ let selectedContacts = [];
 
 
 
-
+function closeContactsDropdown() {
+    const dropdownList = document.getElementById("contactsDropdownList");
+      dropdownList.classList.remove("open");
+  }
 
 
 
@@ -536,8 +534,6 @@ function isContactSelected(contactName) {
         return acc;
     }, {});
 
-    console.log("Lokale Kontakte erfolgreich initialisiert:", window.localContacts);
-
     // Aktualisiere die HTML-Liste der ausgewählten Kontakte
     renderSelectedContacts();
 }
@@ -564,7 +560,7 @@ function synchronizeContactCheckboxes() {
             );
         }
     });
-    console.log("Checkboxen erfolgreich synchronisiert:", window.localEditedContacts);
+  
 }
 
 
@@ -600,14 +596,24 @@ function updateLocalContactsFromCheckboxes() {
     });
 }
 
-document.addEventListener("click", function (event) {
+document.addEventListener("mousedown", function (event) {
     const dropdownList = document.getElementById("contactsDropdownList");
     const createContactBar = document.querySelector(".createContactBar");
-    if (
-        dropdownOpen && 
-        !dropdownList.contains(event.target) && 
-        !createContactBar.contains(event.target)
-    ) {
+    const selectedContactsList = document.getElementById("selectedContactsList");
+
+    // Sicherstellen, dass die Elemente existieren
+    if (!dropdownList || !createContactBar || !selectedContactsList) {
+        console.error("Ein erforderliches Element fehlt!");
+        return;
+    }
+
+    // Prüfen, ob außerhalb der relevanten Elemente geklickt wurde
+    const clickedInsideDropdown = dropdownList.contains(event.target);
+    const clickedInsideCreateBar = createContactBar.contains(event.target);
+    const clickedInsideSelectedContacts = selectedContactsList.contains(event.target);
+
+    // Wenn der Klick außerhalb dieser Bereiche ist, erzwinge das Schließen
+    if (!clickedInsideDropdown && !clickedInsideCreateBar && !clickedInsideSelectedContacts) {
         dropdownList.classList.remove("open");
         dropdownOpen = false;
     }
@@ -617,34 +623,30 @@ document.addEventListener("click", function (event) {
 
 
 
+
 function handleContactSelection(contact, isChecked) {
     if (!window.localContacts) {
         window.localContacts = {}; // Initialisierung
     }
+
     const selectedContactsList = document.getElementById("selectedContactsList");
+    if (!selectedContactsList) return;
+
     if (isChecked) {
         if (!isContactSelected(contact.name)) {
             selectedContacts.push(contact);
             window.localContacts[contact.id] = contact; // Synchronisierung
-            const [vorname, nachname] = contact.name.split(" ");
-            const div = document.createElement("div");
-            div.id = `selected_${contact.id}`;
-            div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
-            const workerEmblem = document.createElement("p");
-            workerEmblem.classList.add("workerEmblem");
-            workerEmblem.style.backgroundColor = getColorHex(
-                vorname?.toLowerCase() || "", 
-                nachname?.toLowerCase() || ""
-            ); // Farbe setzen basierend auf Vor- und Nachnamen
-            workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
-            div.appendChild(workerEmblem);
-            selectedContactsList.appendChild(div);
         }
     } else {
         removeContact(contact);
     }
+
+    // Beschränke die Anzeige auf 5 Kontakte
+    renderSelectedContacts();
     updateDropdownLabel();
 }
+
+
 
   
 
@@ -668,20 +670,6 @@ function updateDropdownLabel() {
         dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
     }
 }
-
-
-document.addEventListener("click", function (event) {
-    const dropdownList = document.getElementById("contactsDropdownList");
-    const createContactBar = document.querySelector(".createContactBar");
-    if (
-        dropdownOpen && 
-        !dropdownList.contains(event.target) && 
-        !createContactBar.contains(event.target)
-    ) {
-        dropdownList.classList.remove("open");
-        dropdownOpen = false;
-    }
-});
 
 
 

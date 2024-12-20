@@ -15,7 +15,6 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
              draggable="true"
              ondragstart="startDragging('${taskId}', '${listId}')"
              ontouchstart="startTouchDragging(event, '${taskId}')"
-
              onclick="openTaskPopup('${taskId}', '${listId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || "No Category"}</p>
@@ -90,7 +89,6 @@ function generateWorkersHTML(workers = [], showNames = false) {
     if (workers.length === 0) {
         return '<p>No selected Contacts.</p>';
     }
-
     return workers
         .filter(worker => worker && worker.name)
         .map(worker => {
@@ -168,7 +166,9 @@ function generatePopupHeaderHTML(task) {
 
 function generatePopupDetailsHTML(task) {
     return `
-        <h1>${task.title || 'Kein Titel'}</h1>
+        <div class="popupTitle">
+        <h1>${task.title}</h1>
+        </div>
         <p class="popupDescription">${task.description || 'Keine Beschreibung'}</p>
         <p class="popupInformation">Due Date: <strong>${task.dueDate || 'Kein Datum'}</strong></p>
         <p class="popupInformation">Priority: <strong>${task.priority || 'Low'}
@@ -181,12 +181,10 @@ function generatePopupDetailsHTML(task) {
 
 function generateWorkerContainerHTML(initials, color, name, showName) {
     return `
-        <div class="workerContainer">
             <div class="workerInformation">
                 <p class="workerEmblem" style="background-color: ${color};">${initials}</p>
                             ${showName ? `<p class="workerName">${name}</p>` : ""} 
             </div>
-        </div>
     `;
 }
 
@@ -195,11 +193,8 @@ function generateWorkerContainerHTML(initials, color, name, showName) {
 
 function generateSubtasksContainerHTML(subtasksHTML) {
     return `
-        <div class="subtasks-container">
             <h2>Subtasks:</h2>
-            ${subtasksHTML}
-        </div>
-    `;
+            ${subtasksHTML}    `;
 }
 
 
@@ -290,12 +285,12 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
         <div class="formParts">
                 <div class="formPart">
                     <label for="title">Title<span class="requiredStar">*</span></label>
-                    <input type="text" id="title" value="${task.title || ''}" required>
+                    <input maxlength="30" type="text" id="title" value="${task.title || ''}" required>
                     <label for="description">Description</label>
                     <textarea id="description" rows="5">${task.description || ''}</textarea>
                     <label for="contactSelection">Assign Contacts</label>
                             <div class="createContactBar" onclick="toggleContactsDropdown()">
-                                <span id="dropdownLabel">Select Task Category</span>
+                                <span id="dropdownLabel">Select Contacts</span>
                             </div>
                             <div class="customDropdown">
                                 <ul class="dropdownList" id="contactsDropdownList"></ul>
@@ -316,9 +311,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                         <option value="User Story" ${task.category?.name === 'User Story' ? 'selected' : ''}>User Story</option>
                     </select>
                     <label for="subtask">Subtasks</label>
-                    <div id="subTasksList">
-                        ${subtasksHTML}
-                        <div class="createSubtaskBar">
+                    <div class="createSubtaskBar">
                         <input id="subTaskInputAddTask" 
                             name="subTaskInput" 
                             class="addSubTaskInput" 
@@ -333,6 +326,8 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                             </div>
                             <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
                         </div>
+                    <div id="subTasksList">
+                        ${subtasksHTML}
                     </div>
                 </div>
             </div>

@@ -142,6 +142,7 @@ async function addTaskToToDoList(event) {
     if (result) {
       showSnackbar("Der Task wurde erfolgreich erstellt!");
       document.getElementById("prioMiddle").classList.add("active");
+      location.href="./board.html";
     }
   } catch (error) {
     console.error("Fehler beim Hinzufügen des Tasks:", error);
@@ -155,21 +156,41 @@ async function addTaskToToDoList(event) {
 function validateTaskInputs() {
   const title = document.getElementById("title").value.trim();
   const dueDate = document.getElementById("date").value.trim();
-  const priority = tempPriority;
-  const categoryInput = document.getElementById("category"); 
-  const selectedCategory = document.getElementById("selectedCategory"); 
-  const categoryName = categoryInput.value.trim();
+  const categoryInput = document.getElementById("category");
+  const categoryName = categoryInput ? categoryInput.value.trim() : "";
   let isValid = true;
-  if (!title || !dueDate || !priority || !categoryName) {
-    console.error("Pflichtfelder sind nicht vollständig ausgefüllt.");
-    if (!title) console.error("Titel ist ein Pflichtfeld.");
-    if (!dueDate) console.error("Fälligkeitsdatum ist ein Pflichtfeld.");
-    if (!priority) console.error("Priorität ist ein Pflichtfeld.");
-    if (!categoryName) console.error("Kategorie ist ein Pflichtfeld.");
-    return false;
+  const titleWarning = document.getElementById("titleWarning");
+  const dateWarning = document.getElementById("dateWarning");
+  const categoryWarning = document.getElementById("categoryWarning");
+  resetWarnings([titleWarning, dateWarning, categoryWarning]);
+  if (!title) {
+    titleWarning.classList.replace("hidden-text","visible-text");
+    isValid = false;
   }
-  return true;
+  if (!dueDate) {
+    dateWarning.classList.replace("hidden-text","visible-text");
+    isValid = false;
+  }
+  if (!categoryName) {
+    categoryWarning.classList.replace("hidden-text","visible-text");
+    isValid = false;
+  }
+
+  return isValid;
 }
+
+/**
+ * Setzt die Warnungen zurück.
+ * @param {Array} warningElements - Eine Liste der Warnungselemente.
+ */
+function resetWarnings(warningElements) {
+  warningElements.forEach((warning) => {
+    if (warning) {
+      warning.classList.remove("showalert");
+    }
+  });
+}
+
 
 document.addEventListener("DOMContentLoaded", () => {
   const categoryDropdown = document.getElementById("categoryDropdown");
@@ -506,41 +527,63 @@ function isContactSelected(contactName) {
 
 function handleContactSelection(contact, isChecked) {
   if (!window.localContacts) {
-    window.localContacts = {}; 
+      window.localContacts = {}; // Initialisierung
   }
 
   const selectedContactsList = document.getElementById("selectedContactsList");
+  if (!selectedContactsList) return;
 
   if (isChecked) {
-    if (!isContactSelected(contact.name)) {
-      selectedContacts.push(contact);
-      window.localContacts[contact.id] = contact; 
-      
-      // Vor- und Nachnamen extrahieren
-      const [vorname, nachname] = contact.name.split(" ");
-      const backgroundColor = getColorRGB(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Generiere Farbe basierend auf Vor- und Nachnamen
-
-      // Div-Container für den Kontakt erstellen
-      const div = document.createElement("div");
-      div.id = `selected_${contact.id}`;
-      div.classList.add("selected-contact");
-
-      // Arbeiter-Symbol erstellen
-      const workerEmblem = document.createElement("p");
-      workerEmblem.classList.add("workerEmblem");
-      workerEmblem.style.backgroundColor = backgroundColor; // Setze die Farbe
-      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
-
-      // Div-Container mit dem Symbol in die Liste einfügen
-      div.appendChild(workerEmblem);
-      selectedContactsList.appendChild(div);
-    }
+      if (!isContactSelected(contact.name)) {
+          selectedContacts.push(contact);
+          window.localContacts[contact.id] = contact; // Synchronisierung
+      }
   } else {
-    removeContact(contact); // Entferne den Kontakt
+      removeContact(contact);
   }
 
-  updateDropdownLabel(); // Aktualisiere die Dropdown-Beschriftung
+  // Beschränke die Anzeige auf 5 Kontakte
+  renderSelectedContacts();
+  updateDropdownLabel();
 }
+
+/**
+* Aktualisiert die Anzeige der ausgewählten Kontakte.
+*/
+function renderSelectedContacts() {
+  const selectedContactsList = document.getElementById("selectedContactsList");
+  if (!selectedContactsList) return;
+
+  selectedContactsList.innerHTML = ""; // Liste zurücksetzen
+
+  const maxContactsToShow = 5;
+  const visibleContacts = selectedContacts.slice(0, maxContactsToShow); // Erste 5 Kontakte
+  const additionalCount = selectedContacts.length - visibleContacts.length; // Anzahl zusätzlicher Kontakte
+
+  visibleContacts.forEach(contact => {
+      const [vorname, nachname] = contact.name.split(" ");
+      const div = document.createElement("div");
+      div.id = `selected_${contact.id}`;
+      div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
+      const workerEmblem = document.createElement("p");
+      workerEmblem.classList.add("workerEmblem");
+      workerEmblem.style.backgroundColor = getColorHex(
+          vorname?.toLowerCase() || "",
+          nachname?.toLowerCase() || ""
+      ); // Farbe setzen basierend auf Vor- und Nachnamen
+      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+      div.appendChild(workerEmblem);
+      selectedContactsList.appendChild(div);
+  });
+
+  if (additionalCount > 0) {
+      const additionalDiv = document.createElement("div");
+      additionalDiv.classList.add("additional-contacts");
+      additionalDiv.textContent = `+${additionalCount}`;
+      selectedContactsList.appendChild(additionalDiv);
+  }
+}
+
 
 
 
@@ -634,6 +677,27 @@ document.addEventListener("click", function (event) {
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date().toISOString().split('T')[0];
+  const dateInput = document.getElementById('date');
+  
+
+  if (dateInput) {
+    dateInput.setAttribute('min', today);
+
+    dateInput.addEventListener('change', (event) => {
+      const selectedDate = event.target.value;
+      if (selectedDate < today) {
+        alert("Vergangene Daten können nicht ausgewählt werden.");
+        event.target.value = ""; // Leert das Feld
+      }
+    });
+  } else {
+   
+  }
+});
+
+
 
 /**
  * Fügt eine neue Subtask hinzu.
@@ -710,6 +774,7 @@ function resetFormAndLists() {
     form.reset(); 
     document.getElementById(setPriority());
     document.getElementById("prioMiddle").classList.add("active");
+    window.location.reload();
   }
   const listsToClear = ["subTasksList", "selectedContactsList"]; 
   listsToClear.forEach((listId) => {

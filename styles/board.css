@@ -1,5 +1,14 @@
-body{
+body {
   overflow: hidden;
+}
+
+.selected-contact {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+h4 {
+  width: 179px;
 }
 
 .addTaskBtn {
@@ -24,10 +33,10 @@ body{
   margin-right: 10px;
 }
 
-.closebtn{
+.closebtn {
   display: flex;
-    align-items: center;
-    justify-content: end;
+  align-items: center;
+  justify-content: end;
 }
 
 .custom-checkbox {
@@ -108,9 +117,9 @@ h1 {
 
 .listHeadline {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-right: 16px;
+  gap: 17px;
 }
 
 .taskList {
@@ -133,34 +142,50 @@ h1 {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow-y: auto; /* Ermöglicht vertikales Scrollen */
-  overflow-x: scroll; /* Verhindert horizontales Scrollen */
-  touch-action: pan-y; /* Scroll nur in eine Richtung erlaubt */
+  overflow-y: auto;
+  /* Ermöglicht vertikales Scrollen */
+  touch-action: pan-y;
+  /* Scroll nur in eine Richtung erlaubt */
+  max-height: 673px;
 }
 
 .dragging .listHeadline,
 .dragging .taskContainer {
-    pointer-events: none; /* Verhindert, dass diese Bereiche als Ziel erkannt werden */
+  pointer-events: none;
+  /* Verhindert, dass diese Bereiche als Ziel erkannt werden */
 }
 
-.scroll-zone-top,
-.scroll-zone-bottom {
-    position: fixed;
-    height: 50px;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    pointer-events: none;
+
+.subtaskButtons:hover {
+  cursor: pointer;
 }
+
+.error {
+  border: 1px solid red;
+  background-color: #ffeeee;
+  /* Optional: Heller roter Hintergrund */
+}
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: -17px;
+  display: none;
+}
+
+.showalert {
+  display: block;
+}
+
 
 .scroll-zone-top {
-    top: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);
 }
 
 .scroll-zone-bottom {
-    bottom: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);
 }
 
 
@@ -177,10 +202,10 @@ h1 {
 }
 
 .editSubtaskBar {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .nothingToDoText {
@@ -193,16 +218,19 @@ h1 {
 }
 
 .progress-bar {
-    height: 100%; /* Füllt die Progressbar in der Höhe */
-    background-color: #2A3647; /* Farbe der Progressbar */
-    transition: width 0.5s ease-in-out; /* Smooth Animation */
+  height: 100%;
+  /* Füllt die Progressbar in der Höhe */
+  background-color: #2a3647;
+  /* Farbe der Progressbar */
+  transition: width 0.5s ease-in-out;
+  /* Smooth Animation */
 }
 
 .progress-bar.complete {
-    background-color: #f39c12; /* Farbe für 100% */
-    box-shadow: 5px 5px 15px 5px #f39c12, 5px 5px 15px 5px rgba(243, 156, 18, 0.5);
+  background-color: #f39c12;
+  /* Farbe für 100% */
+  box-shadow: 5px 5px 15px 5px #f39c12, 5px 5px 15px 5px rgba(243, 156, 18, 0.5);
 }
-
 
 .boardCard {
   box-shadow: 0px 2px 8px rgb(223, 224, 225);
@@ -213,32 +241,39 @@ h1 {
   background: #ffffff;
 }
 
-
-
 .taskCardTitle {
   width: 200px;
   font-size: 16px;
   font-weight: 700;
   color: #2a3647;
   overflow-wrap: break-word;
-  overflow-wrap: break-word; /* Optional für Wortumbrüche */
-  width: 200px; /* Box-Breite */
-  overflow: hidden; /* Verhindert das Überlaufen */
-  text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
-  white-space: nowrap; /* Verhindert den Zeilenumbruch */
+  overflow-wrap: break-word;
+  /* Optional für Wortumbrüche */
+  width: 200px;
+  /* Box-Breite */
+  overflow: hidden;
+  /* Verhindert das Überlaufen */
+  text-overflow: ellipsis;
+  /* Fügt ... bei Überlauf hinzu */
+  white-space: nowrap;
+  /* Verhindert den Zeilenumbruch */
 }
 
 .taskCardDescription {
   font-size: 16px;
   font-weight: 400;
   color: #a8a8a8;
-  overflow-wrap: break-word; /* Optional für Wortumbrüche */
-  width: 200px; /* Box-Breite */
-  overflow: hidden; /* Verhindert das Überlaufen */
-  text-overflow: ellipsis; /* Fügt ... bei Überlauf hinzu */
-  white-space: nowrap; /* Verhindert den Zeilenumbruch */
+  overflow-wrap: break-word;
+  /* Optional für Wortumbrüche */
+  width: 200px;
+  /* Box-Breite */
+  overflow: hidden;
+  /* Verhindert das Überlaufen */
+  text-overflow: ellipsis;
+  /* Fügt ... bei Überlauf hinzu */
+  white-space: nowrap;
+  /* Verhindert den Zeilenumbruch */
 }
-
 
 .taskCardSubtasks {
   font-size: 12px;
@@ -260,6 +295,7 @@ h1 {
   justify-content: space-between;
   align-items: center;
   padding-top: 24px;
+  padding-left: 16px;
 }
 
 .worker {
@@ -267,7 +303,7 @@ h1 {
 }
 
 .workerEmblem:first-child {
-  margin-left: 0;
+  margin-left: -16px;
   /* Das erste Element bleibt an der Ausgangsposition */
 }
 
@@ -287,27 +323,28 @@ h1 {
 }
 
 .workerEmblemList {
-    border: white 1px solid;
-    color: white;
-    padding: 1rem;
-    border-radius: 100%;
-    width: 1.25rem;
-    height: 1.25rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: unset;
-    margin-right: 24px;
-  }
+  border: white 1px solid;
+  color: white;
+  padding: 1rem;
+  border-radius: 100%;
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: unset;
+  margin-right: -24px;
+
+}
 
 .workerName {
   padding: 16px;
 }
 
 #selectedContactsList {
-display: flex;
-justify-content: center;
-align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .priority {
@@ -357,7 +394,6 @@ align-items: center;
   justify-content: center;
   align-items: center;
   position: relative;
-  left: 24px;
 }
 
 .separatorSubtask {
@@ -370,6 +406,35 @@ align-items: center;
 .subTasksList {
   position: relative;
   padding-left: 0px;
+  max-height: 120px;
+  border: 0.5px solid #ddd;
+  overflow-y: auto;
+}
+
+#subTasksList {
+  position: relative;
+  padding-left: 0px;
+  max-height: 120px;
+  border: 0.5px solid #ddd;
+  overflow-y: auto;
+}
+
+/* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
+.subTasksList::-webkit-scrollbar {
+  width: 8px;
+  /* Breite der Scrollleiste */
+}
+
+.subTasksList::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  /* Farbe des Scrollleisten-Daumen */
+  border-radius: 4px;
+  /* Abgerundete Ecken */
+}
+
+.subTasksList::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+  /* Farbe des Daumens beim Hover */
 }
 
 #subtaskImg {
@@ -402,10 +467,22 @@ align-items: center;
   background-color: #0038ff;
 }
 
+.popupTitle {
+  overflow-wrap: break-word;
+  max-width: 414px;
+}
+
+#description {
+  overscroll-behavior-block: contain;
+}
+
 .popupDescription {
   font-size: 20px;
   overflow-wrap: break-word;
   font-weight: 400;
+  white-space: pre-wrap;
+  max-height: 120px;
+  overflow: auto;
 }
 
 .popupIcons {
@@ -417,6 +494,11 @@ align-items: center;
   justify-content: center;
   align-items: center;
   gap: 8px;
+}
+
+.subtask-container {
+  max-height: 100px;
+  overflow: auto;
 }
 
 .subtask-item {
@@ -434,14 +516,14 @@ align-items: center;
 }
 
 .createContactBar {
-    width: 100%;
-    padding: 0.75rem;
-    border-radius: 0.625rem;
-    border: 1px solid #d1d1d1;
-    box-sizing: border-box;
-    font-size: 1rem;
-    display: flex;
-    user-select: none;
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.625rem;
+  border: 1px solid #d1d1d1;
+  box-sizing: border-box;
+  font-size: 1rem;
+  display: flex;
+  user-select: none;
 }
 
 .customDropdown {
@@ -468,76 +550,47 @@ align-items: center;
   user-select: none;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Standard-Zustand für 'todo' */
 .subtask-toggle-icon.todo {
-  content: url('./../assets/icons/png/checkButtonEmpty.png');
+  content: url("./../assets/icons/png/checkButtonEmpty.png");
   width: 20px;
   height: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
-  opacity: 1; /* Standard-Deckkraft */
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  /* Sanfte Animation für Transform und Opacity */
+  opacity: 1;
+  /* Standard-Deckkraft */
 }
 
 /* Hover-Zustand für 'todo' */
 .subtask-toggle-icon.todo:hover {
-  content: url('./../assets/icons/png/checkButtonEmptyHover.png');
-  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
-  opacity: 0.9; /* Leicht reduzierte Deckkraft */
+  content: url("./../assets/icons/png/checkButtonEmptyHover.png");
+  transform: scale(1.1);
+  /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9;
+  /* Leicht reduzierte Deckkraft */
 }
 
 /* Standard-Zustand für 'done' */
 .subtask-toggle-icon.done {
-  content: url('./../assets/icons/png/checkButtonChecked.png');
+  content: url("./../assets/icons/png/checkButtonChecked.png");
   width: 20px;
   height: 20px;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease; /* Sanfte Animation für Transform und Opacity */
-  opacity: 1; /* Standard-Deckkraft */
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  /* Sanfte Animation für Transform und Opacity */
+  opacity: 1;
+  /* Standard-Deckkraft */
 }
 
 /* Hover-Zustand für 'done' */
 .subtask-toggle-icon.done:hover {
-  content: url('./../assets/icons/png/checkButtonCheckedHover.png');
-  transform: scale(1.1); /* Leichtes Vergrößern beim Hover */
-  opacity: 0.9; /* Leicht reduzierte Deckkraft */
+  content: url("./../assets/icons/png/checkButtonCheckedHover.png");
+  transform: scale(1.1);
+  /* Leichtes Vergrößern beim Hover */
+  opacity: 0.9;
+  /* Leicht reduzierte Deckkraft */
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 .contact-name {
   flex-grow: 1;
@@ -548,7 +601,6 @@ align-items: center;
 }
 
 .contact-nameList {
-  flex-grow: 1;
   font-size: 18px;
   font-weight: 500;
   color: #333;
@@ -562,18 +614,16 @@ align-items: center;
   cursor: pointer;
 }
 
-
 #selectedContactsList {
   display: flex;
   justify-content: start;
   align-items: start;
   gap: 5px;
+  margin-left: 22px;
 }
-
 
 .customDropdown {
   position: relative;
-
 }
 
 .dropdownList {
@@ -590,9 +640,9 @@ align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none;
   z-index: 1000;
-  max-height: 200px; 
-  overflow-y: auto; 
-  user-select: none;  
+  max-height: 200px;
+  overflow-y: auto;
+  user-select: none;
 }
 
 .dropdownList.open {
@@ -601,12 +651,11 @@ align-items: center;
 
 .dropdownList::-webkit-scrollbar-thumb {
   background-color: #ddd;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .customDropdown {
   position: relative;
-
 }
 
 .dropdownList {
@@ -623,19 +672,19 @@ align-items: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none;
   z-index: 1000;
-  max-height: 200px; 
-  overflow-y: auto; 
-  user-select: none;  
+  max-height: 200px;
+  overflow-y: auto;
+  user-select: none;
 }
 
 .dropdownList.open {
   display: block;
-  width:440px;
+  width: 440px;
 }
 
 .dropdownList::-webkit-scrollbar-thumb {
   background-color: #ddd;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .dropdown-item {
@@ -644,50 +693,45 @@ align-items: center;
   align-items: center;
 }
 
-
-
 .dropdownList li {
   padding: 12px 16px;
   cursor: pointer;
   font-size: 14px;
-  font-family: 'Arial', sans-serif;
+  font-family: "Arial", sans-serif;
   color: #333;
   transition: background 0.3s, color 0.3s;
   position: relative;
 }
 
 .dropdownList li:hover {
-  background: #2A3647; 
+  background: #2a3647;
 }
 
 .dropdownList li:hover span {
   color: white;
 }
 
-
-.dropdownList li + li {
+.dropdownList li+li {
   border-top: 1px solid #eee;
 }
 
-
 .selected-contact-item {
   color: white;
-  background-color: #091931; 
-  transition: background-color 0.3s ease; 
+  background-color: #091931;
+  transition: background-color 0.3s ease;
 }
 
 .selected-contact-item span {
   color: white;
 }
 
-
-
-
 .selected-contact-item {
   color: white;
-  background-color: #091931; 
-  transition: background-color 0.3s ease; 
+  background-color: #091931;
+  transition: background-color 0.3s ease;
 }
+
+
 
 .selected-contact-item span {
   color: white;
@@ -698,9 +742,6 @@ align-items: center;
   align-items: center;
   justify-content: space-between;
 }
-
-
-
 
 .dropdownList li input[type="checkbox"] {
   width: 16px;
@@ -719,6 +760,23 @@ align-items: center;
   overflow-wrap: break-word;
 }
 
+#editTaskPopupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+
+#editTaskPopupContainer {
+  z-index: 30;
+}
+
 .popupOverlay {
   position: fixed;
   top: 0;
@@ -729,7 +787,7 @@ align-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  z-index: 10;
 }
 
 .popupOverlay.visible {
@@ -747,6 +805,7 @@ align-items: center;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
   height: 870px;
   width: 1116px;
+  z-index: 40;
 }
 
 .popupInformation {
@@ -765,12 +824,17 @@ align-items: center;
 
 .workerContainer {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: start;
   flex-direction: column;
   gap: 12px;
   padding-bottom: 1rem;
+  max-height: 160px;
+  overflow: auto;
+  padding-left: 50px;
+  padding-top: 15px;
 }
+
 
 .workerIcon {
   margin-top: 0px;
@@ -813,7 +877,7 @@ align-items: center;
   display: flex;
   flex-direction: column;
   width: 440px;
-  gap: 20px;
+  gap: 15px;
 }
 
 .separator {
@@ -823,6 +887,7 @@ align-items: center;
   margin: 0px 50px 0px 50px;
 }
 
+
 .addTaskContent {
   display: flex;
   flex-direction: column;
@@ -830,10 +895,10 @@ align-items: center;
   height: 100vh;
 }
 
-.editTask{
+.editTask {
   display: flex;
-    flex-direction: column;
-    align-items: end;
+  flex-direction: column;
+  align-items: end;
 }
 
 .addIcons {
@@ -851,6 +916,10 @@ select {
   font-size: 16px;
 }
 
+.closed {
+  display: none;
+}
+
 textarea {
   resize: none;
   min-height: 140px;
@@ -861,6 +930,28 @@ textarea:focus,
 select:focus {
   outline: none;
   border: 1px solid #29abe2;
+}
+
+.dropdownList li:hover {
+  background: #2a3647;
+}
+
+.status-icon:hover {
+  filter: brightness(0) invert(1);
+}
+
+li:hover .status-icon {
+  filter: brightness(0) invert(1);
+}
+
+.selected-contact-item {
+  color: white;
+  background-color: #091931;
+  transition: background-color 0.3s ease;
+}
+
+.selected-contact-item span {
+  color: white;
 }
 
 ::placeholder {
@@ -885,7 +976,7 @@ select:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 136px;
+  padding-top: 20px; 
 }
 
 .buttonContainer {
@@ -916,7 +1007,6 @@ select:focus {
 }
 
 .saveChangesButton {
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -974,6 +1064,45 @@ select:focus {
   padding-top: 30px;
 }
 
+.listBody::-webkit-scrollbar {
+  width: 8px;
+}
+
+.listBody::-webkit-scrollbar-track {
+  background: white;
+}
+
+.listBody::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+  border: 2px solid white;
+  max-height: 20px;
+}
+
+.listBody::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+.taskContainer::-webkit-scrollbar {
+  height: 8px;
+}
+
+.taskContainer::-webkit-scrollbar-track {
+  background: white;
+}
+
+.taskContainer::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+  border: 2px solid white;
+  max-height: 20px;
+}
+
+.taskContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
+
+
 @media (max-width: 1920px) {
   h1 {
     font-size: 61px;
@@ -990,17 +1119,22 @@ select:focus {
     margin-left: 160px;
   }
 
-  .listHeadline {
-    padding-right: unset;
-  }
 
   .listBody {
     width: 236px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
-.boardCard{
-  width: 250px;
-  height: 230px;
-}
+
+  .boardCard {
+    width: 224px;
+    height: 230px;
+  }
+
+  .taskCardSubtasks {
+    font-size: 10px;
+  }
+
   h4 {
     font-size: 22px;
   }
@@ -1055,7 +1189,7 @@ select:focus {
   .separator {
     width: 424px;
     height: 2px;
-    margin: 50px 0px 50px 0px;
+    margin: 10px 0px 10px 0px;
   }
 
   .taskFormButtons {
@@ -1119,22 +1253,21 @@ select:focus {
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1350px) {
   h1 {
     font-size: 42px;
   }
 
-  body{
-    overflow: unset;
+  .BoardCardFooter {
+    padding-top: unset;
   }
 
-  .searchContainer {
-    margin-left: 20px;
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
-  .listHeadline {
-    width: 17vh;
-  }
+
 
   .nothingToDo {
     width: 70vh;
@@ -1160,23 +1293,26 @@ select:focus {
   }
 }
 
-@media (max-width: 1110) {
-  .taskList {
-    padding-left: 64px;
+@media (max-width: 1200px) {
+  .BoardCardFooter {
+    padding-top: 24px;
+  }
+}
+
+@media (max-width: 1110px) {
+
+  .BoardCardFooter {
+    padding-top: 20px;
   }
 
-  .listHeadline {
-    width: 60vh;
+  .taskList {
+    padding-left: 64px;
   }
 
   .nothingToDo {
     width: 60vh;
   }
 
-  .boardHead {
-    flex-direction: column;
-    align-items: start;
-  }
 
   .searchContainer {
     flex-direction: column;
@@ -1185,36 +1321,23 @@ select:focus {
     gap: 20px;
   }
 
-  .boardHead {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    margin-top: 50px;
-    margin-left: 2px !important;
-  }
-
   .taskContainer {
     width: 576px;
-    overflow-x: scroll;
+    overflow-x: auto;
     height: max-content;
     padding: 8px;
   }
 
-  .boardHead {
-    margin-left: 0px !important;
-  }
 
-  .searchContainer {
-    margin-left: -67px !important;
-  }
+
 
   .boardHead {
-    margin-left: 11px !important;
+    margin-left: 92px;
     flex-direction: column;
+    align-items: start;
   }
 
   .searchContainer {
-    margin-left: 20px;
     flex-direction: column;
     gap: 9px;
   }
@@ -1222,18 +1345,29 @@ select:focus {
 
 @media (max-width: 902px) {
   .boardHead {
-    margin-left: -160px;
+    margin-left: 92px;
     flex-direction: column;
   }
 
   .searchContainer {
-    margin-left: 20px;
     flex-direction: column;
     gap: 9px;
   }
 }
 
+@media (max-width: 890px) {
+  .taskList {
+      padding-left: 10px;
+  }
+}
+
 @media (max-width: 767px) {
+  .boardHead {
+    margin-left: 92px;
+    justify-content: start;
+    align-items: start;
+  }
+
   .board {
     overflow: hidden;
   }
@@ -1253,22 +1387,24 @@ select:focus {
   }
 
   .taskList {
-    padding-left: 64px;
+    padding-left: 1px;
   }
 
   .boardHead {
-    margin-left: -160px;
     flex-direction: column;
   }
 
   .searchContainer {
-    margin-left: 20px;
     flex-direction: column;
     gap: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
   }
 
   .listBody {
     width: 91%;
+
   }
 
   .taskContainer {
@@ -1289,10 +1425,16 @@ select:focus {
 
   .dropdownList.open {
     width: 332px;
-}
+  }
 
+  .taskList {
+    padding-left: 2px;
+  }
 
-
+  h1 {
+    justify-content: center;
+    display: flex;
+  }
 
   .formPart {
     width: 100%;
@@ -1309,12 +1451,6 @@ select:focus {
 
   .priorityBtn {
     width: 220px;
-  }
-
-  .taskContainer {
-    overflow-y: hidden;
-    overflow-x: scroll;
-    scrollbar-color: #29abe2 #f0f0f0;
   }
 
   .taskContainer h1 {
@@ -1338,6 +1474,10 @@ select:focus {
 
   .taskContainer {
     width: 98%;
+  }
+
+  .searchContainer {
+    align-items: center;
   }
 }
 
@@ -1372,9 +1512,7 @@ select:focus {
 }
 
 @media (max-width: 367px) {
-  .listHeadline {
-    width: 25vh;
-  }
+
 
   .nothingToDo {
     width: 25vh;
@@ -1395,7 +1533,8 @@ select:focus {
 
 @media (max-width: 385px) {
   .popupOverlay {
-    display: block; /* Adjusted */
+    display: block;
+    /* Adjusted */
   }
 
   .tasksPopupContainer {

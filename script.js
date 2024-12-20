@@ -17,12 +17,14 @@ function includeHTML() {
             }
             elmnt.removeAttribute("w3-include-html");
             includeHTML();
+            updateActiveNav();
           }
         };
         xhttp.open("GET", file, true);
         xhttp.send();
         return;
       }
+      
     }
     setUserTag();
   }
@@ -30,8 +32,26 @@ function includeHTML() {
   function startIntro() {
     setTimeout(() => {
         showLogin();
-    }, 3000);
+    }, 1500);
 };
+
+function updateActiveNav() {
+  const currentPage = window.location.pathname.split('/').pop();
+  const navLinks = document.querySelectorAll('.sidebarNavBtn');
+
+  navLinks.forEach(link => {
+      const href = link.getAttribute('href').split('/').pop();
+      const listItem = link.querySelector('li');
+      if (currentPage === href) {
+          listItem.classList.add('active');
+      } else {
+          listItem.classList.remove('active');
+      }
+  });
+}
+
+// Inhalte laden
+document.addEventListener("DOMContentLoaded", includeHTML);
 
 function showLogin() {
     window.location.href = './html/login.html'; 
@@ -44,7 +64,6 @@ function logOut() {
   localStorage.removeItem('sessionKey');
   window.location.href = '../index.html';
 }
-
 
 
 function setPriority(priority) {
@@ -83,6 +102,11 @@ function toggleShowMenu() {
       dropdownMenu.classList.add('active'); 
   }
   
+}
+
+function closeShowMenu(){
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  dropdownMenu.classList.remove('active'); 
 }
 
 function showSnackbar(message){
