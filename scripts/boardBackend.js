@@ -165,9 +165,7 @@ async function saveTaskChanges(event, listId, taskId) {
             selectedContactsList.innerHTML = ""; 
         }
         closeEditTaskPopup();
-        openTaskPopup(taskId, listId);
-        document.getElementById("viewTaskContainer").style.display = "none";
-        document.getElementById("viewTaskPopupOverlay").style.display = "none";
+        closeTaskPopup()
     } catch (error) {
         showSnackbar('Fehler beim Aktualisieren der Daten!');
     }

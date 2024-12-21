@@ -27,40 +27,55 @@ let tempPriority = null;
  * @param {string} listId - Die ID der Liste, zu der der Task hinzugefügt werden soll.
  */
 function openAddTaskPopup(listId) {
-    if (!sessionStorage.getItem('pageReloaded')) {
-        sessionStorage.setItem('pageReloaded', 'true'); 
-        sessionStorage.setItem('pendingPopupListId', listId); 
+    const reloadFlag = sessionStorage.getItem('pageReloaded');
+    const popup = document.getElementById('addTaskPopupOverlay');
+    const selectedContactsList = document.getElementById("selectedContactsList");
+    const form = document.getElementById("addTaskFormTask");
+
+    if (!popup || !form) {
+
+        return;
+    }
+    if (!reloadFlag) {
+        sessionStorage.setItem('pageReloaded', 'true');
+        sessionStorage.setItem('pendingPopupListId', listId);
         location.reload();
-        return; 
+        return;
     }
     sessionStorage.removeItem('pageReloaded');
     const storedListId = sessionStorage.getItem('pendingPopupListId');
     sessionStorage.removeItem('pendingPopupListId');
-    const popup = document.getElementById('addTaskPopupOverlay');
-    const selectedContactsList = document.getElementById("selectedContactsList");
-    if (!popup) {
-        return;
-    }
-    currentListId = storedListId || listId;
+
+    const currentListId = storedListId || listId;
+
+    // Kontakte und Formular zurücksetzen
     if (window.localContacts) {
         window.localContacts = {};
     }
     if (selectedContactsList) {
-        selectedContactsList.innerHTML = ""; 
+        selectedContactsList.innerHTML = "";
     }
-    const form = document.getElementById("addTaskFormTask");
-    const newForm = form.cloneNode(true); 
-    form.parentNode.replaceChild(newForm, form); 
-    newForm.addEventListener("submit", (event) => addTaskToSpecificList(currentListId, event));
+    const newForm = form.cloneNode(true); // Altes Formular durch Klon ersetzen
+    form.parentNode.replaceChild(newForm, form);
+
+    // Submit-Event für das neue Formular hinzufügen
+    newForm.addEventListener("submit", (event) => {
+        event.preventDefault(); // Standard-Submit verhindern
+        addTaskToSpecificList(currentListId, event);
+    });
+
+    // Popup anzeigen
     popup.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Hintergrund-Scrollen deaktivieren
 }
+
+// Automatische Popup-Öffnung beim Laden der Seite
 document.addEventListener('DOMContentLoaded', () => {
     const storedListId = sessionStorage.getItem('pendingPopupListId');
     if (storedListId) {
-        openAddTaskPopup(storedListId); 
+        openAddTaskPopup(storedListId);
     }
 });
-
 
 
 
@@ -238,7 +253,7 @@ async function closeEditTaskPopup() {
         if (selectedContactsList) {
             selectedContactsList.innerHTML = ""; // Kontakte in der UI leeren
         }
-        window.localContacts = {}; // Lokalen Zustand der Kontakte leeren
+        window.localContacts = {}; 
         await refreshUIAfterPopupClose();
     } catch (error) {
         console.error("Fehler beim Schließen des Popups:", error);
@@ -541,32 +556,5 @@ document.addEventListener("DOMContentLoaded", () => {
 function closeSelection(){
     document.getElementById('contactsDropdownList').classList.add('closed');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
