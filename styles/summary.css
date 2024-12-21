@@ -1,3 +1,12 @@
+h1 {
+  font-size: 61px; 
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 27px; 
+  color: #2A3647;
+}
 
 body{
   overflow: hidden;
@@ -11,8 +20,10 @@ body{
 }
 
 .summary {
-  padding-left: 100px;
+  padding-left: 88px;
   background-color: #f6f7f8;
+  height: 100%;
+
 }
 
 .greyLine {
@@ -125,7 +136,14 @@ body{
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding-left: 100px;
+  padding-left: 80px;
+}
+
+.greetingContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .name {
@@ -156,16 +174,14 @@ body{
     padding: 2px 9px;
   }
 
-  h1 {
-    font-size: 45px;
-  }
+
 
   .dashboard {
     margin-right: 40px;
   }
 
-    .userGreeting {
-      padding-left: 41px 
+    .userGreeting { 
+      padding-left: 20px;
   }
   
 }
@@ -173,8 +189,6 @@ body{
 @media (max-width: 1100px) {
     .summary {
       padding-left: 60px;
-      margin-right: 10px;
-      width: auto;
     }
   
     .tasksBox {
@@ -182,7 +196,7 @@ body{
     }
   
     h1 {
-      font-size: 56px;
+      font-size: 48px;
     }
   
     h3 {
@@ -211,6 +225,7 @@ body{
       width: 100%;
       height: 100%;
       background: #ffffff;
+      padding-left: 200px;
     }
   }
   
@@ -218,15 +233,10 @@ body{
     .summary {
       padding-left: 50px;
       margin-right: 8px;
-      width: auto;
     }
   
     h1 {
-      font-size: 50px;
-    }
-  
-    h3 {
-      font-size: 21px !important;
+      font-size: 40px;
     }
   
     .do {
@@ -243,20 +253,20 @@ body{
       width: 143px;
       height: 168px;
     }
+
   }
   
-  @media (max-width: 710px) {
+  @media (max-width: 745px) {
     .summary {
       padding-left: 31px;
       margin-right: 4px;
-      width: auto;
     }
   
     h1 {
       font-size: 46px;
     }
 
-    .join360 h3 {
+     h3 {
       font-size: 18px;
     }
 
@@ -284,7 +294,7 @@ body{
     }
   
     .taskNumber {
-      font-size: 50px !important;
+      font-size: 50px;
     }
   
     .text {
@@ -292,28 +302,35 @@ body{
     }
   }
   
-  @media (max-width: 580px) {
+  @media (max-width: 729px) {
+.help {
+  justify-content: start;
+}
+
     body {
       overflow-y: hidden !important;
     }
     .summary {
-      justify-content: center;
+      justify-content: start;
       display: flex;
-      align-items: center;
+      align-items: start;
       flex-direction: column;
+      height: 100%;
     }
   
     .doIcon {
       width: 45px;
   }    
+
+    
+  .doneIcon {
+    width: 45px;
+} 
   
     h1 {
       font-size: 42px;
     }
   
-    h3 {
-      font-size: 18px;
-    }
   
     .do {
       width: 190px;
@@ -330,12 +347,16 @@ body{
       height: 130px;
     }
   
-    .tasksBox p {
-      font-size: 10px;
-    }
   }
   
-  @media (max-width: 520px) {
+  @media (max-width: 671px) {
+    .blueLine{
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .help {
+      justify-content: end;
+    }
     html,
     body {
       overflow: hidden;
@@ -367,12 +388,18 @@ body{
     .text {
       font-size: 11px;
     }
+
+    .taskNumber {
+      font-size: 40;
+    }
+    .userGreeting {
+      padding-left: unset;
+      align-items: start;
+    }
   }
   
-  @media (max-width: 430px) {
-    html, body {
-      overflow: hidden;
-    }
+  @media (max-width: 612px) {
+
   
     .summary img {
       height: 34px;
@@ -409,6 +436,17 @@ body{
   
     .text {
       font-size: 10px;
+    }
+  }
+
+  @media (max-width: 580px) {
+    .summary {
+      justify-content: center;
+      align-items: center;
+    }
+    .userGreeting {
+      align-items: center;
+      padding-left: unset;
     }
   }
 

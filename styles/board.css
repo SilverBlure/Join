@@ -414,13 +414,6 @@ h1 {
   margin: 16px;
 }
 
-.subTasksList {
-  position: relative;
-  padding-left: 0px;
-  max-height: 120px;
-  border: 0.5px solid #ddd;
-  overflow-y: auto;
-}
 
 #subTasksList {
   position: relative;
@@ -431,19 +424,19 @@ h1 {
 }
 
 /* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
-.subTasksList::-webkit-scrollbar {
+#subTasksList::-webkit-scrollbar {
   width: 8px;
   /* Breite der Scrollleiste */
 }
 
-.subTasksList::-webkit-scrollbar-thumb {
+#subTasksList::-webkit-scrollbar-thumb {
   background-color: #aaa;
   /* Farbe des Scrollleisten-Daumen */
   border-radius: 4px;
   /* Abgerundete Ecken */
 }
 
-.subTasksList::-webkit-scrollbar-thumb:hover {
+#subTasksList::-webkit-scrollbar-thumb:hover {
   background-color: #888;
   /* Farbe des Daumens beim Hover */
 }
@@ -508,8 +501,28 @@ h1 {
 }
 
 .subtask-container {
+  margin-top: 16px;
   max-height: 100px;
   overflow: auto;
+}
+
+.subtask-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.subtask-container::-webkit-scrollbar-track {
+  background: white;
+}
+
+.subtask-container::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+  border: 2px solid white;
+  max-height: 20px;
+}
+
+.subtask-container::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
 }
 
 .subtask-item {
@@ -846,6 +859,25 @@ h1 {
   padding-top: 15px;
 }
 
+
+.workerContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.workerContainer::-webkit-scrollbar-track {
+  background: white;
+}
+
+.workerContainer::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  border-radius: 10px;
+  border: 2px solid white;
+  max-height: 20px;
+}
+
+.workerContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+}
 
 .workerIcon {
   margin-top: 0px;
@@ -1431,6 +1463,10 @@ li:hover .status-icon {
 }
 
 @media (max-width: 580px) {
+body {
+  padding-bottom: 21px;
+}
+
   .board {
     background-color: #f0f3f6;
   }
