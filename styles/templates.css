@@ -2,6 +2,14 @@ body {
   display: flex;
 }
 
+.headerBody {
+  max-width: 1500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 footer{
   display: flex;
   flex-direction: column;
