@@ -162,8 +162,10 @@
                     <div class="separator"></div>
                     <div class="formPart">
                         <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                        <input name="date" type="date" id="date" >
-                        <span class="error-message" id="dateWarning">Date is required.</span> 
+                        <div>
+                            <input name="date" class="date" type="date" placeholder="dd/mm/yyyy" id="date" min="2024-12-21">
+                            <span class="error-message hidden-text" id="dateWarning">Date is required.</span>
+                        </div>
                         <label for="priority">Prio</label>
                         <div class="priorityBtnContainer">
                             <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
