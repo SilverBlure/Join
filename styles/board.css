@@ -1048,6 +1048,10 @@ li:hover .status-icon {
   height: 24px;
 }
 
+.close:hover {
+  cursor: pointer;
+}
+
 .clearBtn {
   background-color: white;
   color: #2a3647;
