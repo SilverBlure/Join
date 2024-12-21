@@ -154,10 +154,8 @@ window.addEventListener("touchstart", (event) => {
         startTouchDragging(event, taskId);
     }
 }, { passive: false });
-
 window.addEventListener("touchmove", handleTouchMove, { passive: false });
 window.addEventListener("touchend", handleTouchDrop, { passive: false });
-
 async function startTouchDragging(event, taskId) {
     const target = document.getElementById(`boardCard-${taskId}`);
     if (!target) return;
@@ -179,6 +177,16 @@ async function startTouchDragging(event, taskId) {
     }, LONG_PRESS_THRESHOLD);
 }
 
+
+/**
+ * Stoppt das Auto-Scrolling.
+ */
+function stopAutoScrolling() {
+    isAutoScrolling = false;
+    scrollDirection = 0;
+}
+
+
 /**
  * Handhabt die Bewegung eines Touch-Events und führt Auto-Scrolling aus.
  * @param {Event} event - Das Touch-Event.
@@ -198,11 +206,11 @@ function handleTouchMove(event) {
         );
     }
     const viewportHeight = window.innerHeight;
-    const y = touch.clientY; 
+    const y = touch.clientY;
     if (y < SCROLL_EDGE_OFFSET) {
         startAutoScrolling(-1); 
     } else if (y > viewportHeight - SCROLL_EDGE_OFFSET) {
-        startAutoScrolling(1);  
+        startAutoScrolling(1); 
     } else {
         stopAutoScrolling();
     }
@@ -214,17 +222,10 @@ function handleTouchMove(event) {
  */
 async function handleTouchDrop(event) {
     if (!currentDraggedElement) {
-        return;
-    }
-    stopAutoScrolling();
-    const touchDuration = Date.now() - touchStartTimestamp;
-    if (touchDuration < LONG_PRESS_THRESHOLD && !touchMoved) {
-        const taskId = currentDraggedElement;
-        const listId = await findTaskSourceList(taskId);
-        openTaskPopup(taskId, listId);
         stopTouchDragging();
         return;
     }
+    stopAutoScrolling();
     const touch = event.changedTouches[0];
     const adjustedX = touch.pageX - window.pageXOffset;
     const adjustedY = touch.pageY - window.pageYOffset;
@@ -238,12 +239,15 @@ async function handleTouchDrop(event) {
     try {
         await handleDrop(event, targetListId);
     } catch (error) {
-        console.error(error);
+        console.error("Fehler beim Verschieben des Tasks:", error);
     } finally {
         stopTouchDragging();
     }
 }
 
+/**
+ * Stoppt das Dragging für Touch.
+ */
 function stopTouchDragging() {
     stopAutoScrolling();
     const card = currentDraggedElement && document.getElementById(`boardCard-${currentDraggedElement}`);
@@ -253,48 +257,41 @@ function stopTouchDragging() {
     currentDraggedElement = null;
     touchStartTimestamp = null;
     touchMoved = false;
-    enableScroll(); // Scrollen wieder aktivieren
+    enableScroll();
 }
 
 /**
- * Startet das Auto-Scrolling in angegebener Richtung.
+ * Startet das Auto-Scrolling in der angegebenen Richtung.
  * @param {number} direction - -1 für nach oben, 1 für nach unten.
  */
 function startAutoScrolling(direction) {
-    if (scrollDirection === direction && isAutoScrolling) return; 
+    if (scrollDirection === direction && isAutoScrolling) return;
     scrollDirection = direction;
     if (!isAutoScrolling) {
         isAutoScrolling = true;
-        autoScroll();
+        requestAnimationFrame(autoScroll);
     }
 }
 
 /**
- * Stoppt das Auto-Scrolling.
- */
-function stopAutoScrolling() {
-    isAutoScrolling = false;
-    scrollDirection = 0;
-}
-
-/**
- * Führt einen Auto-Scroll Schritt aus.
+ * Führt einen Auto-Scroll-Schritt aus.
  */
 function autoScroll() {
     if (!isAutoScrolling) return;
-    window.scrollBy(0, scrollDirection * SCROLL_SPEED);
+    const scrollStep = scrollDirection * SCROLL_SPEED / 60; // Geschwindigkeit basierend auf 60 FPS
+    window.scrollBy(0, scrollStep);
     requestAnimationFrame(autoScroll);
 }
 
 /**
- * Deaktiviert das Scrollen der Seite.
+ * Deaktiviert das Scrollen.
  */
 function disableScroll() {
     document.body.style.overflow = "hidden";
 }
 
 /**
- * Aktiviert das Scrollen der Seite.
+ * Aktiviert das Scrollen.
  */
 function enableScroll() {
     document.body.style.overflow = "";
