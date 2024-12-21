@@ -51,8 +51,8 @@ body{
 }
 
 .do {
-  transition: background-color 0.3s ease; /* Hintergrundänderung */
-  transition: transform 0.3s ease, filter 0.3s ease; /* Vergrößerung und Effekte */
+  transition: background-color 0.3s ease; 
+  transition: transform 0.3s ease, filter 0.3s ease; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -64,7 +64,7 @@ body{
 }
 
 .do:hover {
-  transform: scale(1.1); /* Leichte Vergrößerung um 10% */
+  transform: scale(1.1);
   cursor: pointer;
   background-color: #2A3647;
   color: white;
@@ -75,22 +75,22 @@ body{
 }
 
 .do:hover .doIcon {
-  content: url('./../assets/icons/png/todoHover.png'); /* Neues Bild */
+  content: url('./../assets/icons/png/todoHover.png'); 
 }
 
 .do:hover .doneIcon {
-  content: url('./../assets/icons/png/doneHover.png'); /* Neues Bild */
+  content: url('./../assets/icons/png/doneHover.png'); 
 }
 
 .tasksBox:hover {
-  transform: scale(1.1); /* Leichte Vergrößerung um 10% */
+  transform: scale(1.1); 
   cursor: pointer;
   background-color: #2A3647;
   color: white;
 }
 
 .urgent:hover {
-  transform: scale(1.1); /* Leichte Vergrößerung um 10% */
+  transform: scale(1.1); 
   cursor: pointer;
   background-color: #2A3647;
   color: white;
@@ -98,8 +98,8 @@ body{
 
 
 .urgent {
-  transition: background-color 0.3s ease; /* Hintergrundänderung */
-  transition: transform 0.3s ease, filter 0.3s ease; /* Vergrößerung und Effekte */
+  transition: background-color 0.3s ease; 
+  transition: transform 0.3s ease, filter 0.3s ease; 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,8 +111,8 @@ body{
 }
 
 .tasksBox {
-  transition: background-color 0.3s ease; /* Hintergrundänderung */
-  transition: transform 0.3s ease, filter 0.3s ease; /* Vergrößerung und Effekte */
+  transition: background-color 0.3s ease; 
+  transition: transform 0.3s ease, filter 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -174,8 +174,6 @@ body{
     padding: 2px 9px;
   }
 
-
-
   .dashboard {
     margin-right: 40px;
   }
@@ -183,7 +181,6 @@ body{
     .userGreeting { 
       padding-left: 20px;
   }
-  
 }
 
 @media (max-width: 1100px) {
@@ -300,6 +297,11 @@ body{
     .text {
       font-size: 13px;
     }
+
+    .userGreeting {
+      align-items: start;
+      padding-left: 100px;
+    }
   }
   
   @media (max-width: 729px) {
@@ -347,6 +349,9 @@ body{
       height: 130px;
     }
   
+    .taskNumber {
+      font-size: 24px;
+    }
   }
   
   @media (max-width: 671px) {
@@ -390,7 +395,7 @@ body{
     }
 
     .taskNumber {
-      font-size: 40;
+      font-size: 26px;
     }
     .userGreeting {
       padding-left: unset;
@@ -441,12 +446,17 @@ body{
 
   @media (max-width: 580px) {
     .summary {
-      justify-content: center;
+      justify-content: start;
       align-items: center;
+      height: 100vh;
     }
     .userGreeting {
       align-items: center;
       padding-left: unset;
+    }
+    .join360 {
+      padding-top: 20px;
+      padding-bottom: 20px;
     }
   }
 
