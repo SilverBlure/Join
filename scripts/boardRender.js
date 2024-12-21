@@ -48,15 +48,11 @@ function renderTask(container, taskId, task, listId) {
  */
 function renderTaskWorkers(workers) {
     if (!workers || workers.length === 0) return "";
-
-    const maxWorkersToShow = 5; // Maximale Anzahl der anzuzeigenden Arbeiter
+    const maxWorkersToShow = 5; 
     const workersToShow = workers
-        .filter(worker => worker && worker.name) // Ungültige oder leere Arbeiter entfernen
-        .slice(0, maxWorkersToShow); // Nur die ersten 5 Arbeiter auswählen
-
-    const additionalCount = workers.length - workersToShow.length; // Zusätzliche Arbeiter zählen
-
-    // Arbeiter-HTML generieren
+        .filter(worker => worker && worker.name) 
+        .slice(0, maxWorkersToShow); 
+    const additionalCount = workers.length - workersToShow.length; 
     const workersHTML = workersToShow
         .map(worker => {
             const [vorname, nachname] = worker.name.split(" ");
@@ -68,12 +64,9 @@ function renderTaskWorkers(workers) {
             `;
         })
         .join("");
-
-    // Zusätzliche Anzeige hinzufügen, falls mehr als 5 Arbeiter vorhanden sind
     const additionalHTML = additionalCount > 0 
         ? `<p class="additionalWorkers">+${additionalCount}</p>` 
         : "";
-
     return workersHTML + additionalHTML;
 }
 
@@ -85,14 +78,14 @@ function renderTaskWorkers(workers) {
  * @param {string} listId - Die ID der zugehörigen Liste.
  */
 async function openTaskPopup(taskId, listId) {
-    if (!listId || !taskId) return; // Wenn IDs fehlen, abbrechen
-    const task = await fetchTaskData(taskId, listId); // Aufgabendaten abrufen
+    if (!listId || !taskId) return; 
+    const task = await fetchTaskData(taskId, listId); 
     if (!task) return;
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
-    if (!popupOverlay || !popupContainer) return; // Wenn Popup-Elemente fehlen, abbrechen
-    const subtasksHTML = generateSubtasksHTML(task, taskId, listId); // Subtasks generieren
-    const workersHTML = generateWorkersHTML(task.workers || []); // Arbeiter generieren
+    if (!popupOverlay || !popupContainer) return; 
+    const subtasksHTML = generateSubtasksHTML(task, taskId, listId); 
+    const workersHTML = generateWorkersHTML(task.workers || []); 
     showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workersHTML, listId, taskId); // Popup anzeigen
     document.getElementsByTagName('body')[0].style.overflow = "hidden";
 }
@@ -158,12 +151,12 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
  * @param {string} taskId - Die ID der Aufgabe.
  */
 async function editTask(listId, taskId) {
-    if (!listId || !taskId) return; // Wenn IDs fehlen, abbrechen
+    if (!listId || !taskId) return; 
     try {
-        const task = await fetchTaskForEditing(listId, taskId); // Aufgabendaten abrufen
+        const task = await fetchTaskForEditing(listId, taskId); 
         if (!task) return;
-        initializeLocalTaskState(task); // Lokalen Zustand initialisieren
-        renderEditTaskPopup(listId, taskId, task); // Bearbeitungspopup rendern
+        initializeLocalTaskState(task); 
+        renderEditTaskPopup(listId, taskId, task); 
     } catch (error) {
         console.error("Fehler beim Bearbeiten des Tasks:", error);
     }
@@ -174,25 +167,17 @@ async function editTask(listId, taskId) {
 function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
-
-    // Erzeuge das Formular-HTML und füge es ein
     const formHTML = generateEditTaskForm(task, "", listId, taskId);
     editTaskPopupContainer.innerHTML = formHTML;
-
-    // Initialisiere Subtasks und füge sie in die Subtasks-Liste ein
     initializeLocalTaskState(task);
     const subTasksList = document.getElementById("subTasksList");
     if (subTasksList) {
         subTasksList.innerHTML = generateEditSubtasksHTML(window.localEditedSubtasks);
     }
-
-    // Initialisiere Kontakte und aktualisiere das Dropdown
     initializeLocalContacts(task);
     renderContactsDropdown();
     renderSelectedContacts();
     updateDropdownLabel();
-
-    // Setze Attribute und aktiviere das Overlay
     editTaskPopupOverlay.setAttribute("data-task-id", taskId);
     editTaskPopupOverlay.setAttribute("data-list-id", listId);
     editTaskPopupOverlay.classList.add("visible");
@@ -208,19 +193,14 @@ function renderSelectedContacts() {
     if (!selectedContactsList) {
         return;
     }
-
-    selectedContactsList.innerHTML = ""; // Liste zurücksetzen
-
+    selectedContactsList.innerHTML = ""; 
     if (!window.localContacts || typeof window.localContacts !== "object") {
-        console.warn("window.localContacts ist nicht definiert oder kein gültiges Objekt.");
         return;
     }
-
-    const contacts = Object.values(window.localContacts); // Kontakte extrahieren
-    const maxContactsToShow = 5; // Maximal anzuzeigende Kontakte
-    const visibleContacts = contacts.slice(0, maxContactsToShow); // Erste 5 Kontakte
-    const additionalCount = contacts.length - visibleContacts.length; // Anzahl zusätzlicher Kontakte
-
+    const contacts = Object.values(window.localContacts); 
+    const maxContactsToShow = 5; 
+    const visibleContacts = contacts.slice(0, maxContactsToShow); 
+    const additionalCount = contacts.length - visibleContacts.length; 
     visibleContacts.forEach(contact => {
         const div = document.createElement("div");
         div.id = `selected_${contact.id}`;
@@ -236,9 +216,7 @@ function renderSelectedContacts() {
         div.appendChild(p);
         selectedContactsList.appendChild(div);
     });
-
     if (additionalCount > 0) {
-        // Füge einen Hinweis für zusätzliche Kontakte hinzu
         const additionalDiv = document.createElement("div");
         additionalDiv.classList.add("additional-contacts");
         additionalDiv.textContent = `+${additionalCount}`;

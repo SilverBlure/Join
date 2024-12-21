@@ -109,6 +109,7 @@ async function addTaskToFirebase(listId, task) {
         body: JSON.stringify(task),
     });
 }
+
 async function handleDrop(event, targetListId) {
     event.preventDefault();
     event.stopPropagation();
@@ -133,21 +134,19 @@ async function handleDrop(event, targetListId) {
     }
 }
 
-const LONG_PRESS_THRESHOLD = 200; // Zeit in Millisekunden für Dragging
-const THRESHOLD_DISTANCE = 10;    // Minimale Bewegung in Pixeln für Dragging
+const LONG_PRESS_THRESHOLD = 200; 
+const THRESHOLD_DISTANCE = 10;    
 let currentDraggedElement = null;
 let touchStartTimestamp = null;
 let touchStartX = null;
 let touchStartY = null;
-let touchMoved = false; // Ob eine signifikante Bewegung erfolgt
-
-// Variablen für Auto-Scrolling
+let touchMoved = false; 
 let isAutoScrolling = false;
 let scrollDirection = 0;
-const SCROLL_EDGE_OFFSET = 100; // Bereich ab Fenster-Kante in dem Auto-Scroll startet
-const SCROLL_SPEED = 500;        // Geschwindigkeit des Auto-Scrolls (Pixel pro Frame)
+const SCROLL_EDGE_OFFSET = 100; 
+const SCROLL_SPEED = 500;        
 
-// Touch-Events
+
 window.addEventListener("touchstart", (event) => {
     const target = event.target.closest(".boardCard");
     if (target) {
@@ -159,7 +158,6 @@ window.addEventListener("touchstart", (event) => {
 window.addEventListener("touchmove", handleTouchMove, { passive: false });
 window.addEventListener("touchend", handleTouchDrop, { passive: false });
 
-// Startet den Touch-Dragging Vorgang
 async function startTouchDragging(event, taskId) {
     const target = document.getElementById(`boardCard-${taskId}`);
     if (!target) return;
@@ -169,9 +167,7 @@ async function startTouchDragging(event, taskId) {
     touchStartY = touch.clientY;
     touchMoved = false;
     currentDraggedElement = taskId;
-
     setTimeout(async () => {
-        // Wird nach LONG_PRESS_THRESHOLD ms ausgeführt
         if (!touchMoved && currentDraggedElement) {
             const listId = await findTaskSourceList(taskId); 
             openTaskPopup(taskId, listId); 
@@ -189,9 +185,7 @@ async function startTouchDragging(event, taskId) {
  */
 function handleTouchMove(event) {
     if (!currentDraggedElement) return;
-
-    touchMoved = true; // Kennzeichnet Bewegung
-
+    touchMoved = true;
     const touch = event.touches[0];
     const adjustedX = touch.pageX - window.pageXOffset;
     const adjustedY = touch.pageY - window.pageYOffset;
@@ -203,14 +197,12 @@ function handleTouchMove(event) {
             unhighlightList(list.id)
         );
     }
-
-    // Auto-Scroll Logik:
     const viewportHeight = window.innerHeight;
     const y = touch.clientY; 
     if (y < SCROLL_EDGE_OFFSET) {
-        startAutoScrolling(-1); // Nach oben scrollen
+        startAutoScrolling(-1); 
     } else if (y > viewportHeight - SCROLL_EDGE_OFFSET) {
-        startAutoScrolling(1);  // Nach unten scrollen
+        startAutoScrolling(1);  
     } else {
         stopAutoScrolling();
     }
@@ -224,12 +216,8 @@ async function handleTouchDrop(event) {
     if (!currentDraggedElement) {
         return;
     }
-
-    stopAutoScrolling(); // Auto-Scrolling stoppen
-
+    stopAutoScrolling();
     const touchDuration = Date.now() - touchStartTimestamp;
-
-    // Kurzer Tap ohne signifikante Bewegung -> Popup öffnen
     if (touchDuration < LONG_PRESS_THRESHOLD && !touchMoved) {
         const taskId = currentDraggedElement;
         const listId = await findTaskSourceList(taskId);
@@ -237,8 +225,6 @@ async function handleTouchDrop(event) {
         stopTouchDragging();
         return;
     }
-
-    // Drag-Drop Vorgang ausführen
     const touch = event.changedTouches[0];
     const adjustedX = touch.pageX - window.pageXOffset;
     const adjustedY = touch.pageY - window.pageYOffset;
@@ -249,7 +235,6 @@ async function handleTouchDrop(event) {
         return;
     }
     const targetListId = targetList.id.replace("List", "");
-
     try {
         await handleDrop(event, targetListId);
     } catch (error) {

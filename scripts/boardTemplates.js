@@ -8,7 +8,6 @@ function renderEmptyMessage(container) {
 }
 
 
-
 function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     return `
         <div id="boardCard-${taskId}" 
@@ -28,7 +27,6 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
         </div>
     `;
 }
-
 
 
 /**
@@ -77,7 +75,6 @@ function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
 }
 
 
-
 /**
  * Generiert HTML für die Arbeiter einer Aufgabe.
  * @param {Array<Object>} workers - Die Arbeiter der Aufgabe.
@@ -101,8 +98,6 @@ function generateWorkersHTML(workers = [], showNames = false) {
 }
 
 
-
-
 function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
@@ -116,10 +111,6 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
         </div>
     `;
 }
-
-
-
-
 
 
 function generateEditSingleSubtaskHTML(subtaskId, subtask) {
@@ -148,9 +139,6 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
 }
 
 
-
-
-
 function generatePopupHeaderHTML(task) {
     return `
         <div class="popupHeader">
@@ -161,7 +149,6 @@ function generatePopupHeaderHTML(task) {
         </div>
     `;
 }
-
 
 
 function generatePopupDetailsHTML(task) {
@@ -178,7 +165,6 @@ function generatePopupDetailsHTML(task) {
 }
 
 
-
 function generateWorkerContainerHTML(initials, color, name, showName) {
     return `
             <div class="workerInformation">
@@ -189,14 +175,11 @@ function generateWorkerContainerHTML(initials, color, name, showName) {
 }
 
 
-
-
 function generateSubtasksContainerHTML(subtasksHTML) {
     return `
             <h2>Subtasks:</h2>
             ${subtasksHTML}    `;
 }
-
 
 
 function generatePopupActionsHTML(listId, taskId) {
@@ -207,7 +190,6 @@ function generatePopupActionsHTML(listId, taskId) {
         </div>
     `;
 }
-
 
 
 function generatePriorityButtonsHTML(selectedPriority) {
@@ -229,8 +211,6 @@ function generatePriorityButtonsHTML(selectedPriority) {
         `)
         .join("");
 }
-
-
 
 
 function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
@@ -270,7 +250,6 @@ function generateSingleWorkerHTML(worker) {
         </div>
     `;
 }
-
 
 
 function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
@@ -337,8 +316,6 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
 }
 
 
-
-
 function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
     return `
         <li class="subtask-item" id="subtask-${subtaskId}">
@@ -357,7 +334,6 @@ function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
         </li>
     `;
 }
-
 
 
 function generateEditSubtaskHTML(subtaskId, currentTitle) {
@@ -405,7 +381,6 @@ function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
 }
 
 
-
 function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     return /*html*/ `
         <div id="boardCard-${taskId}" 
@@ -432,27 +407,17 @@ async function findTaskSourceList(taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
     const response = await fetch(url);
     if (!response.ok) {
-        console.error("Fehler beim Abrufen der Task-Daten.");
         return null;
     }
-
     const data = await response.json();
-    console.log("Firebase Task-Daten:", data); // Debugging: Zeige die gesamte Datenstruktur
-
     for (const listId in data) {
         const tasks = data[listId]?.task || {};
-        console.log(`Überprüfe Liste: ${listId}, Tasks:`, tasks); // Debugging: Zeige die Tasks in jeder Liste
-
         if (tasks[taskId]) {
-            console.log("Ursprungsliste gefunden:", listId);
             return listId;
         }
     }
-
-    console.warn("Ursprungsliste nicht gefunden für Task:", taskId);
     return null;
 }
-
 
 
 function generateNoMatchingMessageHTML(message) {
@@ -490,8 +455,6 @@ function generateWorkerHTML(workerName) {
 }
 
 
-
-
 /**
  * Generiert HTML für einen editierbaren Worker.
  * @param {Object} contact - Der Kontakt-Objekt mit Name und anderen Details.
@@ -516,7 +479,6 @@ function generateEditableWorkerHTML(contact) {
         </div>
     `;
 }
-
 
 
 /**

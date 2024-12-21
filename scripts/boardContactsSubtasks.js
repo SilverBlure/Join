@@ -58,7 +58,6 @@ function deleteSubtaskFromLocal(subtaskId) {
 }
 
 
-
 /**
  * Rendert den Fortschritt der Subtasks als HTML.
  * @param {Object} subtasks - Die Subtasks des Tasks.
@@ -125,7 +124,6 @@ function generateSubtasksHTML(task, taskId, listId) {
 }
 
 
-
 /**
  * Generiert HTML für das Bearbeiten von Subtasks.
  * @param {Object} subtasks - Die Subtasks des Tasks.
@@ -172,41 +170,23 @@ function editSubtaskInLocal(subtaskId) {
 
 
 function saveEditedSubtask(subtaskId) {
-    // Initialisieren, falls `window.localSubtasks` nicht existiert
     if (!window.localSubtasks) {
         window.localSubtasks = {};
-        console.warn("window.localSubtasks wurde initialisiert.");
     }
-
-    // Subtask abrufen oder neuen erstellen, falls nicht vorhanden
     let subtask = window.localSubtasks[subtaskId];
     if (!subtask) {
         subtask = { title: "", done: false };
         window.localSubtasks[subtaskId] = subtask;
     }
-
-    // Eingabefeld abrufen
     const inputElement = document.getElementById(`edit-input-${subtaskId}`);
     if (!inputElement) {
-        console.error(`Eingabefeld für Subtask mit ID ${subtaskId} nicht gefunden.`);
         return;
     }
-
-    // Neuen Titel abrufen
     const newTitle = inputElement.value.trim();
-
-    // Überprüfen, ob das Eingabefeld leer ist
     if (!newTitle) {
-        console.warn("Das Eingabefeld ist leer. Es wird trotzdem gespeichert.");
     }
-
-    // Aktualisierung des Subtask-Titels, auch wenn keine Änderung vorgenommen wurde
     const oldTitle = subtask.title;
-    subtask.title = newTitle || oldTitle; // Behalte den alten Titel, falls das Eingabefeld leer ist
-
-
-
-    // DOM aktualisieren
+    subtask.title = newTitle || oldTitle; 
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
     if (subtaskElement) {
         subtaskElement.innerHTML = `
@@ -228,11 +208,8 @@ function saveEditedSubtask(subtaskId) {
                     onclick="deleteSubtaskFromLocal('${subtaskId}')">
             </div>
         `;
-    } else {
-        console.error(`Subtask-Element mit ID ${subtaskId} nicht im DOM gefunden.`);
-    }
+    };
 }
-
 
 
 function initializeLocalTaskState(task) {
@@ -248,7 +225,6 @@ function initializeLocalTaskState(task) {
         : {};
 
 }
-
 
 
 /**
@@ -275,17 +251,13 @@ function addNewSubtask() {
  */
 function removeSubtaskFromList(subtaskId) {
     if (!subtaskId) {
-        console.error("Fehler: Keine gültige Subtask-ID angegeben.");
         return;
     }
-
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
     if (subtaskElement) {
         subtaskElement.remove(); // Entferne das Element aus dem DOM
     } else {
-        console.warn("Subtask-Element nicht gefunden:", subtaskId);
     }
-
     if (window.localSubtasks && window.localSubtasks[subtaskId]) {
         delete window.localSubtasks[subtaskId]; // Entferne den Subtask aus dem lokalen Zustand
     }
@@ -293,28 +265,19 @@ function removeSubtaskFromList(subtaskId) {
 
 
 async function editSubtask(subtaskId) {
-    // Suche nach dem Subtask-Element
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
     if (!subtaskElement) return;
-
-    // Suche nach dem Subtask-Text
     const subtaskTextElement = subtaskElement.querySelector(".subtaskText");
     if (!subtaskTextElement) {
         console.error("Subtask-Text-Element nicht gefunden.");
         return;
     }
-
-    // Hole den aktuellen Titel aus dem Text-Element
     const currentTitle = subtaskTextElement.textContent.trim();
     if (!currentTitle) {
         console.error("Subtask-Text ist leer.");
         return;
     }
-
-    // Generiere das Bearbeitungsfeld
     const editSubtaskHTML = generateEditSubtaskHTML(subtaskId, currentTitle);
-
-    // Setze den HTML-Inhalt des Subtasks auf das Bearbeitungsfeld
     subtaskElement.innerHTML = editSubtaskHTML;
 }
 
@@ -324,36 +287,21 @@ async function editSubtask(subtaskId) {
  * @param {string} subtaskId - Die ID des Subtasks.
  */
 function saveSubtaskEdit(subtaskId) {
-    // Abrufen des Eingabefelds basierend auf der Subtask-ID
     const inputElement = document.getElementById(`edit-input-${subtaskId}`);
     if (!inputElement) {
-        console.error(`Eingabefeld für Subtask ${subtaskId} nicht gefunden.`);
         return;
     }
-
-    // Abrufen des neuen Titels
     const newTitle = inputElement.value;
-   
-
-    // Überprüfen, ob der neue Titel definiert ist
-    if (!newTitle || newTitle.trim() === "") {
-        console.error("Fehler: newTitle ist undefined oder leer.");
+       if (!newTitle || newTitle.trim() === "") {
         return;
     }
-
-    // Sicherstellen, dass der neue Titel gültig ist
     const trimmedTitle = newTitle.trim();
-
-    // Aktualisierung des lokalen Zustands
     if (window.localSubtasks && window.localSubtasks[subtaskId]) {
         window.localSubtasks[subtaskId].title = trimmedTitle;
       
     } else {
-        console.error("Subtask mit der ID nicht im lokalen Zustand gefunden:", subtaskId);
         return;
     }
-
-    // Aktualisierung im DOM
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
     if (subtaskElement) {
         subtaskElement.innerHTML = `
@@ -364,9 +312,7 @@ function saveSubtaskEdit(subtaskId) {
                 <img src="./../assets/icons/png/D.png" class="subtask-btn" onclick="deleteSubtaskFromLocal('${subtaskId}')">
             </div>
         `;
-    } else {
-        console.error("Subtask-Element nicht gefunden im DOM:", subtaskId);
-    }
+    };
 }
 
 
@@ -400,36 +346,15 @@ function clearSubtaskInput() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 let dropdownOpen = false;
 
 let selectedContacts = [];
 
 
-
 function closeContactsDropdown() {
     const dropdownList = document.getElementById("contactsDropdownList");
       dropdownList.classList.remove("open");
-  }
-
-
+}
 
 
 function toggleContactsDropdown() {
@@ -447,83 +372,60 @@ function toggleContactsDropdown() {
 function renderContactsDropdown() {
     const dropdownList = document.getElementById("contactsDropdownList");
     dropdownList.innerHTML = "";
-
     if (!contactsArray || contactsArray.length === 0) {
         dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
         return;
     }
-
     contactsArray.forEach((contact) => {
         const li = document.createElement("li");
-        li.classList.add("dropdown-item"); // Standardklasse für alle Kontakte
-
-        // Prüfen, ob der Kontakt ausgewählt ist, und entsprechende Klasse hinzufügen
+        li.classList.add("dropdown-item"); 
         if (isContactSelected(contact.name)) {
-            li.classList.add("selected-contact-item"); // Markiere das gesamte <li>
+            li.classList.add("selected-contact-item"); 
         }
-
-        // Vor- und Nachnamen extrahieren
         const [vorname, nachname] = contact.name.split(" ");
         const backgroundColor = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
-
-        // Arbeiter-Symbol erstellen
         const workerEmblem = document.createElement("p");
         workerEmblem.classList.add("workerEmblemList");
-        workerEmblem.style.backgroundColor = backgroundColor; // Farbe setzen
-        workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
-
-        // Name anzeigen
+        workerEmblem.style.backgroundColor = backgroundColor; 
+        workerEmblem.textContent = getInitials(contact.name); 
         const nameSpan = document.createElement("span");
         nameSpan.classList.add("contact-nameList");
         nameSpan.textContent = contact.name;
-
-        // Status-Icon (anstatt einer Checkbox)
         const img = document.createElement("img");
         img.classList.add("status-icon");
         img.src = isContactSelected(contact.name)
-            ? "./../assets/icons/png/checkButtonContacts.png" // Pfad zum "checked"-Bild
-            : "./../assets/icons/png/checkButtonEmpty.png"; // Pfad zum "unchecked"-Bild
+            ? "./../assets/icons/png/checkButtonContacts.png" 
+            : "./../assets/icons/png/checkButtonEmpty.png"; 
         img.alt = isContactSelected(contact.name) ? "Selected" : "Not Selected";
         img.style.cursor = "pointer";
-
-        // Event-Listener für Statuswechsel (auf das gesamte <li>)
         li.addEventListener("click", () => {
             const isSelected = isContactSelected(contact.name);
             handleContactSelection(contact, !isSelected);
-
-            // Toggle "selected-contact-item" Klasse auf dem <li>
             if (!isSelected) {
                 li.classList.add("selected-contact-item");
             } else {
                 li.classList.remove("selected-contact-item");
             }
-
-            // Bild umschalten
             img.src = !isSelected
                 ? "./../assets/icons/png/checkButtonContacts.png"
                 : "./../assets/icons/png/checkButtonEmpty.png";
             img.alt = !isSelected ? "Selected" : "Not Selected";
         });
-
-        // Elemente in das <li> einfügen
         li.appendChild(workerEmblem);
         li.appendChild(nameSpan);
         li.appendChild(img);
-
-        // <li> in die Dropdown-Liste einfügen
         dropdownList.appendChild(li);
     });
 }
+
 
 function isContactSelected(contactName) {
     return Object.values(window.localContacts || {}).some(contact => contact.name === contactName);
 }
 
 
-
 function initializeLocalContacts(task) {
     if (!task || !Array.isArray(task.workers)) {
-        console.warn("Keine gültigen Worker-Daten gefunden.");
         window.localContacts = {};
         return;
     }
@@ -537,18 +439,11 @@ function initializeLocalContacts(task) {
 }
 
 
-
-
-
-
-
 function synchronizeContactCheckboxes() {
     if (!contactsArray || !Array.isArray(contactsArray)) {
-        console.error("Fehlende oder ungültige Daten für Kontakte.");
         return;
     }
     if (!Array.isArray(window.localEditedContacts)) {
-        console.error("`window.localEditedContacts` ist kein Array. Initialisiere als leeres Array.");
         window.localEditedContacts = [];
     }
     contactsArray.forEach(contact => {
@@ -563,20 +458,16 @@ function synchronizeContactCheckboxes() {
 }
 
 
-
 function updateLocalContactsFromCheckboxes() {
     const checkboxes = document.querySelectorAll('#contactsDropdownList input[type="checkbox"]');
     if (!window.localContacts) {
         window.localContacts = {};
     }
-
     checkboxes.forEach(checkbox => {
         const contactName = checkbox.value;
         const isChecked = checkbox.checked;
         const existingContact = contactsArray.find(contact => contact.name === contactName);
-
         if (isChecked) {
-            // Füge Kontakt hinzu, falls nicht vorhanden
             if (!Object.values(window.localContacts).some(contact => contact.name === contactName)) {
                 window.localContacts[`contact_${Date.now()}`] = {
                     name: contactName,
@@ -584,7 +475,6 @@ function updateLocalContactsFromCheckboxes() {
                 };
             }
         } else {
-            // Entferne Kontakt
             const contactKey = Object.keys(window.localContacts).find(
                 key => window.localContacts[key].name === contactName
             );
@@ -599,19 +489,12 @@ document.addEventListener("mousedown", function (event) {
     const dropdownList = document.getElementById("contactsDropdownList");
     const createContactBar = document.querySelector(".createContactBar");
     const selectedContactsList = document.getElementById("selectedContactsList");
-
-    // Sicherstellen, dass die Elemente existieren
     if (!dropdownList || !createContactBar || !selectedContactsList) {
-        console.error("Ein erforderliches Element fehlt!");
         return;
     }
-
-    // Prüfen, ob außerhalb der relevanten Elemente geklickt wurde
     const clickedInsideDropdown = dropdownList.contains(event.target);
     const clickedInsideCreateBar = createContactBar.contains(event.target);
     const clickedInsideSelectedContacts = selectedContactsList.contains(event.target);
-
-    // Wenn der Klick außerhalb dieser Bereiche ist, erzwinge das Schließen
     if (!clickedInsideDropdown && !clickedInsideCreateBar && !clickedInsideSelectedContacts) {
         dropdownList.classList.remove("open");
         dropdownOpen = false;
@@ -619,35 +502,24 @@ document.addEventListener("mousedown", function (event) {
 });
 
 
-
-
-
-
 function handleContactSelection(contact, isChecked) {
     if (!window.localContacts) {
-        window.localContacts = {}; // Initialisierung
+        window.localContacts = {}; 
     }
-
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (!selectedContactsList) return;
 
     if (isChecked) {
         if (!isContactSelected(contact.name)) {
             selectedContacts.push(contact);
-            window.localContacts[contact.id] = contact; // Synchronisierung
+            window.localContacts[contact.id] = contact; 
         }
     } else {
         removeContact(contact);
     }
-
-    // Beschränke die Anzeige auf 5 Kontakte
     renderSelectedContacts();
     updateDropdownLabel();
 }
-
-
-
-  
 
 
 function removeContact(contact) {
@@ -672,10 +544,3 @@ function updateDropdownLabel() {
         dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
     }
 }
-
-
-
-
-
-
-

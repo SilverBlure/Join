@@ -87,15 +87,12 @@ async function getTasks() {
  */
 async function postData(url, data) {
     try {
-        console.log("Sende Daten an URL:", url);
-        console.log("Payload:", data); // Debugging-Log.
         const response = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
         });
         if (!response.ok) {
-            console.error("POST-Anfrage fehlgeschlagen:", response.statusText);
             return null;
         }
         return await response.json();
@@ -123,17 +120,20 @@ async function addTaskToList(listId, taskDetails) {
 
 
 
+/**
+ * Speichert Änderungen an einer Aufgabe und aktualisiert die Daten.
+ * @param {Event} event - Das Event-Objekt des Formulars.
+ * @param {string} listId - Die ID der Liste, zu der die Aufgabe gehört.
+ * @param {string} taskId - Die ID der zu bearbeitenden Aufgabe.
+ */
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault();
     if (!listId || !taskId) return;
     updateLocalContactsFromCheckboxes();
-    window.localEditedSubtasks = collectSubtasksFromDOM();
-    Object.values(window.localEditedSubtasks).forEach(subtask => {
-        subtask.done = subtask.done || false;
-    });
+    const editedSubtasks = collectSubtasksFromDOM();
     const workers = Object.values(window.localContacts || {}).map(worker => ({
         name: worker.name,
-        id: worker.id || `worker_${Date.now()}`, 
+        id: worker.id || `worker_${Date.now()}`,
     }));
     const updatedTask = {
         title: document.getElementById("title").value.trim(),
@@ -144,32 +144,25 @@ async function saveTaskChanges(event, listId, taskId) {
             name: document.getElementById("category").value.trim() || "Uncategorized",
             class: `category${(document.getElementById("category").value || "Uncategorized").replace(/\s/g, "")}`,
         },
-        workers, 
-        subtasks: { ...window.localEditedSubtasks },
+        workers,
+        subtasks: { ...editedSubtasks },
     };
     try {
         const response = await fetch(`${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`, {
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedTask),
         });
-        if (!response.ok) {
-            return;
-        }
+        if (!response.ok) throw new Error("Server antwortet mit einem Fehler");
         await getTasks();
         showSnackbar('Der Task wurde erfolgreich aktualisiert!');
-        const selectedContactsList = document.getElementById("selectedContactsList");
-        if (selectedContactsList) {
-            selectedContactsList.innerHTML = ""; 
-        }
         closeEditTaskPopup();
-        closeTaskPopup()
     } catch (error) {
+        console.error("Fehler beim Speichern der Änderungen:", error);
         showSnackbar('Fehler beim Aktualisieren der Daten!');
     }
 }
+
 
 
 
