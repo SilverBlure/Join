@@ -174,21 +174,31 @@ async function editTask(listId, taskId) {
 function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
-    if (!editTaskPopupOverlay || !editTaskPopupContainer) return;
 
+    // Erzeuge das Formular-HTML und füge es ein
+    const formHTML = generateEditTaskForm(task, "", listId, taskId);
+    editTaskPopupContainer.innerHTML = formHTML;
+
+    // Initialisiere Subtasks und füge sie in die Subtasks-Liste ein
+    initializeLocalTaskState(task);
+    const subTasksList = document.getElementById("subTasksList");
+    if (subTasksList) {
+        subTasksList.innerHTML = generateEditSubtasksHTML(window.localEditedSubtasks);
+    }
+
+    // Initialisiere Kontakte und aktualisiere das Dropdown
     initializeLocalContacts(task);
+    renderContactsDropdown();
+    renderSelectedContacts();
+    updateDropdownLabel();
+
+    // Setze Attribute und aktiviere das Overlay
     editTaskPopupOverlay.setAttribute("data-task-id", taskId);
     editTaskPopupOverlay.setAttribute("data-list-id", listId);
     editTaskPopupOverlay.classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
-
-    // Nur die Logik ausführen, ohne HTML darzustellen
-    generateEditSubtasksHTML(window.localEditedSubtasks);
-
-    editTaskPopupContainer.innerHTML = generateEditTaskForm(task, "", listId, taskId); // "" anstelle von subtasksHTML
-    renderContactsDropdown(); // Dropdown aktualisieren
-    renderSelectedContacts(); // **Stelle sicher, dass ausgewählte Kontakte direkt gerendert werden**
 }
+
 
 /**
  * Rendert die ausgewählten Kontakte in der Benutzeroberfläche.

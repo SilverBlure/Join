@@ -521,22 +521,21 @@ function isContactSelected(contactName) {
 
 
 
-  function initializeLocalContacts(task) {
+function initializeLocalContacts(task) {
     if (!task || !Array.isArray(task.workers)) {
         console.warn("Keine gültigen Worker-Daten gefunden.");
         window.localContacts = {};
         return;
     }
-
-    // Lokale Kontakte initialisieren
     window.localContacts = task.workers.reduce((acc, worker) => {
         acc[worker.id] = { id: worker.id, name: worker.name };
         return acc;
     }, {});
-
-    // Aktualisiere die HTML-Liste der ausgewählten Kontakte
+    selectedContacts = Object.values(window.localContacts);
     renderSelectedContacts();
+    updateDropdownLabel();
 }
+
 
 
 
@@ -664,12 +663,16 @@ function removeContact(contact) {
 
 function updateDropdownLabel() {
     const dropdownLabel = document.getElementById("dropdownLabel");
+    if (!dropdownLabel) {
+        return;
+    }
     if (selectedContacts.length === 0) {
         dropdownLabel.textContent = "Wähle einen Kontakt aus";
     } else {
         dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
     }
 }
+
 
 
 
