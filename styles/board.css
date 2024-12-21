@@ -256,6 +256,12 @@ h1 {
   height: 263px;
   width: 230px;
   background: #ffffff;
+  transition: transform 0.3s ease, cursor 0.3s ease;
+}
+
+.boardCard:hover { 
+  transform: scale(1.02);
+cursor: pointer;
 }
 
 .taskCardTitle {
