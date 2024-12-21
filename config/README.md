@@ -16,3 +16,16 @@ Hallo @all ich erstelle jetzt einen FireBaseServer für Join und werde versuchen
 Backend zu tun haben:
 
 .backend.js
+
+
+userData
+: 
+email
+: 
+"test.Join@Join.com"
+name
+: 
+"Gast Account"
+password
+: 
+"Gast"
