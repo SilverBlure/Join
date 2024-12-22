@@ -48,13 +48,9 @@
                 </div>
             </div>
             <div class="taskList">
-                <div id="todoList" class="listBody" 
-                    ondrop="handleDrop(event, 'todo')" 
-                    ondragover="allowDrop(event)"
-                    ondragenter="highlightList('todoList')" 
-                    ondragleave="unhighlightList('todoList')"
-                    ontouchstart="startTouchDragging(event, 'todo')" 
-                    ontouchmove="handleTouchMove(event)" 
+                <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)"
+                    ondragenter="highlightList('todoList')" ondragleave="unhighlightList('todoList')"
+                    ontouchstart="startTouchDragging(event, 'todo')" ontouchmove="handleTouchMove(event)"
                     ontouchend="handleTouchDrop(event, 'todo')">
                     <div class="listHeadline">
                         <h4>To-do</h4>
@@ -63,14 +59,11 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-            
-                <div id="inProgressList" class="listBody" 
-                    ondrop="handleDrop(event, 'inProgress')" 
-                    ondragover="allowDrop(event)"
-                    ondragenter="highlightList('inProgressList')" 
+
+                <div id="inProgressList" class="listBody" ondrop="handleDrop(event, 'inProgress')"
+                    ondragover="allowDrop(event)" ondragenter="highlightList('inProgressList')"
                     ondragleave="unhighlightList('inProgressList')"
-                    ontouchstart="startTouchDragging(event, 'inProgress')" 
-                    ontouchmove="handleTouchMove(event)" 
+                    ontouchstart="startTouchDragging(event, 'inProgress')" ontouchmove="handleTouchMove(event)"
                     ontouchend="handleTouchDrop(event, 'inProgress')">
                     <div class="listHeadline">
                         <h4>in Progress</h4>
@@ -79,14 +72,11 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-            
-                <div id="awaitFeedbackList" class="listBody" 
-                    ondrop="handleDrop(event, 'awaitFeedback')" 
-                    ondragover="allowDrop(event)"
-                    ondragenter="highlightList('awaitFeedbackList')" 
+
+                <div id="awaitFeedbackList" class="listBody" ondrop="handleDrop(event, 'awaitFeedback')"
+                    ondragover="allowDrop(event)" ondragenter="highlightList('awaitFeedbackList')"
                     ondragleave="unhighlightList('awaitFeedbackList')"
-                    ontouchstart="startTouchDragging(event, 'awaitFeedback')" 
-                    ontouchmove="handleTouchMove(event)" 
+                    ontouchstart="startTouchDragging(event, 'awaitFeedback')" ontouchmove="handleTouchMove(event)"
                     ontouchend="handleTouchDrop(event, 'awaitFeedback')">
                     <div class="listHeadline">
                         <h4>Await feedback</h4>
@@ -95,14 +85,10 @@
                     </div>
                     <div class="taskContainer"></div>
                 </div>
-            
-                <div id="doneList" class="listBody" 
-                    ondrop="handleDrop(event, 'done')" 
-                    ondragover="allowDrop(event)"
-                    ondragenter="highlightList('doneList')" 
-                    ondragleave="unhighlightList('doneList')"
-                    ontouchstart="startTouchDragging(event, 'done')" 
-                    ontouchmove="handleTouchMove(event)" 
+
+                <div id="doneList" class="listBody" ondrop="handleDrop(event, 'done')" ondragover="allowDrop(event)"
+                    ondragenter="highlightList('doneList')" ondragleave="unhighlightList('doneList')"
+                    ontouchstart="startTouchDragging(event, 'done')" ontouchmove="handleTouchMove(event)"
                     ontouchend="handleTouchDrop(event, 'done')">
                     <div class="listHeadline">
                         <h4>Done</h4>
@@ -110,118 +96,121 @@
                     <div class="taskContainer"></div>
                 </div>
             </div>
-            
+
         </div>
     </div>
     </div>
 
 
 
-    
-    
-    
+
+
+
 
     <div id="viewTaskPopupOverlay" class="popupOverlay hidden" onclick="closeTaskPopup()">
         <div id="viewTaskContainer" class="tasksPopupContainer" onclick="event.stopPropagation()"></div>
     </div>
-    
+
     <div id="editTaskPopupOverlay" class="popupOverlay hidden" onclick="closeEditTaskPopup()">
         <div id="editTaskPopupContainer" class="popupContainer" onclick="event.stopPropagation()"></div>
     </div>
-    
+
     <div id="addTaskPopupOverlay" class="popupOverlay hidden" onclick="closeAddTaskPopup()">
-        <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
+        <div class="positionFormContainer">
+            <div id="addTaskContainer" class="popupContainer" onclick="event.stopPropagation()">
 
-            
-            <div class="popupHeader">
-                <h1>Add Task</h1>
-            </div>
-            <form id="addTaskFormTask">
-                <div class="closebtn"> 
-                <button type="reset" style="all: unset;">
-                    <img class="icons close" onclick="closeAddTaskPopup()" src="./../assets/icons/png/iconoir_cancel.png">
-                </button>
-            </div>
-                <div class="formParts">
-                    <div class="formPart">
-                        <label for="title">Title<span class="requiredStar">*</span></label>
-                        <input maxlength="30" name="title" type="text" id="title" placeholder="Enter a title">
-                        <span class="error-message" id="titleWarning">Title is required.</span> 
-                        <label for="description">Description</label>
-                        <textarea name="description" id="description" rows="5"
-                            placeholder="Enter a Description"></textarea>
+
+                <div class="popupHeader">
+                    <h1>Add Task</h1>
+                </div>
+                <form id="addTaskFormTask">
+                    <div class="closebtn">
+                        <button type="reset" style="all: unset;">
+                            <img class="icons close" onclick="closeAddTaskPopup()"
+                                src="./../assets/icons/png/iconoir_cancel.png">
+                        </button>
+                    </div>
+                    <div class="formParts">
+                        <div class="formPart">
+                            <label for="title">Title<span class="requiredStar">*</span></label>
+                            <input maxlength="30" name="title" type="text" id="title" placeholder="Enter a title">
+                            <span class="error-message" id="titleWarning">Title is required.</span>
+                            <label for="description">Description</label>
+                            <textarea name="description" id="description" rows="5"
+                                placeholder="Enter a Description"></textarea>
                             <label for="contactSelection">Assign Contacts</label>
-                        <div class="createContactBar" onclick="toggleContactsDropdown()">
-                            <span id="dropdownLabel">Select contacts</span>
-                        </div>
-                        <div class="customDropdown">
-                            <ul class="dropdownList" id="contactsDropdownList"></ul>
-                        </div>
-                        <div id="selectedContactsList"></div>
-                    </div>
-                    <div class="separator"></div>
-                    <div class="formPart">
-                        <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
-                        <div>
-                            <input name="date" class="date" type="date" placeholder="dd/mm/yyyy" id="date" min="2024-12-21">
-                            <span class="error-message hidden-text" id="dateWarning">Date is required.</span>
-                        </div>
-                        <label for="priority">Prio</label>
-                        <div class="priorityBtnContainer">
-                            <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
-                                class="priorityBtn">Urgent
-                                <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
-                            </button>
-                            <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
-                                class="priorityBtn active">Medium
-                                <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
-                            </button>
-                            <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
-                                <img src="./../assets/icons/png/PrioritySymbolsLow.png">
-                            </button>
-                        </div>
-
-                        <label for="category">Category<span class="requiredStar">*</span></label>
-                        <select name="category" id="category">
-                              <option value="" disabled selected hidden>Select Task Category</option>
-                            <option value="Technical Task">Technical Task</option>
-                            <option value="User Story">User Story</option>
-                        </select>
-                        <span class="error-message" id="categoryWarning">Category is required.</span> 
-                        <label for="subtask">Subtasks</label>
-                        <div class="createSubtaskBar">
-                            <input id="subTaskInputAddTask" 
-                            name="subTaskInput" 
-                            class="addSubTaskInput" 
-                            placeholder="Add new subtask" 
-                            type="text" 
-                            oninput="toggleSubtaskButtons()"
-                            onkeydown="handleSubtaskKey(event)">
-                            <div class="subtaskButtons">
-                                <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn" class="subtask-btn hidden" onclick="addNewSubtask()">
-                                <div id="separatorSubtask" class="separatorSubtask hidden"></div>
-                                <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn" class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                            <div class="createContactBar" onclick="toggleContactsDropdown()">
+                                <span id="dropdownLabel">Select contacts</span>
                             </div>
-                            <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
+                            <div class="customDropdown">
+                                <ul class="dropdownList" id="contactsDropdownList"></ul>
+                            </div>
+                            <div id="selectedContactsList"></div>
                         </div>
-                        <div id="subTasksList">
-                           
+                        <div class="separator"></div>
+                        <div class="formPart">
+                            <label for="dueDate">Due Date<span class="requiredStar">*</span></label>
+                            <div>
+                                <input name="date" class="date" type="date" placeholder="dd/mm/yyyy" id="date"
+                                    min="2024-12-21">
+                                </div>
+                                <span class="error-message hidden-text" id="dateWarning">Date is required.</span>
+                                <label for="priority">Prio</label>
+                            <div class="priorityBtnContainer">
+                                <button onclick="setPriority('Urgent')" id="prioUrgent" type="button"
+                                    class="priorityBtn">Urgent
+                                    <img src="./../assets/icons/png/PrioritySymbolsUrgent.png">
+                                </button>
+                                <button onclick="setPriority('Middle')" id="prioMiddle" type="button"
+                                    class="priorityBtn active">Medium
+                                    <img src="./../assets/icons/png/PrioritySymbolsMiddle.png">
+                                </button>
+                                <button onclick="setPriority('Low')" id="prioLow" type="button" class="priorityBtn">Low
+                                    <img src="./../assets/icons/png/PrioritySymbolsLow.png">
+                                </button>
+                            </div>
+
+                            <label for="category">Category<span class="requiredStar">*</span></label>
+                            <select name="category" id="category">
+                                <option value="" disabled selected hidden>Select Task Category</option>
+                                <option value="Technical Task">Technical Task</option>
+                                <option value="User Story">User Story</option>
+                            </select>
+                            <span class="error-message" id="categoryWarning">Category is required.</span>
+                            <label for="subtask">Subtasks</label>
+                            <div class="createSubtaskBar">
+                                <input id="subTaskInputAddTask" name="subTaskInput" class="addSubTaskInput"
+                                    placeholder="Add new subtask" type="text" oninput="toggleSubtaskButtons()"
+                                    onkeydown="handleSubtaskKey(event)">
+                                <div class="subtaskButtons">
+                                    <img src="./../assets/icons/png/Subtasks icons11.png" id="saveSubtaskBtn"
+                                        class="subtask-btn hidden" onclick="addNewSubtask()">
+                                    <div id="separatorSubtask" class="separatorSubtask hidden"></div>
+                                    <img src="./../assets/icons/png/iconoir_cancel.png" id="clearSubtaskBtn"
+                                        class="subtask-btn hidden" onclick="clearSubtaskInput()">
+                                </div>
+                                <img id="subtaskImg" src="./../assets/icons/png/addSubtasks.png">
+                            </div>
+                            <div id="subTasksList">
+
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="taskFormButtons">
-                    <p><span class="requiredStar">*</span>This field is required</p>
-                    <div class="buttonContainer">
-                        <button type="submit" class="button">Create Task
-                            <img src="./../assets/icons/png/check.png">
-                        </button>
-                        <button type="reset" onclick="refreshLists()" class="button clearBtn">Clear
-                            <img src="./../assets/icons/png/iconoir_cancel.png">
-                        </button>
+                    <div class="taskFormButtons">
+                        <p><span class="requiredStar">*</span>This field is required</p>
+                        <div class="buttonContainer">
+                            <button type="submit" class="button">Create Task
+                                <img src="./../assets/icons/png/check.png">
+                            </button>
+                            <button type="reset" onclick="refreshLists()" class="button clearBtn">Clear
+                                <img src="./../assets/icons/png/iconoir_cancel.png">
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 </body>
+
 </html>

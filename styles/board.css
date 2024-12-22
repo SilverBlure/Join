@@ -188,6 +188,7 @@ h1 {
   font-size: 12px;
   margin-top: -17px;
   display: none;
+  margin-left: 12px;
 }
 
 .showalert {
@@ -449,6 +450,25 @@ h1 {
 }
 
 #subTasksList::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+  /* Farbe des Daumens beim Hover */
+}
+
+
+/* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
+.popupContainer::-webkit-scrollbar {
+  width: 8px;
+  /* Breite der Scrollleiste */
+}
+
+.popupContainer::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  /* Farbe des Scrollleisten-Daumen */
+  border-radius: 4px;
+  /* Abgerundete Ecken */
+}
+
+.popupContainer::-webkit-scrollbar-thumb:hover {
   background-color: #888;
   /* Farbe des Daumens beim Hover */
 }
@@ -813,17 +833,26 @@ h1 {
   z-index: 30;
 }
 
-.popupOverlay {
+.positionFormContainer {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
+  width: 200%;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 10;
+}
+
+.popupOverlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  max-width: 1950px;
 }
 
 .popupOverlay.visible {
@@ -1273,6 +1302,22 @@ li:hover .status-icon {
     flex-direction: column;
     margin-right: 100px;
   }
+
+  .formParts {
+    flex-direction: column;
+  }
+
+  .separator {
+    width:  424px;
+    background-color: #d1d1d1;
+    height:2px;
+    margin: 50px 0px 50px 0px;
+}
+
+.popupContainer {
+  overflow: auto;
+  width: max-content;
+}
 }
 
 
