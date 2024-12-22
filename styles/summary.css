@@ -96,6 +96,9 @@ body{
   color: white;
 }
 
+.urgent:hover h3{
+color: white;
+}
 
 .urgent {
   transition: background-color 0.3s ease; 
@@ -156,6 +159,11 @@ body{
 }
 
 .d_flex {
+  display: flex;
+}
+
+.dashboard1 {
+  column-gap: 32px;
   display: flex;
 }
 
@@ -222,7 +230,6 @@ body{
       width: 100%;
       height: 100%;
       background: #ffffff;
-      padding-left: 200px;
     }
   }
   
@@ -298,10 +305,7 @@ body{
       font-size: 13px;
     }
 
-    .userGreeting {
-      align-items: start;
-      padding-left: 100px;
-    }
+
   }
   
   @media (max-width: 729px) {
@@ -359,9 +363,7 @@ body{
       margin-left: 10px;
       margin-right: 10px;
     }
-    .help {
-      justify-content: end;
-    }
+  
     html,
     body {
       overflow: hidden;
@@ -398,7 +400,7 @@ body{
       font-size: 26px;
     }
     .userGreeting {
-      padding-left: unset;
+      padding-left: 120px;
       align-items: start;
     }
   }
@@ -445,18 +447,30 @@ body{
   }
 
   @media (max-width: 580px) {
+    .help {
+      justify-content: end;
+    }
     .summary {
       justify-content: start;
       align-items: center;
       height: 100vh;
+      padding: unset;
+      margin: unset;
     }
     .userGreeting {
       align-items: center;
+      justify-content: center;
       padding-left: unset;
+      padding-bottom: 250px;
     }
     .join360 {
       padding-top: 20px;
       padding-bottom: 20px;
+    }
+    .dashboard {
+      padding-top: 25px;
+      margin-left: unset;
+      margin-right: unset;
     }
   }
 
@@ -475,7 +489,7 @@ body{
     }
 
     h3 {
-        font-size: 16px !important;
+        font-size: 12px;
     }
 
     .do {
@@ -496,13 +510,34 @@ body{
     .text {
         font-size: 9px;
     }
+
+    .dashboard1 {
+      width: 300px;
+      column-gap: 12px;
+    }
+    
+    .tasks {
+      column-gap: 16px;
+    }
+
+    .urgent {
+      width: 290px;
+    }
+
+    .do {
+      width: 144px;
+    }
+    
+    #noTaskInBoard {
+      margin: unset;
+    }
+
+    .greyLine {
+      margin-left: 15px;
+      margin-right: 15px;
+    }
 }
 
-@media (max-width: 340px) {
-  .dashboard {
-      margin-right: 20px;
-  }
-}
 
   
   @keyframes greeting {
