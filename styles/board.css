@@ -1187,8 +1187,20 @@ li:hover .status-icon {
   }
 
   .boardCard {
-    width: 224px;
+    width: 216px;
     height: 230px;
+  }
+
+  .taskCardDescription {
+    width: 190px;
+  }
+
+  .taskCardTitle {
+    width: 190px;
+  }
+
+  .BoardCardFooter {
+    padding-top: 10px;
   }
 
   .taskCardSubtasks {
@@ -1201,6 +1213,43 @@ li:hover .status-icon {
 
   .nothingToDo {
     width: 200px;
+  }
+}
+
+@media (max-width: 1350px) {
+  h1 {
+    font-size: 42px;
+  }
+
+  .BoardCardFooter {
+    padding-top: unset;
+  }
+
+  body {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  .nothingToDo {
+    width: 70vh;
+  }
+
+  .listBody {
+    width: auto;
+    height: max-content;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    padding-left: 20px;
+  }
+
+  .taskList {
+    flex-direction: column;
+  }
+
+  .taskContainer {
+    flex-direction: row;
+    justify-content: start;
+    width: 656px;
+    overflow: auto;
   }
 }
 
@@ -1221,7 +1270,9 @@ li:hover .status-icon {
   .searchContainer {
     margin-left: 120px;
   }
-
+  .BoardCardFooter {
+    padding-top: 24px;
+  }
   .taskCategory {
     font-size: 12px;
   }
@@ -1266,7 +1317,8 @@ li:hover .status-icon {
   }
 }
 
-@media (max-width: 1111px) {
+
+@media (max-width: 1110px) {
   .listBody {
     width: 163px;
   }
@@ -1311,62 +1363,6 @@ li:hover .status-icon {
     width: 16px;
     height: 16px;
   }
-}
-
-@media (max-width: 1350px) {
-  h1 {
-    font-size: 42px;
-  }
-
-  .BoardCardFooter {
-    padding-top: unset;
-  }
-
-  body {
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
-
-
-
-  .nothingToDo {
-    width: 70vh;
-  }
-
-  .listBody {
-    width: auto;
-    height: max-content;
-    padding-top: 20px;
-    padding-bottom: 50px;
-    padding-left: 20px;
-  }
-
-  .taskList {
-    flex-direction: column;
-  }
-
-  .taskContainer {
-    flex-direction: row;
-    justify-content: start;
-    width: 656px;
-    overflow: auto;
-  }
-}
-
-@media (max-width: 1200px) {
-  .BoardCardFooter {
-    padding-top: 24px;
-  }
-}
-
-@media (max-width: 950px) {
-  .sidebar {
-      height: 136vh;
-  }
-}
-
-@media (max-width: 1110px) {
-
   .BoardCardFooter {
     padding-top: 20px;
   }
@@ -1408,6 +1404,14 @@ li:hover .status-icon {
     gap: 9px;
   }
 }
+
+
+@media (max-width: 950px) {
+  .sidebar {
+      height: 136vh;
+  }
+}
+
 
 @media (max-width: 902px) {
   .boardHead {
