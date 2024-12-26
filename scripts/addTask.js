@@ -333,8 +333,11 @@ function resetCategoryDropdown() {
     return;
   }
 
-  // Setze Standardtext und leere den versteckten Input-Wert
-  selectedCategory.textContent = "Select Task Category";
+// Setze Standardtext und leere den versteckten Input-Wert
+selectedCategory.innerHTML = `
+  Select Task Category
+  <img src="./../assets/icons/png/arrow_dropdown.png" alt="Dropdown Arrow">
+`;
   categoryInput.value = ""; 
 }
 

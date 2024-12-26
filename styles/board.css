@@ -2,6 +2,25 @@ body {
   user-select: none;
 }
 
+
+/* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
+body::-webkit-scrollbar {
+  width: 8px;
+  /* Breite der Scrollleiste */
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #aaa;
+  /* Farbe des Scrollleisten-Daumen */
+  border-radius: 4px;
+  /* Abgerundete Ecken */
+}
+
+.body::-webkit-scrollbar-thumb:hover {
+  background-color: #888;
+  /* Farbe des Daumens beim Hover */
+}
+
 input:not(:placeholder-shown),
 textarea:not(:placeholder-shown) {
   color: #000000;
