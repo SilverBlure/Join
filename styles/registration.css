@@ -8,6 +8,19 @@ body {
     justify-content: space-between;
 }
 
+#emailWarnings {
+    height: 33px;
+}
+
+#emailWarnings p {
+color: red;
+font-size: 12px;
+}
+
+.emailWarning {
+    position: absolute;
+}
+
 .none {
     display: none !important;
 }
@@ -256,12 +269,14 @@ input::placeholder {
 }
 
 @media (max-width: 700px) {
-    .registration{
+    .registration {
         width: 494px;
     }
-    .border{
+
+    .border {
         width: 386px;
     }
+
     .innerInputfield {
         width: 359px;
     }
@@ -273,21 +288,26 @@ input::placeholder {
         padding-top: 54px;
         padding-left: 32px;
     }
-    .registration{
+
+    .registration {
         width: 396px;
         height: 595px;
         margin-bottom: 64px;
     }
-    .border{
+
+    .border {
         width: 364px;
     }
+
     .innerInputfield {
         width: 322px;
     }
-    .signUp{
+
+    .signUp {
         font-size: 47px;
     }
-    .seperator{
+
+    .seperator {
         width: 88px;
     }
 }

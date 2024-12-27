@@ -106,17 +106,44 @@ function pw_check(){
     }
 }
 
-function email_Check(){
-    let email = document.getElementById('email').value;
-    let found = emailArray.find((element) => element === email)
-    if(found){
-        document.getElementById('emailWarning').classList.add('visible-text');
-        document.getElementById('emailWarning').classList.remove('hidden-text');
-    }else{
-        document.getElementById('emailWarning').classList.add('hidden-text');
-        document.getElementById('emailWarning').classList.remove('visible-text');
+function email_Check() {
+    const email = document.getElementById('email').value;
+    const emailWarning = document.getElementById('emailWarning');
+    const emailWarningAt = document.getElementById('emailWarning@');
+    const emailWarningEnding = document.getElementById('emailWarningEnding');
+
+    // Reset all warnings
+    emailWarning.classList.add('hidden-text');
+    emailWarningAt.classList.add('hidden-text');
+    emailWarningEnding.classList.add('hidden-text');
+    emailWarning.classList.remove('visible-text');
+    emailWarningAt.classList.remove('visible-text');
+    emailWarningEnding.classList.remove('visible-text');
+
+    let found = emailArray.find((element) => element === email);
+
+    // Check if email is already registered
+    if (found) {
+        emailWarning.classList.add('visible-text');
+        emailWarning.classList.remove('hidden-text');
+        return;
+    }
+
+    // Check if email contains "@" character
+    if (!email.includes('@')) {
+        emailWarningAt.classList.add('visible-text');
+        emailWarningAt.classList.remove('hidden-text');
+        return;
+    }
+
+    // Check if email ends with ".de" or ".com"
+    if (!email.endsWith('.de') && !email.endsWith('.com')) {
+        emailWarningEnding.classList.add('visible-text');
+        emailWarningEnding.classList.remove('hidden-text');
+        return;
     }
 }
+
 
 function changeSvgToOn(){
     let doc = document.getElementById('checkboxSvg');

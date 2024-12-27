@@ -52,17 +52,16 @@
 
                         <div class="border borderInputFields center">
                             <innerInputfield class="innerInputfield">
-                                <input id="email" type="email" class="noBorder input"
-                                oninput="email_Check()"
+                                <input id="email" type="email" class="noBorder input" oninput="email_Check()"
                                     placeholder="Email" required>
                                 <img src="./../assets/icons/svg/mail.svg">
                             </innerInputfield>
                         </div>
 
-                        <div>
-                            <p id="emailWarning" class="failtureText left hidden-text">*The email address you want to
-                                use is
-                                registered </p>
+                        <div id="emailWarnings">
+                            <p id="emailWarning" class="emailWarning left hidden-text">*The email address you want to use is registered </p>
+                            <p id="emailWarning@" class="emailWarning left hidden-text">*Please enter a valid email address with '@'. </p>
+                            <p id="emailWarningEnding" class="emailWarning left hidden-text">*Please enter a valid email address ending with '.de' or '.com'. </p>
                         </div>
 
                         <div class="border borderInputFields center marBo30">
