@@ -295,6 +295,8 @@ h1 {
 
     .signUpContainer {
         align-items: start;
+        margin: 0;
+
     }
 
     .registrationTrigger {
@@ -307,16 +309,6 @@ h1 {
 }
 
 @media(max-width: 850px) {
-
-    .loginBackground {
-        margin-bottom: 38px;
-    }
-
-    .signUpContainer {
-        align-items: start;
-        margin: 0;
-    }
-
     .head {
         justify-content: start;
         margin-top: 0;
@@ -333,6 +325,10 @@ h1 {
 }
 
 @media (max-width: 560px) {
+
+.registrationTrigger {
+    font-size: 16px;
+}
 
     .loginBackground {
         height: 475px;
@@ -373,10 +369,32 @@ h1 {
     }
 }
 
-@media(max-width: 420px) {
+@media(max-width: 470px) {
+.mobile {
+    width: unset;
+}
+}
+
+@media(max-width: 439px) {
+    .head {
+        height: unset;
+    }
+
     .logoLogin {
         scale: .6;
         padding-top: 0;
         padding-left: 24px;
+    }
+
+    .border {
+        width: 298px;
+    }
+
+    .innerInputfield {
+        width: 150px;
+    }
+
+    .loginBackground {
+        width: 350px;
     }
 }
