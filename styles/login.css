@@ -272,23 +272,13 @@ h1 {
 
     .registrationTrigger {
         margin-bottom: 0px;
-        padding-right: 0;
+        padding-right: 24px;
         font-weight: 400;
         font-size: 20px;
         color: black;
     }
 
-    .page {
-        flex-direction: column;
-    }
 
-    .head {
-        justify-content: start;
-        align-items: start;
-        margin: 0;
-        width: 100%;
-        height: 70%;
-    }
 
     .logoLogin {
         padding-left: 24px;
@@ -302,15 +292,22 @@ h1 {
 
     }
 
-    .registrationTrigger {
-        padding-right: 24px;
-    }
-
     .loginBackground {
         margin-bottom: 38px;
     }
 
 
+}
+
+
+@media(max-width: 1000px) {
+    .center {
+        margin-top: 12px;
+    }
+
+    .loginBackground {
+        height: 488px;
+    }
 }
 
 @media(max-width: 850px) {
@@ -329,7 +326,6 @@ h1 {
 
     .loginBackground {
         width: 480px;
-
     }
 }
 
@@ -399,8 +395,8 @@ h1 {
         width: unset;
     }
 
-    .signUpContainer .alignCenter{
- flex-direction: column;
+    .signUpContainer .alignCenter {
+        flex-direction: column;
     }
 
     .registrationTrigger {
