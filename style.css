@@ -71,7 +71,7 @@ a li.active {
     }
     100% {
         width: 100px; 
-        top: 114px;
+        top: 62px;
         left: 84px;
         transform: translate(0, 0); 
     }
@@ -117,7 +117,7 @@ a li.active {
         }
         100% {
             width: 84px; 
-            top: 86px;
+            top: 34px;
             left: 33px;
             transform: translate(0, 0); 
         }

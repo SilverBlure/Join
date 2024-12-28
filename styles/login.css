@@ -55,7 +55,7 @@ input::placeholder {
 
 .loginBackground {
     background-color: white;
-    height: 449px;
+    height: 473px;
     width: 652px;
     border-radius: 30px;
     margin-bottom: 116px;
@@ -78,7 +78,6 @@ h1 {
     justify-content: space-between;
     align-items: start;
     height: 100%;
-    margin-top: 52px;
 }
 
 .footer {
@@ -267,6 +266,9 @@ h1 {
     width: 100%;
 }
 
+.loginHeadline {
+    margin-top: 24px;
+}
 
 @media(max-width : 1100px) {
 
@@ -306,7 +308,7 @@ h1 {
     }
 
     .loginBackground {
-        height: 488px;
+        height: 512px;
     }
 }
 
@@ -346,7 +348,7 @@ h1 {
     }
 
     .loginBackground {
-        height: 420px;
+        height: 444px;
         width: 396px;
     }
 
@@ -415,7 +417,7 @@ h1 {
 
     .loginBackground {
         width: 310px;
-        height: 360px;
+        height: 395px;
     }
 
     .center {
