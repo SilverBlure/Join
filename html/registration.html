@@ -10,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="./../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="./../styles/fonts.css">
-    <link rel="stylesheet" href="./../styles/templates.css">
     <link rel="stylesheet" href="./../styles/assets.css">
     <link rel="stylesheet" href="./../style.css">
     <link rel="stylesheet" href="./../styles/registration.css">
@@ -30,18 +29,18 @@
                 <div class="regHead">
                     <a href="./login.html"><img src="./../assets/icons/png/arrow-left-line.png"></a>
                     <h1 class="signUp ">Sign up</h1>
-                    <empty class="empty"></empty>
+                    <span class="empty"></span>
                 </div>
 
                 <div class="seperator center marBo30"></div>
-                <inputBlock>
+                <div>
                     <form id="input">
                         <div class="border borderInputFields center ">
-                            <innerInputfield class="innerInputfield">
+                            <div class="innerInputfield">
                                 <input id="name" class="noBorder input" placeholder="Name" oninput="checkName()"
                                     required>
                                 <img src="./../assets/icons/png/person.png">
-                            </innerInputfield>
+                            </div>
                         </div>
                         <div>
                             <p id="nameWarning" class="failtureText left hidden-text ">*Please insert first and last
@@ -50,11 +49,11 @@
                         </div>
 
                         <div class="border borderInputFields center">
-                            <innerInputfield class="innerInputfield">
+                            <div class="innerInputfield">
                                 <input id="email" type="email" class="noBorder input" oninput="email_Check()"
                                     placeholder="Email" required>
                                 <img src="./../assets/icons/svg/mail.svg">
-                            </innerInputfield>
+                            </div>
                         </div>
 
                         <div id="emailWarnings">
@@ -64,19 +63,19 @@
                         </div>
 
                         <div class="border borderInputFields center marBo30">
-                            <innerInputfield class="innerInputfield">
+                            <div class="innerInputfield">
                                 <input id="pw_1" type="password" name="password1" class="noBorder input"
                                     placeholder="Password" required>
                                 <img src="./../assets/icons/svg/lock.svg">
-                            </innerInputfield>
+                            </div>
                         </div>
 
                         <div class="border borderInputFields center">
-                            <innerInputfield class="innerInputfield">
+                            <div class="innerInputfield">
                                 <input id="pw_2" type="password" name="password2" class="noBorder input"
                                     placeholder="Confirm Password" oninput="pw_check()" required>
                                 <img src="./../assets/icons/svg/lock.svg">
-                            </innerInputfield>
+                            </div>
                         </div>
                     </form>
                     <div>
@@ -95,7 +94,7 @@
                         <button form="input" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
                     </div>
 
-                </inputBlock>
+                </div>
             </div>
         </div>
         <div class="signUpfooter textColor">

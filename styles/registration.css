@@ -257,17 +257,39 @@ input::placeholder {
     border: none;
 }
 
-@media(max-width: 850px) {
+@media(max-width: 1100px) {
     .logoLogin {
-        scale: 1;
+        padding-left: 24px;
+        padding-top: 24px;
+        scale: 1;    }
+}
+
+@media(max-width: 880px) {
+    .registration {
+        height: 569px;
+        width: 470px;
+    }
+    .signUp {
+        font-size: 42px;
     }
 }
 
-@media (max-width: 700px) {
-    .registration {
-        width: 494px;
+@media (max-width: 770px) {
+    .border {
+        width: 386px;
     }
 
+    .innerInputfield {
+        width: 359px;
+    }
+
+    .logoLogin {
+        scale: 0.75;
+    }
+}
+
+
+@media (max-width: 700px) {
     .border {
         width: 386px;
     }
@@ -277,16 +299,23 @@ input::placeholder {
     }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 580px) {
+    .signUp {
+        font-size: 32px;
+    }
+    .signUpBtn {
+        font-size: 16px;
+        width: 90px;
+        height: 32px;
+    }
+
     .logoLogin {
-        scale: .6;
-        padding-top: 54px;
-        padding-left: 32px;
+        scale: 0.6;
     }
 
     .registration {
         width: 396px;
-        height: 595px;
+        height: 525px;
         margin-bottom: 64px;
     }
 
@@ -298,11 +327,26 @@ input::placeholder {
         width: 322px;
     }
 
-    .signUp {
-        font-size: 47px;
-    }
-
     .seperator {
         width: 88px;
+    }
+
+    body {
+        padding-bottom: 0px;
+    }
+}
+
+@media (max-width: 430px) {
+    .border {
+        width: 236px;
+    }
+
+    .innerInputfield {
+        width: 209px;
+    }
+
+    .registration {
+        width: 290px;
+
     }
 }
