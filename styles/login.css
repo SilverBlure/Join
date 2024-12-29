@@ -1,9 +1,12 @@
 body {
     margin: 0;
+    max-width: 1440px;
+    height: 100vh;
     background-color: #F6F7F8;
     flex-direction: column;
     display: flex;
     justify-content: space-between;
+
 }
 
 .loginBody {
@@ -55,7 +58,7 @@ input::placeholder {
 
 .loginBackground {
     background-color: white;
-    height: 473px;
+    height: 449px;
     width: 652px;
     border-radius: 30px;
     margin-bottom: 116px;
@@ -68,16 +71,17 @@ h1 {
 
 .page {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    flex-direction: column;
+    height: 100vh;
 }
 
 .head {
     display: flex;
     justify-content: space-between;
     align-items: start;
-    height: 100%;
+    height: 100vh;
+    margin-top: 52px
 }
 
 .footer {
@@ -90,9 +94,9 @@ h1 {
 
 .center {
     display: flex;
+    justify-content: space-evenly;
     align-items: center;
     flex-direction: column;
-    gap: 24px;
 }
 
 
@@ -162,6 +166,11 @@ h1 {
     font-weight: 700;
 }
 
+.signUpBtn:hover{
+    background-color: #29ABE2;
+    border: none;
+}
+
 .logInBtn {
     color: white;
     border-radius: 8px;
@@ -219,7 +228,6 @@ h1 {
     font-weight: 400;
     font-size: 20px;
     color: black;
-    width: max-content;
 }
 
 .saveLogin {
@@ -235,6 +243,7 @@ h1 {
     padding-right: 64px;
     display: flex;
     align-items: flex-start;
+    height: 100vh;
     margin-top: 82px;
     justify-content: center;
 }
@@ -248,6 +257,9 @@ h1 {
     width: 328px;
 }
 
+.third {
+    width: 33%;
+}
 
 .logoLogin {
     padding-top: 56px;
@@ -255,72 +267,66 @@ h1 {
     scale: 1.2;
 }
 
-.alertBox {
-    height: auto;
-}
 
-.loginHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.loginHeadline {
-    margin-top: 24px;
-}
 
 @media(max-width : 1100px) {
 
     .registrationTrigger {
         margin-bottom: 0px;
-        padding-right: 24px;
+        padding-right: 0;
         font-weight: 400;
         font-size: 20px;
         color: black;
     }
 
+    .page {
+        flex-direction: column;
+        width: 100vw;
+    }
 
+    .third {
+        width: 100vw;
+    }
+
+    .head {
+        justify-content: start;
+        align-items: start;
+        margin: 0;
+    }
 
     .logoLogin {
-        padding-left: 24px;
-        padding-top: 24px;
+        padding-left: 75px;
         scale: 1;
     }
 
     .signUpContainer {
         align-items: start;
-        margin: 0;
+    }
 
+    .registrationTrigger {
+        padding-right: 24px;
     }
 
     .loginBackground {
         margin-bottom: 38px;
     }
-
-
-}
-
-
-@media(max-width: 1000px) {
-    .center {
-        margin-top: 12px;
-    }
-
-    .loginBackground {
-        height: 512px;
-    }
 }
 
 @media(max-width: 850px) {
+
+    .loginBackground {
+        margin-bottom: 38px;
+    }
+
+    .signUpContainer {
+        align-items: start;
+        margin: 0;
+    }
+
     .head {
         justify-content: start;
         margin-top: 0;
-        height: 50%;
-    }
-
-    .logoLogin {
-        scale: 0.75;
+        width: 100vw;
     }
 }
 
@@ -328,27 +334,14 @@ h1 {
 
     .loginBackground {
         width: 480px;
+
     }
 }
 
-
-
 @media (max-width: 560px) {
 
-    .logoLogin {
-        scale: 0.55;
-    }
-
-    .warningText {
-        font-size: 12px;
-    }
-
-    .registrationTrigger {
-        font-size: 16px;
-    }
-
     .loginBackground {
-        height: 444px;
+        height: 475px;
         width: 396px;
     }
 
@@ -360,23 +353,21 @@ h1 {
         width: 341px;
     }
 
+    .buttons {
+        flex-direction: column;
+    }
+
     .logInBtn {
-        width: 120px;
-        height: 30px;
-        font-size: 16px;
+        width: 180px;
+        margin-bottom: 20px;
     }
 
     .guestBtn {
-        width: 120px;
-        height: 30px;
-
-        font-size: 16px;
+        width: 180px;
     }
 
-    .signUpBtn {
-        width: 120px;
-        height: 30px;
-        font-size: 16px;
+    .signUpContainer {
+        padding: 0;
     }
 
     h1 {
@@ -386,41 +377,12 @@ h1 {
     .seperator {
         width: 88px;
     }
-
-    .hidden-text {
-        font-size: 12px;
-    }
 }
 
-@media(max-width: 470px) {
-    .mobile {
-        width: unset;
-    }
-
-    .signUpContainer .alignCenter {
-        flex-direction: column;
-    }
-
-    .registrationTrigger {
-        padding: unset;
-    }
-}
-
-@media(max-width: 433px) {
-    .border {
-        width: 270px;
-    }
-
-    .innerInputfield {
-        width: 250px;
-    }
-
-    .loginBackground {
-        width: 310px;
-        height: 395px;
-    }
-
-    .center {
-        gap: 16px;
+@media(max-width: 420px) {
+    .logoLogin {
+        scale: .6;
+        padding-top: 0;
+        padding-left: 24px;
     }
 }

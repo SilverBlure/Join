@@ -5,92 +5,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join</title>
-    <link rel="icon" href="./../assets/icons/svg/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="./../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" rel="stylesheet">
     <script src="./../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="./../styles/fonts.css">
+    <link rel="stylesheet" href="./../styles/templates.css">
     <link rel="stylesheet" href="./../styles/assets.css">
     <link rel="stylesheet" href="./../style.css">
     <link rel="stylesheet" href="./../styles/login.css">
     <script src="./../scripts/backend.js"></script>
     <script src="./../scripts/login&registry.js"></script>
     <script src="./../script.js"></script>
-
-
 </head>
 
 <body onload="initLog()">
-
     <div id="snackbar" class="hidden"></div>
 
     <div class="page ">
-        <div class="loginHeader">
-
-            <div class="head third">
-                <div>
-                    <img class="logoLogin " src="./../assets/icons/svg/joinLogo.svg">
-                </div>
+        <div class="head third">
+            <div>
+                <img class="logoLogin " src="./../assets/icons/svg/joinLogo.svg">
             </div>
 
-            <div class="signUpContainer third">
-                <div class="alignCenter">
-                    <p class="registrationTrigger">Not a Join user?</p>
-                    <a href="./registration.html"><button class="signUpBtn">Sign up</button></a>
-                </div>
-            </div>
 
         </div>
 
-        <div class="center third mobile">
+        <div class="center third">
             <div class="loginBackground center">
-
                 <div class="center">
-                    <h1 class="loginHeadline">Log in</h1>
+                    <h1>Log in</h1>
                     <div class="seperator"></div>
                 </div>
-
                 <div class="border borderInputFields center">
-                    <div class="innerInputfield">
+                    <innerInputfield class="innerInputfield">
                         <input id="email" class="noBorder input" placeholder="Email">
                         <img src="./../assets/icons/svg/mail.svg">
-                    </div>
+                    </innerInputfield>
                 </div>
-
-                <div class="border  borderInputFields">
-                    <div class="innerInputfield">
-                        <input oninput="checkInput()" id="password" type="password" class="noBorder input"
-                            placeholder="Passwort">
-                        <img src="./../assets/icons/svg/lock.svg">
+                <div>
+                    <div class="border  borderInputFields">
+                        <innerInputfield class="innerInputfield">
+                            <input oninput="checkInput()" id="password" type="password" class="noBorder input"
+                                placeholder="Passwort">
+                            <img src="./../assets/icons/svg/lock.svg">
+                        </innerInputfield>
                     </div>
-                </div>
-
-                <div class="alertBox">
                     <p id="warningText" class="warningText hidden-text">*The entered email does not match the password.
                     </p>
                 </div>
-
                 <div class="saveLogin">
                     <img class="checkSvg" id="checkSvg" onclick="changeToChecked()"
                         src="./../assets/icons/svg/leereCheckbox.svg">
                     <text class="">Remember me</text>
                 </div>
-
                 <div class="buttons">
                     <button onclick="login('normal')" class="logInBtn">Log in</button>
                     <button onclick="login('Gast')" class="guestBtn">Guest Log in</button>
                 </div>
-
             </div>
-
             <div class="footer ">
                 <a class="text" href="./privacyPolicy.html">Privacy Policy</a>
                 <a class="text" href="./legalNotice.html">Legal notice</a>
             </div>
 
         </div>
-
-
+        <div class="signUpContainer third">
+            <div class="alignCenter">
+                <p class="registrationTrigger">Not a Join user?</p>
+                <a href="./registration.html"><button class="signUpBtn">Sign up</button></a>
+            </div>
+        </div>
 
     </div>
 </body>
