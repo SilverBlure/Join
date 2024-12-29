@@ -111,7 +111,6 @@ footer{
   align-items: center;
   padding-right: 50px;
   column-gap: 20px;
-  width: 100%;
 }
 
 .helpImg {
@@ -241,7 +240,6 @@ a {
   }
   .sidebar {
     width: 180px;
-    height: 100vh;
   }
 
   .display-none {

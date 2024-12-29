@@ -25,72 +25,72 @@
 
 <body onload="guestProtocol(),includeHTML(), init(), initSummary()">
     <div class="sidebar" w3-include-html="./../templates/sidebar.html"></div>
-    
+
     <div class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
         <div class="summary" onclick="closeShowMenu()">
-        <div class="join360">
-            <h1>Join 360</h1><span class="blueLine"></span>
-            <h3>Key Metrics at a Glance</h3>
-        </div>
+            <div class="join360">
+                <h1>Join 360</h1><span class="blueLine"></span>
+                <h3>Key Metrics at a Glance</h3>
+            </div>
 
 
-        <div class="d_flex">
-            <div class="dashboard">
-                <div class="dashboard1">
-                    <div class="do">
-                        <img class="doIcon" src="./../assets/icons/png/todo.png">
-                        <div class="column">
-                            <h1 id="toDoTasks" class="margin_0 taskNumber"></h1>
-                            <p class="margin_0" >To-do</p>
+            <div class="d_flex">
+                <div class="dashboard">
+                    <div class="dashboard1">
+                        <div class="do">
+                            <img class="doIcon" src="./../assets/icons/png/todo.png">
+                            <div class="column">
+                                <h1 id="toDoTasks" class="margin_0 taskNumber"></h1>
+                                <p class="margin_0">To-do</p>
+                            </div>
+                        </div>
+                        <div class="do">
+                            <img class="doneIcon" src="./../assets/icons/png/done.png">
+                            <div class="column">
+                                <h1 id="doneTasks" class="margin_0 taskNumber"></h1>
+                                <p class="margin_0">Done</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="do">
-                        <img class="doneIcon" src="./../assets/icons/png/done.png">
+
+                    <div class="urgent">
+                        <img class="doIcon" src="./../assets/icons/png/urgent.png">
                         <div class="column">
-                            <h1 id="doneTasks" class="margin_0 taskNumber"></h1>
-                            <p class="margin_0">Done</p>
+                            <h1 id="urgentTasks" class="margin_0 taskNumber"></h1>
+                            <p class="margin_0">Urgent</p>
+                        </div>
+
+                        <span class="greyLine"></span>
+                        <div>
+                            <h3 id="nextDueDate" style="font-weight: 700;"></h3>
+                            <p id="noTaskInBoard">Upcoming Deadline</p>
+                        </div>
+                    </div>
+
+                    <div class="tasks">
+                        <div class="tasksBox">
+                            <p id="allTasks" class="taskNumber"></p>
+                            <p class="text">Tasks in Board</p>
+                        </div>
+                        <div class="tasksBox">
+                            <p id="inProgressTasks" class="taskNumber"></p>
+                            <p class="text">Tasks in Progress</p>
+                        </div>
+                        <div class="tasksBox">
+                            <p id="awaitFeedbackTasks" class="taskNumber"></p>
+                            <p class="text">Awaiting Feedback</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="urgent">
-                    <img class="doIcon" src="./../assets/icons/png/urgent.png">
-                    <div class="column">
-                        <h1 id="urgentTasks" class="margin_0 taskNumber"></h1>
-                        <p class="margin_0">Urgent</p>
-                    </div>
-
-                    <span class="greyLine"></span>
-                    <div>
-                        <h3 id="nextDueDate" style="font-weight: 700;"></h3>
-                        <p id="noTaskInBoard">Upcoming Deadline</p>
+                <div class="userGreeting">
+                    <div class="greetingContent">
+                        <h2 id="greeting" class="margin_0">Good Morning,</h2>
+                        <h1 id="user" class="name"></h1>
                     </div>
                 </div>
-
-                <div class="tasks">
-                    <div class="tasksBox">
-                        <p id="allTasks" class="taskNumber"></p>
-                        <p class="text">Tasks in Board</p>
-                    </div>
-                    <div class="tasksBox">
-                        <p id="inProgressTasks" class="taskNumber"></p>
-                        <p class="text">Tasks in Progress</p>
-                    </div>
-                    <div class="tasksBox">
-                        <p id="awaitFeedbackTasks" class="taskNumber"></p>
-                        <p class="text">Awaiting Feedback</p>
-                    </div>
-                </div>
-            </div>
-            <div class="userGreeting">
-                <div class="greetingContent">
-                <h2 id="greeting" class="margin_0">Good Morning,</h2>
-                <h1 id="user" class="name"></h1>
-            </div>
             </div>
         </div>
-    </div>
     </div>
 </body>
 

@@ -1,16 +1,13 @@
 h1 {
-  font-size: 61px; 
+  font-size: 61px;
   font-weight: 700;
 }
 
 h3 {
-  font-size: 27px; 
+  font-size: 27px;
   color: #2A3647;
 }
 
-body{
-  overflow: hidden;
-}
 
 .blueLine {
   border-left: 3px solid #29abe2;
@@ -51,8 +48,8 @@ body{
 }
 
 .do {
-  transition: background-color 0.3s ease; 
-  transition: transform 0.3s ease, filter 0.3s ease; 
+  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,34 +72,34 @@ body{
 }
 
 .do:hover .doIcon {
-  content: url('./../assets/icons/png/todoHover.png'); 
+  content: url('./../assets/icons/png/todoHover.png');
 }
 
 .do:hover .doneIcon {
-  content: url('./../assets/icons/png/doneHover.png'); 
+  content: url('./../assets/icons/png/doneHover.png');
 }
 
 .tasksBox:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
   cursor: pointer;
   background-color: #2A3647;
   color: white;
 }
 
 .urgent:hover {
-  transform: scale(1.1); 
+  transform: scale(1.1);
   cursor: pointer;
   background-color: #2A3647;
   color: white;
 }
 
-.urgent:hover h3{
-color: white;
+.urgent:hover h3 {
+  color: white;
 }
 
 .urgent {
-  transition: background-color 0.3s ease; 
-  transition: transform 0.3s ease, filter 0.3s ease; 
+  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,7 +111,7 @@ color: white;
 }
 
 .tasksBox {
-  transition: background-color 0.3s ease; 
+  transition: background-color 0.3s ease;
   transition: transform 0.3s ease, filter 0.3s ease;
   display: flex;
   justify-content: center;
@@ -177,7 +174,7 @@ color: white;
   margin: 0px;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
   .summary {
     padding: 2px 9px;
   }
@@ -186,368 +183,379 @@ color: white;
     margin-right: 40px;
   }
 
-    .userGreeting { 
-      padding-left: 20px;
+  .userGreeting {
+    padding-left: 20px;
   }
 }
 
-@media (max-width: 1100px) {
-    .summary {
-      padding-left: 60px;
-    }
-  
-    .tasksBox {
-      width: 151px;
-    }
-  
-    h1 {
-      font-size: 48px;
-    }
-  
-    h3 {
-      font-size: 22px;
-    }
-  
-    .do {
-      width: 240px;
-      height: 140px;
-    }
-  
-    .urgent {
-      height: 160px;
-      width: 500px;
-    }
-
-    .userGreeting {
-      margin-top: 96px;
-      animation-name: greeting;
-      animation-duration: 3s;
-      animation-timing-function: ease-out;
-      animation-fill-mode: forwards;
-      position: absolute;
-      top: -12px;
-      left: 0px;
-      width: 100%;
-      height: 100%;
-      background: #ffffff;
-    }
+@media (max-width: 1150px) {
+  .summary {
+    padding-left: 60px;
   }
-  
-  @media (max-width: 790px) {
-    .summary {
-      padding-left: 50px;
-      margin-right: 8px;
-    }
-  
-    h1 {
-      font-size: 40px;
-    }
-  
-    .do {
-      width: 230px;
-      height: 130px;
-    }
-  
-    .urgent {
-      width: 480px;
-      height: 150px;
-    }
-  
-    .tasksBox {
-      width: 143px;
-      height: 168px;
-    }
 
+  .tasksBox {
+    width: 151px;
   }
-  
-  @media (max-width: 745px) {
-    .summary {
-      padding-left: 31px;
-      margin-right: 4px;
-    }
-  
-    h1 {
-      font-size: 46px;
-    }
 
-     h3 {
-      font-size: 18px;
-    }
-
-    .join360 h1 {
-      font-size: 40px !important;
-    }
-  
-    h3 {
-      font-size: 19px;
-    }
-  
-    .do {
-      width: 201px;
-      height: 110px;
-    }
-  
-    .urgent {
-      width: 438px;
-      height: 126px;
-    }
-  
-    .tasksBox {
-      width: 130px;
-      height: 130px;
-    }
-  
-    .taskNumber {
-      font-size: 50px;
-    }
-  
-    .text {
-      font-size: 13px;
-    }
-
-
+  h1 {
+    font-size: 48px;
   }
-  
-  @media (max-width: 729px) {
-.help {
-  justify-content: start;
+
+  h3 {
+    font-size: 22px;
+  }
+
+  .do {
+    width: 240px;
+    height: 140px;
+  }
+
+  .urgent {
+    height: 160px;
+    width: 500px;
+  }
+
+  .userGreeting {
+    margin-top: 96px;
+    animation-name: greeting;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+    position: absolute;
+    top: -12px;
+    left: 0px;
+    width: 100%;
+    height: 90%;
+    background: #ffffff;
+  }
 }
 
-    body {
-      overflow-y: hidden !important;
-    }
-    .summary {
-      justify-content: start;
-      display: flex;
-      align-items: start;
-      flex-direction: column;
-      height: 100%;
-    }
-  
-    .doIcon {
-      width: 45px;
-  }    
+@media (max-width: 870px) {
+  .summary {
+    padding-left: 50px;
+    margin-right: 8px;
+  }
 
-    
+  h1 {
+    font-size: 40px;
+  }
+
+  .do {
+    width: 230px;
+    height: 130px;
+  }
+
+  .urgent {
+    width: 480px;
+    height: 150px;
+  }
+
+  .tasksBox {
+    width: 143px;
+    height: 168px;
+  }
+
+  .headline {
+    margin-left: 20px;
+  }
+
+  .help {
+    padding-right: unset;
+    justify-content: start;
+    padding-left: 50px;
+  }
+}
+
+
+@media (max-width: 800px) {
+.headline {
+  width: 150px;
+}
+
+}
+
+
+@media (max-width: 800px) {
+  .summary {
+    padding-left: 31px;
+    margin-right: 4px;
+  }
+
+  h1 {
+    font-size: 46px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  .join360 h1 {
+    font-size: 40px !important;
+  }
+
+  h3 {
+    font-size: 19px;
+  }
+
+  .do {
+    width: 201px;
+    height: 110px;
+  }
+
+  .urgent {
+    width: 438px;
+    height: 126px;
+  }
+
+  .tasksBox {
+    width: 130px;
+    height: 130px;
+  }
+
+  .taskNumber {
+    font-size: 50px;
+  }
+
+  .text {
+    font-size: 13px;
+  }
+
+
+}
+
+@media (max-width: 729px) {
+  .help {
+    justify-content: start;
+  }
+
+  .summary {
+    justify-content: start;
+    display: flex;
+    align-items: start;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .doIcon {
+    width: 45px;
+  }
+
+
   .doneIcon {
     width: 45px;
-} 
-  
-    h1 {
-      font-size: 42px;
-    }
-  
-  
-    .do {
-      width: 190px;
-      height: 100px;
-    }
-  
-    .urgent {
-      width: 400px;
-      height: 120px;
-    }
-  
-    .tasksBox {
-      width: 120px;
-      height: 130px;
-    }
-  
-    .taskNumber {
-      font-size: 24px;
-    }
-  }
-  
-  @media (max-width: 671px) {
-    .blueLine{
-      margin-left: 10px;
-      margin-right: 10px;
-    }
-  
-    html,
-    body {
-      overflow: hidden;
-    }
-  
-    h1 {
-      font-size: 38px;
-    }
-  
-    h3 {
-      font-size: 16px;
-    }
-  
-    .do {
-      width: 180px;
-      height: 90px;
-    }
-  
-    .urgent {
-      width: 380px;
-      height: 110px;
-    }
-  
-    .tasksBox {
-      width: 110px;
-      height: 110px;
-    }
-
-    .text {
-      font-size: 11px;
-    }
-
-    .taskNumber {
-      font-size: 26px;
-    }
-    .userGreeting {
-      padding-left: 120px;
-      align-items: start;
-    }
-  }
-  
-  @media (max-width: 612px) {
-
-  
-    .summary img {
-      height: 34px;
-      width: 34px;
-    }
-  
-    h1 {
-      font-size: 34px 
-    }
-
-    h3 {
-      font-size: 14px;
-    }
-  
-    .do {
-      width: 160px;
-      height: 80px;
-    }
-  
-    .urgent {
-      width: 340px;
-      height: 95px;
-    }
-
-    .greyLine {
-        border-left: 2px solid #d1d1d1;
-        height: 47px;
-    }    
-  
-    .tasksBox {
-      width: 95px;
-      height: 95px;
-    }
-  
-    .text {
-      font-size: 10px;
-    }
   }
 
-  @media (max-width: 580px) {
-    .help {
-      justify-content: end;
-    }
-    .summary {
-      justify-content: start;
-      align-items: center;
-      height: 100vh;
-      padding: unset;
-      margin: unset;
-    }
-    .userGreeting {
-      align-items: center;
-      justify-content: center;
-      padding-left: unset;
-      padding-bottom: 250px;
-    }
-    .join360 {
-      padding-top: 20px;
-      padding-bottom: 20px;
-    }
-    .dashboard {
-      padding-top: 25px;
-      margin-left: unset;
-      margin-right: unset;
-    }
+  h1 {
+    font-size: 42px;
   }
 
-  @media (max-width: 410px) {
-    html, body {
-        overflow: hidden;
-    }
 
-    .summary img {
-        height: 30px;
-        width: 30px;
-    }
+  .do {
+    width: 190px;
+    height: 100px;
+  }
 
-    h1 {
-        font-size: 32px;
-    }
+  .urgent {
+    width: 400px;
+    height: 120px;
+  }
 
-    h3 {
-        font-size: 12px;
-    }
+  .tasksBox {
+    width: 120px;
+    height: 130px;
+  }
 
-    .do {
-        width: 150px;
-        height: 70px;
-    }
-
-    .urgent {
-        width: 320px;
-        height: 85px;
-    }
-
-    .tasksBox {
-        width: 90px;
-        height: 90px;
-    }
-
-    .text {
-        font-size: 9px;
-    }
-
-    .dashboard1 {
-      width: 300px;
-      column-gap: 12px;
-    }
-    
-    .tasks {
-      column-gap: 16px;
-    }
-
-    .urgent {
-      width: 290px;
-    }
-
-    .do {
-      width: 144px;
-    }
-    
-    #noTaskInBoard {
-      margin: unset;
-    }
-
-    .greyLine {
-      margin-left: 15px;
-      margin-right: 15px;
-    }
+  .taskNumber {
+    font-size: 24px;
+  }
 }
 
-
-  
-  @keyframes greeting {
-    0% {
-      opacity: 2;
-      pointer-events: auto;
-    }
-    100% {
-      opacity: 0;
-      pointer-events: none;
-    }
+@media (max-width: 700px) {
+  .blueLine {
+    margin-left: 10px;
+    margin-right: 10px;
   }
-  
+
+  h1 {
+    font-size: 38px;
+  }
+
+  h3 {
+    font-size: 16px;
+  }
+
+  .do {
+    width: 180px;
+    height: 90px;
+  }
+
+  .urgent {
+    width: 380px;
+    height: 110px;
+  }
+
+  .tasksBox {
+    width: 110px;
+    height: 110px;
+  }
+
+  .text {
+    font-size: 11px;
+  }
+
+  .taskNumber {
+    font-size: 26px;
+  }
+
+  .userGreeting {
+    padding-left: 120px;
+    align-items: start;
+  }
+}
+
+@media (max-width: 674px) {
+.userGreeting {
+  height: 75%;
+}
+
+  .summary img {
+    height: 34px;
+    width: 34px;
+  }
+
+  h1 {
+    font-size: 34px
+  }
+
+  h3 {
+    font-size: 14px;
+  }
+
+  .do {
+    width: 160px;
+    height: 80px;
+  }
+
+  .urgent {
+    width: 340px;
+    height: 95px;
+  }
+
+  .greyLine {
+    border-left: 2px solid #d1d1d1;
+    height: 47px;
+  }
+
+  .tasksBox {
+    width: 95px;
+    height: 95px;
+  }
+
+  .text {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .help {
+    justify-content: end;
+  }
+
+  .summary {
+    justify-content: start;
+    align-items: center;
+    height: 100vh;
+    padding: unset;
+    margin: unset;
+  }
+
+  .userGreeting {
+    align-items: center;
+    justify-content: center;
+    padding-left: unset;
+    padding-bottom: 250px;
+  }
+
+  .join360 {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .dashboard {
+    padding-top: 25px;
+    margin-left: unset;
+    margin-right: unset;
+  }
+}
+
+@media (max-width: 410px) {
+  .summary img {
+    height: 30px;
+    width: 30px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  h3 {
+    font-size: 12px;
+  }
+
+  .do {
+    width: 150px;
+    height: 70px;
+  }
+
+  .urgent {
+    width: 320px;
+    height: 85px;
+  }
+
+  .tasksBox {
+    width: 90px;
+    height: 90px;
+  }
+
+  .text {
+    font-size: 9px;
+  }
+
+  .dashboard1 {
+    width: 300px;
+    column-gap: 12px;
+  }
+
+  .tasks {
+    column-gap: 16px;
+  }
+
+  .urgent {
+    width: 290px;
+  }
+
+  .do {
+    width: 144px;
+  }
+
+  #noTaskInBoard {
+    margin: unset;
+  }
+
+  .greyLine {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+
+@keyframes greeting {
+  0% {
+    opacity: 2;
+    pointer-events: auto;
+  }
+
+  100% {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
