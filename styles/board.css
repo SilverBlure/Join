@@ -74,6 +74,8 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: end;
+  position: relative;
+  bottom: 83px;
 }
 
 .custom-checkbox {
@@ -460,7 +462,6 @@ h1 {
   position: relative;
   padding-left: 0px;
   max-height: 120px;
-  border: 0.5px solid #ddd;
   overflow-y: auto;
 }
 
@@ -896,7 +897,7 @@ h1 {
   background-color: white;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 20px rgb(42, 54, 71);;
   height: 88%;
   width: 1046px;
   z-index: 40;
@@ -1308,20 +1309,27 @@ li:hover .status-icon {
 
 @media (max-width: 1110px) {
 
+.closebtn {
+  bottom: 75px;
+}
+
   .formParts {
     flex-direction: column;
   }
 
   .separator {
-    width: 424px;
-    background-color: #d1d1d1;
-    height: 2px;
-    margin: 50px 0px 50px 0px;
+display: none;
   }
 
   .popupContainer {
     overflow: auto;
     width: max-content;
+    padding: 16px;
+  }
+
+  .taskFormButtons {
+    padding-top: 20px;
+    flex-direction: column;
   }
 }
 
@@ -1388,16 +1396,7 @@ li:hover .status-icon {
     height: 40px;
   }
 
-  .popupOverlay {
-    overflow: auto;
-    width: 100%;
-    height: 100vh;
-  }
 
-  .popupContainer {
-    overflow: auto;
-    height: 100vh;
-  }
 
   .listBody {
     width: 38vh;
