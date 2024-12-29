@@ -1,5 +1,8 @@
 body {
   user-select: none;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 
@@ -1259,7 +1262,7 @@ li:hover .status-icon {
 
   .listBody {
     height: max-content;
-    width: 101vh;
+    width: 72vw;
   }
 
   .listHeadline {
@@ -1282,12 +1285,7 @@ li:hover .status-icon {
 }
 
 
-@media (max-width: 1210px) {
-  .listBody {
-    height: max-content;
-    width: 75vh;
-  }
-}
+
 
 
 @media (max-width: 1110px) {
@@ -1307,43 +1305,15 @@ li:hover .status-icon {
     overflow: auto;
     width: max-content;
   }
-
-
 }
 
 
-@media (max-width: 976px) {
-  .headline {
-    width: unset;
-  }
-
+@media (max-width: 980px) {
   .boardHead {
     flex-direction: column;
   }
-
-  .searchContainer {
-    flex-direction: column;
-    gap: 9px;
-  }
-
-  .listBody {
-    height: max-content;
-    width: 70vh;
-  }
 }
 
-@media (max-width: 890px) {
-
-  .listBody {
-    width: 65vh;
-  }
-}
-
-@media (max-width: 873px) {
-  .listBody {
-    width: 62vh;
-  }
-}
 
 @media (max-width: 800px) {
   .taskList {

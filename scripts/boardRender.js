@@ -7,7 +7,6 @@ function renderBoard() {
 }
 
 
-
 /**
  * Rendert eine spezifische Aufgabenliste.
  * @param {Object} list - Die zu rendernde Liste.
@@ -24,7 +23,6 @@ function renderTaskList(list) {
 }
 
 
-
 /**
  * Rendert eine einzelne Aufgabe innerhalb eines Containers.
  * @param {HTMLElement} container - Der Container, in dem die Aufgabe gerendert wird.
@@ -38,7 +36,6 @@ function renderTask(container, taskId, task, listId) {
     const taskHTML = generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML); // HTML für die Aufgabe generieren
     container.innerHTML += taskHTML; // HTML in den Container einfügen
 }
-
 
 
 /**
@@ -71,7 +68,6 @@ function renderTaskWorkers(workers) {
 }
 
 
-
 /**
  * Öffnet ein Popup für eine spezifische Aufgabe.
  * @param {string} taskId - Die ID der Aufgabe.
@@ -89,7 +85,6 @@ async function openTaskPopup(taskId, listId) {
     showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workersHTML, listId, taskId); // Popup anzeigen
     document.getElementsByTagName('body')[0].style.overflow = "hidden";
 }
-
 
 
 /**
@@ -143,8 +138,6 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
 }
 
 
-
-
 /**
  * Öffnet ein Bearbeitungspopup für eine Aufgabe.
  * @param {string} listId - Die ID der Liste.
@@ -161,7 +154,6 @@ async function editTask(listId, taskId) {
         console.error("Fehler beim Bearbeiten des Tasks:", error);
     }
 }
-
 
 
 function renderEditTaskPopup(listId, taskId, task) {
@@ -225,9 +217,6 @@ function renderSelectedContacts() {
 }
 
 
-
-
-
 /**
  * Ruft eine Aufgabe aus Firebase für die Bearbeitung ab.
  * @param {string} listId - Die ID der Liste.
@@ -244,7 +233,6 @@ async function fetchTaskForEditing(listId, taskId) {
         return null; // Bei Fehler null zurückgeben
     }
 }
-
 
 
 /**
