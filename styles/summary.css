@@ -137,6 +137,7 @@ h3 {
   align-items: center;
   flex-direction: column;
   padding-left: 80px;
+  background-color: #F6F7F8;
 }
 
 .greetingContent {
@@ -226,7 +227,6 @@ h3 {
     left: 0px;
     width: 100%;
     height: 90%;
-    background: #ffffff;
   }
 }
 
@@ -413,6 +413,7 @@ h3 {
   }
 }
 
+
 @media (max-width: 674px) {
 .userGreeting {
   height: 75%;
@@ -462,18 +463,7 @@ h3 {
   }
 
   .summary {
-    justify-content: start;
-    align-items: center;
-    height: 100vh;
-    padding: unset;
-    margin: unset;
-  }
-
-  .userGreeting {
-    align-items: center;
-    justify-content: center;
-    padding-left: unset;
-    padding-bottom: 250px;
+    height: 80vh;
   }
 
   .join360 {
@@ -487,6 +477,24 @@ h3 {
     margin-right: unset;
   }
 }
+
+
+
+@media (max-width: 580px) {
+  .summary {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+  }
+
+  .userGreeting {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: unset;
+  }
+}
+
 
 @media (max-width: 410px) {
   .summary img {

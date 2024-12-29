@@ -170,7 +170,6 @@ a {
 }
 
 .logoutButton {
-
   cursor: pointer;
   color: white;
   width: auto;
@@ -255,12 +254,6 @@ a {
 
 }
 @media (max-width: 580px) {
-  html,
-  body {
-    margin: 0;
-    padding: 0;
-    padding-bottom: 60px;
-  }
   .logoutButton {
     float: none !important;
     right: 10px;
@@ -368,8 +361,6 @@ a {
   body {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
-    padding-bottom: 60px;
   }
 
   .content {
