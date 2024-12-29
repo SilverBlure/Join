@@ -29,7 +29,7 @@ textarea:not(:placeholder-shown) {
 
 .board {
   background-color: #f6f7f8;
-  height: 100%;
+  width: 100%;
 }
 
 .selected-contact {
@@ -1119,7 +1119,6 @@ li:hover .status-icon {
   align-items: center;
   height: 3rem;
   width: 100%;
-  overflow: hidden;
   box-sizing: border-box;
 }
 
@@ -1217,7 +1216,6 @@ li:hover .status-icon {
 
   .listBody {
     width: 236px;
-    overflow-x: hidden;
     overflow-y: auto;
   }
 
@@ -1252,92 +1250,74 @@ li:hover .status-icon {
 }
 
 @media (max-width: 1350px) {
-
-  .headline {
-    width: 500px;
-  }
-
-  .headerBody {
-    margin-right: 150px;
-  }
-
-  h1 {
-    font-size: 42px;
-  }
-
-  body {
-    overflow: hidden;
-  }
-
   .boardHead {
-    margin-right: 264px;
-  }
-
-  .BoardCardFooter {
-    padding-top: unset;
-  }
-
-  body {
-    overflow-y: auto;
-  }
-
-  .nothingToDo {
-    width: 100%;
+    margin-left: 16px;
+    margin-right: 16px;
+    justify-content: start;
+    gap: 24px;
   }
 
   .listBody {
-    width: 80%;
     height: max-content;
-    padding-top: 20px;
-    padding-bottom: 50px;
-    padding-left: 20px;
+    width: 101vh;
+  }
+
+  .listHeadline {
+    width: 236px;
   }
 
   .taskList {
+    padding-right: unset;
+    padding-left: 16px;
     flex-direction: column;
-    margin-right: 50px;
+    gap: 36px;
+    margin: unset;
   }
 
   .taskContainer {
+    padding-right: unset;
     flex-direction: row;
     justify-content: start;
-    overflow: auto;
-    padding-right: 150px;
+  }
+}
+
+
+@media (max-width: 1210px) {
+  .listBody {
+    height: max-content;
+    width: 75vh;
   }
 }
 
 
 @media (max-width: 1110px) {
-  .taskList {
-    flex-direction: column;
-    margin-right: 100px;
-  }
 
   .formParts {
     flex-direction: column;
   }
 
   .separator {
-    width:  424px;
+    width: 424px;
     background-color: #d1d1d1;
-    height:2px;
+    height: 2px;
     margin: 50px 0px 50px 0px;
+  }
+
+  .popupContainer {
+    overflow: auto;
+    width: max-content;
+  }
+
+
 }
 
-.popupContainer {
-  overflow: auto;
-  width: max-content;
-}
-}
 
-
-@media (max-width: 902px) {
+@media (max-width: 976px) {
   .headline {
     width: unset;
   }
 
   .boardHead {
-    margin-left: 92px;
     flex-direction: column;
   }
 
@@ -1345,18 +1325,29 @@ li:hover .status-icon {
     flex-direction: column;
     gap: 9px;
   }
-}
 
-@media (max-width: 890px) {
-  .taskList {
-    padding-left: 10px;
+  .listBody {
+    height: max-content;
+    width: 70vh;
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: 890px) {
+
+  .listBody {
+    width: 65vh;
+  }
+}
+
+@media (max-width: 873px) {
+  .listBody {
+    width: 62vh;
+  }
+}
+
+@media (max-width: 800px) {
   .taskList {
     flex-direction: column;
-    margin-right: 110px;
   }
 
   .tasksPopupContainer {
@@ -1368,16 +1359,8 @@ li:hover .status-icon {
     padding: 20px;
   }
 
-  .taskList {
-    padding-left: 1px;
-  }
-
-  .boardHead {
-    flex-direction: column;
-  }
-
   .listBody {
-    width: 91%;
+    width: 51vh;
   }
 
   .listHeadline {
@@ -1389,22 +1372,25 @@ li:hover .status-icon {
   }
 }
 
-@media (max-width: 666px) {
-.popupOverlay {
-  overflow: auto;
-width: 100%;
-height: 100vh;
-}
+@media (max-width: 690px) {
+  .popupOverlay {
+    overflow: auto;
+    width: 100%;
+    height: 100vh;
+  }
 
-.popupContainer {
-  overflow: auto;
-height: 100vh;
-}
+  .popupContainer {
+    overflow: auto;
+    height: 100vh;
+  }
 
+  .listBody {
+    width: 38vh;
+  }
 
-.formPart {
-  width: 100%;
-}
+  .formPart {
+    width: 100%;
+  }
 }
 
 @media (max-width: 580px) {
