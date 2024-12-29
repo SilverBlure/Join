@@ -855,18 +855,7 @@ h1 {
   overflow-wrap: break-word;
 }
 
-#editTaskPopupOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 20;
-}
+
 
 #editTaskPopupContainer {
   z-index: 30;
@@ -898,7 +887,6 @@ h1 {
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0px 4px 20px rgb(42, 54, 71);
-  ;
   height: 88%;
   width: 1046px;
   z-index: 40;
@@ -1137,6 +1125,8 @@ li:hover .status-icon {
   position: relative;
   top: 20px;
   padding: 10px;
+  width: 89px;
+  height: 57px;
 }
 
 .createSubtaskBar {
