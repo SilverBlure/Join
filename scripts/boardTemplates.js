@@ -154,7 +154,7 @@ function generatePopupHeaderHTML(task) {
 function generatePopupDetailsHTML(task) {
     return `
         <div class="popupTitle">
-        <h1>${task.title}</h1>
+        <h1 class="popupTitle">${task.title}</h1>
         </div>
         <p class="popupDescription">${task.description || 'Keine Beschreibung'}</p>
         <p class="popupInformation">Due Date: <strong>${task.dueDate || 'Kein Datum'}</strong></p>

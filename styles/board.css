@@ -897,7 +897,8 @@ h1 {
   background-color: white;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0px 4px 20px rgb(42, 54, 71);;
+  box-shadow: 0px 4px 20px rgb(42, 54, 71);
+  ;
   height: 88%;
   width: 1046px;
   z-index: 40;
@@ -1027,9 +1028,12 @@ select {
   border: 1px solid #d1d1d1;
   box-sizing: border-box;
   font-size: 16px;
-  appearance: none; /* Standard-Dropdown-Pfeil ausblenden */
-  -webkit-appearance: none; /* Für Safari */
-  -moz-appearance: none; /* Für Firefox */
+  appearance: none;
+  /* Standard-Dropdown-Pfeil ausblenden */
+  -webkit-appearance: none;
+  /* Für Safari */
+  -moz-appearance: none;
+  /* Für Firefox */
 }
 
 .closed {
@@ -1309,16 +1313,16 @@ li:hover .status-icon {
 
 @media (max-width: 1110px) {
 
-.closebtn {
-  bottom: 75px;
-}
+  .closebtn {
+    bottom: 75px;
+  }
 
   .formParts {
     flex-direction: column;
   }
 
   .separator {
-display: none;
+    display: none;
   }
 
   .popupContainer {
@@ -1396,8 +1400,6 @@ display: none;
     height: 40px;
   }
 
-
-
   .listBody {
     width: 38vh;
   }
@@ -1408,14 +1410,21 @@ display: none;
 }
 
 @media (max-width: 580px) {
-
-
-  body {
-    padding-bottom: 21px;
+  .tasksPopupContainer {
+    height: 100%;
+    width: 100%;
+}
+  .closebtn {
+    bottom: 50px;
   }
 
-  .board {
-    background-color: #f0f3f6;
+  .popupTitle {
+    align-items: start;
+    justify-content: start;
+  }
+  .popupContainer {
+    width: 100%;
+    height: 100%;
   }
 
   .boardCard {
@@ -1435,14 +1444,7 @@ display: none;
   h1 {
     justify-content: center;
     display: flex;
-  }
-
-  .formPart {
-    width: 100%;
-  }
-
-  .separator {
-    width: 200px;
+    font-size: 32px;
   }
 
   .priorityBtnContainer {
@@ -1451,14 +1453,7 @@ display: none;
   }
 
   .priorityBtn {
-    width: 220px;
-  }
-
-  .taskContainer h1 {
-    font-size: 42px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
+    width: 100%;
   }
 
   .listHeadline {
@@ -1473,17 +1468,16 @@ display: none;
     width: 98%;
   }
 
+  .clearBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 @media (max-width: 530px) {
   .popupInformation {
     padding-right: 130px;
-  }
-
-  .popupContainer {
-    height: -webkit-fill-available;
-    margin-top: 48px;
-    margin-bottom: 48px;
   }
 }
 
@@ -1502,10 +1496,6 @@ display: none;
 @media (max-width: 385px) {
   .popupOverlay {
     display: block;
-    /* Adjusted */
   }
 
-  .tasksPopupContainer {
-    margin-top: 20px;
-  }
 }
