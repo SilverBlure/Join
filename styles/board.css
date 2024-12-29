@@ -1,8 +1,5 @@
 body {
   user-select: none;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
 }
 
 
@@ -56,6 +53,13 @@ h4 {
   font-size: 21px;
   font-weight: 700;
   box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnText {
+  margin: unset;
 }
 
 .contact-name {
@@ -101,6 +105,8 @@ h1 {
   margin-left: 64px;
   max-width: 1200px;
   margin-right: 64px;
+  width: 93%;
+  flex-direction: row;
 }
 
 .searchContainer {
@@ -1256,7 +1262,6 @@ li:hover .status-icon {
   .boardHead {
     margin-left: 16px;
     margin-right: 16px;
-    justify-content: start;
     gap: 24px;
   }
 
@@ -1310,39 +1315,66 @@ li:hover .status-icon {
 
 @media (max-width: 980px) {
   .boardHead {
+    justify-content: start;
     flex-direction: column;
+    gap: unset;
+    align-items: start;
+    height: 150px;
+  }
+
+  .searchContainer {
+    flex-direction: column-reverse;
+    gap: 16px;
+    width: 100%;
+    align-items: end;
+    position: relative;
+    bottom: 65px;
+  }
+
+  .searchBar {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 860px) {
+
+  .headline {
+    margin-left: 20px;
+    width: 150px;
+
+  }
+
+  .help {
+    padding-right: unset;
+    justify-content: start;
+    padding-left: 50px;
   }
 }
 
 
 @media (max-width: 800px) {
-  .taskList {
-    flex-direction: column;
-  }
-
   .tasksPopupContainer {
     width: unset;
   }
+}
 
-  .taskContainer {
-    width: 376px;
-    padding: 20px;
-  }
-
-  .listBody {
-    width: 51vh;
-  }
-
-  .listHeadline {
-    margin-right: 50px;
-  }
-
-  .taskContainer {
-    width: 91%;
+@media (max-width: 750px) {
+  .taskList {
+    width: 67vw;
   }
 }
 
 @media (max-width: 690px) {
+  .btnText {
+    display: none;
+  }
+
+  .addTaskBtn {
+    width: 40px;
+    height: 40px;
+  }
+
   .popupOverlay {
     overflow: auto;
     width: 100%;
@@ -1364,10 +1396,7 @@ li:hover .status-icon {
 }
 
 @media (max-width: 580px) {
-  .headerBody {
-    justify-content: space-between;
-    margin-right: unset;
-  }
+
 
   body {
     padding-bottom: 21px;
@@ -1388,7 +1417,7 @@ li:hover .status-icon {
   }
 
   .taskList {
-    margin: unset;
+    width: 94vw;
   }
 
   h1 {
@@ -1420,18 +1449,6 @@ li:hover .status-icon {
     display: flex;
   }
 
-  .boardHead {
-    margin: unset;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 16px;
-  }
-
-  .searchBar {
-    width: 98%;
-  }
-
   .listHeadline {
     margin-right: unset;
   }
@@ -1444,9 +1461,6 @@ li:hover .status-icon {
     width: 98%;
   }
 
-  .searchContainer {
-    align-items: center;
-  }
 }
 
 @media (max-width: 530px) {
@@ -1465,10 +1479,6 @@ li:hover .status-icon {
 
   .popupInformation {
     padding-right: unset;
-  }
-
-  h1 {
-    font-size: 32px;
   }
 
   .buttonContainer {

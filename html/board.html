@@ -32,8 +32,11 @@
     <div id="mainContent" class="content">
         <div class="header" w3-include-html="./../templates/header.html"></div>
         <div class="board" onclick="closeShowMenu()">
+
             <div class="boardHead">
+
                 <h1>Board</h1>
+
                 <div class="searchContainer">
                     <div class="searchBar">
                         <input id="findTask" type="text" class="formControl" placeholder="Find Task"
@@ -43,10 +46,16 @@
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
-                    <button id="addTaskBtnBoard" onclick="openAddTaskPopup('todo')" class="addTaskBtn">Add Task <img
+                    <button id="addTaskBtnBoard" onclick="openAddTaskPopup('todo')" class="addTaskBtn"><p class="btnText">Add Task</p><img
                             src="./../assets/icons/png/add.png"></button>
                 </div>
             </div>
+
+
+
+
+
+            
             <div class="taskList">
                 <div id="todoList" class="listBody" ondrop="handleDrop(event, 'todo')" ondragover="allowDrop(event)"
                     ondragenter="highlightList('todoList')" ondragleave="unhighlightList('todoList')"
