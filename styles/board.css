@@ -1309,8 +1309,35 @@ li:hover .status-icon {
   }
 }
 
+@media (max-height: 950px) {
+  .taskList {
+  height: 164vh;
+  }
+  }
 
+@media (max-height: 900px) {
+  .taskList {
+  height: 172vh;
+  }
+  }
 
+@media (max-height: 850px) {
+.taskList {
+height: 200vh;
+}
+}
+
+@media (max-height: 750px) {
+  .taskList {
+  height: 214vh;
+  }
+  }
+
+@media (max-height: 680px) {
+  .taskList {
+  height: 245vh;
+  }
+  }
 
 
 @media (max-width: 1110px) {
