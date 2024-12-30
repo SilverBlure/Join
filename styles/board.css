@@ -1303,6 +1303,10 @@ li:hover .status-icon {
   .popupTitle {
     font-size: 42px;
   }
+
+  .listBody::-webkit-scrollbar {
+    height: 8px;
+  }
 }
 
 
