@@ -1416,12 +1416,13 @@ li:hover .status-icon {
   .tasksPopupContainer {
     height: 100%;
     width: 100%;
-}
+  }
 
   .popupTitle {
     align-items: start;
     justify-content: start;
   }
+
   .popupContainer {
     width: 100%;
     height: 100%;
@@ -1442,8 +1443,6 @@ li:hover .status-icon {
     height: 230px;
   }
 
-
-
   .dropdownList.open {
     width: 332px;
   }
@@ -1456,6 +1455,10 @@ li:hover .status-icon {
     justify-content: center;
     display: flex;
     font-size: 32px;
+  }
+
+  .boardHeadline {
+    font-size: 56px;
   }
 
   .priorityBtnContainer {

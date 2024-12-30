@@ -47,6 +47,17 @@ h3 {
   height: 101px;
 }
 
+.urgentColumn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 33%;
+}
+
+.urgentColumn img {
+  margin-right: 28px;
+}
+
 .do {
   transition: background-color 0.3s ease;
   transition: transform 0.3s ease, filter 0.3s ease;
@@ -158,6 +169,7 @@ h3 {
 
 .d_flex {
   display: flex;
+  width: 74vw;
 }
 
 .dashboard {
@@ -173,6 +185,15 @@ h3 {
   font-size: 64px;
   font-weight: 600;
   margin: 0px;
+}
+
+.text {
+  text-align: center;
+}
+
+.urgentText {
+  text-align: center;
+  width: 33%;
 }
 
 .margin_0 {
@@ -204,26 +225,12 @@ h3 {
     padding-left: 60px;
   }
 
-  .tasksBox {
-    width: 151px;
-  }
-
   h1 {
     font-size: 48px;
   }
 
   h3 {
     font-size: 22px;
-  }
-
-  .do {
-    width: 240px;
-    height: 140px;
-  }
-
-  .urgent {
-    height: 160px;
-    width: 500px;
   }
 
   .userGreeting {
@@ -238,9 +245,17 @@ h3 {
     width: 100%;
     height: 90%;
   }
+
+  .d_flex {
+    width: 68vw;
+  }
 }
 
 @media (max-width: 870px) {
+  .dashboard {
+    width: 100%;
+  }
+
   .summary {
     padding-left: 50px;
     margin-right: 8px;
@@ -250,6 +265,18 @@ h3 {
     font-size: 40px;
   }
 
+  .do {
+    height: 124px;
+  }
+
+  .urgent {
+    width: 100%;
+    height: 124px;
+  }
+
+  .tasksBox {
+    height: 124px;
+  }
 
   .headline {
     margin-left: 20px;
@@ -260,6 +287,10 @@ h3 {
     justify-content: start;
     padding-left: 50px;
   }
+
+  .greyLine {
+    height: 62px;
+  }
 }
 
 
@@ -268,6 +299,7 @@ h3 {
   .headline {
     width: 150px;
   }
+
   .summary {
     padding-left: 31px;
     margin-right: 4px;
@@ -327,24 +359,10 @@ h3 {
   }
 
 
-  .do {
-    width: 190px;
-    height: 100px;
+  .d_flex {
+    width: 62vw;
   }
 
-  .urgent {
-    width: 400px;
-    height: 120px;
-  }
-
-  .tasksBox {
-    width: 120px;
-    height: 130px;
-  }
-
-  .taskNumber {
-    font-size: 24px;
-  }
 }
 
 @media (max-width: 700px) {
@@ -359,21 +377,6 @@ h3 {
 
   h3 {
     font-size: 16px;
-  }
-
-  .do {
-    width: 180px;
-    height: 90px;
-  }
-
-  .urgent {
-    width: 380px;
-    height: 110px;
-  }
-
-  .tasksBox {
-    width: 110px;
-    height: 110px;
   }
 
   .text {
@@ -392,10 +395,6 @@ h3 {
 
 
 @media (max-width: 674px) {
-.userGreeting {
-  height: 75%;
-}
-
   .summary img {
     height: 34px;
     width: 34px;
@@ -409,24 +408,9 @@ h3 {
     font-size: 14px;
   }
 
-  .do {
-    width: 160px;
-    height: 80px;
-  }
-
-  .urgent {
-    width: 340px;
-    height: 95px;
-  }
-
   .greyLine {
     border-left: 2px solid #d1d1d1;
     height: 47px;
-  }
-
-  .tasksBox {
-    width: 95px;
-    height: 95px;
   }
 
   .text {
@@ -434,30 +418,14 @@ h3 {
   }
 }
 
-@media (max-width: 640px) {
-  .help {
-    justify-content: end;
-  }
-
-  .summary {
-    height: 80vh;
-  }
-
-  .join360 {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
-  .dashboard {
-    padding-top: 25px;
-    margin-left: unset;
-    margin-right: unset;
-  }
-}
-
 
 
 @media (max-width: 600px) {
+  .join360 {
+    padding-top: 21px;
+    padding-bottom: 21px;
+  }
+
   .summary {
     display: flex;
     justify-content: start;
@@ -474,30 +442,55 @@ h3 {
   }
 }
 
+@media (max-width: 580px) {
 
-@media (max-width: 410px) {
-.join360 {
-  flex-direction: column;
-  align-items: start;
-}
+  .dashboard {
+    padding: 40px;
+  }
 
-.blueLine {
-  border-top: solid 3px #29abe2;
-  width: 59px;
-  height: unset;
-  margin: unset;
-}
+  .taskNumber {
+    font-size: 50px;
+  }
 
-.summarySeperator {
-  flex-direction: column-reverse;
-  align-items: start;
-}
+  h1 {
+    font-size: 40px;
+  }
 
-.summary {
-  align-items: start;
-  margin-left: 8px;
-  width: 97%;
-}
+  .do {
+    height: 124px;
+  }
+
+  .urgent {
+    width: 100%;
+    height: 124px;
+  }
+
+  .tasksBox {
+    height: 124px;
+  }
+
+  .d_flex {
+    width: 100vw;
+  }
+
+  .join360 {
+    flex-direction: column;
+    align-items: start;
+    width: 100%;
+    padding-left: 40px;
+  }
+
+  .blueLine {
+    border-top: solid 3px #29abe2;
+    width: 59px;
+    height: unset;
+    margin: unset;
+  }
+
+  .summarySeperator {
+    flex-direction: column-reverse;
+    align-items: start;
+  }
 
   .summary img {
     height: 30px;
@@ -512,40 +505,10 @@ h3 {
     font-size: 12px;
   }
 
-  .do {
-    width: 150px;
-    height: 70px;
-  }
-
-  .urgent {
-    width: 320px;
-    height: 85px;
-  }
-
-  .tasksBox {
-    width: 90px;
-    height: 90px;
-  }
-
   .text {
-    font-size: 9px;
-  }
-
-  .dashboard1 {
-    width: 300px;
-    column-gap: 12px;
-  }
-
-  .tasks {
-    column-gap: 16px;
-  }
-
-  .urgent {
-    width: 290px;
-  }
-
-  .do {
-    width: 144px;
+    font-size: 12px;
+    padding: 4px;
+    margin-bottom: unset;
   }
 
   #noTaskInBoard {
@@ -555,6 +518,67 @@ h3 {
   .greyLine {
     margin-left: 15px;
     margin-right: 15px;
+  }
+}
+
+
+
+
+@media (max-width: 410px) {
+  .urgentColumn img {
+    margin-right: 4px;
+  }
+
+  #noTaskInBoard {
+    font-size: 12px;
+  }
+
+  #nextDueDate {
+    margin: unset;
+  }
+
+  .join360 {
+    padding-bottom: unset;
+  }
+
+  .greyLine {
+    margin-right: 8px;
+    margin-left: 8px;
+  }
+
+  .doIcon {
+    width: 45px;
+  }
+
+  .do {
+    height: 80px;
+    column-gap: 0px;
+    border-radius: 16px;
+
+  }
+
+  .urgent {
+    height: 80px;
+    border-radius: 16px;
+
+  }
+
+  .tasksBox {
+    height: 80px;
+    border-radius: 16px;
+
+  }
+
+  .doneIcon {
+    width: 45px;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .taskNumber {
+    font-size: 24px;
   }
 }
 
