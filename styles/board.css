@@ -74,9 +74,8 @@ h4 {
   display: flex;
   align-items: center;
   justify-content: end;
-  position: relative;
-  bottom: 83px;
 }
+
 
 .custom-checkbox {
   border: 1px solid grey;
@@ -859,6 +858,8 @@ h1 {
 
 #editTaskPopupContainer {
   z-index: 30;
+  border-radius: 8px;
+  box-shadow: 0px 4px 20px rgb(42, 54, 71);
 }
 
 
@@ -948,7 +949,7 @@ h1 {
   background-color: white;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 4px 20px rgb(42, 54, 71);
   width: 525px;
 }
 
@@ -1106,6 +1107,8 @@ li:hover .status-icon {
 .close {
   width: 24px;
   height: 24px;
+  position: relative;
+  bottom: 40px;
 }
 
 .close:hover {
@@ -1127,6 +1130,7 @@ li:hover .status-icon {
   padding: 10px;
   width: 89px;
   height: 57px;
+  margin-bottom: 16px;
 }
 
 .createSubtaskBar {
@@ -1295,6 +1299,10 @@ li:hover .status-icon {
     flex-direction: row;
     justify-content: start;
   }
+
+  .popupTitle {
+    font-size: 42px;
+  }
 }
 
 
@@ -1303,8 +1311,8 @@ li:hover .status-icon {
 
 @media (max-width: 1110px) {
 
-  .closebtn {
-    bottom: 75px;
+  .popupTitle {
+    font-size: 36px;
   }
 
   .formParts {
@@ -1349,6 +1357,11 @@ li:hover .status-icon {
   .searchBar {
     width: 100%;
     margin-bottom: 16px;
+    background-color: white;
+  }
+
+  .popupTitle {
+    font-size: 24px;
   }
 }
 
@@ -1404,9 +1417,6 @@ li:hover .status-icon {
     height: 100%;
     width: 100%;
 }
-  .closebtn {
-    bottom: 50px;
-  }
 
   .popupTitle {
     align-items: start;
@@ -1417,11 +1427,22 @@ li:hover .status-icon {
     height: 100%;
   }
 
+  .editTask {
+    width: 100%;
+    align-items: end
+  }
+
+  .formParts {
+    width: 100%;
+  }
+
   .boardCard {
     background-color: white !important;
     width: 250px;
     height: 230px;
   }
+
+
 
   .dropdownList.open {
     width: 332px;
