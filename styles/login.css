@@ -82,7 +82,7 @@ h1 {
 
 .footer {
     position: absolute;
-    bottom: 64px;
+    bottom: 16px;
     display: flex;
     justify-content: space-between;
     width: 264px;
@@ -95,10 +95,16 @@ h1 {
     gap: 24px;
 }
 
+.centerHeader {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 24px;
+}
 
 .borderInputFields {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 5px;
 }
@@ -270,6 +276,7 @@ h1 {
     margin-top: 24px;
 }
 
+
 @media(max-width : 1100px) {
 
     .registrationTrigger {
@@ -331,6 +338,30 @@ h1 {
     }
 }
 
+@media (max-width: 580px) {
+
+    .loginHeader {
+        flex-direction: column;
+    }
+
+    .head {
+        width: 100%;
+    }
+
+    .signUpContainer {
+        padding: unset;
+        position: relative;
+        top: 500px;
+    }
+
+    .center {
+        position: relative;
+        bottom: 32px;
+        gap: 11px;
+        height: 480px;
+    }
+
+}
 
 
 @media (max-width: 560px) {
@@ -352,6 +383,10 @@ h1 {
         width: 396px;
     }
 
+    .loginHeadline {
+        margin-bottom: unset;
+    }
+
     .border {
         width: 364px;
     }
@@ -360,23 +395,22 @@ h1 {
         width: 341px;
     }
 
+    .buttons {
+        margin-top: 24px;
+        flex-direction: column;
+        gap: 24px;
+    }
+
     .logInBtn {
-        width: 120px;
-        height: 30px;
-        font-size: 16px;
+        width: 180px;
     }
 
     .guestBtn {
-        width: 120px;
-        height: 30px;
-
-        font-size: 16px;
+        width: 180px;
     }
 
     .signUpBtn {
         width: 120px;
-        height: 30px;
-        font-size: 16px;
     }
 
     h1 {
@@ -390,23 +424,25 @@ h1 {
     .hidden-text {
         font-size: 12px;
     }
-}
 
-@media(max-width: 470px) {
-    .mobile {
-        width: unset;
+    .center {
+        height: 516px;
+        bottom: 42px;
     }
 
-    .signUpContainer .alignCenter {
-        flex-direction: column;
-    }
-
-    .registrationTrigger {
-        padding: unset;
+    .signUpContainer {
+        top: 530px;
     }
 }
 
 @media(max-width: 433px) {
+    .seperator {
+        margin-bottom: 4px;
+    }
+    
+    .signUpContainer {
+        top: 404px;
+    }
     .border {
         width: 270px;
     }
@@ -417,10 +453,38 @@ h1 {
 
     .loginBackground {
         width: 310px;
-        height: 395px;
+        height: 404px;
+    }
+    .centerHeader {
+        gap: 8px;
     }
 
     .center {
-        gap: 16px;
+        gap: 8px;
+        height: unset;
+    }
+
+    .buttons {
+        margin-top: 6px;
+        gap: 24px;
+        margin-bottom: 32px;
+    }
+
+    .logInBtn {
+        width: 130px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .guestBtn {
+        width: 130px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    .signUpBtn {
+        width: 90px;
+        height: 38px;
+        font-size: 16px;
     }
 }
