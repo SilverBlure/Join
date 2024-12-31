@@ -226,7 +226,7 @@ h3 {
   }
 
   h1 {
-    font-size: 48px;
+    font-size: 47px;
   }
 
   h3 {
@@ -305,16 +305,8 @@ h3 {
     margin-right: 4px;
   }
 
-  h1 {
-    font-size: 46px;
-  }
-
   h3 {
     font-size: 18px;
-  }
-
-  .join360 h1 {
-    font-size: 40px !important;
   }
 
   h3 {
@@ -354,10 +346,6 @@ h3 {
     width: 45px;
   }
 
-  h1 {
-    font-size: 42px;
-  }
-
 
   .d_flex {
     width: 62vw;
@@ -369,10 +357,6 @@ h3 {
   .blueLine {
     margin-left: 10px;
     margin-right: 10px;
-  }
-
-  h1 {
-    font-size: 38px;
   }
 
   h3 {
@@ -400,9 +384,6 @@ h3 {
     width: 34px;
   }
 
-  h1 {
-    font-size: 34px
-  }
 
   h3 {
     font-size: 14px;
@@ -452,10 +433,6 @@ h3 {
     font-size: 50px;
   }
 
-  h1 {
-    font-size: 40px;
-  }
-
   .do {
     height: 124px;
   }
@@ -497,10 +474,6 @@ h3 {
     width: 30px;
   }
 
-  h1 {
-    font-size: 32px;
-  }
-
   h3 {
     font-size: 12px;
   }
@@ -518,6 +491,10 @@ h3 {
   .greyLine {
     margin-left: 15px;
     margin-right: 15px;
+  }
+  
+  h1 {
+    font-size: 47px
   }
 }
 
@@ -571,10 +548,6 @@ h3 {
 
   .doneIcon {
     width: 45px;
-  }
-
-  h1 {
-    font-size: 42px;
   }
 
   .taskNumber {

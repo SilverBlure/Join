@@ -13,7 +13,7 @@ function contactTemps(i, initialien) {
                     </div>
                     <div>
                         <p>${contactsArray[i].name}</p>
-                        <a class="mailTo" href="mailto:${contactsArray[i].email}"><p>${contactsArray[i].email}</p></a>
+                        <a class="mailTo" onclick="return false;" href="mailto:${contactsArray[i].email}"><p>${contactsArray[i].email}</p></a>
                     </div>
                 </div>
             </div>`;
