@@ -182,6 +182,11 @@ input::placeholder {
     background-color: #29ABE2;
     height: 3px;
     width: 150px;
+    margin-bottom: 30px;
+}
+
+.marBo30 {
+    margin-bottom: 30px;
 }
 
 .alignCenter {
@@ -235,9 +240,7 @@ input::placeholder {
 
 }
 
-.marBo30 {
-    margin-bottom: 30px;
-}
+
 
 .border {
     border: 2px;
@@ -337,6 +340,15 @@ input::placeholder {
 }
 
 @media (max-width: 430px) {
+    .btnContainer {
+        margin-top: 8px;
+    }
+    .borderInputFields {
+        padding: unset;
+    }
+    .logoLogin {
+        padding: unset;
+    }
     .border {
         width: 236px;
     }
@@ -347,6 +359,11 @@ input::placeholder {
 
     .registration {
         width: 290px;
+        height: 478px;
+        margin-bottom: 24px;
+    }
 
+    .seperator {
+        margin-bottom: 16px;
     }
 }
