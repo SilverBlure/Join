@@ -185,7 +185,7 @@ h1 {
 }
 
 .guestBtn {
-    color: #2A3647;
+    border-color: #2A3647;
     border-radius: 8px;
     background-color: white;
     height: 48px;

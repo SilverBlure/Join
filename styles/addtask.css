@@ -1048,43 +1048,54 @@ select:focus {
   }
 
   .buttonContainer {
-    padding-top: 12px;
     position: fixed;
     bottom: 0px;
-    background-color: #f6f7f8;
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    flex-direction: row-reverse;
-    height: 70px;
-    padding-bottom: 75px;
-}
-
-  .taskFormButtonsMobile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    gap: 10px;
-    bottom: 74px;
     left: 0;
-    width: 100%;
+    width: 96%;
+    height: 70px;
+    /* Sicherstellen, dass die Höhe korrekt ist */
+    padding-bottom: 76px;
+    /* Vermeide doppelte Padding-Angaben */
+    box-sizing: border-box;
+    /* Wichtig für Safari */
     background-color: #f6f7f8;
-    padding-bottom: 10px;
-    z-index: 1100;
+    z-index: 1000;
+    /* Sicherstellen, dass es immer oben liegt */
+    -webkit-backface-visibility: hidden;
+    /* Rendering-Optimierung */
+    -webkit-transform: translateZ(0);
+    /* Fix für Safari */
+    display: flex;
+    justify-content: center;
+    padding-top: 16px;
   }
 
+  @supports (-webkit-touch-callout: none) {
+    .buttonContainer {
+      padding-bottom: 0;
+      /* Für Safari korrigieren */
+    }
+  }
+
+
   .button {
-    flex: 0 1 auto;
-    max-width: 200px;
-    width: 144px;
-    height: 50px;
-    padding: 10px;
-    font-size: 16px;
-    text-align: center;
+    flex: 1;
+    min-width: 120px;
+    /* Minimum sicherstellen */
+    max-width: 180px;
+    /* Obergrenze */
+    width: 150px;
+    /* Einheitliche Größe */
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    padding: 5px;
+    height: 50px;
+  }
+
+  .clearBtn {
+    max-width: 120px;
+    /* Obergrenze */
   }
 
   .button img {
@@ -1121,28 +1132,37 @@ select:focus {
   }
 }
 
-@media (max-width: 784px) {
-  .buttonContainer {
-    width: 90%;
-  }
-}
 
 @media (max-width: 650px) {
   .buttonContainer {
-    width: 89%;
+    width: 95%;
   }
 }
 
 @media (max-width: 580px) {
+  .buttonContainer {
+    width: 95%;
+  }
 
   .addTaskContent {
-    height: 75vh;
+    height: 77vh;
   }
 }
 
-@media (max-width: 450px) {
-
+@media (max-width: 380px) {
   .buttonContainer {
-    width: 85%;
+    width: 94%;
   }
+
+.button {
+  padding-left: 6px;
+  font-size: 16px;
+  height: 36px;
+  min-width: 135px;
+  /* Minimum sicherstellen */
+  max-width: 140px;
+  /* Obergrenze */
+  width: 140px;
+  /* Einheitliche Größe */
+}
 }
