@@ -340,6 +340,15 @@ h1 {
 
 @media (max-width: 580px) {
 
+    .registrationTrigger {
+        padding-right: unset;
+        width: 50%;
+    }
+
+    .alignCenter {
+        gap: 16px;
+    }
+
     .loginHeader {
         flex-direction: column;
     }
@@ -352,6 +361,7 @@ h1 {
         padding: unset;
         position: relative;
         top: 500px;
+        width: 100%;
     }
 
     .center {
