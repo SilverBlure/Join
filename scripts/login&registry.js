@@ -2,6 +2,13 @@
 let loginArray = [];
 let sessionId;
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.activeElement.blur(); // Entfernt jeglichen Fokus beim Laden
+});
+
+
+
 /**initialize moor funktions */
 async function initLog() {
     loadLoginData();
