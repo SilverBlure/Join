@@ -1049,22 +1049,21 @@ select:focus {
 
   .buttonContainer {
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     left: 0;
-    width: 96%;
+    width: 100%; /* Stelle sicher, dass die Breite konsistent ist */
     height: 70px;
-    /* Sicherstellen, dass die Höhe korrekt ist */
-    padding-bottom: 76px;
-    /* Vermeide doppelte Padding-Angaben */
-    box-sizing: border-box;
-    /* Wichtig für Safari */
-    background-color: #f6f7f8;
-    z-index: 1000;
-    /* Sicherstellen, dass es immer oben liegt */
-    display: flex;
-    justify-content: center;
+    padding-bottom: 0; /* Doppelte Padding-Werte vermeiden */
     padding-top: 16px;
-  }
+    background-color: #f6f7f8;
+    box-sizing: border-box;
+    z-index: 1000;
+
+    /* Rendering-Optimierung für Safari */
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+}
+
 
   @supports (-webkit-touch-callout: none) {
     .buttonContainer {
@@ -1075,19 +1074,21 @@ select:focus {
 
 
   .button {
-    flex: 1;
-    min-width: 120px;
-    /* Minimum sicherstellen */
-    max-width: 180px;
-    /* Obergrenze */
-    width: 150px;
-    /* Einheitliche Größe */
+    flex: 0 0 auto; /* Entferne flexible Größen */
+    width: 150px; /* Einheitliche Breite */
+    height: 50px; /* Einheitliche Höhe */
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 5px;
-    height: 50px;
-  }
+    box-sizing: border-box;
+}
+
+.clearBtn {
+    max-width: 120px;
+    width: auto;
+}
+
 
   .clearBtn {
     max-width: 120px;
