@@ -1,15 +1,3 @@
-input:focus {
-    outline: none; /* Entfernt den Fokus-Rahmen */
-}
-body:focus-within input {
-    pointer-events: none; /* Deaktiviert Interaktionen beim ersten Laden */
-}
-
-
-
-
-
-
 body {
     margin: 0;
     background-color: #F6F7F8;
