@@ -1447,6 +1447,9 @@ height: 200vh;
 }
 
 @media (max-width: 580px) {
+  .boardHead {
+    margin-top: 12px;
+  }
   .tasksPopupContainer {
     height: 100%;
     width: 100%;
@@ -1512,6 +1515,9 @@ height: 200vh;
     width: 97%;
   }
 
+  .formPart {
+    width: unset;
+  }
     
   .listHeadline {
     width: 100%;
