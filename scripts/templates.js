@@ -11,9 +11,9 @@ function contactTemps(i, initialien) {
                     <div class="tag">
                         <p id="userTag${i}" class="contactUserTag">${initialien}</p>
                     </div>
-                    <div>
-                        <p>${contactsArray[i].name}</p>
-                        <a class="mailTo" onclick="return false;" href="mailto:${contactsArray[i].email}"><p>${contactsArray[i].email}</p></a>
+                    <div class="contactInList">
+                        <p class="contactName">${contactsArray[i].name}</p>
+                        <a class="mailTo contactMail" onclick="return false;" href="mailto:${contactsArray[i].email}"><p>${contactsArray[i].email}</p></a>
                     </div>
                 </div>
             </div>`;

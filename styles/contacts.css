@@ -1,6 +1,3 @@
-body {
-  overflow: hidden;
-}
 
 button {
   border: none;
@@ -77,6 +74,8 @@ p {
   justify-content: center;
   align-items: flex-start;
   flex-direction: row;
+  width: 100%;
+  height: 89%;
 }
 
 .contacts {
@@ -84,13 +83,14 @@ p {
   flex-direction: column;
   width: 100vw;
   animation: fadeInBlur 0.25s ease forwards;
+  height: 100vh;
 }
 
 .contactsBar {
   display: flex;
   flex-direction: column;
   width: 556px;
-  height: 90vh;
+  height: 100%;
   padding-left: 35px;
   padding-right: 35px;
   background-color: white;
@@ -133,6 +133,8 @@ p {
   gap: 16px;
   margin-top: 16px;
   margin-bottom: 20px;
+  background-color: rgba(9, 25, 49, 1);
+  border-color: rgba(9, 25, 49, 1);
 }
 
 .addContactBtn:hover {
@@ -143,6 +145,19 @@ p {
 .addContactBtn:active {
   background-color: rgba(9, 25, 49, 1);
   border-color: rgba(9, 25, 49, 1);
+}
+
+.contactInList {
+width: 100%;
+}
+
+.contactName {
+  font-size: 20px;
+}
+
+.contactMail {
+  font-size: 16px;
+  max-width: 50px;
 }
 
 .contact {
@@ -191,7 +206,6 @@ p {
 .contactDetails {
   background-color: rgb(246, 247, 248);
   width: 100%;
-  height: 100vh;
   display: flex;
   justify-content: start;
   flex-direction: column;
@@ -263,17 +277,6 @@ p {
   width: 85px;
 }
 
-.userTag {
-  border: white 1px solid;
-  color: white;
-  padding: 16px;
-  border-radius: 100%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
 h1 {
   font-size: 61px;
@@ -506,11 +509,20 @@ input {
   display: none;
 }
 
+@media (max-width: 1260px) {
+  h1 {
+    font-size: 47px;
+  }
+  .contactDetails {
+    padding-left: 32px;
+  }
+}
+
 @media (max-width: 1200px) {
   .contactsBar {
     width: 456px;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
   .mailTo {
     font-size: 14px;
@@ -535,39 +547,59 @@ input {
 }
 
 @media (max-width: 1020px) {
-  .sidebar li {
-    padding-left: 5px;
+
+  .contact {
+    padding-top: 16px;
+    padding-bottom: 4px;
   }
+  .sidebar {
+width: 158px;
+  }
+
   .contactsBar {
-    padding-left: 5px;
-    padding-right: 0px;
+    width: 428px;
   }
+
+.blueLine {
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
   .addContactBtn {
     height: 46px;
     width: 250px;
+    font-size: 16px;
   }
-  .contactDetails {
-    padding-left: 45px;
+
+  .contactName {
+    font-size: 18px;
+  }
+  
+  .contactMail {
+    font-size: 14px;
+  }
+
+  .contactUserTag {
+    margin-right: 16px;
   }
 
   .addContacts {
     padding-left: 15px;
   }
 
-  @media (max-width: 920px) {
-    .contactsBar {
-      width: 356px;
-    }
-    .addContactBtn {
-      font-size: 16px;
-    }
-    .contactDetails {
-      width: 70%;
-    }
+  .shortInfo {
+    padding: 2px;
+  }
+
+  .contactDetails {
+    width: 70%;
   }
 }
 
-@media (max-width: 855px) {
+
+
+
+@media (max-width: 955px) {
   .blueLineMobile {
     display: block;
     border: 2px solid #29abe2;
@@ -603,12 +635,11 @@ input {
   .contactInfoBox {
     margin-top: 40px;
   }
-  .help {
-    width: 10px;
-  }
+
   .contactsBar {
-    width: 320px;
-  }
+    width: 77%;
+}
+
   .contactContainer {
     justify-content: left;
   }
@@ -620,12 +651,17 @@ input {
   .shortInfo {
     padding: 10px;
   }
-}
-@media (max-width: 760px) {
-  .contacts {
-    height: auto;
+
+  .headline {
+    margin-left: 10px;
+    width: unset;
   }
 }
+
+
+
+
+
 @media (max-width: 720px) {
   .contactDetails {
     padding-left: 15px;
@@ -641,6 +677,8 @@ input {
     padding-left: 15px;
   }
 }
+
+
 @media (max-width: 700px) {
   .userImg {
     height: 110px;
@@ -661,9 +699,26 @@ input {
   .addbutton {
     font-size: 14px;
   }
+
+  .contactUserTag {
+    margin-right: 8px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .contactsBar {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .contactDetails {
+    padding-left: 4px;
+}
 }
 
-@media (max-width: 625px) {
+
+
+@media (max-width: 650px) {
   .innerInputfield {
     width: 240px;
   }
@@ -675,8 +730,20 @@ input {
   .closeBtn {
     width: 260px;
   }
+
+  .InfoBoxHead {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .contactsBar {
+    width: 100%;
+  }
 }
-@media (max-width: 580px) {
+
+
+
+@media (max-width: 620px) {
   .backToContactsBtn {
     display: block;
     padding-left: 250px;
@@ -694,10 +761,6 @@ input {
   h2 {
     font-size: 42px;
   }
-  h3 {
-    font-size: px;
-  }
-
 
   h4 {
     padding: 30px 0 20px 0;
@@ -710,7 +773,7 @@ input {
 
 
   .contactsBar {
-    width: 100vw;
+    width: 100%;
     align-items: center;
     padding-bottom: 100px;
   }
