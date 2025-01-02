@@ -426,7 +426,7 @@ h3 {
 @media (max-width: 580px) {
 
   .dashboard {
-    padding: 40px;
+    padding: 20px;
   }
 
   .taskNumber {
@@ -454,7 +454,7 @@ h3 {
     flex-direction: column;
     align-items: start;
     width: 100%;
-    padding-left: 40px;
+    padding-left: 20px;
     padding-top: 12px;
   }
 
