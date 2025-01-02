@@ -424,6 +424,11 @@ h3 {
 }
 
 @media (max-width: 580px) {
+
+.content {
+  height: max-content;
+}
+
   .header {
     height: 80px;
   }
