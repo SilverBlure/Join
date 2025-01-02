@@ -1271,6 +1271,11 @@ li:hover .status-icon {
 }
 
 @media (max-width: 1350px) {
+.content {
+  height: 100%;
+}
+
+
   .boardHead {
     margin-left: 16px;
     margin-right: 16px;
@@ -1309,35 +1314,6 @@ li:hover .status-icon {
   }
 }
 
-@media (max-height: 950px) {
-  .taskList {
-  height: 164vh;
-  }
-  }
-
-@media (max-height: 900px) {
-  .taskList {
-  height: 172vh;
-  }
-  }
-
-@media (max-height: 850px) {
-.taskList {
-height: 200vh;
-}
-}
-
-@media (max-height: 750px) {
-  .taskList {
-  height: 214vh;
-  }
-  }
-
-@media (max-height: 680px) {
-  .taskList {
-  height: 245vh;
-  }
-  }
 
 
 @media (max-width: 1110px) {
@@ -1447,8 +1423,13 @@ height: 200vh;
 }
 
 @media (max-width: 580px) {
+  .content {
+    height: 100%;
+  }
   .boardHead {
     margin-top: 12px;
+    margin-left: 8px;
+    margin-right: 8px;
   }
   .tasksPopupContainer {
     height: 100%;
@@ -1486,6 +1467,7 @@ height: 200vh;
 
   .taskList {
     width: 94vw;
+    margin-bottom: 120px;
   }
 
   h1 {
@@ -1513,6 +1495,7 @@ height: 200vh;
 
   .listBody {
     width: 97%;
+    height: 100%;
   }
 
   .formPart {

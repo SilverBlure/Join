@@ -3,7 +3,9 @@ html {
   box-sizing: border-box;
 }
 
-
+#addTaskFormTask {
+  height: 100%;
+}
 
 body {
   margin: 0;
@@ -614,7 +616,7 @@ h1 {
 .formPart {
   display: flex;
   flex-direction: column;
-  width: 44%;
+  width: 47%;
   gap: 8px;
 }
 
@@ -622,7 +624,7 @@ h1 {
   width: 2px;
   background-color: #d1d1d1;
   height: 424px;
-  margin: 0 3.125rem;
+  margin: 0 32px;
 }
 
 .addTaskContent {
@@ -901,10 +903,6 @@ select:focus {
   cursor: pointer;
 }
 
-/* Mobile-spezifische Änderungen */
-.buttonContainerMobile {
-  display: none;
-}
 
 @media (max-width: 1250px) {
   .addTaskContent {
@@ -918,6 +916,14 @@ select:focus {
 }
 
 @media (max-width: 1150px) {
+
+  .formPart {
+    width: 49%;
+  }
+
+.separator {
+  margin: 0 6px;
+}
 
   label,
   input,
@@ -973,7 +979,7 @@ select:focus {
 }
 
 
-@media (max-width: 850px) {
+@media (max-width: 900px) {
 
 
   body {
@@ -1121,7 +1127,7 @@ select:focus {
   }
 
   p {
-    margin-bottom: 2rem;
+    margin-bottom: 10rem;
   }
 }
 
@@ -1129,6 +1135,25 @@ select:focus {
 @media (max-width: 650px) {
   .buttonContainer {
     width: 95%;
+  }
+}
+
+
+@media (max-height: 680px) {
+  .buttonContainer {
+    bottom: 20px;
+  }
+}
+
+@media (max-height: 580px) {
+  .buttonContainer {
+    bottom: 43px;
+  }
+}
+
+@media (max-height: 480px) {
+  .buttonContainer {
+    bottom: 66px;
   }
 }
 

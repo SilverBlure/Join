@@ -493,7 +493,7 @@ h3 {
     margin-left: 15px;
     margin-right: 15px;
   }
-  
+
   h1 {
     font-size: 47px
   }
@@ -535,16 +535,24 @@ h3 {
 
   }
 
+.dashboard1 {
+  column-gap: 16px;
+}
+
   .urgent {
     height: 80px;
     border-radius: 16px;
-
+    margin-top: 16px;
   }
 
   .tasksBox {
     height: 80px;
     border-radius: 16px;
+  }
 
+  .tasks {
+    margin-top: 16px;
+    column-gap: 15px;
   }
 
   .doneIcon {
