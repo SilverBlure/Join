@@ -918,7 +918,7 @@ select:focus {
 @media (max-width: 1150px) {
 
   .formPart {
-    width: 49%;
+    width: 49%; 
   }
 
 .separator {
@@ -1142,6 +1142,7 @@ select:focus {
 @media (max-height: 680px) {
   .buttonContainer {
     bottom: 20px;
+    height: 150px;
   }
 }
 
