@@ -424,6 +424,9 @@ h3 {
 }
 
 @media (max-width: 580px) {
+  .header {
+    height: 80px;
+  }
 
   .dashboard {
     padding: 20px;
