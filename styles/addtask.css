@@ -1127,7 +1127,8 @@ select:focus {
   }
 
   p {
-    margin-bottom: 24rem;
+    margin-bottom: 13rem;
+    height: 290px;
   }
 }
 
