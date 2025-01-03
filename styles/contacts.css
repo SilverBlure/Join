@@ -780,7 +780,9 @@ width: 158px;
   #contacts {
     width: 100%;
   }
-
+.contact {
+  width: 80%;
+}
   .shortInfo {
     justify-content: flex-start;
     margin-left: 86px;
