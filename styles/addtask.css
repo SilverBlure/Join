@@ -1119,6 +1119,7 @@ select:focus {
 
   .dutyField {
     padding-bottom: 13rem;
+    margin-bottom: 10rem;
   }
 }
 
