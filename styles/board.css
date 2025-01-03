@@ -1428,8 +1428,13 @@ li:hover .status-icon {
 }
 
 @media (max-width: 580px) {
+
+  #addTaskFormTask {
+    padding-bottom: 100px;
+  }
   .content {
     height: 100%;
+    width: 100%;
   }
   .boardHead {
     margin-top: 12px;
