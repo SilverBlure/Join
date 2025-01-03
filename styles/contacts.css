@@ -777,6 +777,10 @@ width: 158px;
   .createContact {
     width: 80%;
   }
+
+  h4 {
+    padding: 21px 0px 21px 0px;
+  }
 }
 
 
@@ -807,17 +811,6 @@ width: 158px;
     display: none;
     width: 100%;
     padding-left: 8px;
-  }
-
-  h1 {
-    font-size: 51px;
-  }
-  h2 {
-    font-size: 42px;
-  }
-
-  h4 {
-    padding: 30px 0 20px 0;
   }
 
   .userTagBig {
@@ -874,9 +867,10 @@ width: 158px;
     height: 50%;
     width: 100%;
     padding-left: 20px;
+    gap: unset;
   }
   .addContacts {
-    height: 70%;
+    height: 80%;
     width: 100%;
     border-radius: 0px 0px 20px 20px;
     flex-direction: column;
@@ -892,8 +886,9 @@ width: 158px;
     justify-content: center;
     padding-left: 0;
     margin-bottom: unset;
-    position: absolute;
-    top: 336px;
+    position: relative;
+    bottom: 40px;
+    height: min-content;
   }
 
   .createContactBtn {
@@ -924,10 +919,6 @@ width: 158px;
 
   #dialogInfo {
     font-size: 41px;
-  }
-
-  h3 {
-    font-size: 24px;
   }
 
   .closeMobileEditContact {
@@ -967,6 +958,8 @@ width: 158px;
   .backToContactsBtn {
     padding-left: 200px;
   }
+
+
 }
 
 @media (max-width: 480px) {
