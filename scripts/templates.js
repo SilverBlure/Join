@@ -90,7 +90,7 @@ function editContactTemp(i) {
     <div class="closeBtn">
         <img class="close" onclick="closeAddContact()" src="../assets/icons/png/iconoir_cancel.png" alt="">
     </div>
-    <div>
+    <div class="editInputDiv">
     <form class="contacInput" id="contactForm">
        <div class="inputBorder">
     <span class="innerInputfield">

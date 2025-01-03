@@ -320,10 +320,11 @@ h4 {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 600px;
+  height: 70vh;
   width: 100vw;
   border-radius: 15px;
   color: white;
+  padding: 24px;
 }
 
 .inputNameImg {
@@ -368,7 +369,7 @@ h4 {
 
 .createContact {
   display: flex;
-  width: 50%;
+  width: 100%;
   flex-direction: column;
   padding-left: 50px;
 }
@@ -425,8 +426,8 @@ h4 {
 .closeBtn {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 50px;
-  width: 350px;
+  padding-bottom: 50px;
+  padding-right: 50px;
 }
 
 .pointer {
@@ -509,6 +510,14 @@ input {
   display: none;
 }
 
+.editInputDiv {
+  width: 90%;
+}
+
+#dialogInfo{
+  font-size: 47px;
+}
+
 @media (max-width: 1260px) {
   h1 {
     font-size: 47px;
@@ -519,17 +528,26 @@ input {
 }
 
 @media (max-width: 1200px) {
+  .inputBorder {
+    width: unset;
+    margin-right: 50px;
+  }
+
   .contactsBar {
     width: 456px;
     padding-left: 10px;
     padding-right: 10px;
   }
+
   .mailTo {
     font-size: 14px;
   }
 }
 
 @media (max-width: 1120px) {
+  .addContactLogo {
+    width: 330px;
+  }
   h1 {
     font-size: 42px;
   }
@@ -543,6 +561,15 @@ input {
 
   .addbutton {
     font-size: 16px;
+  }
+
+  .addContacts {
+    width: 60%;
+    padding-left: 8px;
+  }
+
+  .createContact {
+    padding-left: 0px;
   }
 }
 
@@ -583,10 +610,6 @@ width: 158px;
     margin-right: 16px;
   }
 
-  .addContacts {
-    padding-left: 15px;
-  }
-
   .shortInfo {
     padding: 2px;
   }
@@ -597,7 +620,11 @@ width: 158px;
 }
 
 
-
+@media (max-width: 870px) {
+.innerInputfield {
+  width: 100%;
+}
+}
 
 @media (max-width: 955px) {
   .blueLineMobile {
@@ -663,6 +690,9 @@ width: 158px;
 
 
 @media (max-width: 720px) {
+  .closeBtn {
+    padding-right: 86px;
+  }
   .contactDetails {
     padding-left: 15px;
   }
@@ -672,7 +702,10 @@ width: 158px;
   .shortInfo {
     padding: 5px;
   }
-
+.addContactLogo{
+  padding-left: 16px;
+  width: 227px;
+}
   .createContact {
     padding-left: 15px;
   }
@@ -684,13 +717,6 @@ width: 158px;
     height: 110px;
   }
 
-  .innerInputfield {
-    width: 300px;
-  }
-
-  .inputBorder {
-    width: 310px;
-  }
 
   .closeBtn {
     width: 320px;
@@ -719,17 +745,6 @@ width: 158px;
 
 
 @media (max-width: 650px) {
-  .innerInputfield {
-    width: 240px;
-  }
-
-  .inputBorder {
-    width: 250px;
-  }
-
-  .closeBtn {
-    width: 260px;
-  }
 
   .InfoBoxHead {
     flex-direction: column;
@@ -808,10 +823,17 @@ width: 158px;
   }
   .newContact {
     flex-direction: column;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
+    padding: unset;
   }
 
+  .editInputDiv{
+    width: 80%;
+  }
+.inputBorder {
+  margin: unset;
+}
   .addContactLogo {
     padding: 0;
     border-radius: 20px 20px 0px 0px;
@@ -821,7 +843,7 @@ width: 158px;
     padding-left: 20px;
   }
   .addContacts {
-    height: 50%;
+    height: 70%;
     width: 100%;
     border-radius: 0px 0px 20px 20px;
     flex-direction: column;
@@ -836,7 +858,7 @@ width: 158px;
     align-items: center;
     justify-content: center;
     padding-left: 0;
-    margin-bottom: 34%;
+    margin-bottom: unset;
   }
 
   .createContactBtn {
@@ -866,7 +888,7 @@ width: 158px;
   }
 
   #dialogInfo {
-    font-size: 56px;
+    font-size: 41px;
   }
 
   h3 {
@@ -877,7 +899,6 @@ width: 158px;
     width: 95%;
     display: flex;
     justify-content: flex-end;
-    margin-top: -50px;
     margin-bottom: 150px;
   }
 
@@ -891,6 +912,19 @@ width: 158px;
 
   .blueLine {
     display: none;
+  }
+
+  .contacInput {
+    margin-bottom: 4px;
+  }
+
+  
+  .closeMobileEditContact {
+    margin-bottom: 50px;
+  }
+
+  .sidebar li {
+    font-size: 14px;
   }
 }
 
@@ -921,17 +955,3 @@ width: 158px;
   }
 }
 
-@media (max-width: 360px) {
-  .innerInputfield,
-  .contacInput,
-  .inputBorder {
-    width: 300px;
-  }
-  .closeMobileEditContact {
-    margin-bottom: 50px;
-  }
-
-  .sidebar li {
-    font-size: 14px;
-  }
-}
