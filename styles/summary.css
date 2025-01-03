@@ -506,6 +506,11 @@ h3 {
   h1 {
     font-size: 47px
   }
+
+  .userGreeting {
+    margin-top: unset;
+    height: 100%;
+  }
 }
 
 
