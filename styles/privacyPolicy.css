@@ -1,16 +1,64 @@
+/* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
+body::-webkit-scrollbar {
+    width: 8px;
+    /* Breite der Scrollleiste */
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #aaa;
+    /* Farbe des Scrollleisten-Daumen */
+    border-radius: 4px;
+    /* Abgerundete Ecken */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+    /* Farbe des Daumens beim Hover */
+}
+
 .txt-content {
     padding-left: 100px;
-    overflow-y: auto;
     margin-right: 30px;
+    max-width: 1440px;
+    height: 80%;
 }
 
 .privacyPolicyHeadline {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 5%;
 }
 
-.privacyPolicyHeadline img{
- cursor: pointer;
+.privacyPolicyHeadline img {
+    cursor: pointer;
+}
+
+.content {
+    height: 100%;
+}
+
+
+@media (max-width: 1370px) {
+
+    .txt-content {
+        padding-left: 8px;
+    }
+}
+
+@media (max-width: 900px) {
+
+    .headline {
+        margin-left: 8px;
+        width: 150px;
+    }
+}
+
+@media (max-width: 580px) {
+
+    .txt-content {
+        padding-bottom: 160px;
+    }
+    .content {
+        width: 100%;
+    }
 }
