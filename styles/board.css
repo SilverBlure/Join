@@ -1429,6 +1429,11 @@ li:hover .status-icon {
 
 @media (max-width: 580px) {
 
+
+  #editTaskPopupContainer {
+    padding-bottom: 100px;
+  }
+
   #addTaskFormTask {
     padding-bottom: 100px;
   }
