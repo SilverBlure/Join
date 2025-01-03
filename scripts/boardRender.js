@@ -74,16 +74,22 @@ function renderTaskWorkers(workers) {
  * @param {string} listId - Die ID der zugehörigen Liste.
  */
 async function openTaskPopup(taskId, listId) {
-    if (!listId || !taskId) return; 
-    const task = await fetchTaskData(taskId, listId); 
-    if (!task) return;
+    if (!listId || !taskId) return; // Sicherheitsprüfung
+    
+    const task = await fetchTaskData(taskId, listId); // Daten abrufen
+    if (!task) return; // Abbrechen, wenn keine Daten gefunden
+    
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
-    if (!popupOverlay || !popupContainer) return; 
-    const subtasksHTML = generateSubtasksHTML(task, taskId, listId); 
-    const workersHTML = generateWorkersHTML(task.workers || []); 
+    if (!popupOverlay || !popupContainer) return; // Sicherheitsprüfung
+    
+    const subtasksHTML = generateSubtasksHTML(task, taskId, listId); // Subtasks generieren
+    const workersHTML = generateWorkersHTML(task.workers || []); // Workers generieren
+    
     showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workersHTML, listId, taskId); // Popup anzeigen
-    document.getElementsByTagName('body')[0].style.overflow = "hidden";
+    
+    // Scroll deaktivieren
+    document.body.classList.add('no-scroll'); // CSS-Klasse hinzufügen
 }
 
 

@@ -45,7 +45,8 @@ function openAddTaskPopup(listId) {
         addTaskToSpecificList(listId, event);
     };
     popup.classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; 
+document.body.classList.add('no-scroll'); // Scroll deaktivieren
+
 }
 
 
@@ -119,6 +120,7 @@ function closeAddTaskPopup() {
     const mainContent = document.getElementById('mainContent');
     if (popup) {
         popup.classList.add('hidden');
+        document.body.classList.remove('no-scroll'); 
         refreshUIAfterPopupClose();
         renderBoard();
     }
@@ -265,8 +267,8 @@ async function closeTaskPopup() {
     document.getElementById("viewTaskPopupOverlay").classList.remove('visible');
     document.getElementById("mainContent").classList.remove('blur');
     refreshUIAfterPopupClose();
-    document.getElementsByTagName('body')[0].style.overflow = "auto";
-}
+    document.body.classList.remove('no-scroll'); // Scroll wieder aktivieren
+    }
 
 
 

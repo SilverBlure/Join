@@ -2,6 +2,11 @@ body {
   user-select: none;
 }
 
+/* In deiner CSS-Datei */
+body.no-scroll {
+  overflow: hidden;
+}
+
 
 /* Optional: Stil für Scrollleisten (nur für WebKit-Browser, z. B. Chrome, Edge, Safari) */
 body::-webkit-scrollbar {
