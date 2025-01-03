@@ -758,6 +758,11 @@ width: 158px;
 
 
 @media (max-width: 620px) {
+#contactEmblem {
+  position: relative;
+  bottom: 41px;
+  z-index: 999;
+}
 
   .topLine {
     margin-top: 21px;
