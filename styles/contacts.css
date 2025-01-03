@@ -744,15 +744,21 @@ width: 158px;
 
 
 @media (max-width: 620px) {
+
+  .topLine {
+    margin-top: 21px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
   .backToContactsBtn {
     display: block;
-    padding-left: 250px;
   }
 
   .contactDetails {
     display: none;
     width: 100%;
-    padding-left: 30px;
+    padding-left: 8px;
   }
 
   h1 {
