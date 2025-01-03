@@ -904,13 +904,12 @@ width: 158px;
 
 
   .userImg {
-    position: sticky;
     display: flex;
     justify-content: center;
     align-items: center;
     align-content: center;
      margin: 0; 
-     margin-bottom: 8%;
+     margin-bottom: 18px;
   }
 
   .notOnMobile {
