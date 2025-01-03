@@ -1030,7 +1030,7 @@ select:focus {
 
   .formPart,
   .formParts {
-    margin-bottom: 10px;
+    margin-bottom: unset;
     margin-top: 10px;
   }
 
@@ -1126,9 +1126,8 @@ select:focus {
     flex-direction: row !important;
   }
 
-  p {
-    margin-bottom: 13rem;
-    height: 290px;
+  .dutyField {
+    padding-bottom: 13rem;
   }
 }
 
