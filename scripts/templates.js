@@ -38,7 +38,7 @@ function contactDetailsTemps(i, initialien) {
 
 function addContactTemp() {
   return /*html*/ `
-    <div>
+    <div class="newContactEmblem">
         <img class="userImg" src="../assets/icons/png/userpic_leer.png" alt="">
     </div>
     <div class="createContact">
