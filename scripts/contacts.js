@@ -72,12 +72,18 @@ function openAddContact() {
  * 
  * @param {number} i -  the id of the contact to edit
  */
-function openEditContact(i) {
+function openEditContact(i, initialien) {
     document.getElementById('contactDialog').style.display = "block";
-    document.getElementById('name').value=`${contactsArray[i].name}`;
-    document.getElementById('email').value=`${contactsArray[i].email}`;
-    document.getElementById('phone').value=`${contactsArray[i].phone}`; 
+    document.getElementById('name').value = `${contactsArray[i].name}`;
+    document.getElementById('email').value = `${contactsArray[i].email}`;
+    document.getElementById('phone').value = `${contactsArray[i].phone}`; 
+    document.getElementById('contactEmblem').innerHTML = `
+    <div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
+    `;
+    const [vorname, nachname] = contactsArray[i].name.split(" ");
+    setUserTagBigColor(vorname, nachname, i);
 }
+
 
 
 function openDeleteContact(i){
@@ -412,11 +418,11 @@ function checkInput(createEdit, i) {
 /**
  * this function renders the dialog to edit a new contact
  */
-function editContact(i) {
+function editContact(i, initialien) {
     document.getElementById('dialogInfo').innerHTML = "Edit contact";
     document.getElementById('editContact').innerHTML = "";
     document.getElementById('editContact').innerHTML = editContactTemp(i);
-    openEditContact(i);
+    openEditContact(i, initialien);
     monitorFormInputs(); 
     document.getElementById('contactForm').addEventListener('submit', function(event) {
         event.preventDefault();
