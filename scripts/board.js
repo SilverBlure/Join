@@ -265,6 +265,13 @@ function addTaskToAwaitFeedback() {
     openAddTaskPopup('awaitFeedback');
 }
 
+/**
+ * Generiert eine eindeutige Hex-Farbkodierung basierend auf dem Vor- und Nachnamen.
+ *
+ * @param {string} vorname - Der Vorname der Person.
+ * @param {string} nachname - Der Nachname der Person.
+ * @returns {string} - Ein Hexadezimal-Farbcode im Format `#RRGGBB`.
+ */
 function getColorHex(vorname, nachname){
     let completeName = (vorname+nachname).toLowerCase();
     let hash = 0;
@@ -457,6 +464,10 @@ async function refreshUIAfterPopupClose() {
     }
 }
 
+/**
+ * Aktualisiert die Listen der Subtasks und ausgewählten Kontakte.
+ * Setzt auch die Priorität auf den Standardwert "Middle".
+ */
 function refreshLists() {
     const subTasksList = document.getElementById("subTasksList");
     const selectedContactsList = document.getElementById("selectedContactsList");
@@ -478,6 +489,10 @@ function refreshLists() {
     tempPriority = "Middle";
 }
 
+/**
+ * Initialisiert das Zurücksetzen des Formulars.
+ * Ruft `refreshLists` auf, wenn das Formular zurückgesetzt wird.
+ */
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("addTaskFormTask");
     if (form) {
@@ -487,6 +502,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } 
 });
 
+/**
+ * Schließt das Dropdown-Menü für die Kontaktauswahl.
+ */
 function closeSelection(){
     document.getElementById('contactsDropdownList').classList.add('closed');
 }

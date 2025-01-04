@@ -27,11 +27,6 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
     `;
 }
 
-/**
- * Generiert die Fortschrittsanzeige basierend auf den Subtasks.
- * @param {Object} subtasks - Die Subtasks des Tasks.
- * @returns {string} - HTML für die Fortschrittsanzeige.
- */
 function generateProgressHTML(subtasks = {}) {
     const subtasksArray = Object.values(subtasks);
     const totalCount = subtasksArray.length;
@@ -41,24 +36,10 @@ function generateProgressHTML(subtasks = {}) {
     return generateProgressBarHTML(progressPercent, doneCount, totalCount);
 }
 
-/**
- * Generiert die Fortschrittsanzeige basierend auf den direkten Werten.
- * @param {number} progressPercent - Der Fortschrittsprozentsatz.
- * @param {number} doneCount - Die Anzahl der abgeschlossenen Subtasks.
- * @param {number} totalCount - Die Gesamtanzahl der Subtasks.
- * @returns {string} - HTML für die Fortschrittsanzeige.
- */
 function generateSubtasksProgressHTML(progressPercent, doneCount, totalCount) {
     return generateProgressBarHTML(progressPercent, doneCount, totalCount);
 }
 
-/**
- * Generiert das HTML für die Fortschrittsanzeige.
- * @param {number} progressPercent - Der Fortschrittsprozentsatz.
- * @param {number} doneCount - Die Anzahl der abgeschlossenen Subtasks.
- * @param {number} totalCount - Die Gesamtanzahl der Subtasks.
- * @returns {string} - HTML für die Fortschrittsanzeige.
- */
 function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
     const progressClass = progressPercent === 100 ? "complete" : "";
 
@@ -72,12 +53,6 @@ function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
     `;
 }
 
-/**
- * Generiert HTML für die Arbeiter einer Aufgabe.
- * @param {Array<Object>} workers - Die Arbeiter der Aufgabe.
- * @param {boolean} showNames - Wenn true, werden die Namen angezeigt.
- * @returns {string} - Das generierte HTML.
- */
 function generateWorkersHTML(workers = [], showNames = false) {
     workers = Array.isArray(workers) ? workers : [];
     if (workers.length === 0) {
@@ -213,11 +188,6 @@ function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
     `;
 }
 
-/**
- * Generiert HTML für einen einzelnen Worker.
- * @param {Object} worker - Das Worker-Objekt mit `name` und optional `color`.
- * @returns {string} - Das generierte HTML.
- */
 function generateSingleWorkerHTML(worker) {
     const [vorname, nachname] = worker.name.split(" "); // Vor- und Nachname extrahieren
     const color = worker.color || getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
@@ -408,11 +378,6 @@ function generateNoMatchingMessageHTML(message) {
     `;
 }
 
-/**
- * Generiert HTML für einen einzelnen Worker.
- * @param {string} workerName - Der vollständige Name des Workers (Vorname Nachname).
- * @returns {string} - Das generierte HTML.
- */
 function generateWorkerHTML(workerName) {
     const initials = getInitials(workerName); // Initialen generieren
     const [vorname, nachname] = workerName.split(" "); // Vor- und Nachnamen extrahieren
@@ -433,11 +398,6 @@ function generateWorkerHTML(workerName) {
     `;
 }
 
-/**
- * Generiert HTML für einen editierbaren Worker.
- * @param {Object} contact - Der Kontakt-Objekt mit Name und anderen Details.
- * @returns {string} - Das generierte HTML.
- */
 function generateEditableWorkerHTML(contact) {
     const initials = getInitials(contact.name); // Initialen generieren
     const [vorname, nachname] = contact.name.split(" "); // Vor- und Nachnamen extrahieren
@@ -458,11 +418,6 @@ function generateEditableWorkerHTML(contact) {
     `;
 }
 
-/**
- * Generiert HTML für einen editierbaren Worker.
- * @param {string} name - Der vollständige Name des Workers (Vorname Nachname).
- * @returns {string} - Das generierte HTML.
- */
 function generateWorkerHTMLForEdit(name) {
     const initials = getInitials(name); // Initialen generieren
     const [vorname, nachname] = name.split(" "); // Vor- und Nachnamen extrahieren

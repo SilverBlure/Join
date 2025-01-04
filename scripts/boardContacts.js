@@ -162,6 +162,12 @@ function updateLocalContactsFromCheckboxes() {
     });
 }
 
+/**
+ * Schließt das Dropdown-Menü für Kontakte, wenn ein Klick außerhalb des Dropdowns,
+ * der Kontakt-Erstellungsleiste oder der Liste ausgewählter Kontakte erfolgt.
+ *
+ * @param {MouseEvent} event - Das Maus-Event, das den Listener auslöst.
+ */
 document.addEventListener("mousedown", function (event) {
     const dropdownList = document.getElementById("contactsDropdownList");
     const createContactBar = document.querySelector(".createContactBar");
