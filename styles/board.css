@@ -189,10 +189,6 @@ h1 {
   display: flex;
   flex-direction: column;
   height: 68vh;
-  overflow-y: auto;
-  /* Ermöglicht vertikales Scrollen */
-  touch-action: pan-y;
-  /* Scroll nur in eine Richtung erlaubt */
   max-height: 632px;
 }
 

@@ -14,6 +14,7 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
              draggable="true"
              ondragstart="startDragging('${taskId}', '${listId}')"
              ontouchstart="startTouchDragging(event, '${taskId}')"
+             ontouchend="handleTouchEnd('${taskId}', '${listId}')"
              onclick="openTaskPopup('${taskId}', '${listId}')"
              class="boardCard">
             <p class="${task.category?.class || 'defaultCategory'} taskCategory">${task.category?.name || "No Category"}</p>

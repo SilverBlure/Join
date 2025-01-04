@@ -111,28 +111,23 @@ async function addTaskToFirebase(listId, task) {
 }
 
 async function handleDrop(event, targetListId) {
-    event.preventDefault();
-    event.stopPropagation();
     const sourceListId = await findTaskSourceList(currentDraggedElement);
     if (!sourceListId) {
-        stopTouchDragging(); // Stoppen, falls keine Quellliste gefunden wurde
+        stopTouchDragging();
         return;
     }
-    try {
-        const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
-        if (!task) {
-            stopTouchDragging();
-            return;
-        }
-        await deleteTaskFromFirebase(sourceListId, currentDraggedElement);
-        await addTaskToFirebase(targetListId, task);
-        await getTasks();
-        renderBoard();
-    } finally {
-        stopTouchDragging(); // Stoppen, nachdem das Element verschoben wurde
-        unhighlightList(`${targetListId}List`);
+    const task = await fetchTaskFromFirebase(sourceListId, currentDraggedElement);
+    if (!task) {
+        stopTouchDragging();
+        return;
     }
+    await deleteTaskFromFirebase(sourceListId, currentDraggedElement);
+    await addTaskToFirebase(targetListId, task);
+    await getTasks(); // Tasks neu laden
+    renderBoard();    // Board neu rendern
 }
+
+
 
 const LONG_PRESS_THRESHOLD = 200; 
 const THRESHOLD_DISTANCE = 10;    
@@ -140,6 +135,7 @@ let currentDraggedElement = null;
 let touchStartTimestamp = null;
 let touchStartX = null;
 let touchStartY = null;
+let isDragging = false; // Neu: Status, ob Dragging aktiv ist
 let touchMoved = false; 
 let isAutoScrolling = false;
 let scrollDirection = 0;
@@ -147,34 +143,36 @@ const SCROLL_EDGE_OFFSET = 100;
 const SCROLL_SPEED = 500;        
 
 
-window.addEventListener("touchstart", (event) => {
-    const target = event.target.closest(".boardCard");
-    if (target) {
-        const taskId = target.id.split("-")[1];
-        startTouchDragging(event, taskId);
-    }
-}, { passive: false });
-window.addEventListener("touchmove", handleTouchMove, { passive: false });
-window.addEventListener("touchend", handleTouchDrop, { passive: false });
-async function startTouchDragging(event, taskId) {
+function startTouchDragging(event, taskId) {
     const target = document.getElementById(`boardCard-${taskId}`);
     if (!target) return;
+
     touchStartTimestamp = Date.now();
     const touch = event.touches[0];
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
-    touchMoved = false;
+    touchMoved = false; // Bewegung wird zurückgesetzt
     currentDraggedElement = taskId;
-    setTimeout(async () => {
+
+    setTimeout(() => {
         if (!touchMoved && currentDraggedElement) {
-            const listId = await findTaskSourceList(taskId); 
-            openTaskPopup(taskId, listId); 
-            stopTouchDragging();
-        } else if (currentDraggedElement) {
+            // Nur Dragging starten bei langem Drücken
             target.classList.add("dragging");
             disableScroll();
         }
     }, LONG_PRESS_THRESHOLD);
+}
+
+function handleTouchEnd(taskId, listId) {
+    const touchDuration = Date.now() - touchStartTimestamp;
+    if (touchMoved) {
+        return;
+    }
+    if (!touchMoved && touchDuration < LONG_PRESS_THRESHOLD) {
+        openTaskPopup(taskId, listId);
+    }
+
+    stopTouchDragging(); // Zustand zurücksetzen
 }
 
 
@@ -187,14 +185,17 @@ function stopAutoScrolling() {
 }
 
 
-/**
- * Handhabt die Bewegung eines Touch-Events und führt Auto-Scrolling aus.
- * @param {Event} event - Das Touch-Event.
- */
 function handleTouchMove(event) {
     if (!currentDraggedElement) return;
-    touchMoved = true;
     const touch = event.touches[0];
+    const deltaX = Math.abs(touch.clientX - touchStartX);
+    const deltaY = Math.abs(touch.clientY - touchStartY);
+    if (deltaX > THRESHOLD_DISTANCE || deltaY > THRESHOLD_DISTANCE) {
+        touchMoved = true;
+        if (event.cancelable) {
+            event.preventDefault();
+        }
+    }
     const adjustedX = touch.pageX - window.pageXOffset;
     const adjustedY = touch.pageY - window.pageYOffset;
     const targetElement = document.elementFromPoint(adjustedX, adjustedY);
@@ -207,25 +208,23 @@ function handleTouchMove(event) {
     }
     const viewportHeight = window.innerHeight;
     const y = touch.clientY;
+
     if (y < SCROLL_EDGE_OFFSET) {
-        startAutoScrolling(-1); 
+        startAutoScrolling(-1); // Scrollt nach oben
     } else if (y > viewportHeight - SCROLL_EDGE_OFFSET) {
-        startAutoScrolling(1); 
+        startAutoScrolling(1); // Scrollt nach unten
     } else {
         stopAutoScrolling();
     }
 }
 
-/**
- * Handhabt das Ablegen eines Tasks oder ein Click-Event.
- * @param {Event} event - Das Touch-Event.
- */
+
 async function handleTouchDrop(event) {
     if (!currentDraggedElement) {
         stopTouchDragging();
         return;
     }
-    stopAutoScrolling();
+    stopAutoScrolling(); // Auto-Scroll anhalten
     const touch = event.changedTouches[0];
     const adjustedX = touch.pageX - window.pageXOffset;
     const adjustedY = touch.pageY - window.pageYOffset;
@@ -237,7 +236,7 @@ async function handleTouchDrop(event) {
     }
     const targetListId = targetList.id.replace("List", "");
     try {
-        await handleDrop(event, targetListId);
+        await handleDrop(event, targetListId); // Verschiebe das Element
     } catch (error) {
         console.error("Fehler beim Verschieben des Tasks:", error);
     } finally {
@@ -245,19 +244,20 @@ async function handleTouchDrop(event) {
     }
 }
 
+
 /**
- * Stoppt das Dragging für Touch.
+ * Stoppt das Touch-Dragging und setzt den Zustand zurück.
  */
 function stopTouchDragging() {
-    stopAutoScrolling();
-    const card = currentDraggedElement && document.getElementById(`boardCard-${currentDraggedElement}`);
+    const card = document.getElementById(`boardCard-${currentDraggedElement}`);
     if (card) {
         card.classList.remove("dragging");
     }
     currentDraggedElement = null;
-    touchStartTimestamp = null;
-    touchMoved = false;
-    enableScroll();
+    touchStartX = null;
+    touchStartY = null;
+    isDragging = false;
+    enableScroll(); // Scrollen aktivieren
 }
 
 /**
@@ -265,7 +265,7 @@ function stopTouchDragging() {
  * @param {number} direction - -1 für nach oben, 1 für nach unten.
  */
 function startAutoScrolling(direction) {
-    if (scrollDirection === direction && isAutoScrolling) return;
+    if (scrollDirection === direction && isAutoScrolling) return; // Bereits scrollend in dieser Richtung
     scrollDirection = direction;
     if (!isAutoScrolling) {
         isAutoScrolling = true;
@@ -273,15 +273,22 @@ function startAutoScrolling(direction) {
     }
 }
 
-/**
- * Führt einen Auto-Scroll-Schritt aus.
- */
 function autoScroll() {
     if (!isAutoScrolling) return;
-    const scrollStep = scrollDirection * SCROLL_SPEED / 60; // Geschwindigkeit basierend auf 60 FPS
+
+    const viewportHeight = window.innerHeight;
+    const touchY = scrollDirection === -1 ? SCROLL_EDGE_OFFSET : viewportHeight - SCROLL_EDGE_OFFSET;
+    const distanceToEdge = Math.abs(touchY - touchStartY);
+
+    // Dynamische Geschwindigkeit: näher am Rand = langsamer
+    const dynamicSpeed = Math.max(SCROLL_SPEED / (distanceToEdge / 10), 10); // Mindestgeschwindigkeit 10px/Frame
+    const scrollStep = scrollDirection * (dynamicSpeed / 60); // Geschwindigkeit basierend auf 60 FPS
+
     window.scrollBy(0, scrollStep);
-    requestAnimationFrame(autoScroll);
+
+    requestAnimationFrame(autoScroll); // Nächsten Scroll-Schritt planen
 }
+
 
 /**
  * Deaktiviert das Scrollen.
