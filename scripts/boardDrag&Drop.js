@@ -52,7 +52,6 @@ function unhighlightList(listId) {
     }
 }
 
-
 /**
  * Findet die Ursprungs-Liste eines Tasks.
  * @param {string} taskId - Die ID des zu suchenden Tasks.
@@ -127,8 +126,6 @@ async function handleDrop(event, targetListId) {
     renderBoard();    // Board neu rendern
 }
 
-
-
 const LONG_PRESS_THRESHOLD = 200; 
 const THRESHOLD_DISTANCE = 10;    
 let currentDraggedElement = null;
@@ -141,7 +138,6 @@ let isAutoScrolling = false;
 let scrollDirection = 0;
 const SCROLL_EDGE_OFFSET = 100; 
 const SCROLL_SPEED = 500;        
-
 
 function startTouchDragging(event, taskId) {
     const target = document.getElementById(`boardCard-${taskId}`);
@@ -175,7 +171,6 @@ function handleTouchEnd(taskId, listId) {
     stopTouchDragging(); // Zustand zurücksetzen
 }
 
-
 /**
  * Stoppt das Auto-Scrolling.
  */
@@ -183,7 +178,6 @@ function stopAutoScrolling() {
     isAutoScrolling = false;
     scrollDirection = 0;
 }
-
 
 function handleTouchMove(event) {
     if (!currentDraggedElement) return;
@@ -218,7 +212,6 @@ function handleTouchMove(event) {
     }
 }
 
-
 async function handleTouchDrop(event) {
     if (!currentDraggedElement) {
         stopTouchDragging();
@@ -243,7 +236,6 @@ async function handleTouchDrop(event) {
         stopTouchDragging();
     }
 }
-
 
 /**
  * Stoppt das Touch-Dragging und setzt den Zustand zurück.
@@ -288,7 +280,6 @@ function autoScroll() {
 
     requestAnimationFrame(autoScroll); // Nächsten Scroll-Schritt planen
 }
-
 
 /**
  * Deaktiviert das Scrollen.

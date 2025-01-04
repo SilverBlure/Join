@@ -1,4 +1,3 @@
-
 function renderEmptyMessage(container) {
     container.innerHTML += `
         <div class="nothingToDo">
@@ -6,7 +5,6 @@ function renderEmptyMessage(container) {
         </div>
     `;
 }
-
 
 function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     return `
@@ -28,7 +26,6 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
         </div>
     `;
 }
-
 
 /**
  * Generiert die Fortschrittsanzeige basierend auf den Subtasks.
@@ -75,7 +72,6 @@ function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
     `;
 }
 
-
 /**
  * Generiert HTML für die Arbeiter einer Aufgabe.
  * @param {Array<Object>} workers - Die Arbeiter der Aufgabe.
@@ -98,7 +94,6 @@ function generateWorkersHTML(workers = [], showNames = false) {
         .join("");
 }
 
-
 function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
@@ -112,7 +107,6 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
         </div>
     `;
 }
-
 
 function generateEditSingleSubtaskHTML(subtaskId, subtask) {
     return `
@@ -139,7 +133,6 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
     `;
 }
 
-
 function generatePopupHeaderHTML(task) {
     return `
         <div class="popupHeader">
@@ -150,7 +143,6 @@ function generatePopupHeaderHTML(task) {
         </div>
     `;
 }
-
 
 function generatePopupDetailsHTML(task) {
     return `
@@ -165,7 +157,6 @@ function generatePopupDetailsHTML(task) {
     `;
 }
 
-
 function generateWorkerContainerHTML(initials, color, name, showName) {
     return `
             <div class="workerInformation">
@@ -175,13 +166,11 @@ function generateWorkerContainerHTML(initials, color, name, showName) {
     `;
 }
 
-
 function generateSubtasksContainerHTML(subtasksHTML) {
     return `
             <h2>Subtasks:</h2>
             ${subtasksHTML}    `;
 }
-
 
 function generatePopupActionsHTML(listId, taskId) {
     return `
@@ -191,7 +180,6 @@ function generatePopupActionsHTML(listId, taskId) {
         </div>
     `;
 }
-
 
 function generatePriorityButtonsHTML(selectedPriority) {
     const priorities = [
@@ -213,7 +201,6 @@ function generatePriorityButtonsHTML(selectedPriority) {
         .join("");
 }
 
-
 function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
     return `
         <div class="createContactBar">
@@ -225,7 +212,6 @@ function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
         </div>
     `;
 }
-
 
 /**
  * Generiert HTML für einen einzelnen Worker.
@@ -251,7 +237,6 @@ function generateSingleWorkerHTML(worker) {
         </div>
     `;
 }
-
 
 function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
     return /*html*/`
@@ -316,7 +301,6 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
     `;
 }
 
-
 function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
     return `
         <li class="subtask-item" id="subtask-${subtaskId}">
@@ -335,7 +319,6 @@ function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
         </li>
     `;
 }
-
 
 function generateEditSubtaskHTML(subtaskId, currentTitle) {
     return `
@@ -360,7 +343,6 @@ function generateEditSubtaskHTML(subtaskId, currentTitle) {
             `;
 }
 
-
 function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
     return `
         <div class="subtask-item" id="subtask-${subtaskId}">
@@ -380,7 +362,6 @@ function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
         </div>
     `;
 }
-
 
 function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     return /*html*/ `
@@ -403,7 +384,6 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     `;
 }
 
-
 async function findTaskSourceList(taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
     const response = await fetch(url);
@@ -420,7 +400,6 @@ async function findTaskSourceList(taskId) {
     return null;
 }
 
-
 function generateNoMatchingMessageHTML(message) {
     return `
         <div class="nothingToDo">
@@ -428,7 +407,6 @@ function generateNoMatchingMessageHTML(message) {
         </div>
     `;
 }
-
 
 /**
  * Generiert HTML für einen einzelnen Worker.
@@ -455,7 +433,6 @@ function generateWorkerHTML(workerName) {
     `;
 }
 
-
 /**
  * Generiert HTML für einen editierbaren Worker.
  * @param {Object} contact - Der Kontakt-Objekt mit Name und anderen Details.
@@ -480,7 +457,6 @@ function generateEditableWorkerHTML(contact) {
         </div>
     `;
 }
-
 
 /**
  * Generiert HTML für einen editierbaren Worker.

@@ -6,7 +6,6 @@ function renderBoard() {
     Object.values(tasks).forEach(list => renderTaskList(list)); // Jede Liste rendern
 }
 
-
 /**
  * Rendert eine spezifische Aufgabenliste.
  * @param {Object} list - Die zu rendernde Liste.
@@ -22,7 +21,6 @@ function renderTaskList(list) {
     }
 }
 
-
 /**
  * Rendert eine einzelne Aufgabe innerhalb eines Containers.
  * @param {HTMLElement} container - Der Container, in dem die Aufgabe gerendert wird.
@@ -36,7 +34,6 @@ function renderTask(container, taskId, task, listId) {
     const taskHTML = generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML); // HTML für die Aufgabe generieren
     container.innerHTML += taskHTML; // HTML in den Container einfügen
 }
-
 
 /**
  * Generiert HTML für die Arbeiter einer Aufgabe.
@@ -67,7 +64,6 @@ function renderTaskWorkers(workers) {
     return workersHTML + additionalHTML;
 }
 
-
 /**
  * Öffnet ein Popup für eine spezifische Aufgabe.
  * @param {string} taskId - Die ID der Aufgabe.
@@ -92,7 +88,6 @@ async function openTaskPopup(taskId, listId) {
     document.body.classList.add('no-scroll'); // CSS-Klasse hinzufügen
 }
 
-
 /**
  * Ruft Aufgabendaten aus Firebase ab.
  * @param {string} taskId - Die ID der Aufgabe.
@@ -113,8 +108,6 @@ async function fetchTaskData(taskId, listId) {
         return null; // Bei Fehler null zurückgeben
     }
 }
-
-
 
 /**
  * Zeigt ein Popup mit den Details einer Aufgabe an.
@@ -143,7 +136,6 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
     `;
 }
 
-
 /**
  * Öffnet ein Bearbeitungspopup für eine Aufgabe.
  * @param {string} listId - Die ID der Liste.
@@ -160,7 +152,6 @@ async function editTask(listId, taskId) {
         console.error("Fehler beim Bearbeiten des Tasks:", error);
     }
 }
-
 
 function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
@@ -181,7 +172,6 @@ function renderEditTaskPopup(listId, taskId, task) {
     editTaskPopupOverlay.classList.add("visible");
     document.getElementById("mainContent").classList.add("blur");
 }
-
 
 /**
  * Rendert die ausgewählten Kontakte in der Benutzeroberfläche.
@@ -222,7 +212,6 @@ function renderSelectedContacts() {
     }
 }
 
-
 /**
  * Ruft eine Aufgabe aus Firebase für die Bearbeitung ab.
  * @param {string} listId - Die ID der Liste.
@@ -239,7 +228,6 @@ async function fetchTaskForEditing(listId, taskId) {
         return null; // Bei Fehler null zurückgeben
     }
 }
-
 
 /**
  * Aktualisiert die Daten eines Tasks auf dem Server.

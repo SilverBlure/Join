@@ -12,8 +12,6 @@ async function main() {
     renderBoard();
 }
 
-
-
 /**
  * Lädt die Session-ID aus dem lokalen Speicher.
  */
@@ -21,8 +19,6 @@ function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
     if (!ID) console.error("Session-ID nicht gefunden. Der Benutzer ist möglicherweise nicht eingeloggt.");
 }
-
-
 
 /**
  * Initialisiert die Task-Listen, falls diese noch nicht existieren.
@@ -48,8 +44,6 @@ async function initializeTaskLists() {
     });
     return initResponse.ok;
 }
-
-
 
 /**
  * Holt die Aufgaben aus der Datenbank und speichert sie in der globalen Variable `tasks`.
@@ -77,8 +71,6 @@ async function getTasks() {
     }, {});
 }
 
-
-
 /**
  * Allgemeine Funktion zum Senden einer POST-Anfrage.
  * @param {string} url - Die Ziel-URL für die Anfrage.
@@ -102,8 +94,6 @@ async function postData(url, data) {
     }
 }
 
-
-
 /**
  * Fügt eine Aufgabe einer bestimmten Liste hinzu.
  * @param {string} listId - Die ID der Liste, zu der die Aufgabe hinzugefügt werden soll.
@@ -117,8 +107,6 @@ async function addTaskToList(listId, taskDetails) {
     closeAddTaskPopup();
     return await postData(url, taskDetails);
 }
-
-
 
 /**
  * Speichert Änderungen an einer Aufgabe und aktualisiert die Daten.
@@ -162,9 +150,6 @@ async function saveTaskChanges(event, listId, taskId) {
         showSnackbar('Fehler beim Aktualisieren der Daten!');
     }
 }
-
-
-
 
 /**
  * Löscht eine Aufgabe aus einer bestimmten Liste.

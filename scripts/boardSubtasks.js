@@ -16,8 +16,6 @@ function handleSubtaskEditKey(event) {
     }
 }
 
-
-
 /**
  * Behandelt das `onblur`-Event eines Subtask-Eingabefelds.
  * @param {Event} event - Das Blur-Event.
@@ -26,8 +24,6 @@ function handleSubtaskBlur(event) {
     const subtaskId = event.target.id.replace("edit-input-", ""); // Extrahiere die Subtask-ID
     saveEditedSubtask(subtaskId); // Speichere den Subtask
 }
-
-
 
 /**
  * Fügt einen neuen Subtask hinzu, wenn die Eingabetaste gedrückt wird.
@@ -39,8 +35,6 @@ function handleSubtaskKey(event) {
         addNewSubtask();
     }
 }
-
-
 
 /**
  * Entfernt einen Subtask aus den lokalen Daten und dem DOM.
@@ -56,7 +50,6 @@ function deleteSubtaskFromLocal(subtaskId) {
         subtaskElement.remove();
     }
 }
-
 
 /**
  * Rendert den Fortschritt der Subtasks als HTML.
@@ -102,7 +95,6 @@ function collectSubtasksFromDOM() {
     return subtasks;
 }
 
-
 /**
  * Generiert HTML für die Subtasks eines Tasks.
  * @param {Object} task - Der Task, der Subtasks enthält.
@@ -123,7 +115,6 @@ function generateSubtasksHTML(task, taskId, listId) {
     }).join('');
 }
 
-
 /**
  * Generiert HTML für das Bearbeiten von Subtasks.
  * @param {Object} subtasks - Die Subtasks des Tasks.
@@ -137,7 +128,6 @@ function generateEditSubtasksHTML(subtasks = {}) {
         generateEditSingleSubtaskHTML(subtaskId, subtask)
     ).join('');
 }
-
 
 /**
  * Ermöglicht die Bearbeitung eines Subtasks direkt im DOM.
@@ -168,7 +158,12 @@ function editSubtaskInLocal(subtaskId) {
     subtaskElement.innerHTML = editHTML;
 }
 
-
+/**
+ * Speichert die Änderungen eines Subtasks im lokalen Zustand.
+ * Falls der Subtask nicht existiert, wird ein neuer Eintrag erstellt.
+ *
+ * @param {string} subtaskId - Die eindeutige ID des Subtasks.
+ */
 function saveEditedSubtask(subtaskId) {
     if (!window.localSubtasks) {
         window.localSubtasks = {};
@@ -211,7 +206,14 @@ function saveEditedSubtask(subtaskId) {
     };
 }
 
-
+/**
+ * Initialisiert den lokalen Zustand eines Tasks.
+ * Lädt die Worker- und Subtask-Daten in lokale Variablen.
+ *
+ * @param {Object} task - Der Task, der initialisiert werden soll.
+ * @param {Array} [task.workers] - Liste der zugeordneten Worker des Tasks.
+ * @param {Object} [task.subtasks] - Liste der Subtasks des Tasks.
+ */
 function initializeLocalTaskState(task) {
     window.localEditedContacts = Array.isArray(task.workers)
         ? task.workers.map(worker => ({
@@ -225,7 +227,6 @@ function initializeLocalTaskState(task) {
         : {};
 
 }
-
 
 /**
  * Fügt einen neuen Subtask hinzu und aktualisiert die Subtask-Liste im DOM.
@@ -243,7 +244,6 @@ function addNewSubtask() {
     subTaskInput.value = "";
     toggleSubtaskButtons();
 }
-
 
 /**
  * Entfernt einen Subtask aus der Liste und aus dem lokalen Zustand.
@@ -263,7 +263,13 @@ function removeSubtaskFromList(subtaskId) {
     }
 }
 
-
+/**
+ * Schaltet einen Subtask in den Bearbeitungsmodus.
+ * Ersetzt das aktuelle Subtask-Element durch ein Eingabefeld.
+ *
+ * @param {string} subtaskId - Die eindeutige ID des zu bearbeitenden Subtasks.
+ * @returns {void}
+ */
 async function editSubtask(subtaskId) {
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
     if (!subtaskElement) return;
@@ -280,7 +286,6 @@ async function editSubtask(subtaskId) {
     const editSubtaskHTML = generateEditSubtaskHTML(subtaskId, currentTitle);
     subtaskElement.innerHTML = editSubtaskHTML;
 }
-
 
 /**
  * Speichert die Änderungen eines Subtasks.
@@ -315,7 +320,13 @@ function saveSubtaskEdit(subtaskId) {
     };
 }
 
-
+/**
+ * Schaltet die Sichtbarkeit der Subtask-Buttons basierend auf dem Eingabefeldstatus.
+ * Zeigt die Speicher- und Löschen-Buttons, wenn das Eingabefeld nicht leer ist.
+ * Versteckt die Buttons, wenn das Eingabefeld leer ist.
+ *
+ * @returns {void}
+ */
 function toggleSubtaskButtons() {
     const input = document.getElementById("subTaskInputAddTask");
     const saveBtn = document.getElementById("saveSubtaskBtn");
@@ -336,211 +347,12 @@ function toggleSubtaskButtons() {
     }
 }
 
-
+/**
+ * Leert das Eingabefeld für Subtasks.
+ *
+ * @returns {void}
+ */
 function clearSubtaskInput() {
     const input = document.getElementById("subTaskInputAddTask");
     input.value = "";
-}
-
-
-
-
-
-let dropdownOpen = false;
-
-let selectedContacts = [];
-
-
-function closeContactsDropdown() {
-    const dropdownList = document.getElementById("contactsDropdownList");
-      dropdownList.classList.remove("open");
-}
-
-
-function toggleContactsDropdown() {
-  const dropdownList = document.getElementById("contactsDropdownList");
-  dropdownOpen = !dropdownOpen;
-  if (dropdownOpen) {
-    renderContactsDropdown();
-    dropdownList.classList.add("open");
-  } else {
-    dropdownList.classList.remove("open");
-  }
-}
-
-
-function renderContactsDropdown() {
-    const dropdownList = document.getElementById("contactsDropdownList");
-    dropdownList.innerHTML = "";
-    if (!contactsArray || contactsArray.length === 0) {
-        dropdownList.innerHTML = "<li>Keine Kontakte verfügbar</li>";
-        return;
-    }
-    contactsArray.forEach((contact) => {
-        const li = document.createElement("li");
-        li.classList.add("dropdown-item"); 
-        if (isContactSelected(contact.name)) {
-            li.classList.add("selected-contact-item"); 
-        }
-        const [vorname, nachname] = contact.name.split(" ");
-        const backgroundColor = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
-        const workerEmblem = document.createElement("p");
-        workerEmblem.classList.add("workerEmblemList");
-        workerEmblem.style.backgroundColor = backgroundColor; 
-        workerEmblem.textContent = getInitials(contact.name); 
-        const nameSpan = document.createElement("span");
-        nameSpan.classList.add("contact-nameList");
-        nameSpan.textContent = contact.name;
-        const img = document.createElement("img");
-        img.classList.add("status-icon");
-        img.src = isContactSelected(contact.name)
-            ? "./../assets/icons/png/checkButtonContacts.png" 
-            : "./../assets/icons/png/checkButtonEmpty.png"; 
-        img.alt = isContactSelected(contact.name) ? "Selected" : "Not Selected";
-        img.style.cursor = "pointer";
-        li.addEventListener("click", () => {
-            const isSelected = isContactSelected(contact.name);
-            handleContactSelection(contact, !isSelected);
-            if (!isSelected) {
-                li.classList.add("selected-contact-item");
-            } else {
-                li.classList.remove("selected-contact-item");
-            }
-            img.src = !isSelected
-                ? "./../assets/icons/png/checkButtonContacts.png"
-                : "./../assets/icons/png/checkButtonEmpty.png";
-            img.alt = !isSelected ? "Selected" : "Not Selected";
-        });
-        li.appendChild(workerEmblem);
-        li.appendChild(nameSpan);
-        li.appendChild(img);
-        dropdownList.appendChild(li);
-    });
-}
-
-
-function isContactSelected(contactName) {
-    return Object.values(window.localContacts || {}).some(contact => contact.name === contactName);
-}
-
-
-function initializeLocalContacts(task) {
-    if (!task || !Array.isArray(task.workers)) {
-        window.localContacts = {};
-        return;
-    }
-    window.localContacts = task.workers.reduce((acc, worker) => {
-        acc[worker.id] = { id: worker.id, name: worker.name };
-        return acc;
-    }, {});
-    selectedContacts = Object.values(window.localContacts);
-    renderSelectedContacts();
-    updateDropdownLabel();
-}
-
-
-function synchronizeContactCheckboxes() {
-    if (!contactsArray || !Array.isArray(contactsArray)) {
-        return;
-    }
-    if (!Array.isArray(window.localEditedContacts)) {
-        window.localEditedContacts = [];
-    }
-    contactsArray.forEach(contact => {
-        const checkbox = document.querySelector(`#contactsDropdownList input[value="${contact.name}"]`);
-        if (checkbox) {
-            checkbox.checked = !!window.localEditedContacts.find(
-                editedContact => editedContact.name === contact.name
-            );
-        }
-    });
-  
-}
-
-
-function updateLocalContactsFromCheckboxes() {
-    const checkboxes = document.querySelectorAll('#contactsDropdownList input[type="checkbox"]');
-    if (!window.localContacts) {
-        window.localContacts = {};
-    }
-    checkboxes.forEach(checkbox => {
-        const contactName = checkbox.value;
-        const isChecked = checkbox.checked;
-        const existingContact = contactsArray.find(contact => contact.name === contactName);
-        if (isChecked) {
-            if (!Object.values(window.localContacts).some(contact => contact.name === contactName)) {
-                window.localContacts[`contact_${Date.now()}`] = {
-                    name: contactName,
-                    id: existingContact?.id || `contact_${Date.now()}`, // ID aus vorhandenen Daten oder generieren
-                };
-            }
-        } else {
-            const contactKey = Object.keys(window.localContacts).find(
-                key => window.localContacts[key].name === contactName
-            );
-            if (contactKey) {
-                delete window.localContacts[contactKey];
-            }
-        }
-    });
-}
-
-document.addEventListener("mousedown", function (event) {
-    const dropdownList = document.getElementById("contactsDropdownList");
-    const createContactBar = document.querySelector(".createContactBar");
-    const selectedContactsList = document.getElementById("selectedContactsList");
-    if (!dropdownList || !createContactBar || !selectedContactsList) {
-        return;
-    }
-    const clickedInsideDropdown = dropdownList.contains(event.target);
-    const clickedInsideCreateBar = createContactBar.contains(event.target);
-    const clickedInsideSelectedContacts = selectedContactsList.contains(event.target);
-    if (!clickedInsideDropdown && !clickedInsideCreateBar && !clickedInsideSelectedContacts) {
-        dropdownList.classList.remove("open");
-        dropdownOpen = false;
-    }
-});
-
-
-function handleContactSelection(contact, isChecked) {
-    if (!window.localContacts) {
-        window.localContacts = {}; 
-    }
-    const selectedContactsList = document.getElementById("selectedContactsList");
-    if (!selectedContactsList) return;
-
-    if (isChecked) {
-        if (!isContactSelected(contact.name)) {
-            selectedContacts.push(contact);
-            window.localContacts[contact.id] = contact; 
-        }
-    } else {
-        removeContact(contact);
-    }
-    renderSelectedContacts();
-    updateDropdownLabel();
-}
-
-
-function removeContact(contact) {
-    selectedContacts = selectedContacts.filter(selected => selected.id !== contact.id);
-    delete window.localContacts[contact.id];
-    const selectedContactItem = document.getElementById(`selected_${contact.id}`);
-    if (selectedContactItem) {
-        selectedContactItem.remove();
-    }
-    updateDropdownLabel();
-}
-
-
-function updateDropdownLabel() {
-    const dropdownLabel = document.getElementById("dropdownLabel");
-    if (!dropdownLabel) {
-        return;
-    }
-    if (selectedContacts.length === 0) {
-        dropdownLabel.textContent = "Wähle einen Kontakt aus";
-    } else {
-        dropdownLabel.textContent = `${selectedContacts.length} Kontakt(e) ausgewählt`;
-    }
 }
