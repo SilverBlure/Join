@@ -241,7 +241,7 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
                         ${generatePriorityButtonsHTML(task.priority)}
                     </div>
                     <label for="category">Category<span class="requiredStar">*</span></label>
-                    <select id="category" required>
+                    <select id="category" class="category" required>
                         <option value="Technical Task" ${task.category?.name === 'Technical Task' ? 'selected' : ''}>Technical Task</option>
                         <option value="User Story" ${task.category?.name === 'User Story' ? 'selected' : ''}>User Story</option>
                     </select>
