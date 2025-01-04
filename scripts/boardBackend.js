@@ -117,12 +117,14 @@ async function addTaskToList(listId, taskDetails) {
 async function saveTaskChanges(event, listId, taskId) {
     event.preventDefault();
     if (!listId || !taskId) return;
+
     updateLocalContactsFromCheckboxes();
     const editedSubtasks = collectSubtasksFromDOM();
     const workers = Object.values(window.localContacts || {}).map(worker => ({
         name: worker.name,
         id: worker.id || `worker_${Date.now()}`,
     }));
+
     const updatedTask = {
         title: document.getElementById("title").value.trim(),
         description: document.getElementById("description").value.trim() || "No description provided",
@@ -135,14 +137,27 @@ async function saveTaskChanges(event, listId, taskId) {
         workers,
         subtasks: { ...editedSubtasks },
     };
+
     try {
         const response = await fetch(`${BASE_URL}data/user/${ID}/user/tasks/${listId}/task/${taskId}.json`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedTask),
         });
+
         if (!response.ok) throw new Error("Server antwortet mit einem Fehler");
-        await getTasks();
+
+        // Lokalen Zustand aktualisieren
+        tasks[listId].task[taskId] = updatedTask;
+
+        // Popup neu rendern mit aktualisierten Daten
+        const popupOverlay = document.getElementById("viewTaskPopupOverlay");
+        const popupContainer = document.getElementById("viewTaskContainer");
+        const subtasksHTML = generateSubtasksHTML(updatedTask, taskId, listId);
+        const workersHTML = generateWorkersHTML(updatedTask.workers || []);
+
+        showTaskPopup(popupOverlay, popupContainer, updatedTask, subtasksHTML, workersHTML, listId, taskId);
+
         showSnackbar('Der Task wurde erfolgreich aktualisiert!');
         closeEditTaskPopup();
     } catch (error) {

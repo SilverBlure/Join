@@ -339,7 +339,7 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
+  flex-direction: column-reverse;
   gap: 21px;
   padding: 20px;
 }
@@ -1302,7 +1302,7 @@ li:hover .status-icon {
 
   .taskContainer {
     padding-right: unset;
-    flex-direction: row;
+    flex-direction: row-reverse;
     justify-content: start;
   }
 
