@@ -65,7 +65,7 @@
                         <div class="border borderInputFields center marBo30">
                             <div class="innerInputfield">
                                 <input id="pw_1" type="password" name="password1" class="noBorder input"
-                                    placeholder="Password" required>
+                                    placeholder="Password" required oninput="pw_check()">
                                 <img src="./../assets/icons/svg/lock.svg">
                             </div>
                         </div>
@@ -92,6 +92,9 @@
                     </div>
                     <div class="btnContainer">
                         <button form="input" class="signUpBtn" id="signUpBtn" disabled>Sign up</button>
+                        <div>
+                            <p name="privacyPolicy" id="pPWarning" class="failtureText left hidden-text">*Accept the Privacy Policy</p>
+                        </div>
                     </div>
 
                 </div>

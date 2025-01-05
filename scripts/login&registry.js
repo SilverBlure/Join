@@ -174,3 +174,33 @@ function checkName(){
         }
     },500);
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const signUpBtn = document.getElementById("signUpBtn");
+    const pPWarning = document.getElementById("pPWarning");
+
+    if (!signUpBtn || !pPWarning) {
+        console.error("Button oder Warnung nicht gefunden.");
+        return;
+    }
+
+    // Hover-Events direkt auf dem Button
+    signUpBtn.addEventListener("mouseenter", () => {
+        if (signUpBtn.disabled) {
+            pPWarning.classList.remove("hidden-text"); // Warnung anzeigen
+        }
+    });
+
+    signUpBtn.addEventListener("mouseleave", () => {
+        if (signUpBtn.disabled) {
+            pPWarning.classList.add("hidden-text"); // Warnung wieder verstecken
+        }
+    });
+
+    // Klick-Event zur Absicherung
+    signUpBtn.addEventListener("click", () => {
+        if (!signUpBtn.disabled) {
+            pPWarning.classList.add("hidden-text"); // Warnung verstecken, wenn Button aktiv
+        }
+    });
+});
