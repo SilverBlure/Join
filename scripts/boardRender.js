@@ -245,3 +245,41 @@ async function updateTask(listId, taskId, task) {
     });
     return response.ok;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const dateInput = document.getElementById("date");
+    if (!dateInput) {
+        return;
+    }
+    dateInput.addEventListener("click", () => {
+        dateInput.showPicker();
+    });
+  });
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    const dateInput = document.getElementById("date");
+    if (dateInput) {
+        const today = new Date().toISOString().split('T')[0]; 
+        dateInput.setAttribute("min", today); 
+    }
+  });
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const today = new Date().toISOString().split('T')[0]; 
+    function setDueDateMin() {
+        const dueDateInput = document.getElementById("dueDate");
+        if (dueDateInput) {
+            dueDateInput.setAttribute("min", today); 
+            dueDateInput.addEventListener("click", () => {
+                dueDateInput.showPicker(); 
+            });
+        }
+    }
+    const observer = new MutationObserver(() => {
+        setDueDateMin();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+});
+
+

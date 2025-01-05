@@ -2,6 +2,16 @@ body {
   user-select: none;
 }
 
+/* Webkit (Chrome, Safari, Edge) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+/* Firefox (gesamtes Input-Feld) */
+input[type="date"] {
+  cursor: pointer;
+}
+
 /* In deiner CSS-Datei */
 body.no-scroll {
   overflow: hidden;
@@ -134,6 +144,7 @@ h1 {
 
 .searchBar input {
   border: none;
+  cursor: pointer;
 }
 
 .searchBar input:focus {
@@ -504,11 +515,13 @@ h1 {
 
 #subtaskImg {
   padding-right: 16px;
+  cursor: pointer;
 }
 
 .addSubTaskInput {
   border: none;
   padding: unset;
+  cursor: pointer;
 }
 
 .category {
@@ -619,6 +632,7 @@ h1 {
   background-image: url("./../assets/icons/png/arrow_dropdown.png");
   background-repeat: no-repeat;
   background-position: center right;
+  cursor: pointer;
 }
 
 .customDropdown {
@@ -1024,6 +1038,7 @@ select {
   /* Für Safari */
   -moz-appearance: none;
   /* Für Firefox */
+  cursor: pointer;
 }
 
 .closed {
