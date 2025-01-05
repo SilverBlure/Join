@@ -1,3 +1,8 @@
+/**
+ * Generiert das HTML für die Anzeige des aktuellen Buchstabens und einer zugehörigen Kontaktgruppe.
+ * @param {string} currentLetter - Der aktuelle Buchstabe.
+ * @returns {string} Das HTML-Template für den Buchstaben-Separator und die Kontaktgruppe.
+ */
 function renderCurrentLetter(currentLetter) {
   return `<div>
     <div class="separator">${currentLetter}</div>
@@ -5,6 +10,12 @@ function renderCurrentLetter(currentLetter) {
     </div>`;
 }
 
+/**
+ * Generiert das HTML für einen einzelnen Kontakt in der Kontaktliste.
+ * @param {number} i - Der Index des Kontakts in contactsArray.
+ * @param {string} initialien - Die Initialen des Kontakts.
+ * @returns {string} Das HTML-Template für den Kontakt.
+ */
 function contactTemps(i, initialien) {
   return /*html*/ `<div class="contact">
                 <div id="shortInfo${i}" class="shortInfo" onclick="renderContactDetails(${i})">
@@ -19,6 +30,12 @@ function contactTemps(i, initialien) {
             </div>`;
 }
 
+/**
+ * Generiert das HTML für die Detailansicht eines Kontakts.
+ * @param {number} i - Der Index des Kontakts in contactsArray.
+ * @param {string} initialien - Die Initialen des Kontakts.
+ * @returns {string} Das HTML-Template für die Kontakt-Details.
+ */
 function contactDetailsTemps(i, initialien) {
   return /*html*/ `<div class="InfoBoxHead">
 <div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
@@ -36,6 +53,10 @@ function contactDetailsTemps(i, initialien) {
     </div> `;
 }
 
+/**
+ * Generiert das HTML für das Hinzufügen eines neuen Kontakts.
+ * @returns {string} Das HTML-Template für das Hinzufügen eines Kontakts.
+ */
 function addContactTemp() {
   return /*html*/ `
     <div class="newContactEmblem">
@@ -82,6 +103,11 @@ function addContactTemp() {
 `;
 }
 
+/**
+ * Generiert das HTML für die Bearbeitung eines vorhandenen Kontakts.
+ * @param {number} i - Der Index des Kontakts in contactsArray.
+ * @returns {string} Das HTML-Template für die Bearbeitung eines Kontakts.
+ */
 function editContactTemp(i) {
   return /*html*/ `
     <div id="contactEmblem">
@@ -130,6 +156,11 @@ function editContactTemp(i) {
 `;
 }
 
+/**
+ * Generiert das HTML für das Löschen eines Kontakts.
+ * @param {number} i - Der Index des Kontakts in contactsArray.
+ * @returns {string} Das HTML-Template für die Lösch-Bestätigung eines Kontakts.
+ */
 function deleteContactTemp(i) {
   return /*html*/ `<div class="deleteDialog"><div>Do you really want to delete the contact?</div>
     <div class="deleteBtn"><button class="dialogBtnWhite notOnMobile" onclick="closeAddContact()">cancel<img class="cancel" src="../assets/icons/png/iconoir_cancel.png"></button><button class="dialogBtn" onclick="deleteContactDatabase(${i})">delete Contact</button></div></div>
@@ -138,6 +169,12 @@ function deleteContactTemp(i) {
 
 // addTask.js Templates
 
+/**
+ * Generiert das HTML für eine einzelne Subtask.
+ * @param {string} subtaskId - Die ID der Subtask.
+ * @param {string} title - Der Titel der Subtask.
+ * @returns {string} Das HTML-Template für die Subtask.
+ */
 function generateSubtaskHTML(subtaskId, title) {
   return /*html*/ `
         <div class="subtask-item" id="${subtaskId}">
@@ -148,6 +185,14 @@ function generateSubtaskHTML(subtaskId, title) {
     `;
 }
 
+/**
+ * Generiert das HTML für ein einzelnes Kontakt-Element.
+ * @param {string} contactId - Die ID des Kontakts.
+ * @param {string} initials - Die Initialen des Kontakts.
+ * @param {string} name - Der Name des Kontakts.
+ * @param {string} color - Die Hintergrundfarbe des Kontakt-Emblems.
+ * @returns {string} Das HTML-Template für das Kontakt-Element.
+ */
 function createContactItem(contactId, initials, name, color) {
   return /*html*/ `
         <div class="workerInformation">

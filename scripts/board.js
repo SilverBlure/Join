@@ -24,9 +24,9 @@ function openAddTaskPopup(listId) {
     const popup = document.getElementById('addTaskPopupOverlay');
     const form = document.getElementById("addTaskFormTask");
     if (!popup || !form) return;
-    window.localContacts = {}; 
-    window.localEditedSubtasks = {}; 
-    tempPriority = null; 
+    window.localContacts = {};
+    window.localEditedSubtasks = {};
+    tempPriority = null;
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (selectedContactsList) selectedContactsList.innerHTML = "";
     const dropdownLabel = document.getElementById("dropdownLabel");
@@ -40,7 +40,7 @@ function openAddTaskPopup(listId) {
         addTaskToSpecificList(listId, event);
     };
     popup.classList.remove('hidden');
-document.body.classList.add('no-scroll'); // Scroll deaktivieren
+    document.body.classList.add('no-scroll'); // Scroll deaktivieren
 
 }
 
@@ -107,7 +107,7 @@ function closeAddTaskPopup() {
     const mainContent = document.getElementById('mainContent');
     if (popup) {
         popup.classList.add('hidden');
-        document.body.classList.remove('no-scroll'); 
+        document.body.classList.remove('no-scroll');
         refreshUIAfterPopupClose();
         renderBoard();
     }
@@ -153,32 +153,32 @@ function validateTaskInputs() {
     const categoryWarning = document.getElementById("categoryWarning");
     resetWarnings([titleWarning, dateWarning, categoryWarning]);
     if (!title) {
-      titleWarning.classList.add("showalert");
-      isValid = false;
+        titleWarning.classList.add("showalert");
+        isValid = false;
     }
     if (!dueDate) {
-      dateWarning.classList.add("showalert");
-      isValid = false;
+        dateWarning.classList.add("showalert");
+        isValid = false;
     }
     if (!categoryName) {
-      categoryWarning.classList.add("showalert");
-      isValid = false;
+        categoryWarning.classList.add("showalert");
+        isValid = false;
     }
     return isValid;
-  }
-  
+}
+
 /**
    * Setzt die Warnungen zurück.
    * @param {Array} warningElements - Eine Liste der Warnungselemente.
    */
 function resetWarnings(warningElements) {
     warningElements.forEach((warning) => {
-      if (warning) {
-        warning.classList.remove("showalert");
-      }
+        if (warning) {
+            warning.classList.remove("showalert");
+        }
     });
 }
-  
+
 /**
  * Setzt den lokalen Zustand für Subtasks, Kontakte und Priorität zurück.
  */
@@ -272,18 +272,18 @@ function addTaskToAwaitFeedback() {
  * @param {string} nachname - Der Nachname der Person.
  * @returns {string} - Ein Hexadezimal-Farbcode im Format `#RRGGBB`.
  */
-function getColorHex(vorname, nachname){
-    let completeName = (vorname+nachname).toLowerCase();
+function getColorHex(vorname, nachname) {
+    let completeName = (vorname + nachname).toLowerCase();
     let hash = 0;
-  
-    for( let i = 0; i< completeName.length; i++){
+
+    for (let i = 0; i < completeName.length; i++) {
         hash += completeName.charCodeAt(i);
     }
-  
+
     let r = (hash * 123) % 256;
     let g = (hash * 456) % 256;
     let b = (hash * 789) % 256;
-  
+
     let hexColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
     return hexColor;
 }
@@ -446,18 +446,18 @@ async function updateSingleTaskElement(listId, taskId, updatedTask) {
  */
 async function refreshUIAfterPopupClose() {
     try {
-        await getTasks(); 
+        await getTasks();
         refreshLists();
         const form = document.getElementById("addTaskFormTask");
         if (form) form.reset();
-        window.localContacts = {}; 
+        window.localContacts = {};
         const selectedContactsList = document.getElementById("selectedContactsList");
         if (selectedContactsList) {
-            selectedContactsList.innerHTML = ""; 
+            selectedContactsList.innerHTML = "";
         }
         const prioButtons = document.querySelectorAll(".priorityBtn.active");
-        prioButtons.forEach(button => button.classList.remove("active")); 
-        tempPriority = null; 
+        prioButtons.forEach(button => button.classList.remove("active"));
+        tempPriority = null;
         renderBoard();
     } catch (error) {
         console.error("Fehler beim Aktualisieren der Daten aus der Datenbank:", error);
@@ -499,12 +499,12 @@ document.addEventListener("DOMContentLoaded", () => {
         form.addEventListener("reset", () => {
             refreshLists(); // Setze Subtasks und Kontakte zurück
         });
-    } 
+    }
 });
 
 /**
  * Schließt das Dropdown-Menü für die Kontaktauswahl.
  */
-function closeSelection(){
+function closeSelection() {
     document.getElementById('contactsDropdownList').classList.add('closed');
 }

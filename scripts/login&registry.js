@@ -1,14 +1,11 @@
-
 let loginArray = [];
 let sessionId;
-
 
 /**initialize moor funktions */
 async function initLog() {
     loadLoginData();
 
 }
-
 
 /**Loading Login Data in a Array vor check with actual input to get access */
 async function loadLoginData() {
@@ -64,7 +61,6 @@ function login(loginType) {
     deleteGuestContacts();
 }
 
-
 /**this function makes the login to ur account 
  * @param {string} email
  * @param {string} pw  
@@ -112,7 +108,6 @@ function passwordCheck(pw1, pw2) {
     }
 }
 
-
 /**change Remembermy icon to checked
  */
 function changeToChecked() {
@@ -156,25 +151,36 @@ function checkInput() {
 function check(emailFromInput, pwFromInput) {
     let isChecked = loginArray.find((element) => element.email == emailFromInput && element.password == pwFromInput);
     return isChecked;
-}                                                                                                                                                                  
+}
 
-function checkName(){
+/**
+ * Überprüft den Namen im Eingabefeld und zeigt eine Warnung an, wenn der Name kein Leerzeichen enthält.
+ * - Entfernt die Warnung, wenn der Name gültig ist.
+ * - Setzt die Warnung zurück, wenn das Feld leer ist.
+ */
+function checkName() {
     let name = document.getElementById('name').value;
-    if(!name.includes(' ')){
+    if (!name.includes(' ')) {
         document.getElementById('nameWarning').classList.remove('hidden-text');
         document.getElementById('nameWarning').classList.add('visible-text');
-    }else{
+    } else {
         document.getElementById('nameWarning').classList.remove('visible-text');
         document.getElementById('nameWarning').classList.add('hidden-text');
     }
-    setTimeout(()=>{
-        if(name === ''){
+    setTimeout(() => {
+        if (name === '') {
             document.getElementById('nameWarning').classList.remove('visible-text');
-        document.getElementById('nameWarning').classList.add('hidden-text');
+            document.getElementById('nameWarning').classList.add('hidden-text');
         }
-    },500);
+    }, 500);
 }
 
+/**
+ * Initialisiert Event-Listener für den "Sign Up"-Button und die zugehörige Warnung.
+ * - Zeigt die Warnung an, wenn der Button deaktiviert ist und der Mauszeiger darüber schwebt.
+ * - Versteckt die Warnung bei Verlassen des Buttons.
+ * - Versteckt die Warnung beim Klick, wenn der Button aktiviert ist.
+ */
 document.addEventListener("DOMContentLoaded", () => {
     const signUpBtn = document.getElementById("signUpBtn");
     const pPWarning = document.getElementById("pPWarning");

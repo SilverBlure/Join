@@ -181,7 +181,7 @@ function saveEditedSubtask(subtaskId) {
     if (!newTitle) {
     }
     const oldTitle = subtask.title;
-    subtask.title = newTitle || oldTitle; 
+    subtask.title = newTitle || oldTitle;
     const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
     if (subtaskElement) {
         subtaskElement.innerHTML = `
@@ -222,8 +222,8 @@ function initializeLocalTaskState(task) {
         }))
         : [];
 
-    window.localEditedSubtasks = task.subtasks && typeof task.subtasks === "object" 
-        ? { ...task.subtasks } 
+    window.localEditedSubtasks = task.subtasks && typeof task.subtasks === "object"
+        ? { ...task.subtasks }
         : {};
 
 }
@@ -297,13 +297,13 @@ function saveSubtaskEdit(subtaskId) {
         return;
     }
     const newTitle = inputElement.value;
-       if (!newTitle || newTitle.trim() === "") {
+    if (!newTitle || newTitle.trim() === "") {
         return;
     }
     const trimmedTitle = newTitle.trim();
     if (window.localSubtasks && window.localSubtasks[subtaskId]) {
         window.localSubtasks[subtaskId].title = trimmedTitle;
-      
+
     } else {
         return;
     }

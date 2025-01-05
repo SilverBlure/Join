@@ -42,11 +42,11 @@ function renderTask(container, taskId, task, listId) {
  */
 function renderTaskWorkers(workers) {
     if (!workers || workers.length === 0) return "";
-    const maxWorkersToShow = 5; 
+    const maxWorkersToShow = 5;
     const workersToShow = workers
-        .filter(worker => worker && worker.name) 
-        .slice(0, maxWorkersToShow); 
-    const additionalCount = workers.length - workersToShow.length; 
+        .filter(worker => worker && worker.name)
+        .slice(0, maxWorkersToShow);
+    const additionalCount = workers.length - workersToShow.length;
     const workersHTML = workersToShow
         .map(worker => {
             const [vorname, nachname] = worker.name.split(" ");
@@ -58,8 +58,8 @@ function renderTaskWorkers(workers) {
             `;
         })
         .join("");
-    const additionalHTML = additionalCount > 0 
-        ? `<p class="additionalWorkers">+${additionalCount}</p>` 
+    const additionalHTML = additionalCount > 0
+        ? `<p class="additionalWorkers">+${additionalCount}</p>`
         : "";
     return workersHTML + additionalHTML;
 }
@@ -71,19 +71,19 @@ function renderTaskWorkers(workers) {
  */
 async function openTaskPopup(taskId, listId) {
     if (!listId || !taskId) return; // Sicherheitsprüfung
-    
+
     const task = await fetchTaskData(taskId, listId); // Daten abrufen
     if (!task) return; // Abbrechen, wenn keine Daten gefunden
-    
+
     const popupOverlay = document.getElementById("viewTaskPopupOverlay");
     const popupContainer = document.getElementById("viewTaskContainer");
     if (!popupOverlay || !popupContainer) return; // Sicherheitsprüfung
-    
+
     const subtasksHTML = generateSubtasksHTML(task, taskId, listId); // Subtasks generieren
     const workersHTML = generateWorkersHTML(task.workers || []); // Workers generieren
-    
+
     showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workersHTML, listId, taskId); // Popup anzeigen
-    
+
     // Scroll deaktivieren
     document.body.classList.add('no-scroll'); // CSS-Klasse hinzufügen
 }
@@ -124,7 +124,7 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
     document.getElementById("mainContent").classList.add("blur");
     const headerHTML = generatePopupHeaderHTML(task);
     const detailsHTML = generatePopupDetailsHTML(task);
-    const workerContainerHTML = generateWorkersHTML(task.workers || [], true); 
+    const workerContainerHTML = generateWorkersHTML(task.workers || [], true);
     const subtasksContainerHTML = generateSubtasksContainerHTML(subtasksHTML);
     const actionsHTML = generatePopupActionsHTML(listId, taskId);
     popupContainer.innerHTML = `
@@ -142,17 +142,28 @@ function showTaskPopup(popupOverlay, popupContainer, task, subtasksHTML, workers
  * @param {string} taskId - Die ID der Aufgabe.
  */
 async function editTask(listId, taskId) {
-    if (!listId || !taskId) return; 
+    if (!listId || !taskId) return;
     try {
-        const task = await fetchTaskForEditing(listId, taskId); 
+        const task = await fetchTaskForEditing(listId, taskId);
         if (!task) return;
-        initializeLocalTaskState(task); 
-        renderEditTaskPopup(listId, taskId, task); 
+        initializeLocalTaskState(task);
+        renderEditTaskPopup(listId, taskId, task);
     } catch (error) {
         console.error("Fehler beim Bearbeiten des Tasks:", error);
     }
 }
 
+/**
+ * Rendert das Bearbeiten-Popup für eine spezifische Aufgabe.
+ *
+ * - Füllt das Popup mit den aktuellen Aufgabendetails.
+ * - Initialisiert den lokalen Zustand für Subtasks und Kontakte.
+ * - Zeigt das Popup an und fügt Effekte hinzu (z. B. Unschärfe des Hauptinhalts).
+ *
+ * @param {string} listId - Die ID der Liste, zu der die Aufgabe gehört.
+ * @param {string} taskId - Die ID der zu bearbeitenden Aufgabe.
+ * @param {Object} task - Die Aufgabendaten, die zur Bearbeitung vorbefüllt werden.
+ */
 function renderEditTaskPopup(listId, taskId, task) {
     const editTaskPopupOverlay = document.getElementById("editTaskPopupOverlay");
     const editTaskPopupContainer = document.getElementById("editTaskPopupContainer");
@@ -181,14 +192,14 @@ function renderSelectedContacts() {
     if (!selectedContactsList) {
         return;
     }
-    selectedContactsList.innerHTML = ""; 
+    selectedContactsList.innerHTML = "";
     if (!window.localContacts || typeof window.localContacts !== "object") {
         return;
     }
-    const contacts = Object.values(window.localContacts); 
-    const maxContactsToShow = 5; 
-    const visibleContacts = contacts.slice(0, maxContactsToShow); 
-    const additionalCount = contacts.length - visibleContacts.length; 
+    const contacts = Object.values(window.localContacts);
+    const maxContactsToShow = 5;
+    const visibleContacts = contacts.slice(0, maxContactsToShow);
+    const additionalCount = contacts.length - visibleContacts.length;
     visibleContacts.forEach(contact => {
         const div = document.createElement("div");
         div.id = `selected_${contact.id}`;
@@ -246,6 +257,9 @@ async function updateTask(listId, taskId, task) {
     return response.ok;
 }
 
+/**
+ * Aktiviert den Datums-Picker für das Feld mit der ID "date" bei einem Klick.
+ */
 document.addEventListener("DOMContentLoaded", () => {
     const dateInput = document.getElementById("date");
     if (!dateInput) {
@@ -254,25 +268,33 @@ document.addEventListener("DOMContentLoaded", () => {
     dateInput.addEventListener("click", () => {
         dateInput.showPicker();
     });
-  });
-  
-  document.addEventListener("DOMContentLoaded", () => {
+});
+
+/**
+ * Setzt das Mindestdatum für das Feld mit der ID "date" auf das heutige Datum.
+ */
+document.addEventListener("DOMContentLoaded", () => {
     const dateInput = document.getElementById("date");
     if (dateInput) {
-        const today = new Date().toISOString().split('T')[0]; 
-        dateInput.setAttribute("min", today); 
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute("min", today);
     }
-  });
+});
 
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const today = new Date().toISOString().split('T')[0]; 
+/**
+ * Setzt das Mindestdatum für das Feld mit der ID "dueDate" auf das heutige Datum.
+ * Aktiviert den Datums-Picker für "dueDate" bei einem Klick.
+ * Beobachtet Änderungen im DOM, um sicherzustellen, dass das Mindestdatum
+ * auch für dynamisch hinzugefügte Elemente gesetzt wird.
+ */
+document.addEventListener("DOMContentLoaded", () => {
+    const today = new Date().toISOString().split('T')[0];
     function setDueDateMin() {
         const dueDateInput = document.getElementById("dueDate");
         if (dueDateInput) {
-            dueDateInput.setAttribute("min", today); 
+            dueDateInput.setAttribute("min", today);
             dueDateInput.addEventListener("click", () => {
-                dueDateInput.showPicker(); 
+                dueDateInput.showPicker();
             });
         }
     }
@@ -281,5 +303,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     observer.observe(document.body, { childList: true, subtree: true });
 });
-
-

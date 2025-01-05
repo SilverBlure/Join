@@ -1,15 +1,15 @@
-const LONG_PRESS_THRESHOLD = 200; 
-const THRESHOLD_DISTANCE = 10;    
+const LONG_PRESS_THRESHOLD = 200;
+const THRESHOLD_DISTANCE = 10;
 let currentDraggedElement = null;
 let touchStartTimestamp = null;
 let touchStartX = null;
 let touchStartY = null;
-let isDragging = false; 
-let touchMoved = false; 
+let isDragging = false;
+let touchMoved = false;
 let isAutoScrolling = false;
 let scrollDirection = 0;
-const SCROLL_EDGE_OFFSET = 100; 
-const SCROLL_SPEED = 500;        
+const SCROLL_EDGE_OFFSET = 100;
+const SCROLL_SPEED = 500;
 
 /**
  * Startet das Dragging einer Board Card auf einem Touch-Gerät.

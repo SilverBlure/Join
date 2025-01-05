@@ -126,7 +126,6 @@ function transformWorkers(workers) {
   });
 }
 
-
 /**
  * Fügt eine neue Aufgabe zur "To Do"-Liste hinzu.
  * @async
@@ -142,7 +141,7 @@ async function addTaskToToDoList(event) {
     if (result) {
       showSnackbar("Der Task wurde erfolgreich erstellt!");
       document.getElementById("prioMiddle").classList.add("active");
-      location.href="./board.html";
+      location.href = "./board.html";
     }
   } catch (error) {
     console.error("Fehler beim Hinzufügen des Tasks:", error);
@@ -164,15 +163,15 @@ function validateTaskInputs() {
   const categoryWarning = document.getElementById("categoryWarning");
   resetWarnings([titleWarning, dateWarning, categoryWarning]);
   if (!title) {
-    titleWarning.classList.replace("hidden-text","visible-text");
+    titleWarning.classList.replace("hidden-text", "visible-text");
     isValid = false;
   }
   if (!dueDate) {
-    dateWarning.classList.replace("hidden-text","visible-text");
+    dateWarning.classList.replace("hidden-text", "visible-text");
     isValid = false;
   }
   if (!categoryName) {
-    categoryWarning.classList.replace("hidden-text","visible-text");
+    categoryWarning.classList.replace("hidden-text", "visible-text");
     isValid = false;
   }
 
@@ -191,7 +190,13 @@ function resetWarnings(warningElements) {
   });
 }
 
-
+/**
+ * Initialisiert die Logik für das Kategorie-Dropdown-Menü.
+ * 
+ * - Öffnet und schließt das Dropdown-Menü bei einem Klick auf das ausgewählte Element.
+ * - Setzt den ausgewählten Wert und aktualisiert das verborgene Eingabefeld.
+ * - Schließt das Dropdown, wenn außerhalb geklickt wird.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const categoryDropdown = document.getElementById("categoryDropdown");
   const selectedCategory = document.getElementById("selectedCategory");
@@ -234,16 +239,16 @@ function buildNewTask() {
   const description = document.getElementById("description").value.trim();
   const dueDate = document.getElementById("date").value.trim();
   const categoryName = document.getElementById("category").value.trim();
-    const priority = tempPriority || "Middle";
-    return {
-        title,
-        description,
-        dueDate,
-        priority,
-        category: buildCategory(categoryName),
-        workers: getWorkers(),
-        subtasks: collectSubtasksFromDOM(),
-    };
+  const priority = tempPriority || "Middle";
+  return {
+    title,
+    description,
+    dueDate,
+    priority,
+    category: buildCategory(categoryName),
+    workers: getWorkers(),
+    subtasks: collectSubtasksFromDOM(),
+  };
 }
 
 /**
@@ -265,13 +270,12 @@ function buildCategory(categoryName) {
 function getWorkers() {
   return window.localContacts
     ? Object.values(window.localContacts).map((contact) => ({
-        name: contact.name,
-        id: contact.id,
-        color: contact.color,
-      }))
+      name: contact.name,
+      id: contact.id,
+      color: contact.color,
+    }))
     : [];
 }
-
 
 /**
  * Speichert eine neue Task in der Datenbank.
@@ -319,6 +323,13 @@ function clearLocalSubtasks() {
   if (subTasksList) subTasksList.innerHTML = "";
 }
 
+/**
+ * Setzt das Kategorie-Dropdown auf den Standardzustand zurück.
+ * 
+ * - Zeigt den Standardtext "Select Task Category" im Dropdown an.
+ * - Leert das verborgene Eingabefeld, das den ausgewählten Kategorie-Wert speichert.
+ * - Gibt Fehler aus, falls erforderliche Elemente nicht gefunden werden.
+ */
 function resetCategoryDropdown() {
   const selectedCategory = document.getElementById("selectedCategory");
   const categoryInput = document.getElementById("category");
@@ -333,14 +344,13 @@ function resetCategoryDropdown() {
     return;
   }
 
-// Setze Standardtext und leere den versteckten Input-Wert
-selectedCategory.innerHTML = `
+  // Setze Standardtext und leere den versteckten Input-Wert
+  selectedCategory.innerHTML = `
   Select Task Category
   <img src="./../assets/icons/png/arrow_dropdown.png" alt="Dropdown Arrow">
 `;
-  categoryInput.value = ""; 
+  categoryInput.value = "";
 }
-
 
 /**
  * Fügt eine neue Task in die "To Do"-Liste hinzu.
@@ -462,6 +472,10 @@ let dropdownOpen = false;
 
 let selectedContacts = [];
 
+/**
+ * Steuert den Status des Kontakt-Dropdowns (offen/geschlossen).
+ * Öffnet das Dropdown, wenn es geschlossen ist, und schließt es andernfalls.
+ */
 function toggleContactsDropdown() {
   const dropdownList = document.getElementById("contactsDropdownList");
   dropdownOpen = !dropdownOpen;
@@ -473,6 +487,10 @@ function toggleContactsDropdown() {
   }
 }
 
+/**
+ * Rendert die Kontakt-Dropdown-Liste.
+ * Falls keine Kontakte verfügbar sind, zeigt sie eine entsprechende Nachricht an.
+ */
 function renderContactsDropdown() {
   const dropdownList = document.getElementById("contactsDropdownList");
   dropdownList.innerHTML = "";
@@ -488,8 +506,12 @@ function renderContactsDropdown() {
   });
 }
 
-
-
+/**
+ * Erstellt ein Dropdown-Item für einen Kontakt.
+ *
+ * @param {Object} contact - Der Kontakt, für den das Dropdown-Item erstellt wird.
+ * @returns {HTMLElement} Das erstellte Listenelement.
+ */
 function createContactDropdownItem(contact) {
   const li = document.createElement("li");
   li.classList.add("dropdown-item");
@@ -525,9 +547,12 @@ function createContactDropdownItem(contact) {
   return li;
 }
 
-
-
-
+/**
+ * Erstellt das Status-Icon für einen Kontakt.
+ *
+ * @param {Object} contact - Der Kontakt, dessen Status-Icon erstellt wird.
+ * @returns {HTMLElement} Das erstellte Bild-Element.
+ */
 function createContactStatusIcon(contact) {
   const img = document.createElement("img");
   img.classList.add("status-icon");
@@ -539,30 +564,37 @@ function createContactStatusIcon(contact) {
   return img;
 }
 
-
-
-
+/**
+ * Überprüft, ob ein bestimmter Kontakt ausgewählt ist.
+ *
+ * @param {string} contactName - Der Name des Kontakts.
+ * @returns {boolean} Gibt `true` zurück, wenn der Kontakt ausgewählt ist, andernfalls `false`.
+ */
 function isContactSelected(contactName) {
   return selectedContacts.some((contact) => contact.name === contactName);
 }
 
-
-
+/**
+ * Handhabt die Auswahl oder das Entfernen eines Kontakts.
+ *
+ * @param {Object} contact - Der Kontakt, der ausgewählt oder entfernt wird.
+ * @param {boolean} isChecked - Gibt an, ob der Kontakt ausgewählt ist.
+ */
 function handleContactSelection(contact, isChecked) {
   if (!window.localContacts) {
-      window.localContacts = {}; // Initialisierung
+    window.localContacts = {}; // Initialisierung
   }
 
   const selectedContactsList = document.getElementById("selectedContactsList");
   if (!selectedContactsList) return;
 
   if (isChecked) {
-      if (!isContactSelected(contact.name)) {
-          selectedContacts.push(contact);
-          window.localContacts[contact.id] = contact; // Synchronisierung
-      }
+    if (!isContactSelected(contact.name)) {
+      selectedContacts.push(contact);
+      window.localContacts[contact.id] = contact; // Synchronisierung
+    }
   } else {
-      removeContact(contact);
+    removeContact(contact);
   }
 
   // Beschränke die Anzeige auf 5 Kontakte
@@ -584,32 +616,28 @@ function renderSelectedContacts() {
   const additionalCount = selectedContacts.length - visibleContacts.length; // Anzahl zusätzlicher Kontakte
 
   visibleContacts.forEach(contact => {
-      const [vorname, nachname] = contact.name.split(" ");
-      const div = document.createElement("div");
-      div.id = `selected_${contact.id}`;
-      div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
-      const workerEmblem = document.createElement("p");
-      workerEmblem.classList.add("workerEmblem");
-      workerEmblem.style.backgroundColor = getColorHex(
-          vorname?.toLowerCase() || "",
-          nachname?.toLowerCase() || ""
-      ); // Farbe setzen basierend auf Vor- und Nachnamen
-      workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
-      div.appendChild(workerEmblem);
-      selectedContactsList.appendChild(div);
+    const [vorname, nachname] = contact.name.split(" ");
+    const div = document.createElement("div");
+    div.id = `selected_${contact.id}`;
+    div.classList.add("selected-contact"); // Optional: CSS-Klasse für Styling
+    const workerEmblem = document.createElement("p");
+    workerEmblem.classList.add("workerEmblem");
+    workerEmblem.style.backgroundColor = getColorHex(
+      vorname?.toLowerCase() || "",
+      nachname?.toLowerCase() || ""
+    ); // Farbe setzen basierend auf Vor- und Nachnamen
+    workerEmblem.textContent = getInitials(contact.name); // Initialen hinzufügen
+    div.appendChild(workerEmblem);
+    selectedContactsList.appendChild(div);
   });
 
   if (additionalCount > 0) {
-      const additionalDiv = document.createElement("div");
-      additionalDiv.classList.add("additional-contacts");
-      additionalDiv.textContent = `+${additionalCount}`;
-      selectedContactsList.appendChild(additionalDiv);
+    const additionalDiv = document.createElement("div");
+    additionalDiv.classList.add("additional-contacts");
+    additionalDiv.textContent = `+${additionalCount}`;
+    selectedContactsList.appendChild(additionalDiv);
   }
 }
-
-
-
-
 
 /**
  * Generiert eine RGB-Farbe basierend auf den Buchstaben des Namens.
@@ -621,15 +649,13 @@ function getColorRGB(vorname, nachname) {
   const completeName = (vorname + nachname).toLowerCase();
   let hash = 0;
   for (let i = 0; i < completeName.length; i++) {
-      hash += completeName.charCodeAt(i);
+    hash += completeName.charCodeAt(i);
   }
   const r = (hash * 123) % 256;
   const g = (hash * 456) % 256;
   const b = (hash * 789) % 256;
   return `rgb(${r}, ${g}, ${b})`;
 }
-
-
 
 /**
 * Generiert die Initialen eines Namens.
@@ -638,17 +664,19 @@ function getColorRGB(vorname, nachname) {
 */
 function getInitials(fullName) {
   if (!fullName || typeof fullName !== "string") {
-      console.warn("Ungültiger Name für Initialen:", fullName);
-      return ""; 
+    console.warn("Ungültiger Name für Initialen:", fullName);
+    return "";
   }
   const [vorname, nachname] = fullName.trim().split(" ");
   const initialen = `${vorname?.charAt(0)?.toUpperCase() || ""}${nachname?.charAt(0)?.toUpperCase() || ""}`;
   return initialen;
 }
 
-
-
-
+/**
+ * Entfernt einen Kontakt aus der Liste der ausgewählten Kontakte.
+ *
+ * @param {Object} contact - Der Kontakt, der entfernt werden soll.
+ */
 function removeContact(contact) {
   selectedContacts = selectedContacts.filter(
     (selected) => selected.id !== contact.id
@@ -661,10 +689,9 @@ function removeContact(contact) {
   updateDropdownLabel();
 }
 
-
-
-
-
+/**
+ * Aktualisiert das Label des Kontakt-Dropdowns, um die Anzahl der ausgewählten Kontakte anzuzeigen.
+ */
 function updateDropdownLabel() {
   const dropdownLabel = document.getElementById("dropdownLabel");
   if (selectedContacts.length === 0) {
@@ -673,6 +700,12 @@ function updateDropdownLabel() {
     dropdownLabel.textContent = `${selectedContacts.length} contact(s) selected`;
   }
 }
+
+/**
+ * Schließt das Kontakt-Dropdown, wenn außerhalb des Dropdowns oder der Kontaktleiste geklickt wird.
+ *
+ * @param {MouseEvent} event - Das Klick-Event.
+ */
 document.addEventListener("click", function (event) {
   const dropdownList = document.getElementById("contactsDropdownList");
   const createContactBar = document.querySelector(".createContactBar");
@@ -686,24 +719,14 @@ document.addEventListener("click", function (event) {
   }
 });
 
-
-document.addEventListener("click", function (event) {
-  const dropdownList = document.getElementById("contactsDropdownList");
-  const createContactBar = document.querySelector(".createContactBar");
-  if (
-    dropdownOpen &&
-    !dropdownList.contains(event.target) &&
-    !createContactBar.contains(event.target)
-  ) {
-    dropdownList.classList.remove("open");
-    dropdownOpen = false;
-  }
-});
-
+/**
+ * Setzt das Mindestdatum für ein Datumsfeld und verhindert die Auswahl vergangener Daten.
+ * Zeigt eine Warnung, wenn ein vergangenes Datum ausgewählt wird.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const today = new Date().toISOString().split('T')[0];
   const dateInput = document.getElementById('date');
-  
+
 
   if (dateInput) {
     dateInput.setAttribute('min', today);
@@ -716,11 +739,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   } else {
-   
+
   }
 });
-
-
 
 /**
  * Fügt eine neue Subtask hinzu.
@@ -730,7 +751,7 @@ function addNewSubtask() {
   const subTasksList = document.getElementById("subTasksList");
   const subtaskTitle = subTaskInput.value.trim();
   if (!subtaskTitle) {
-      return;
+    return;
   }
   const subtaskId = `subtask_${Date.now()}`;
   const subtaskItem = { title: subtaskTitle, done: false };
@@ -741,7 +762,6 @@ function addNewSubtask() {
   subTaskInput.value = "";
   toggleSubtaskButtons();
 }
-
 
 /**
  * Behandelt den Enter-Key-Ereignis für das Subtask-Eingabefeld.
@@ -754,7 +774,12 @@ function handleSubtaskKey(event) {
   }
 }
 
-
+/**
+ * Steuert die Sichtbarkeit von Buttons und Elementen im Subtask-Bereich basierend auf dem Eingabewert.
+ *
+ * - Zeigt die Buttons "Speichern" und "Löschen" sowie den Trennstrich, wenn das Eingabefeld nicht leer ist.
+ * - Blendet die Buttons und den Trennstrich aus und zeigt das Subtask-Symbol an, wenn das Eingabefeld leer ist.
+ */
 function toggleSubtaskButtons() {
   const input = document.getElementById("subTaskInputAddTask");
   const saveBtn = document.getElementById("saveSubtaskBtn");
@@ -774,7 +799,6 @@ function toggleSubtaskButtons() {
   }
 }
 
-
 /**
  * Generiert die Initialen eines vollständigen Namens.
  * @param {string} fullName - Der vollständige Name.
@@ -782,11 +806,9 @@ function toggleSubtaskButtons() {
  */
 function getInitials(fullName) {
   const nameParts = fullName.trim().split(" ");
-  return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${
-    nameParts[1]?.charAt(0).toUpperCase() || ""
-  }`;
+  return `${nameParts[0]?.charAt(0).toUpperCase() || ""}${nameParts[1]?.charAt(0).toUpperCase() || ""
+    }`;
 }
-
 
 /**
  * Setzt das Formular zurück und leert die definierten Listen.
@@ -799,7 +821,7 @@ function resetFormAndLists() {
     document.getElementById("prioMiddle").classList.add("active");
     resetCategoryDropdown(); // Kategorie zurücksetzen
   }
-  
+
   const listsToClear = ["subTasksList", "selectedContactsList"];
   listsToClear.forEach((listId) => {
     const list = document.getElementById(listId);
@@ -814,86 +836,100 @@ function resetFormAndLists() {
   updateDropdownLabel();
 }
 
-
-
 /**
  * Entfernt einen Subtask aus den lokalen Daten und dem DOM.
  * @param {string} subtaskId - Die ID des zu entfernenden Subtasks.
  */
 function deleteSubtaskFromLocal(subtaskId) {
-    if (!subtaskId) return;
-    if (window.localEditedSubtasks && window.localEditedSubtasks[subtaskId]) {
-        delete window.localEditedSubtasks[subtaskId];
-    }
-    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
-    if (subtaskElement) {
-        subtaskElement.remove();
-    }
+  if (!subtaskId) return;
+  if (window.localEditedSubtasks && window.localEditedSubtasks[subtaskId]) {
+    delete window.localEditedSubtasks[subtaskId];
+  }
+  const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+  if (subtaskElement) {
+    subtaskElement.remove();
+  }
 }
 
+/**
+ * Sammelt alle Subtasks aus dem DOM und gibt sie als Objekt zurück.
+ *
+ * @returns {Object} Ein Objekt, das die Subtasks mit ihren IDs, Titeln und Status enthält.
+ */
 function collectSubtasksFromDOM() {
   const subTasksList = document.getElementById("subTasksList");
   if (!subTasksList) {
-      return {};
+    return {};
   }
   const subtasks = {};
   const subtaskItems = subTasksList.querySelectorAll(".subtask-item");
   subtaskItems.forEach((item) => {
-      const subtaskId = item.id.replace("subtask-", "");
-      const title = item.querySelector(".subtaskText")?.textContent.trim() || "";
-      const done = item.querySelector(".subtask-checkbox")?.checked || false;
-      if (title) {
-          subtasks[subtaskId] = { title, done };
-      }
+    const subtaskId = item.id.replace("subtask-", "");
+    const title = item.querySelector(".subtaskText")?.textContent.trim() || "";
+    const done = item.querySelector(".subtask-checkbox")?.checked || false;
+    if (title) {
+      subtasks[subtaskId] = { title, done };
+    }
   });
   return subtasks;
 }
 
-
-
+/**
+ * Handhabt Tastenereignisse bei der Bearbeitung eines Subtasks.
+ * Speichert den Subtask bei "Enter" und bricht die Bearbeitung bei "Escape" ab.
+ *
+ * @param {KeyboardEvent} event - Das Tastenereignis.
+ */
 function handleSubtaskEditKey(event) {
   const subtaskId = event.target.id.replace("edit-input-", "");
   if (event.key === "Enter") {
-      event.preventDefault();
-      saveEditedSubtask(subtaskId);
+    event.preventDefault();
+    saveEditedSubtask(subtaskId);
   } else if (event.key === "Escape") {
-      event.preventDefault();
-      cancelSubtaskEdit(subtaskId);
+    event.preventDefault();
+    cancelSubtaskEdit(subtaskId);
   }
 }
 
-
-
-
+/**
+ * Speichert die bearbeitete Subtask und aktualisiert das DOM.
+ *
+ * @param {string} subtaskId - Die ID des zu speichernden Subtasks.
+ */
 function saveEditedSubtask(subtaskId) {
   const subtaskInput = document.getElementById(`edit-input-${subtaskId}`);
   if (!subtaskInput) {
-      return;
+    return;
   }
   const newTitle = subtaskInput.value.trim();
   if (!newTitle) {
-      return;
+    return;
   }
   if (window.localSubtasks && window.localSubtasks[subtaskId]) {
-      window.localSubtasks[subtaskId].title = newTitle;
+    window.localSubtasks[subtaskId].title = newTitle;
   }
   const newSubtaskHTML = generateNewSubtaskHTML(subtaskId, newTitle);
   const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
   if (subtaskElement) {
-      subtaskElement.outerHTML = newSubtaskHTML;
+    subtaskElement.outerHTML = newSubtaskHTML;
   }
 }
 
-
-
+/**
+ * Löscht den Wert im Subtask-Eingabefeld.
+ */
 function clearSubtaskInput() {
   const input = document.getElementById("subTaskInputAddTask");
   if (input) {
-      input.value = "";
+    input.value = "";
   }
 }
 
-
+/**
+ * Aktiviert den Bearbeitungsmodus für einen Subtask.
+ *
+ * @param {string} subtaskId - Die ID des zu bearbeitenden Subtasks.
+ */
 async function editSubtask(subtaskId) {
   const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
   if (!subtaskElement) return;
@@ -905,34 +941,43 @@ async function editSubtask(subtaskId) {
   subtaskElement.innerHTML = editSubtaskHTML;
 }
 
-
-
+/**
+ * Speichert die Bearbeitung eines Subtasks, wenn das Eingabefeld den Fokus verliert.
+ *
+ * @param {FocusEvent} event - Das Fokusereignis.
+ */
 function handleSubtaskBlur(event) {
   const subtaskId = event.target.id.replace("edit-input-", "");
   setTimeout(() => {
-      const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
-      if (!subtaskElement) {
-          console.warn(`Subtask mit ID ${subtaskId} existiert nicht mehr im DOM.`);
-          return;
-      }
-      saveEditedSubtask(subtaskId);
+    const subtaskElement = document.getElementById(`subtask-${subtaskId}`);
+    if (!subtaskElement) {
+      console.warn(`Subtask mit ID ${subtaskId} existiert nicht mehr im DOM.`);
+      return;
+    }
+    saveEditedSubtask(subtaskId);
   }, 0);
 }
 
+/**
+ * Öffnet den Datums-Picker bei einem Klick auf das Input-Feld.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("date");
   if (!dateInput) {
-      return;
+    return;
   }
   dateInput.addEventListener("click", () => {
-      dateInput.showPicker();
+    dateInput.showPicker();
   });
 });
 
+/**
+ * Setzt das Mindestdatum für das Datumseingabefeld.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const dateInput = document.getElementById("date");
   if (dateInput) {
-      const today = new Date().toISOString().split('T')[0]; // Heutiges Datum im Format YYYY-MM-DD
-      dateInput.setAttribute("min", today); // Setze das Minimum
+    const today = new Date().toISOString().split('T')[0]; // Heutiges Datum im Format YYYY-MM-DD
+    dateInput.setAttribute("min", today); // Setze das Minimum
   }
 });

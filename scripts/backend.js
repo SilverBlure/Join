@@ -1,11 +1,10 @@
-
 const BASE_URL = 'https://join-a403d-default-rtdb.europe-west1.firebasedatabase.app/';
 
 let emailArray = [];
 /**This is a on load funktion */
 async function initReg() {
     loadEmails();
-    document.getElementById('input').addEventListener('submit', function(event) {
+    document.getElementById('input').addEventListener('submit', function (event) {
         event.preventDefault();
         if (this.checkValidity()) {
             signIn();
@@ -27,13 +26,13 @@ function signIn() {
     let email = document.getElementById('email').value;
     let password_1 = document.getElementById('pw_1').value;
     let password_2 = document.getElementById('pw_2').value;
-    if(emailCheck(email) && passwordCheck(password_1, password_2)){
-    createNewEntry(name, email, password_1);
-    createNewMailEntry(email);
-    showSnackbar('You Signed Up successfully');
-    setTimeout(() => {
-        location.href="./login.html";
-    }, 3000);
+    if (emailCheck(email) && passwordCheck(password_1, password_2)) {
+        createNewEntry(name, email, password_1);
+        createNewMailEntry(email);
+        showSnackbar('You Signed Up successfully');
+        setTimeout(() => {
+            location.href = "./login.html";
+        }, 3000);
     }
 }
 /**This funktion Posts a new account on the firebase
@@ -42,7 +41,7 @@ function signIn() {
  * @param {string} pw 
  */
 async function createNewEntry(name, email, pw) {
-    let response = await fetch(BASE_URL + "data/user"+  '.json', {
+    let response = await fetch(BASE_URL + "data/user" + '.json', {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -62,7 +61,7 @@ async function createNewEntry(name, email, pw) {
 /**create a new email enrty in the Firebase
  * @param {string} email
  */
-async function createNewMailEntry(email){
+async function createNewMailEntry(email) {
     let response = await fetch(BASE_URL + 'data/signtInUsers/emails' + ".json", {
         method: "POST",
         headers: {
@@ -85,7 +84,7 @@ async function setUserTag() {
     }
 }
 /** load names with session key from firebase*/
-async function getUserTag(){
+async function getUserTag() {
     let sessionKey = localStorage.getItem("sessionKey");
     let response = await fetch(BASE_URL + 'data/user/' + sessionKey + '.json');
     let data = await response.json();
@@ -94,18 +93,29 @@ async function getUserTag(){
     return userTag;
 }
 
-function pw_check(){
+/**
+ * Überprüft, ob zwei Passwortfelder übereinstimmen.
+ * Zeigt eine Warnung an, wenn die Passwörter unterschiedlich sind.
+ */
+function pw_check() {
     let pw1 = document.getElementById('pw_1').value;
     let pw2 = document.getElementById('pw_2').value;
-    if(pw1 != pw2){
+    if (pw1 != pw2) {
         document.getElementById('pwWarning').classList.add('visible-text');
         document.getElementById('pwWarning').classList.remove('hidden-text');
-    }else{
+    } else {
         document.getElementById('pwWarning').classList.add('hidden-text');
         document.getElementById('pwWarning').classList.remove('visible-text');
     }
 }
 
+/**
+ * Überprüft die Gültigkeit und Verfügbarkeit einer E-Mail-Adresse.
+ * - Zeigt Warnungen an, wenn:
+ *   - die E-Mail bereits registriert ist.
+ *   - die E-Mail kein "@" enthält.
+ *   - die E-Mail nicht mit ".de" oder ".com" endet.
+ */
 function email_Check() {
     const email = document.getElementById('email').value;
     const emailWarning = document.getElementById('emailWarning');
@@ -144,23 +154,28 @@ function email_Check() {
     }
 }
 
-
-function changeSvgToOn(){
+/**
+ * Ändert das SVG-Symbol des Kontrollkästchens auf "aktiv" und aktiviert den Button.
+ */
+function changeSvgToOn() {
     let doc = document.getElementById('checkboxSvg');
     let btn = document.getElementById('signUpBtn')
     doc.src = `./../assets/icons/svg/vollCheckbox.svg`;
-    doc.setAttribute('value','true');
+    doc.setAttribute('value', 'true');
     doc.setAttribute('class', 'checkboxFull');
-    doc.setAttribute('onclick','changeSvgToOff()');
+    doc.setAttribute('onclick', 'changeSvgToOff()');
     btn.removeAttribute('disabled');
 }
 
-function changeSvgToOff(){
+/**
+ * Ändert das SVG-Symbol des Kontrollkästchens auf "inaktiv" und deaktiviert den Button.
+ */
+function changeSvgToOff() {
     let doc = document.getElementById('checkboxSvg');
     let btn = document.getElementById('signUpBtn')
     doc.src = `./../assets/icons/svg/leereCheckbox.svg`;
-    doc.setAttribute('value','');
+    doc.setAttribute('value', '');
     doc.setAttribute('class', 'checkboxEmpty');
-    doc.setAttribute('onclick','changeSvgToOn()');
+    doc.setAttribute('onclick', 'changeSvgToOn()');
     btn.setAttribute('disabled', 'true');
 }

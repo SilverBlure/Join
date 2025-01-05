@@ -1,12 +1,16 @@
 let ID;
 let contactsArray = [];
 
-
+/**
+ * Initialisiert die Anwendung.
+ * 
+ * - Lädt die Session-ID aus dem Speicher.
+ * - Ruft die Liste der Kontakte vom Server ab.
+ */
 function init() {
     loadSessionId();
     getContacts();
 }
-
 
 /**
  * This function renders all Contacts from the contactsArray and sorts them alphabetical
@@ -15,7 +19,7 @@ function init() {
  */
 function renderContacts() {
     const contactsElement = document.getElementById('contacts');
-    if (!contactsElement) {return;}
+    if (!contactsElement) { return; }
     contactsArray.sort((a, b) => a.name.localeCompare(b.name));
     contactsElement.innerHTML = ``;
     let currentLetter = "";
@@ -37,7 +41,6 @@ function renderContacts() {
     }
 }
 
-
 /**
  * This function renders a detailed view of the contacts
  * 
@@ -52,13 +55,12 @@ function renderContactDetails(i) {
     }
     document.getElementById('ContactDetailed').innerHTML = "";
     document.getElementById('ContactDetailed').innerHTML = contactDetailsTemps(i, initialien);
-    setUserTagBigColor(vorname, nachname, i); 
+    setUserTagBigColor(vorname, nachname, i);
     document.querySelectorAll('.shortInfoActive').forEach(element => {
         element.classList.remove('shortInfoActive');
     });
     document.getElementById(`shortInfo${i}`).classList.add('shortInfoActive');
 }
-
 
 /**
  * This function opens the dialog to add new contacts
@@ -69,7 +71,6 @@ function openAddContact() {
     addContact();
 }
 
-
 /**
  * This function opens the dialog to edit contacts
  * 
@@ -79,7 +80,7 @@ function openEditContact(i, initialien) {
     document.getElementById('contactDialog').style.display = "block";
     document.getElementById('name').value = `${contactsArray[i].name}`;
     document.getElementById('email').value = `${contactsArray[i].email}`;
-    document.getElementById('phone').value = `${contactsArray[i].phone}`; 
+    document.getElementById('phone').value = `${contactsArray[i].phone}`;
     document.getElementById('contactEmblem').innerHTML = `
     <div><p id="userTagBig${i}" class="userTagBig">${initialien}</p></div>
     `;
@@ -87,16 +88,22 @@ function openEditContact(i, initialien) {
     setUserTagBigColor(vorname, nachname, i);
 }
 
-
-
-function openDeleteContact(i){
+/**
+ * Öffnet das Popup zum Löschen eines Kontakts.
+ * 
+ * - Aktiviert das Hinzufügen-Kontakt-Popup.
+ * - Aktualisiert den Dialogtitel zu "Delete contact".
+ * - Rendert das entsprechende Template für das Löschen eines Kontakts.
+ * 
+ * @param {number} i - Der Index des zu löschenden Kontakts in der Kontaktliste.
+ */
+function openDeleteContact(i) {
     openAddContact();
-    document.getElementById('dialogInfo').innerHTML ="Delete contact";
-    document.getElementById('editContact').innerHTML ="";
-    document.getElementById('editContact').innerHTML = deleteContactTemp(i);  
-     
-}
+    document.getElementById('dialogInfo').innerHTML = "Delete contact";
+    document.getElementById('editContact').innerHTML = "";
+    document.getElementById('editContact').innerHTML = deleteContactTemp(i);
 
+}
 
 /**
  * this function opens a dialog to delete the contact
@@ -109,7 +116,6 @@ function deleteContact(i) {
     getContacts();
 }
 
-
 /**
  * this function loads the id of the logged in user from localstorage
  * 
@@ -117,7 +123,6 @@ function deleteContact(i) {
 function loadSessionId() {
     ID = localStorage.getItem('sessionKey');
 }
-
 
 /**
  * this function gets data from inputfields an hands it to the function to push into backend
@@ -145,7 +150,7 @@ function createContact() {
         // Handle validation failures
         if (!checkEmail(email)) {
             console.log("Falsche Email");
-        } 
+        }
         if (!name.includes(" ")) {
             console.log("Name nicht zweiteilig");
         }
@@ -154,23 +159,16 @@ function createContact() {
     }
 }
 
-
-/*
-function getFromEdit(i) {
-    let name = document.getElementById('name').value;
-    let phone = document.getElementById('phone').value;
-    let email= document.getElementById('email').value;
-    let contactId = contactsArray[i].id;
-
-    if (checkEmail(email)&&()){
-        putContact(contactId, name, email, phone, i)
-    } else {
-
-  alert("Bitte geben sie eine gültige E-Mail")
-    }
-}
-    */
-
+/**
+ * Überprüft, ob eine E-Mail-Adresse ein gültiges Format hat.
+ * 
+ * - Prüft, ob die Eingabe ein String ist.
+ * - Überprüft, ob die E-Mail ein "@" enthält.
+ * - Stellt sicher, dass nach dem "@" ein Punkt folgt und die Endung mindestens zwei Zeichen lang ist.
+ * 
+ * @param {string} email - Die zu überprüfende E-Mail-Adresse.
+ * @returns {boolean} - `true`, wenn die E-Mail gültig ist, andernfalls `false`.
+ */
 function checkEmail(email) {
     if (typeof email !== "string") {
         console.error("Invalid email format:", email);
@@ -179,14 +177,12 @@ function checkEmail(email) {
 
     if (!email.includes("@")) {
         return false;
-        
+
     }
 
     let lastDotIndex = email.lastIndexOf(".");
     return lastDotIndex > email.indexOf("@") && email.length - lastDotIndex > 2;
 }
-
-
 
 /**
  * this function pushes the data of a new added contact into the backend
@@ -215,7 +211,6 @@ async function pushData(name, email, phone) {
     return responseAsJson = response.json();
 }
 
-
 /**
  * this function updates contact information in the backend
  * 
@@ -241,15 +236,14 @@ async function putContact(contactId, name, email, phone, i) {
         })
     }
     )
-    
-    
+
+
     closeAddContact();
     showSnackbar('Der Kontakt wurde erfolgreich geändert!');
-       await getContacts();
-        renderContactDetails(i);
+    await getContacts();
+    renderContactDetails(i);
     return responseAsJson = response.json();
 }
-
 
 /**
  * this function closes the dialog to add a new contact
@@ -259,7 +253,6 @@ function closeAddContact() {
     document.getElementById('contactDialog').style.display = "none";
 }
 
-
 /**
  * this function gets the contacts from the backend and push them into contactsArray
  * 
@@ -268,8 +261,8 @@ async function getContacts() {
     contactsArray = []
     let response = await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts' + '.json');
     let data = await response.json();
-    if(data){
-    let keys = Object.keys(data);
+    if (data) {
+        let keys = Object.keys(data);
         data = Object.values(data);
         for (let i = 0; i < data.length; i++) {
             const contact = {
@@ -280,30 +273,29 @@ async function getContacts() {
             }
             contactsArray.push(contact);
         }
-        if(checkLockation()){
-        renderContacts();
-    }
-    }else{
+        if (checkLockation()) {
+            renderContacts();
+        }
+    } else {
         let response = await fetch(BASE_URL + '/data/user/' + ID + '/user/userData.json');
         let responseAsJson = await response.json();
         pushData(responseAsJson.name, responseAsJson.email, 'editMe');
-        setTimeout(()=>{
-        getContacts()}
-        , 1000);
+        setTimeout(() => {
+            getContacts()
+        }
+            , 1000);
     }
 }
-
 
 /**
  * this function checks if the user is on the contacts.html
  * 
  * @returns true or false
  */
-function checkLockation(){
+function checkLockation() {
     let data = window.location.href;
     return data.includes('contacts');
 }
-
 
 /**
  * this function deletes contact from the backend
@@ -311,7 +303,7 @@ function checkLockation(){
  * @param {number} i - index of the contact to delete
  */
 async function deleteContactDatabase(i) {
-   contactId = contactsArray[i].id;
+    contactId = contactsArray[i].id;
     await fetch(BASE_URL + 'data/user/' + ID + '/user/contacts/' + contactId + '.json', {
         method: "DELETE",
     })
@@ -321,7 +313,6 @@ async function deleteContactDatabase(i) {
     showSnackbar('Der Kontakt wurde erfolgreich gelöscht!');
 }
 
-
 /**
  * this function renders the dialog to add a new contact
  */
@@ -329,8 +320,8 @@ function addContact() {
     document.getElementById('dialogInfo').innerHTML = "Add contact";
     document.getElementById('editContact').innerHTML = "";
     document.getElementById('editContact').innerHTML = addContactTemp();
-    monitorFormInputs(); 
-    document.getElementById('contactForm').addEventListener('submit', function(event) {
+    monitorFormInputs();
+    document.getElementById('contactForm').addEventListener('submit', function (event) {
         event.preventDefault();
         if (this.checkValidity()) {
             checkInput(createContact);
@@ -338,6 +329,12 @@ function addContact() {
     });
 }
 
+/**
+ * Überwacht die Eingaben in den Formularfeldern und validiert sie in Echtzeit.
+ * 
+ * - Aktiviert oder deaktiviert den Button basierend auf der Gültigkeit der Eingaben.
+ * - Der Name muss Leerzeichen enthalten, und die E-Mail muss im korrekten Format vorliegen.
+ */
 function monitorFormInputs() {
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
@@ -360,33 +357,44 @@ function monitorFormInputs() {
     }
 }
 
-
-function emailCheck(){
+/**
+ * Überprüft die Gültigkeit der E-Mail-Adresse und zeigt eine Warnung an, falls sie ungültig ist.
+ * 
+ * - Zeigt die Warnung an, wenn die E-Mail ungültig ist.
+ * - Verbirgt die Warnung, wenn die E-Mail gültig ist.
+ */
+function emailCheck() {
     let email = document.getElementById('email').value;
-    if(!checkEmail(email)){
+    if (!checkEmail(email)) {
         document.getElementById('emailWarning').classList.add('visible-text');
         document.getElementById('emailWarning').classList.remove('hidden-text');
-    }else{
+    } else {
         document.getElementById('emailWarning').classList.add('hidden-text');
         document.getElementById('emailWarning').classList.remove('visible-text');
     }
 }
 
-function checkName(){
+/**
+ * Überprüft die Gültigkeit des Namens und zeigt eine Warnung an, falls er ungültig ist.
+ * 
+ * - Ein gültiger Name muss mindestens ein Leerzeichen enthalten.
+ * - Zeigt oder verbirgt die Warnung basierend auf der Eingabe.
+ */
+function checkName() {
     let name = document.getElementById('name').value;
-    if(!name.includes(' ')){
+    if (!name.includes(' ')) {
         document.getElementById('nameWarning').classList.remove('hidden-text');
         document.getElementById('nameWarning').classList.add('visible-text');
-    }else{
+    } else {
         document.getElementById('nameWarning').classList.remove('visible-text');
         document.getElementById('nameWarning').classList.add('hidden-text');
     }
-    setTimeout(()=>{
-        if(name === ''){
+    setTimeout(() => {
+        if (name === '') {
             document.getElementById('nameWarning').classList.remove('visible-text');
-        document.getElementById('nameWarning').classList.add('hidden-text');
+            document.getElementById('nameWarning').classList.add('hidden-text');
         }
-    },500);
+    }, 500);
 }
 
 /**
@@ -415,9 +423,6 @@ function checkInput(createEdit, i) {
     }
 }
 
-
-
-
 /**
  * this function renders the dialog to edit a new contact
  */
@@ -426,17 +431,14 @@ function editContact(i, initialien) {
     document.getElementById('editContact').innerHTML = "";
     document.getElementById('editContact').innerHTML = editContactTemp(i);
     openEditContact(i, initialien);
-    monitorFormInputs(); 
-    document.getElementById('contactForm').addEventListener('submit', function(event) {
+    monitorFormInputs();
+    document.getElementById('contactForm').addEventListener('submit', function (event) {
         event.preventDefault();
         if (this.checkValidity()) {
             checkInput(getFromEdit, i);
         }
     });
 }
-
-
-
 
 /**
  * this function gets the contact informations to edit and hands them to the backend
@@ -445,12 +447,10 @@ function editContact(i, initialien) {
 function getFromEdit(i) {
     let name = document.getElementById('name').value;
     let phone = document.getElementById('phone').value;
-    let email= document.getElementById('email').value;
+    let email = document.getElementById('email').value;
     let contactId = contactsArray[i].id;
-  putContact(contactId, name, email, phone, i)
+    putContact(contactId, name, email, phone, i)
 }
-
-
 
 /**
  * this function creates for every contact a random color for the usertag
@@ -459,10 +459,10 @@ function getFromEdit(i) {
  * @param {*} nachname - lastname of the contact
  * @returns a hexcolorcode 
  */
-function getColorHex(vorname, nachname){
-    let completeName = (vorname+nachname).toLowerCase();
+function getColorHex(vorname, nachname) {
+    let completeName = (vorname + nachname).toLowerCase();
     let hash = 0;
-    for( let i = 0; i< completeName.length; i++){
+    for (let i = 0; i < completeName.length; i++) {
         hash += completeName.charCodeAt(i);
     }
     let r = (hash * 123) % 256;
@@ -472,17 +472,15 @@ function getColorHex(vorname, nachname){
     return hexColor;
 }
 
-
 /**
  * this function sets the color of the small usertag in the contacts list
  * @param {*} vorname - firstname of the contact
  * @param {*} nachname - lastname of the contact
  * @param {*} i - index of the contact
  */
-function setUserTagColor(vorname, nachname, i){
+function setUserTagColor(vorname, nachname, i) {
     document.getElementById(`userTag${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
 }
-
 
 /**
  * this function sets the color of the big usertag in the detailed contact view
@@ -490,16 +488,15 @@ function setUserTagColor(vorname, nachname, i){
  * @param {*} nachname - lastname of the contact
  * @param {*} i - index of the contact
  */
-function setUserTagBigColor(vorname, nachname, i){
+function setUserTagBigColor(vorname, nachname, i) {
     document.getElementById(`userTagBig${i}`).style.backgroundColor = `${getColorHex(vorname, nachname)}`;
 
 }
 
-
 /**
  * this function is to go back from detailed contact view to the contacts list (only in mobile)
  */
-function backToContactList(){
+function backToContactList() {
     document.getElementById('contactList').style.display = "flex";
     document.getElementById('details').style.display = "none";
 }

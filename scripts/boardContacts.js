@@ -7,7 +7,7 @@ let selectedContacts = [];
  */
 function closeContactsDropdown() {
     const dropdownList = document.getElementById("contactsDropdownList");
-      dropdownList.classList.remove("open");
+    dropdownList.classList.remove("open");
 }
 
 /**
@@ -15,14 +15,14 @@ function closeContactsDropdown() {
  * Rendert die Dropdown-Inhalte neu, wenn es geöffnet wird.
  */
 function toggleContactsDropdown() {
-  const dropdownList = document.getElementById("contactsDropdownList");
-  dropdownOpen = !dropdownOpen;
-  if (dropdownOpen) {
-    renderContactsDropdown();
-    dropdownList.classList.add("open");
-  } else {
-    dropdownList.classList.remove("open");
-  }
+    const dropdownList = document.getElementById("contactsDropdownList");
+    dropdownOpen = !dropdownOpen;
+    if (dropdownOpen) {
+        renderContactsDropdown();
+        dropdownList.classList.add("open");
+    } else {
+        dropdownList.classList.remove("open");
+    }
 }
 
 /**
@@ -38,24 +38,24 @@ function renderContactsDropdown() {
     }
     contactsArray.forEach((contact) => {
         const li = document.createElement("li");
-        li.classList.add("dropdown-item"); 
+        li.classList.add("dropdown-item");
         if (isContactSelected(contact.name)) {
-            li.classList.add("selected-contact-item"); 
+            li.classList.add("selected-contact-item");
         }
         const [vorname, nachname] = contact.name.split(" ");
         const backgroundColor = getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || "");
         const workerEmblem = document.createElement("p");
         workerEmblem.classList.add("workerEmblemList");
-        workerEmblem.style.backgroundColor = backgroundColor; 
-        workerEmblem.textContent = getInitials(contact.name); 
+        workerEmblem.style.backgroundColor = backgroundColor;
+        workerEmblem.textContent = getInitials(contact.name);
         const nameSpan = document.createElement("span");
         nameSpan.classList.add("contact-nameList");
         nameSpan.textContent = contact.name;
         const img = document.createElement("img");
         img.classList.add("status-icon");
         img.src = isContactSelected(contact.name)
-            ? "./../assets/icons/png/checkButtonContacts.png" 
-            : "./../assets/icons/png/checkButtonEmpty.png"; 
+            ? "./../assets/icons/png/checkButtonContacts.png"
+            : "./../assets/icons/png/checkButtonEmpty.png";
         img.alt = isContactSelected(contact.name) ? "Selected" : "Not Selected";
         img.style.cursor = "pointer";
         li.addEventListener("click", () => {
@@ -128,7 +128,7 @@ function synchronizeContactCheckboxes() {
             );
         }
     });
-  
+
 }
 
 /**
@@ -193,7 +193,7 @@ document.addEventListener("mousedown", function (event) {
  */
 function handleContactSelection(contact, isChecked) {
     if (!window.localContacts) {
-        window.localContacts = {}; 
+        window.localContacts = {};
     }
     const selectedContactsList = document.getElementById("selectedContactsList");
     if (!selectedContactsList) return;
@@ -201,7 +201,7 @@ function handleContactSelection(contact, isChecked) {
     if (isChecked) {
         if (!isContactSelected(contact.name)) {
             selectedContacts.push(contact);
-            window.localContacts[contact.id] = contact; 
+            window.localContacts[contact.id] = contact;
         }
     } else {
         removeContact(contact);

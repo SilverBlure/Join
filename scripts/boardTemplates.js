@@ -1,3 +1,7 @@
+/**
+ * Zeigt eine Nachricht an, wenn keine Aufgaben in der Liste vorhanden sind.
+ * @param {HTMLElement} container - Der Container, in dem die Nachricht angezeigt wird.
+ */
 function renderEmptyMessage(container) {
     container.innerHTML += `
         <div class="nothingToDo">
@@ -6,6 +10,15 @@ function renderEmptyMessage(container) {
     `;
 }
 
+/**
+ * Generiert das HTML einer Aufgabenkarte für das Board.
+ * @param {string} taskId - Die ID der Aufgabe.
+ * @param {Object} task - Die Aufgabendaten.
+ * @param {string} listId - Die ID der Liste, zu der die Aufgabe gehört.
+ * @param {string} progressHTML - Das HTML des Fortschrittsbalkens.
+ * @param {string} workersHTML - Das HTML der zugewiesenen Kontakte.
+ * @returns {string} - Das generierte HTML für die Aufgabenkarte.
+ */
 function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     return `
         <div id="boardCard-${taskId}" 
@@ -27,6 +40,11 @@ function generateBoardCardHTML(taskId, task, listId, progressHTML, workersHTML) 
     `;
 }
 
+/**
+ * Berechnet den Fortschritt von Subtasks und generiert das Fortschritts-HTML.
+ * @param {Object} [subtasks={}] - Die Subtasks der Aufgabe.
+ * @returns {string} - Das generierte HTML des Fortschrittsbalkens.
+ */
 function generateProgressHTML(subtasks = {}) {
     const subtasksArray = Object.values(subtasks);
     const totalCount = subtasksArray.length;
@@ -36,10 +54,24 @@ function generateProgressHTML(subtasks = {}) {
     return generateProgressBarHTML(progressPercent, doneCount, totalCount);
 }
 
+/**
+ * Generiert das Fortschritts-HTML für Subtasks.
+ * @param {number} progressPercent - Der Prozentsatz des Fortschritts.
+ * @param {number} doneCount - Anzahl der erledigten Subtasks.
+ * @param {number} totalCount - Gesamtanzahl der Subtasks.
+ * @returns {string} - Das HTML für den Fortschrittsbalken.
+ */
 function generateSubtasksProgressHTML(progressPercent, doneCount, totalCount) {
     return generateProgressBarHTML(progressPercent, doneCount, totalCount);
 }
 
+/**
+ * Generiert das HTML für einen Fortschrittsbalken.
+ * @param {number} progressPercent - Fortschrittsprozentsatz.
+ * @param {number} doneCount - Anzahl der erledigten Subtasks.
+ * @param {number} totalCount - Gesamtanzahl der Subtasks.
+ * @returns {string} - HTML für den Fortschrittsbalken.
+ */
 function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
     const progressClass = progressPercent === 100 ? "complete" : "";
 
@@ -53,6 +85,12 @@ function generateProgressBarHTML(progressPercent, doneCount, totalCount) {
     `;
 }
 
+/**
+ * Generiert das HTML für die Anzeige der zugewiesenen Kontakte.
+ * @param {Array} [workers=[]] - Die Liste der zugewiesenen Kontakte.
+ * @param {boolean} showNames - Ob die Namen der Kontakte angezeigt werden sollen.
+ * @returns {string} - Das generierte HTML für die Kontakte.
+ */
 function generateWorkersHTML(workers = [], showNames = false) {
     workers = Array.isArray(workers) ? workers : [];
     if (workers.length === 0) {
@@ -69,6 +107,14 @@ function generateWorkersHTML(workers = [], showNames = false) {
         .join("");
 }
 
+/**
+ * Generiert das HTML für eine einzelne Subtask im Popup.
+ * @param {Object} subtask - Die Subtask-Daten.
+ * @param {string} subtaskId - Die ID der Subtask.
+ * @param {string} taskId - Die ID der Aufgabe.
+ * @param {string} listId - Die ID der Liste.
+ * @returns {string} - Das HTML für die Subtask.
+ */
 function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     return `
         <div id="subtask-${taskId}-${subtaskId}" class="subtask-item">
@@ -83,6 +129,12 @@ function generatePopupSingleSubtaskHTML(subtask, subtaskId, taskId, listId) {
     `;
 }
 
+/**
+ * Generiert das HTML für eine bearbeitbare Subtask.
+ * @param {string} subtaskId - Die ID der Subtask.
+ * @param {Object} subtask - Die Subtask-Daten.
+ * @returns {string} - Das HTML für die bearbeitbare Subtask.
+ */
 function generateEditSingleSubtaskHTML(subtaskId, subtask) {
     return `
         <div class="subtask-item" id="subtask-${subtaskId}">
@@ -108,6 +160,11 @@ function generateEditSingleSubtaskHTML(subtaskId, subtask) {
     `;
 }
 
+/**
+ * Generiert das Header-HTML für das Popup.
+ * @param {Object} task - Die Aufgabendaten.
+ * @returns {string} - Das HTML des Popups-Headers.
+ */
 function generatePopupHeaderHTML(task) {
     return `
         <div class="popupHeader">
@@ -119,6 +176,11 @@ function generatePopupHeaderHTML(task) {
     `;
 }
 
+/**
+ * Generiert das Detail-HTML für das Popup.
+ * @param {Object} task - Die Aufgabendaten.
+ * @returns {string} - Das HTML der Popups-Details.
+ */
 function generatePopupDetailsHTML(task) {
     return `
         <div class="popupTitle">
@@ -132,6 +194,14 @@ function generatePopupDetailsHTML(task) {
     `;
 }
 
+/**
+ * Generiert das HTML für die Anzeige eines einzelnen Kontakts im Bearbeitungsmodus.
+ * @param {string} initials - Die Initialen des Kontakts.
+ * @param {string} color - Die Hintergrundfarbe des Kontakts.
+ * @param {string} name - Der Name des Kontakts.
+ * @param {boolean} showName - Ob der Name angezeigt wird.
+ * @returns {string} - Das generierte HTML für den Kontakt.
+ */
 function generateWorkerContainerHTML(initials, color, name, showName) {
     return `
             <div class="workerInformation">
@@ -141,12 +211,23 @@ function generateWorkerContainerHTML(initials, color, name, showName) {
     `;
 }
 
+/**
+ * Generiert das HTML für den Subtask-Container im Popup.
+ * @param {string} subtasksHTML - Das HTML der Subtasks.
+ * @returns {string} - Das HTML für den Subtask-Container.
+ */
 function generateSubtasksContainerHTML(subtasksHTML) {
     return `
             <h2>Subtasks:</h2>
             ${subtasksHTML}    `;
 }
 
+/**
+ * Generiert die Aktionsbuttons im Popup.
+ * @param {string} listId - Die ID der Liste.
+ * @param {string} taskId - Die ID der Aufgabe.
+ * @returns {string} - Das HTML der Aktionsbuttons.
+ */
 function generatePopupActionsHTML(listId, taskId) {
     return `
         <div class="popupActions">
@@ -156,6 +237,11 @@ function generatePopupActionsHTML(listId, taskId) {
     `;
 }
 
+/**
+ * Generiert die HTML-Buttons für Prioritäten.
+ * @param {string} selectedPriority - Die aktuell ausgewählte Priorität.
+ * @returns {string} - Das HTML der Prioritätsbuttons.
+ */
 function generatePriorityButtonsHTML(selectedPriority) {
     const priorities = [
         { name: "Urgent", src: "./../assets/icons/png/PrioritySymbolsUrgent.png" },
@@ -176,6 +262,12 @@ function generatePriorityButtonsHTML(selectedPriority) {
         .join("");
 }
 
+/**
+ * Generiert die HTML-Leiste zur Kontakt-Auswahl.
+ * @param {string} dropdownOptions - Die Dropdown-Optionen für Kontakte.
+ * @param {string} selectedContactsHTML - Das HTML der ausgewählten Kontakte.
+ * @returns {string} - Das HTML für die Kontaktleiste.
+ */
 function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
     return `
         <div class="createContactBar">
@@ -188,6 +280,11 @@ function generateCreateContactBarHTML(dropdownOptions, selectedContactsHTML) {
     `;
 }
 
+/**
+ * Generiert das HTML eines einzelnen Kontakts.
+ * @param {Object} worker - Die Kontaktdaten.
+ * @returns {string} - Das generierte HTML für den Kontakt.
+ */
 function generateSingleWorkerHTML(worker) {
     const [vorname, nachname] = worker.name.split(" "); // Vor- und Nachname extrahieren
     const color = worker.color || getColorHex(vorname?.toLowerCase() || "", nachname?.toLowerCase() || ""); // Farbe basierend auf Vor- und Nachnamen
@@ -208,6 +305,14 @@ function generateSingleWorkerHTML(worker) {
     `;
 }
 
+/**
+ * Generiert das Formular-HTML für das Bearbeiten einer Aufgabe.
+ * @param {Object} task - Die Aufgabendaten.
+ * @param {string} subtasksHTML - Das HTML der Subtasks.
+ * @param {string} listId - Die ID der Liste.
+ * @param {string} taskId - Die ID der Aufgabe.
+ * @returns {string} - Das generierte Formular-HTML.
+ */
 function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
     return /*html*/`
         <div class="popupHeader">
@@ -271,6 +376,12 @@ function generateEditTaskForm(task, subtasksHTML, listId, taskId) {
     `;
 }
 
+/**
+ * Generiert das HTML für eine neue Subtask.
+ * @param {string} subtaskId - Die ID der Subtask.
+ * @param {string} subtaskTitle - Der Titel der Subtask.
+ * @returns {string} - Das HTML für die neue Subtask.
+ */
 function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
     return `
         <li class="subtask-item" id="subtask-${subtaskId}">
@@ -290,6 +401,12 @@ function generateNewSubtaskHTML(subtaskId, subtaskTitle) {
     `;
 }
 
+/**
+ * Generiert das HTML für eine bearbeitbare Subtask.
+ * @param {string} subtaskId - Die ID der Subtask.
+ * @param {string} currentTitle - Der aktuelle Titel der Subtask.
+ * @returns {string} - Das HTML für die bearbeitbare Subtask.
+ */
 function generateEditSubtaskHTML(subtaskId, currentTitle) {
     return `
     <div class="editSubtaskBar">
@@ -313,6 +430,12 @@ function generateEditSubtaskHTML(subtaskId, currentTitle) {
             `;
 }
 
+/**
+ * Generiert das HTML eines Subtask-Elements.
+ * @param {string} subtaskId - Die ID der Subtask.
+ * @param {string} subtaskTitle - Der Titel der Subtask.
+ * @returns {string} - Das HTML des Subtask-Elements.
+ */
 function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
     return `
         <div class="subtask-item" id="subtask-${subtaskId}">
@@ -333,6 +456,15 @@ function generateSubtaskItemHTML(subtaskId, subtaskTitle) {
     `;
 }
 
+/**
+ * Generiert das HTML einer Task-Karte.
+ * @param {string} taskId - Die ID der Aufgabe.
+ * @param {Object} task - Die Aufgabendaten.
+ * @param {string} listId - Die ID der Liste.
+ * @param {string} progressHTML - Das HTML des Fortschrittsbalkens.
+ * @param {string} workersHTML - Das HTML der zugewiesenen Kontakte.
+ * @returns {string} - Das HTML der Task-Karte.
+ */
 function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     return /*html*/ `
         <div id="boardCard-${taskId}" 
@@ -354,6 +486,11 @@ function generateTaskCardHTML(taskId, task, listId, progressHTML, workersHTML) {
     `;
 }
 
+/**
+ * Findet die Ursprungs-Liste einer Aufgabe.
+ * @param {string} taskId - Die ID der zu suchenden Aufgabe.
+ * @returns {Promise<string|null>} - Die ID der Ursprungs-Liste oder `null`, wenn nicht gefunden.
+ */
 async function findTaskSourceList(taskId) {
     const url = `${BASE_URL}data/user/${ID}/user/tasks.json`;
     const response = await fetch(url);
@@ -370,6 +507,11 @@ async function findTaskSourceList(taskId) {
     return null;
 }
 
+/**
+ * Generiert eine Nachricht für den Fall, dass keine passenden Ergebnisse gefunden wurden.
+ * @param {string} message - Die anzuzeigende Nachricht.
+ * @returns {string} - Das generierte HTML für die Nachricht.
+ */
 function generateNoMatchingMessageHTML(message) {
     return `
         <div class="nothingToDo">
@@ -378,6 +520,11 @@ function generateNoMatchingMessageHTML(message) {
     `;
 }
 
+/**
+ * Generiert das HTML eines Kontakts.
+ * @param {string} workerName - Der Name des Kontakts.
+ * @returns {string} - Das generierte HTML für den Kontakt.
+ */
 function generateWorkerHTML(workerName) {
     const initials = getInitials(workerName); // Initialen generieren
     const [vorname, nachname] = workerName.split(" "); // Vor- und Nachnamen extrahieren
@@ -398,6 +545,11 @@ function generateWorkerHTML(workerName) {
     `;
 }
 
+/**
+ * Generiert das HTML eines bearbeitbaren Kontakts.
+ * @param {Object} contact - Die Kontaktdaten.
+ * @returns {string} - Das generierte HTML für den Kontakt.
+ */
 function generateEditableWorkerHTML(contact) {
     const initials = getInitials(contact.name); // Initialen generieren
     const [vorname, nachname] = contact.name.split(" "); // Vor- und Nachnamen extrahieren
@@ -418,6 +570,11 @@ function generateEditableWorkerHTML(contact) {
     `;
 }
 
+/**
+ * Generiert das HTML eines bearbeitbaren Kontakts für die Bearbeitung.
+ * @param {string} name - Der Name des Kontakts.
+ * @returns {string} - Das generierte HTML für den Kontakt.
+ */
 function generateWorkerHTMLForEdit(name) {
     const initials = getInitials(name); // Initialen generieren
     const [vorname, nachname] = name.split(" "); // Vor- und Nachnamen extrahieren
