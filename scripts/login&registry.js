@@ -180,7 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const pPWarning = document.getElementById("pPWarning");
 
     if (!signUpBtn || !pPWarning) {
-        console.error("Button oder Warnung nicht gefunden.");
         return;
     }
 

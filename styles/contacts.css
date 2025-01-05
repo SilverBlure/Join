@@ -182,7 +182,13 @@ width: 100%;
 
 .shortInfo:hover {
   cursor: pointer;
-  background-color: rgb(42, 54, 71);
+  background-color: #2A3647;
+  color: white;
+}
+
+.shortInfoActive {
+  cursor: pointer;
+  background-color: #091931;
   color: white;
 }
 

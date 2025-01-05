@@ -46,14 +46,17 @@ function renderContacts() {
 function renderContactDetails(i) {
     let [vorname, nachname] = contactsArray[i].name.split(" ");
     let initialien = vorname[0] + nachname[0];
-    if (window.innerWidth < 621){
+    if (window.innerWidth < 621) {
         document.getElementById('contactList').style.display = "none";
         document.getElementById('details').style.display = "flex";
     }
     document.getElementById('ContactDetailed').innerHTML = "";
-    document.getElementById('ContactDetailed').innerHTML =
-        contactDetailsTemps(i, initialien);
-        setUserTagBigColor(vorname, nachname, i); 
+    document.getElementById('ContactDetailed').innerHTML = contactDetailsTemps(i, initialien);
+    setUserTagBigColor(vorname, nachname, i); 
+    document.querySelectorAll('.shortInfoActive').forEach(element => {
+        element.classList.remove('shortInfoActive');
+    });
+    document.getElementById(`shortInfo${i}`).classList.add('shortInfoActive');
 }
 
 

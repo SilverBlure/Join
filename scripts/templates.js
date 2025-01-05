@@ -7,7 +7,7 @@ function renderCurrentLetter(currentLetter) {
 
 function contactTemps(i, initialien) {
   return /*html*/ `<div class="contact">
-                <div class="shortInfo" onclick="renderContactDetails(${i})">
+                <div id="shortInfo${i}" class="shortInfo" onclick="renderContactDetails(${i})">
                     <div class="tag">
                         <p id="userTag${i}" class="contactUserTag">${initialien}</p>
                     </div>
