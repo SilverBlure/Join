@@ -919,3 +919,20 @@ function handleSubtaskBlur(event) {
   }, 0);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+  const dateInput = document.getElementById("date");
+  if (!dateInput) {
+      return;
+  }
+  dateInput.addEventListener("click", () => {
+      dateInput.showPicker();
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dateInput = document.getElementById("date");
+  if (dateInput) {
+      const today = new Date().toISOString().split('T')[0]; // Heutiges Datum im Format YYYY-MM-DD
+      dateInput.setAttribute("min", today); // Setze das Minimum
+  }
+});

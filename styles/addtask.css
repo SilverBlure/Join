@@ -717,7 +717,23 @@ select,
   font-size: 1rem;
   user-select: none;
   background-color: white;
+  cursor: pointer; 
 }
+
+.date {
+  cursor: pointer;
+}
+
+/* Webkit (Chrome, Safari, Edge) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+/* Firefox (gesamtes Input-Feld) */
+input[type="date"] {
+  cursor: pointer;
+}
+
 
 .createContactBar {
   background-image: url("./../assets/icons/png/arrow_dropdown.png");
