@@ -337,3 +337,7 @@ async function getUserData() {
         return null;
     }
 }
+
+function goToBoard() {
+        window.location.href = "./../html/board.html"; 
+}

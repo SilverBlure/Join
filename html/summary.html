@@ -41,14 +41,14 @@
             <div class="d_flex">
                 <div class="dashboard">
                     <div class="dashboard1">
-                        <div class="do">
+                        <div onclick="goToBoard()" class="do">
                             <img class="doIcon" src="./../assets/icons/png/todo.png">
                             <div class="column">
                                 <h1 id="toDoTasks" class="margin_0 taskNumber"></h1>
                                 <p class="margin_0">To-do</p>
                             </div>
                         </div>
-                        <div class="do">
+                        <div onclick="goToBoard()" class="do">
                             <img class="doneIcon" src="./../assets/icons/png/done.png">
                             <div class="column">
                                 <h1 id="doneTasks" class="margin_0 taskNumber"></h1>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <div class="urgent">
+                    <div onclick="goToBoard()" class="urgent">
                         <div class="urgentColumn">
                         <img class="doIcon" src="./../assets/icons/png/urgent.png">
                         <div class="column">
@@ -74,15 +74,15 @@
                     </div>
 
                     <div class="tasks">
-                        <div class="tasksBox">
+                        <div onclick="goToBoard()" class="tasksBox">
                             <p id="allTasks" class="taskNumber"></p>
                             <p class="text">Tasks in Board</p>
                         </div>
-                        <div class="tasksBox">
+                        <div onclick="goToBoard()" class="tasksBox">
                             <p id="inProgressTasks" class="taskNumber"></p>
                             <p class="text">Tasks in Progress</p>
                         </div>
-                        <div class="tasksBox">
+                        <div onclick="goToBoard()" class="tasksBox">
                             <p id="awaitFeedbackTasks" class="taskNumber"></p>
                             <p class="text">Awaiting Feedback</p>
                         </div>
